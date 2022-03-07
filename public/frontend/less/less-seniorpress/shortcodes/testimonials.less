@@ -1,0 +1,25 @@
+/*
+ * Shortcode: Testimonials.less
+ * -----------------------------------------------
+*/.testimonial {
+border-radius: 15px;
+position: relative;
+overflow: visible;
+}
+.testimonial .content {
+  position: absolute;
+  border: 5px solid white;
+  border-radius: 50%;
+  top: -70px;
+  right: 40px;
+}
+.testimonial::after {
+  color: #ffffff;
+  content: "\f10e";
+  font-family: fontawesome;
+  font-size: 48px;
+  opacity: 0.2;
+  position: absolute;
+  right: 10px;
+  bottom: -15px;
+}
