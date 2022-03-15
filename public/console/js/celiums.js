@@ -178,6 +178,12 @@ $('.select_all').click(function () {
         $("input#filterDelete").prop("checked", false);
 });
 
+$('.right_col').on('click','a.sort-list-link',function(e){
+        e.preventDefault();
+        var sortField = $(this).attr('data-sort-field');
+        $("#sort_field").val(sortField);
+        $("#action_filter").submit();
+    });
 });
 
 $(window).resize(function(){
@@ -199,7 +205,7 @@ $(function() {
             format: 'DD-MM-YYYY'
         }
     });
-   
+
  $('#start_date').daterangepicker({
         singleDatePicker: true,
         showDropdowns: true,
@@ -234,9 +240,9 @@ $(document).ready(function(){
          url: siteBaseUrl+'/enquiries/view',
          type: 'post',
          data: {id: enquiryId},
-         success: function(response){ 
+         success: function(response){
            $('#ajaxModal .modal-body').html(response);
-           $('#ajaxModal').modal('show'); 
+           $('#ajaxModal').modal('show');
          }
        });
     });
@@ -247,9 +253,9 @@ $(document).ready(function(){
          url: siteBaseUrl+'/arequests/view',
          type: 'post',
          data: {id: enquiryId},
-         success: function(response){ 
+         success: function(response){
            $('#ajaxModal .modal-body').html(response);
-           $('#ajaxModal').modal('show'); 
+           $('#ajaxModal').modal('show');
          }
        });
     });
@@ -260,9 +266,9 @@ $(document).ready(function(){
          url: siteBaseUrl+'/srequests/view',
          type: 'post',
          data: {id: enquiryId},
-         success: function(response){ 
+         success: function(response){
            $('#ajaxModal .modal-body').html(response);
-           $('#ajaxModal').modal('show'); 
+           $('#ajaxModal').modal('show');
          }
        });
     });
@@ -273,9 +279,9 @@ $(document).ready(function(){
        url: siteBaseUrl+'/bookings/view',
        type: 'post',
        data: {id: regiserId},
-       success: function(response){ 
+       success: function(response){
          $('#ajaxModal .modal-body').html(response);
-         $('#ajaxModal').modal('show'); 
+         $('#ajaxModal').modal('show');
        }
      });
     });

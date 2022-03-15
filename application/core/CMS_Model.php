@@ -8,18 +8,30 @@ class CMS_Model extends CI_Model {
 		parent::__construct();
 		$this->table_name = '';
 		$this->primary_key = '';
+    $this->desc_table_name = '';
+		$this->foreign_key = '';
+		$this->multilingual = FALSE;
 	}
 	function getAll(){
 		$functions = array();
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$query = $this->db->get($this->table_name);
 		return $query->result_array();
 	}
   	function getArray(){
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$this->db->from($this->table_name);
 		$query = $this->db->get();
         return $query->result_array();
 	}
 	function getRows(){
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$this->db->from($this->table_name);
 		$query = $this->db->get();
 		return $query->result();
@@ -28,6 +40,9 @@ class CMS_Model extends CI_Model {
 	function getArrayLimit($limit) {
 		$this->db->limit($limit);
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -38,6 +53,9 @@ class CMS_Model extends CI_Model {
 		}
 		$this->db->limit($limit);
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
     	if ($orderField!='' && $orderDirection!='') {
 			$this->db->order_by($orderField, $orderDirection);
 		}
@@ -47,6 +65,9 @@ class CMS_Model extends CI_Model {
 
 	function getArrayCond($cond='',$like='',$orderField='',$orderDirection='') {
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		if (is_array($cond) && count($cond) > 0) {
 			$this->db->where($cond);
 		}
@@ -70,6 +91,9 @@ class CMS_Model extends CI_Model {
 		$cond = array($this->primary_key => $id);
 		$this->db->where($cond);
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$query = $this->db->get();
 		return $query->row();
 	}
@@ -77,54 +101,79 @@ class CMS_Model extends CI_Model {
 	function getRowCond($cond) {
 		$this->db->where($cond);
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$query = $this->db->get();
 		return $query->row();
 	}
 	function getRowArrayCond($cond) {
 		$this->db->where($cond);
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$query = $this->db->get();
 		return $query->row_array();
 	}
 
-	function insert($data)
+	function insert($maindata,$descdata=array())
 	{
 		$prime = false;
-		$this->db->insert($this->table_name,$data);
+		$this->db->insert($this->table_name,$maindata);
 		$prime=$this->db->insert_id();
+    if($this->multilingual && is_array($descdata) && count($descdata)>0){
+      $descdata[$this->foreign_key]=$prime;
+			$this->db->insert($this->desc_table_name,$descdata);
+		}
 		return $prime;
 	}
 
-	function insertBatch($data){
-		$this->db->insert_batch($this->table_name,$data);
-	}
+  function update($id,$maindata,$descdata=array())
+  	{
+  		$cond[$this->primary_key]=$id;
+  		if($this->multilingual){
+  			$desccond[$this->foreign_key]=$id;
+  			if(count($descdata)>0){
+          $desccond['language'] = $descdata['language'];
+  				$this->db->update($this->desc_table_name,$descdata,$desccond);
+  			}
+  		}
+  		if(count($maindata)>0){
+  			$updateid = $this->db->update($this->table_name,$maindata,$cond);
+  		}
+  		return $updateid;
+  	}
 
-	function update($id,$data)
+	function updateCond($data,$cond,$descdata=array())
 	{
 		$updateid = false;
-    	$cond = array();
-		if($id!=''){
-			$cond[$this->primary_key]=$id;
-		}
-		if(count($data)>0){
-			$updateid = $this->db->update($this->table_name,$data,$cond);
-		}
-		return $updateid;
-	}
-
-	function updateCond($data,$cond)
-	{
-		$updateid = false;
+    if($this->multilingual && isset($cond[$this->primary_key])){
+      $id = $cond[$this->primary_key];
+      $desccond[$this->foreign_key]=$id;
+      if(count($descdata)>0){
+        $desccond['language'] = $descdata['language'];
+        $this->db->update($this->desc_table_name,$descdata,$desccond);
+      }
+    }
 		$updateid = $this->db->update($this->table_name,$data,$cond);
 		return $updateid;
 	}
 
 	function delete($id) {
+    if($this->multilingual){
+			$desccond=array($this->foreign_key=>$id);
+			$this->db->delete($this->desc_table_name,$desccond);
+		}
 		$cond=array($this->primary_key=>$id);
 		return $this->db->delete($this->table_name,$cond);
 	}
 
 	function deleteCond($cond) {
+    if($this->multilingual && isset($cond[$this->primary_key])){
+			$desccond=array($this->foreign_key=>$cond[$this->primary_key]);
+			$this->db->delete($this->desc_table_name,$desccond);
+		}
 		return $this->db->delete($this->table_name,$cond);
 	}
 
@@ -141,6 +190,9 @@ class CMS_Model extends CI_Model {
       			$this->db->group_end();
       		}
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		return $this->db->count_all_results();
 	}
 
@@ -160,6 +212,9 @@ class CMS_Model extends CI_Model {
 			$this->db->order_by($orderField, $orderDirection);
 		}
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		$this->db->limit($num, $offset);
 		$query = $this->db->get();
 		return $query->result_array();
@@ -169,6 +224,9 @@ class CMS_Model extends CI_Model {
 			$this->db->where($cond);
 		}
     	$this->db->from($this->table_name);
+      if($this->multilingual){
+  			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+  		}
     	$query = $this->db->get();
 		$result = $query->num_rows();
 		if ($result > 0) {
@@ -183,6 +241,9 @@ class CMS_Model extends CI_Model {
 			$this->db->where($cond);
 		}
 		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
 		return $this->db->count_all_results();
 	}
 
@@ -213,4 +274,53 @@ class CMS_Model extends CI_Model {
 			return $slug;
 		}
 	}
+
+  function getElementPair($key='',$val='',$orderField='',$orderDirection=''){
+      $pairs =array();
+      if($key!='' && $val!=''){
+        $this->db->select('*');
+        $this->db->from($this->table_name);
+        if($this->multilingual){
+    			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+    		}
+        if ($orderField!='' && $orderDirection!='') {
+    			$this->db->order_by($orderField, $orderDirection);
+    		}
+        $query = $this->db->get();
+        $results = $query->result_array();
+        foreach($results as $result):
+          if(isset($result[$key]) && isset($result[$val])){
+            $pairs[$result[$key]] = $result[$val];
+          }
+        endforeach;
+      }
+      return $pairs;
+  }
+
+  function getTranslates($cond=array()){
+    $translates = false;
+    if($this->multilingual && is_array($cond) && count($cond) > 0){
+    		$this->db->where($cond);
+        $this->db->from($this->table_name);
+  			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+        $query = $this->db->get();
+        $results = $query->result_array();
+        foreach($results as $result):
+            $translates[$result['language']] = $result;
+        endforeach;
+  		}
+      return $translates;
+  }
+  
+  function addTranslate($data,$cond,$descdata=array())
+	{
+    $updateid = $this->db->update($this->table_name,$data,$cond);
+    if($this->multilingual){
+      if(count($descdata)>0){
+        $this->db->insert($this->desc_table_name,$descdata);
+      }
+    }
+		return $updateid;
+	}
+
 }

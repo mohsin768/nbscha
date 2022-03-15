@@ -1,0 +1,37 @@
+
+
+CREATE TABLE `membership_packages` (
+  `pid` int(11) NOT NULL,
+  `bed_count` int(11) NOT NULL DEFAULT '0',
+  `price` float(10,2) NOT NULL DEFAULT '0.00',
+  `certificate_template` int(11) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `delete_status` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `membership_packages_desc` (
+  `desc_id` int(11) NOT NULL,
+  `package_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `language` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE `membership_packages`
+  ADD PRIMARY KEY (`pid`);
+
+
+ALTER TABLE `membership_packages_desc`
+  ADD PRIMARY KEY (`desc_id`);
+
+
+ALTER TABLE `membership_packages`
+  MODIFY `pid` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `membership_packages_desc`
+  MODIFY `desc_id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

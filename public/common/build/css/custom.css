@@ -1890,7 +1890,7 @@ button.DTTT_button, div.DTTT_button, a.DTTT_button {
 table.jambo_table {
   border: 1px solid rgba(221, 221, 221, 0.78); }
 
-table.jambo_table thead {
+table.jambo_table thead{
   background: rgba(52, 73, 94, 0.94);
   color: #ECF0F1; }
 
@@ -4968,3 +4968,5 @@ ul.notifications {
 
 .calendar-exibit .calendar-table {
   padding: 0 0 4px 0; }
+
+  

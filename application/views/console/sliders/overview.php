@@ -8,14 +8,14 @@ $status = array('0' => 'Disabled','1' => 'Enabled');
                 <h2>Sliders</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('sliders/add'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span> 
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('sliders/add'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'filter');
-                echo form_open(admin_url('sliders/actions'),$attributes); 
+                echo form_open(admin_url('sliders/actions'),$attributes);
             ?>
             <div class="x_content">
                 <div style="float:left; width:50%">
@@ -36,7 +36,7 @@ $status = array('0' => 'Disabled','1' => 'Enabled');
                                 </th>
                             </tr>
                         </thead>
-                        
+
                         <tbody>
                             <?php foreach($sliders as $slider):?>
                             <tr class="even pointer">

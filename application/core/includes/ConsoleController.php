@@ -13,6 +13,7 @@ class ConsoleController extends GlobalController {
 		$this->mainvars['top_menu']=$this->load->view(admin_url_string('includes/top_menu'),'',true);
 		$this->mainvars['footer']=$this->load->view(admin_url_string('includes/footer'),'',true);
 		$this->mainvars['page_scripts']='';
+
 	}
 
 	function sideMenu(){

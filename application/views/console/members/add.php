@@ -2,24 +2,52 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Add Package</h2>
+                <h2>Add Member</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-
                 <br />
                 <?php
-                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'package-add');
-                echo form_open(admin_url_string('packages/add'),$attributes);
+                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'member-add');
+                echo form_open(admin_url_string('members/add'),$attributes);
                 ?>
-                <input type="hidden" name="language" value="<?php echo $this->default_language;?>" />
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title<span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">First Name<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('title'); ?>
-                        <input type="text" id="title" name="title" required="required" value="<?php echo set_value('title'); ?>" class="form-control">
+                        <?php echo form_error('first_name'); ?>
+                        <input type="text" id="first_name" name="first_name" required="required" value="<?php echo set_value('first_name'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Last Name<span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('last_name'); ?>
+                        <input type="text" id="last_name" name="last_name" required="required" value="<?php echo set_value('last_name'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Email<span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('email'); ?>
+                        <input type="email" id="email" name="email" required="required" value="<?php echo set_value('email'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="phone">Phone<span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('phone'); ?>
+                        <input type="text" id="phone" name="phone" required="required" value="<?php echo set_value('phone'); ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -27,45 +55,21 @@
 
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Beds Count<span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="password">Password<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('bed_count'); ?>
-                        <input type="number" id="bed_count" name="bed_count" required="required" value="<?php echo set_value('bed_count'); ?>" class="form-control">
+                        <?php echo form_error('password'); ?>
+                        <input type="password" id="password" name="password" required="required" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Price
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="confpassword">Confirm Password<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('price'); ?>
-                        <input type="text" id="price" name="price"  value="<?php echo set_value('price'); ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="Certificate">Certificate Template</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('certificate_template'); ?>
-                        <select id="certificate_template" name="certificate_template" class="form-control">
-                            <option value=""> -- Please Select --</option>
-                            <?php foreach($certificates as $id => $name): ?>
-                                <option value="<?php echo $id; ?>" <?php echo set_select('certificate_template',$id); ?>><?php echo $name; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="phone">Description
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('description'); ?>
-                        <?php echo $this->ckeditor->editor("description",html_entity_decode(set_value('description'))); ?>
+                        <?php echo form_error('confpassword'); ?>
+                        <input type="password" id="confpassword" name="confpassword" required="required" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -92,7 +96,7 @@
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 offset-md-3">
                         <button type="submit" class="btn btn-success">Submit</button>
-                        <a class="btn btn-primary" href="<?php echo admin_url('packages/overview'); ?>">Cancel</a>
+                        <a class="btn btn-primary" href="<?php echo admin_url('members/overview'); ?>">Cancel</a>
                     </div>
                 </div>
                 <?php echo form_close(); ?>

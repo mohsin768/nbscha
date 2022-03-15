@@ -10,7 +10,7 @@
 }
 .login-footer{padding: 10px 10px;}
 .login-form .form-item .validation_error{position: absolute; right: 0px; top:8px; font-size: 11px;}
-.login-logo{width: 100%; padding: 20px; background:#1F386B;text-align: center;}
+.login-logo{width: 100%; padding: 20px; background:#eff2f8;text-align: center;}
 .login-logo img{max-width: 100%; max-height: 160px; text-align: center;}
 .login_content h1:before,.login_content h1:after{display: none;}
 footer{padding: 2px 25px;}
@@ -580,3 +580,72 @@ a.user-profile{
     border-color: #337ab7;
 }
 .popup-view-table label{ font-weight: bold;}
+.btn-sm,
+.btn-group-sm > .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.btn-xs{
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.sort-list-link{
+  display: block;
+  padding-right: 15px;
+  background: url('../images/sort_both.png') no-repeat center right;
+}
+.sort-list-link.asc{
+  background: url('../images/sort_asc.png') no-repeat center right;
+}
+.sort-list-link.desc{
+  background: url('../images/sort_desc.png') no-repeat center right;
+}
+table.jambo_table .headings th a {
+  color: #fff !important;
+}
+.filter-col {
+    display: inline-block;
+    padding-right: 20px;
+}
+select.filter, input.filter {
+    width: auto;
+    max-width: 120px;
+    margin-right: 5px;
+    height: 22px;
+    padding: 0;
+    display: unset;
+    font-size: 12px;
+    padding: 0 3px 0;
+    border-radius: 3px;
+}
+input.filter {
+    width: 150px !important;
+}
+label.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    font-weight: normal;
+}
+label.btn-default.active, label.btn-default:active {
+  color: #fff;
+  background-color: #1F386B;
+  border-color: #1F386B;
+}
+.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+[data-toggle=buttons]>.btn input[type=checkbox], [data-toggle=buttons]>.btn input[type=radio], [data-toggle=buttons]>.btn-group>.btn input[type=checkbox], [data-toggle=buttons]>.btn-group>.btn input[type=radio] {
+    position: absolute;
+    clip: rect(0,0,0,0);
+    pointer-events: none;
+}
+span.lang_label{
+  font-weight: normal;
+  font-size: 12px;
+}

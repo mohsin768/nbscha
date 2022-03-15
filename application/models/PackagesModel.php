@@ -4,25 +4,11 @@ class PackagesModel extends CMS_Model {
 
     function __construct() {
         parent::__construct();
-        $this->table_name = 'packages';
-        $this->primary_key = 'id';
+        $this->table_name = 'membership_packages';
+        $this->primary_key = 'pid';
+        $this->desc_table_name = 'membership_packages_desc';
+    		$this->foreign_key = 'package_id';
+    		$this->multilingual = TRUE;
     }
 
-    function deletePackage($id){
-        $this->db->delete('package_widgets',array('package_id'=>$id));
-        $this->db->delete('package_contents',array('package_id'=>$id));
-        return $this->db->delete($this->table_name,array('id'=>$id));
-    }
-
-    function getIdPair(){
-        $reqcats = array();
-        $this->db->select('*');
-        $this->db->from($this->table_name);
-        $query = $this->db->get();
-        $results = $query->result_array();
-        foreach($results as $result):
-        $reqcats[$result['id']] = $result['title'];
-        endforeach;
-        return $reqcats;
-    }
 }

@@ -10,6 +10,14 @@ class GlobalController extends CI_Controller {
 		foreach($settings as $setting):
 			$this->settings[$setting['settingkey']]=$setting['settingvalue'];
 		endforeach;
+    $this->load->model('LanguagesModel');
+    $this->languages_pair = $this->LanguagesModel->getElementPair('code','name','default_language','asc');
+    $defaultLanguage = $this->LanguagesModel->getRowCond(array('default_language'));
+    $this->default_language = 'en';
+    if($defaultLanguage){
+      $this->default_language = $defaultLanguage->code;
+    }
+
   }
 
   function paginationConfig(){

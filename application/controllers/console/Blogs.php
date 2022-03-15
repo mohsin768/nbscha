@@ -13,14 +13,14 @@ class Blogs extends ConsoleController {
 	{
 		redirect(admin_url_string('blogs/overview'));
 	}
-	
+
 	public function overview()
 	{
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-        $config['base_url'] = admin_url('blogs/overview');
-        $config['total_rows'] = $this->BlogsModel->getPaginationCount();
-        $this->pagination->initialize($config);
+    $config['base_url'] = admin_url('blogs/overview');
+    $config['total_rows'] = $this->BlogsModel->getPaginationCount();
+    $this->pagination->initialize($config);
 		$vars['blogs'] = $this->BlogsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),'','publish_date','DESC');
 		$this->mainvars['content']=$this->load->view(admin_url_string('blogs/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
@@ -99,7 +99,7 @@ class Blogs extends ConsoleController {
 		}
 		$this->form_validation->set_rules('title', 'title', 'required');
 		$this->form_validation->set_rules('author', 'author', 'required');
-	
+
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
@@ -128,14 +128,14 @@ class Blogs extends ConsoleController {
 			$imageConfig['upload_path'] = $blogImageUploadPath;
 			$imageConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 			$this->load->library('upload', $imageConfig);
-			$this->upload->initialize($imageConfig); 
+			$this->upload->initialize($imageConfig);
 				if($this->upload->do_upload('image'))
 				{
 					$imageData=$this->upload->data();
 					$data['image']=$imageData['file_name'];
 				}
 			}
-			
+
 			if($this->input->post('remove_banner') && $this->input->post('remove_banner')=='1'){
 				$data['banner']='';
 			} else{
@@ -146,7 +146,7 @@ class Blogs extends ConsoleController {
 			$bannerConfig['upload_path'] = $blogBannerUploadPath;
 			$bannerConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 			$this->load->library('upload', $bannerConfig);
-			$this->upload->initialize($bannerConfig); 
+			$this->upload->initialize($bannerConfig);
 				if($this->upload->do_upload('banner'))
 				{
 					$bannerData=$this->upload->data();
@@ -240,16 +240,16 @@ class Blogs extends ConsoleController {
 			foreach($ids as $id):
 				$data=array('status'=>$status);
 				$cond=array('id'=>$id);
-				$actionStatus=$this->BlogsModel->updateCond($data,$cond);				
-			endforeach;			
+				$actionStatus=$this->BlogsModel->updateCond($data,$cond);
+			endforeach;
 		}
 		if(isset($_POST['sortsave']) && $this->input->post('sortsave')=='Save'){
 			if(count($sort_orders)>0){
 				foreach($sort_orders as $id => $sort_order):
 					$data=array('sort_order'=>$sort_order);
 					$cond=array('id'=>$id);
-					$actionStatus=$this->BlogsModel->updateCond($data,$cond);				
-				endforeach;			
+					$actionStatus=$this->BlogsModel->updateCond($data,$cond);
+				endforeach;
 			}
 		}
 		if($actionStatus){
@@ -260,6 +260,6 @@ class Blogs extends ConsoleController {
 		redirect(admin_url_string('blogs/overview'));
 	}
 
-	
+
 
 }

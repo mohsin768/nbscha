@@ -2,18 +2,27 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Edit Package</h2>
+                <h2><?php if($package->language==$language) echo 'Edit Package'; else echo 'Package - Add '.$this->languages_pair[$language].' Translate';?></h2>
+                <?php if($package->language!=$language){?>
+                  <ul class="nav navbar-right panel_toolbox">
+                      <li>
+                          <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('packages/translates/'.$package->pid); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
+                      </li>
+                  </ul>
+                <?php } ?>
+
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <br />
                 <?php
-                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'package-edit');
-                echo form_open_multipart(admin_url_string('packages/edit/'.$package->id),$attributes);?>
-                <input type="hidden" name="id" value="<?php echo $package->id; ?>" />
-                
+                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'location-add');
+                echo form_open(admin_url_string('packages/edit/'.$package->pid.'/'.$language.'/'.$translate),$attributes);?>
+                <input type="hidden" name="pid" value="<?php echo $package->pid; ?>" />
+                <input type="hidden" name="language" value="<?php echo $language; ?>" />
+
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title<span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('title'); ?>
@@ -22,102 +31,61 @@
                     <div class="clearfix"></div>
                 </div>
 
+
+
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="subtitle">Sub Title
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Beds Count <span class="lang_label">(All Languages)</span><span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('subtitle'); ?>
-                        <input type="text" id="subtitle" name="subtitle" value="<?php echo $package->subtitle; ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="caption">Caption
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('caption'); ?>
-                        <input type="text" id="caption" name="caption" value="<?php echo $package->caption; ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="icon_class">Icon Class
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('icon_class'); ?>
-                        <input type="text" id="icon_class" name="icon_class" value="<?php echo $package->icon_class; ?>" class="form-control">
+                        <?php echo form_error('bed_count'); ?>
+                        <input type="number" id="bed_count" name="bed_count" required="required" value="<?php echo $package->bed_count; ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="summary">Summary
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Price <span class="lang_label">(All Languages)</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('summary'); ?>
-                        <textarea id="summary" name="summary" class="form-control"><?php echo $package->summary; ?></textarea>
+                        <?php echo form_error('price'); ?>
+                        <input type="text" id="price" name="price"  value="<?php echo $package->price; ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="label">
-                        Image<br/> <?php if($package->image!='') { echo $package->image; } ?>
-                    </label>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="Certificate">Certificate Template <span class="lang_label">(All Languages)</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="image" name="image" class="form-control" style="padding:0px;"  type="file">
-                        <?php if($package->image!='') { ?>
-                        Remove Image? <input  name="remove_image"   type="checkbox" value="1">
-                        <?php } ?>
+                        <?php echo form_error('certificate_template'); ?>
+                        <select id="certificate_template" name="certificate_template" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($certificates as $id => $name): ?>
+                                <option value="<?php echo $id; ?>" <?php if($package->certificate_template == $id) echo 'selected="selected"'; ?> ><?php echo $name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="label">
-                        Banner Image<br/> <?php if($package->banner_image!='') { echo $package->banner_image; } ?>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="phone">Description <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="image" name="image" class="form-control" style="padding:0px;"  type="file">
-                        <?php if($package->banner_image!='') { ?>
-                        Remove Banner Image? <input  name="remove_banner_image"   type="checkbox" value="1">
-                        <?php } ?>
+                        <?php echo form_error('description'); ?>
+                        <?php echo $this->ckeditor->editor("description",html_entity_decode($package->description)); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="label">
-                        Banner Video <br/> <?php if($package->banner_video!='') { echo $package->banner_video; } ?>
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="image" name="image" class="form-control" style="padding:0px;"  type="file">
-                        <?php if($package->banner_video!='') { ?>
-                        Remove Banner Video? <input  name="remove_banner_video"   type="checkbox" value="1">
-                        <?php } ?>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="sort_order">Sort Order
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('sort_order'); ?>
-                        <input type="text" id="sort_order" name="sort_order" value="<?php echo $package->sort_order; ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="required">*</span></label>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="lang_label">(All Languages)</span><span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('status'); ?>
                         <div id="status" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary <?php if($package->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                            <label class="btn btn-default <?php if($package->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
                                 <input type="radio"  required="required" name="status" value="1" <?php if($package->status=='1') { echo 'checked="checked"'; } ?>> &nbsp; Enabled &nbsp;
                             </label>
-                            <label class="btn btn-secondary <?php if($package->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
+                            <label class="btn btn-default <?php if($package->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
                                 <input type="radio"  required="required" name="status" value="0" <?php if($package->status=='0') { echo 'checked="checked"'; } ?>> Disabled
                             </label>
                         </div>
