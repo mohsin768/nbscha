@@ -6,6 +6,9 @@ class PagesModel extends CMS_Model {
         parent::__construct();
         $this->table_name = 'pages';
         $this->primary_key = 'id';
+        $this->desc_table_name = 'pages_desc';
+        $this->foreign_key = 'page_id';
+        $this->multilingual = TRUE;
     }
 
     function deletePage($id){
