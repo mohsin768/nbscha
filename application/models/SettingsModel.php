@@ -6,6 +6,9 @@ class SettingsModel extends CMS_Model {
         parent::__construct();
         $this->table_name = 'settings';
         $this->primary_key = 'id';
+        $this->desc_table_name = 'settings_desc';
+        $this->foreign_key = 'setting_id';
+        $this->multilingual = TRUE;
     }
 
     function getSettingsValue($key){
@@ -37,9 +40,9 @@ class SettingsModel extends CMS_Model {
 
     }
 
-    function getGroupArray(){
+    function getGroupArray($lang){
         $groupedSettings = array();
-        $cond = array('status'=>'Y');
+        $cond = array('status'=>'Y','language'=>$lang);
 		$settings = $this->getArrayCond($cond,'','sort_order','ASC');
         foreach($settings as $setting):
             $groupedSettings[$setting['parent']][] = $setting;

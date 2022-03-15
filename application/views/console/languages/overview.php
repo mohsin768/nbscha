@@ -6,11 +6,13 @@ $status = array('0' => 'Disabled','1' => 'Enabled');
         <div class="x_panel">
             <div class="x_title">
                 <h2>Languages</h2>
+                <?php /*
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <span><a class="btn btn-success btn-sm" href="<?php echo admin_url('languages/add'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
                 </ul>
+                */ ?>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">

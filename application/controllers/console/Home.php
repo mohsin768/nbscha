@@ -128,30 +128,35 @@ class Home extends ConsoleController {
 		}
 	}
 
-	function settings()
+	function settings($lang='')
 	{
+		if($lang==''){
+			$lang = $this->default_language;
+		}
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('settings', 'Settings', 'required');
 		if ($this->form_validation->run() == FALSE) {
 			$this->load->model('PagesModel');
-			$cond = array('parent'=>'0','settingtype'=>'group','status'=>'Y');
+			$cond = array('parent'=>'0','settingtype'=>'group','status'=>'Y','language'=>$lang);
 			$edit['settings_groups'] = $this->SettingsModel->getArrayCond($cond,'','sort_order','ASC');
-			$edit['grouped_settings'] = $this->SettingsModel->getGroupArray();
+			$edit['grouped_settings'] = $this->SettingsModel->getGroupArray($lang);
 			$edit['pages'] = $this->PagesModel->getIdPair();
+			$edit['language'] = $lang;
+			$edit['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 			$this->mainvars['content']=$this->load->view(admin_url_string('home/settings/settings'),$edit,true);
 			$this->load->view(admin_url_string('main'),$this->mainvars);
 		} else {
 			foreach($this->input->post('setting') as $identity => $setting):
 				$data=array();
-				$data=array('settingvalue'=>$setting);
-				$insertrow =$this->SettingsModel->update($identity,$data);
+				$data=array('settingvalue'=>$setting,'language'=>$lang);
+				$insertrow =$this->SettingsModel->update($identity,array(),$data);
 			endforeach;
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Settings updated successfully.'));
-				redirect(admin_url_string('home/settings'));
+				redirect(admin_url_string('home/settings/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('home/settings'));
+				redirect(admin_url_string('home/settings/'.$lang));
 			}
 		}
 	}
@@ -250,5 +255,104 @@ class Home extends ConsoleController {
 			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'No pending updates.'));
 		}
 		redirect(admin_url_string('home/dashboard'));
+	}
+	public function localization($lang='')
+	{
+		if($lang==''){
+			$lang = $this->default_language;
+		}
+		$cond = array('language'=>$lang);
+		$like = array();
+		if($this->session->userdata('localization_key') && $this->session->userdata('localization_key')!=''){
+			$like[] = array('field'=>'lang_key', 'value' => $this->session->userdata('localization_key'),'location' => 'both');
+			$like[] = array('field'=>'lang_value', 'value' => $this->session->userdata('localization_key'),'location' => 'both');
+		}
+		$this->load->model('LocalizationModel');
+		$this->load->model('LanguagesModel');
+		$this->load->library('pagination');
+		$config = $this->paginationConfig();
+        $config['base_url'] = admin_url('home/localization');
+        $config['total_rows'] = $this->LocalizationModel->getPaginationCount($cond,$like);
+        $this->pagination->initialize($config);
+		$vars['language'] = $lang;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
+		$vars['localizations'] = $this->LocalizationModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,'id','ASC',$like);
+		$vars['defaults'] = $this->LocalizationModel->getDefaultLocalizations();
+		$this->mainvars['content']=$this->load->view(admin_url_string('home/localization/overview'),$vars,true);
+		$this->load->view(admin_url_string('main'),$this->mainvars);
+	}
+
+
+	function addlocalization()
+	{
+		$this->load->model('LocalizationModel');
+		$this->load->model('LanguagesModel');
+		$this->form_validation->set_rules('lang_key', 'Key', 'required');
+		$this->form_validation->set_rules('lang_value', 'Value', 'required');
+		$this->form_validation->set_message('required', 'required');
+		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE)
+		{
+			$vars = array();
+			$this->mainvars['content']=$this->load->view(admin_url_string('home/localization/add'),$vars,true);
+			$this->load->view(admin_url_string('main'),$this->mainvars);
+		} else {
+			$maindata=array('lang_key'=>$this->input->post('lang_key'),'lang_value'=>$this->input->post('lang_value'));
+			$languages = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
+			foreach($languages as $language):
+				$data = $maindata;
+				$data['language'] = $language['code'];
+				$insertid=$this->LocalizationModel->insert($data);
+				unset($data);
+			endforeach;
+			if ($insertid) {
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Localization added successfully.'));
+				redirect(admin_url_string('home/localization'));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				redirect(admin_url_string('home/localization'));
+			}
+		}
+	}
+
+
+	function localizationactions($lang='')
+	{
+		if($lang==''){
+			$lang = $this->default_language;
+		}
+		$this->load->model('LocalizationModel');
+		$lang_values=$this->input->post('lang_value');
+		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
+			$newdata = array('localization_key' );
+			$this->session->unset_userdata($newdata);
+			redirect(admin_url_string('home/localization/'.$lang));
+		}
+		if(isset($_POST['search']) && $this->input->post('search')=='Search'){
+			if($this->input->post('keyword')!=''){
+				$newdata = array(
+					   'localization_key'  => $this->input->post('keyword')
+				);
+				$this->session->set_userdata($newdata);
+			} else {
+				$newdata = array('localization_key' );
+				$this->session->unset_userdata($newdata);
+			}
+			redirect(admin_url_string('home/localization/'.$lang));
+		}
+		if(isset($_POST['save']) && $this->input->post('save')=='Save'){
+			foreach($lang_values as $id => $lang_value):
+				$data=array('lang_value'=>$lang_value);
+				$loginid=$this->LocalizationModel->updateCond($data,array('id'=>$id));
+				unset($data);
+			endforeach;
+			if($loginid){
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Localization updated Successfully.'));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-error','message'=>'Error!! - Localization not updated.'));
+			}
+		}
+		redirect(admin_url_string('home/localization/'.$lang));
+
 	}
 }

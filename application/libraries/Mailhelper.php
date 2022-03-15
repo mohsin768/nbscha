@@ -68,6 +68,10 @@ class Mailhelper {
 				$mailMessage = $this->CI->load->view(admin_views_path('mails/admin_reset_password'),$mailData,true);
         $mailSubject = "Reset password requested";
 				break;
+      case 'member_reset_password':
+        $mailMessage = $this->CI->load->view(admin_views_path('mails/member_reset_password'),$mailData,true);
+        $mailSubject = "Reset password requested";
+        break;
       case 'contact_admin_notification':
         $mailMessage = $this->CI->load->view(admin_views_path('mails/contact_admin_notification'),$mailData,true);
         $mailSubject = "New Enquiry submitted on the Website";

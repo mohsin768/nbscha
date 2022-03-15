@@ -135,8 +135,8 @@ class CMS_Model extends CI_Model {
   		if($this->multilingual){
   			$desccond[$this->foreign_key]=$id;
   			if(count($descdata)>0){
-          $desccond['language'] = $descdata['language'];
-  				$this->db->update($this->desc_table_name,$descdata,$desccond);
+				$desccond['language'] = $descdata['language'];
+				$updateid =  $this->db->update($this->desc_table_name,$descdata,$desccond);
   			}
   		}
   		if(count($maindata)>0){

@@ -106,6 +106,41 @@ if ( ! function_exists('admin_url'))
     }
 }
 
+if ( ! function_exists('member_assets_url'))
+{
+	function member_assets_url($uri = '', $protocol = NULL)
+	{
+		$adminPath = get_instance()->config->item('member_folder');
+		$uri = 'public/'.$adminPath.'/'.$uri;
+		return get_instance()->config->base_url($uri, $protocol);
+	}
+}
+
+if ( ! function_exists('member_views_path'))
+{
+	function member_views_path($uri = '', $protocol = NULL)
+	{
+		$memberPath = get_instance()->config->item('member_folder');
+		$uri = $memberPath.'/'.$uri;
+		return $uri;
+	}
+}
+if ( ! function_exists('member_url_string'))
+{
+	function member_url_string($uri = '', $protocol = NULL)
+	{
+		$memberPath = get_instance()->config->item('member_folder');
+		$uri = $memberPath.'/'.$uri;
+		return $uri;
+	}
+}
+if ( ! function_exists('member_url'))
+{
+	function member_url($url,$protocol = NULL){
+        $url = get_instance()->config->item('member_folder').'/'.$url;
+        return site_url($url,$protocol);
+    }
+}
 if ( ! function_exists('frontend_instrument_url'))
 {
 	function frontend_instrument_url($uri = '', $protocol = NULL)

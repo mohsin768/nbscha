@@ -103,7 +103,7 @@ if($this->uri->segment(4)==""){
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>
-														<tr><td colspan="7"><p>No results Found</p></td></tr>
+														<tr><td colspan="8"><p>No results Found</p></td></tr>
 													 <?php }?>
                         </tbody>
                     </table>

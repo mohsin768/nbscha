@@ -6,30 +6,17 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="action-content " style="overflow:hidden;">
-                    <div class="lang-col">
-                    <ul class="nav navbar-right panel_toolbox">
-                        <?php foreach($languages as $languageRow): ?>
-                        <li>
-                            <span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('home/settings/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
-                        </li>
-                        <?php endforeach; ?>
-                    </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="x_content">
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'settings-add');
-                echo form_open(admin_url_string('home/settings/'.$language),$attributes);
+                echo form_open(member_url_string('home/settings'),$attributes);
                 ?><input type="hidden" id="settings" name="settings" value="1"  >
                 <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
-                    <?php $rowi = 0; foreach($settings_groups as $settings_group): $settings = (isset($grouped_settings[$settings_group['id']]))?$grouped_settings[$settings_group['id']]:array(); $rowi++; ?>
+                    <?php foreach($settings_groups as $settings_group): $settings = (isset($grouped_settings[$settings_group['id']]))?$grouped_settings[$settings_group['id']]:array(); ?>
                     <div class="panel">
                         <a class="panel-heading" role="tab" id="heading-<?php echo $settings_group['id']; ?>" data-toggle="collapse" data-parent="#accordion" href="#collapse-<?php echo $settings_group['id']; ?>" aria-expanded="true" aria-controls="collapse-<?php echo $settings_group['id']; ?>">
                             <h4 class="panel-title"><?php echo $settings_group['title']; ?></h4>
                         </a>
-                        <div id="collapse-<?php echo $settings_group['id']; ?>" class="panel-collapse in collapse <?php if($rowi==1){ echo 'show'; }?>" role="tabpanel" aria-labelledby="heading-<?php echo $settings_group['id']; ?>">
+                        <div id="collapse-<?php echo $settings_group['id']; ?>" class="panel-collapse in collapse" role="tabpanel" aria-labelledby="heading-<?php echo $settings_group['id']; ?>">
                             <div class="panel-body">
                                 <br/>
                                 <?php if(count($settings)>0){ foreach($settings as $setting): ?>
@@ -73,7 +60,7 @@
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 offset-md-3">
                         <button type="submit" class="btn btn-success">Submit</button>
-                        <a class="btn btn-primary" href="<?php echo admin_url('home/dashboard'); ?>">Cancel</a>
+                        <a class="btn btn-primary" href="<?php echo member_url('home/dashboard'); ?>">Cancel</a>
                     </div>
                 </div>
                 <?php echo form_close(); ?>
