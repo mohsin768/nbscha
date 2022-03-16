@@ -122,16 +122,21 @@
                 <th scope="row">Notes/Comments for Admin</th>  <td><?php echo $request->comments; ?></td>
                 </tr>
                 <tr>
-                <th scope="row">Main Image</th>  <td></td>
+                <th scope="row">Main Image</th>  <td><img src="<?php echo common_assets_url('images/logo.png'); ?>" style="width:400px;" ></td>
                 </tr>
                 <tr>
-                <th scope="row">Other Images</th>  <td></td>
+                <th scope="row">Other Images</th>  <td>
+                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
+                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
+                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
+                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
+                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" ></td>
                 </tr>
                 <tr>
                 <th scope="row">Social Media Links</th>  <td>
-                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="#/facebook-square"><i class="fa fa-facebook-square"></i> facebook.com</a></div>
-                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="#/twitter-square"><i class="fa fa-twitter-square"></i> twitter.com</a></div>
-                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="#/youtube"><i class="fa fa-youtube"></i> youtube</a>  </div>
+                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a  href="#/facebook-square"><i style="font-size:22px;" class="fa fa-facebook-square"></i> facebook.com</a></div>
+                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="#/twitter-square"><i style="font-size:22px;" class="fa fa-twitter-square"></i> twitter.com</a></div>
+                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="#/youtube"><i style="font-size:22px;" class="fa fa-youtube"></i> youtube</a>  </div>
                 </td>
                 </tr>
                 <tr>
@@ -143,7 +148,7 @@
                     <strong>Can a resident bring their pet to live with them?</strong>
                   </div>
 
-                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;opacity:0.5">
+                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;">
                     Do you look after managing their comfort and clothing money?
                   </div>
                   <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
