@@ -25,7 +25,7 @@ class Menuitems extends ConsoleController {
 		if(!$menuRow){
 			redirect(admin_url_string('menus/overview'));
 		}
-		$menus = $this->MenuItemsModel->getMenuTree($menuId,$lang);
+		$menus = $this->MenuItemsModel->getMenuTree($menuId,'',$lang);
 		$vars['language'] = $lang;
 		$vars['menu_detail'] = $menuRow;
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
@@ -104,7 +104,7 @@ class Menuitems extends ConsoleController {
 
 	public function edit($menuId,$itemId,$lang){
 		$menuRow=$this->MenuModel->load($menuId);
-		$menuItemRow=$this->MenuItemsModel->load($itemId);
+		$menuItemRow=$this->MenuItemsModel->getRowCond(array('id'=>$itemId,'language'=>$lang));
 		if(!$menuRow || !$menuItemRow){
 			redirect(admin_url_string('menus/overview'));
 		}
@@ -149,10 +149,10 @@ class Menuitems extends ConsoleController {
 			$actionStatus=$this->MenuItemsModel->updateCond($maindata,$cond,$descdata);
 			if ($actionStatus) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Menu Item edited successfully.'));
-				redirect(admin_url_string('menuitems/overview/'.$menuId));
+				redirect(admin_url_string('menuitems/overview/'.$menuId.'/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-                redirect(admin_url_string('menuitems/overview/'.$menuId));
+                redirect(admin_url_string('menuitems/overview/'.$menuId.'/'.$lang));
 			}
 		}
 	}

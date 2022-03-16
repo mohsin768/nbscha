@@ -41,6 +41,7 @@
                                 <th class="column-title">Name</th>
                                 <th class="column-title">Link Type</th>
                                 <th style="width: 150px;">Sort Order <input style="padding:1px;" type="submit" name="sortsave" value="Save" /></th>
+                                <th class="column-title fix-100 center-align">Language</th>
                                 <th class="column-title fix-100 center-align">Status</th>
                                 <th class="column-title no-link last"><span class="nobr">Action</span>
                                 </th>

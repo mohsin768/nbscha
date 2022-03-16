@@ -42,8 +42,9 @@ class MenuItemsModel extends CMS_Model {
 		$this->db->where('menu_id', $menuId);
 		$this->db->where('parent_id', $parent_id);
 		$this->db->order_by('sort_order', 'ASC');
+		$this->db->from($this->table_name);
 		$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
-		$query = $this->db->get($this->table_name);
+		$query = $this->db->get();
 		$menus = $query->result_array();
 		if(count($menus)>0){
 			foreach ($menus as $menuitem):
@@ -68,8 +69,9 @@ class MenuItemsModel extends CMS_Model {
 		$this->db->where('menu_id', $menuId);
 		$this->db->where('parent_id', $parent_id);
 		$this->db->order_by('sort_order', 'ASC');
+		$this->db->from($this->table_name);
 		$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
-		$query = $this->db->get($this->table_name);
+		$query = $this->db->get();
 		$menus = $query->result_array();
 		if(count($menus)>0){
 			foreach ($menus as $menuitem):

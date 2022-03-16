@@ -172,6 +172,9 @@
                                     <div class=" che-cls form-group col-lg-6 "><input type="checkbox" class="mr-3 rounded-0 border-0 line-height-1" name="spch[sp_427][accept_resident_incontinent]" id="spch[sp_427][accept_resident_incontinent]_spid_427">Do you accept residents who are incontinent?</div>
                                     <div class=" che-cls form-group col-lg-6 "><input type="checkbox" class="mr-3 rounded-0 border-0 line-height-1" name="spch[sp_427][administering_medication_training_required]" id="spch[sp_427][administering_medication_training_required]_spid_427">Does staff administering medications have the required training?</div>
                                 </div>
+                                <div class="form-group col-lg-12">
+                                  <h4>Yearly Membership Fees: <span id="invoice-amount" class="invoice-amount">$200.00</span></h4>
+                                </div>
                                 <div class="form-group col-lg-12 payment-option">
 
                                     <h4>Please chose your Preferred payment option:</h4>
