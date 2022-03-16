@@ -1,4 +1,21 @@
-<div class="page-title-area item-bg1" <?php if($banner!=''){ ?>style="background-image:url('<?php echo $banner; ?>');"<?php } ?>>
+<section class="inner-header divider parallax layer-overlay overlay-dark-5" data-bg-img="">
+    <div class="container pt-70 pb-20">
+        <!-- Section Content -->
+        <div class="section-content">
+            <div class="row">
+            <div class="col-md-12">
+                <h2 class="title text-white text-center">About</h2>
+                <ol class="breadcrumb text-left text-black mt-10">
+                <li><a href="https://nbscha.ca">Home</a></li>
+                <li class="active text-gray-silver">About</li>
+                </ol>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php
+/*<div class="page-title-area item-bg1" <?php if($banner!=''){ ?>style="background-image:url('<?php echo $banner; ?>');"<?php } ?>>
     <div class="container">
         <h1><?php echo $title; ?></h1>
         <span><?php echo $subtitle; ?></span>
@@ -8,12 +25,5 @@
         </ul>
     </div>
 </div>
-<?php /*
-<div class="breadcrumb bg-image" <?php if($banner!=''){ ?>style="background-image:url('<?php echo $banner; ?>');"<?php } ?>>
-    <div class="overlay"></div>
-    <div class="page-title">
-        <h1><?php echo $subtitle; ?></h1>
-        <h2><?php echo $title; ?></h2>
-    </div>
-</div><!-- breadcrumb --> 
-*/ ?>
+*/
+?>

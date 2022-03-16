@@ -55,6 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['console'] = 'console';
 $route['member'] = 'member';
 $route['ajax'] = 'ajax';
+$route['register'] = 'register/index';
 $route['pagenotfound'] = 'cmserror/pagenotfound';
 $route['packages/(:any)'] = 'packages/index/$1';
 $route['(:any)'] = 'home/index/$1';
