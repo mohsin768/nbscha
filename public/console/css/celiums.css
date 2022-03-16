@@ -654,3 +654,6 @@ span.lang_label{
   font-weight: normal;
   font-size: 12px;
 }
+.hide{
+  display: none;
+}

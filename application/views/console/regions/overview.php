@@ -10,40 +10,40 @@ if($this->uri->segment(4)==""){
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Packages</h2>
+                <h2>Regions</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('packages/add'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('regions/add'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 						<?php
 							$attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'action_filter');
-							echo form_open(admin_url('packages/actions'),$attributes); ?>
+							echo form_open(admin_url('regions/actions'),$attributes); ?>
 
 							<div class="x_content">
 
 											<div class="action-content ">
 												<div class="filter-col">
 													Search :
-													<input type="text"  class="form-control filter" placeholder="Search key ..." name="package_search_key" value="<?php echo $this->session->userdata('package_search_key_filter'); ?>" />
+													<input type="text"  class="form-control filter" placeholder="Search key ..." name="region_search_key" value="<?php echo $this->session->userdata('region_search_key_filter'); ?>" />
 												</div>
 
 												<div class="filter-col">
 													Status:
-													<select name="package_status" class="form-control filter">
+													<select name="region_status" class="form-control filter">
 															<option value="">Select</option>
-															<option value="1" <?php if($this->session->userdata('package_status_filter')=='1'){ echo 'selected="selected"'; }?>>Enable</option>
-															<option value="0" <?php if($this->session->userdata('package_status_filter')=='0'){ echo 'selected="selected"'; }?>>Disabled</option>
+															<option value="1" <?php if($this->session->userdata('region_status_filter')=='1'){ echo 'selected="selected"'; }?>>Enable</option>
+															<option value="0" <?php if($this->session->userdata('region_status_filter')=='0'){ echo 'selected="selected"'; }?>>Disabled</option>
 													</select>
 												</div>
 												<div class="filter-col">
 													Language:
-													<select id="package_language" name="package_language" class="form-control filter">
+													<select id="region_language" name="region_language" class="form-control filter">
 	                            <option value=""> All </option>
 	                            <?php foreach($this->languages_pair as $code => $name): ?>
-	                                <option value="<?php echo $code; ?>" <?php echo set_select('package_language_filter',$code); ?>><?php echo $name; ?></option>
+	                                <option value="<?php echo $code; ?>" <?php echo set_select('region_language_filter',$code); ?>><?php echo $name; ?></option>
 	                            <?php endforeach; ?>
 	                        </select>
 
@@ -73,36 +73,34 @@ if($this->uri->segment(4)==""){
 															<th style="width: 20px;"><input type="checkbox" class="select_all" name="ids" id="ids" /></th>
 															<th class="column-title" style="width: 20px;">#</th>
 															<th class="column-title">
-																<?php $title_direction = ''; if($sort_field=='title'){ $title_direction = $sort_direction; } ?>
-																<a href="#0" class="package-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
-															<th class="column-title">Beds</th>
-															<th class="column-title">Price</th>
+																<?php $title_direction = ''; if($sort_field=='region_name'){ $title_direction = $sort_direction; } ?>
+																<a href="#0" class="region-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="region_name" data-sort-direction="<?php echo $title_direction; ?>">Name</a></th>
+
 															<th class="column-title">
 																<?php $language_direction = ''; if($sort_field=='language'){ $language_direction = $sort_direction; } ?>
-																<a href="#0" class="package-sort sort-list-link <?php echo $language_direction; ?>" data-sort-field="language" data-sort-direction="<?php echo $language_direction; ?>">Language</a>
+																<a href="#0" class="region-sort sort-list-link <?php echo $language_direction; ?>" data-sort-field="language" data-sort-direction="<?php echo $language_direction; ?>">Language</a>
 															</th>
 															<th style="width: 150px;"><?php $order_direction = ''; if($sort_field=='sort_order'){ $order_direction = $sort_direction; } ?>
-															<a href="#0" style="display:inline" class="package-sort sort-list-link <?php echo $order_direction; ?>" data-sort-field="sort_order" data-sort-direction="<?php echo $order_direction; ?>">Sort Order </a> <input style="padding:1px;" type="submit" name="sortsave" value="Save" /></th>
+															<a href="#0" style="display:inline" class="region-sort sort-list-link <?php echo $order_direction; ?>" data-sort-field="sort_order" data-sort-direction="<?php echo $order_direction; ?>">Sort Order </a> <input style="padding:1px;" type="submit" name="sortsave" value="Save" /></th>
 															<th class="column-title fix-100 center-align">Status</th>
 															<th class="column-title no-link last"><span class="nobr">Action</span></th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <?php if(count($packages)>0){ foreach($packages as $package):?>
+                            <?php if(count($regions)>0){ foreach($regions as $region):?>
                             <tr class="even pointer">
-																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $package['pid']; ?>" /></td>
+																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $region['rid']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
-                                <td class=" "><?php echo $package['title'];?></td>
-                                <td class=" "><?php if($package['bed_unlimited']=='1' ) echo 'Unlimited'; else echo $package['bed_count'];?></td>
-                                <td class=" "><?php echo $package['price'];?></td>
-																<td class=" "><?php echo $this->languages_pair[$package['language']];?></td>
-																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($package['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $package['pid'];?>]" value="<?php echo $package['sort_order'];?>" /> </td>
-                                <td class="center-align"><?php echo $status[$package['status']];?></td>
+                                <td class=" "><?php echo $region['region_name'];?></td>
+                                
+																<td class=" "><?php echo $this->languages_pair[$region['language']];?></td>
+																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($region['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $region['rid'];?>]" value="<?php echo $region['sort_order'];?>" /> </td>
+                                <td class="center-align"><?php echo $status[$region['status']];?></td>
                                 <td class=" last">
-																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('packages/translates/'.$package['pid']); ?>"><i class="fa fa-language"></i> Translates</a>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('packages/edit/'.$package['pid'].'/'.$package['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('packages/delete/'.$package['pid']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('regions/translates/'.$region['rid']); ?>"><i class="fa fa-language"></i> Translates</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('regions/edit/'.$region['rid'].'/'.$region['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('regions/delete/'.$region['rid']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

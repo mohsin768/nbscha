@@ -25,6 +25,8 @@
     <link href="<?php echo common_assets_url('build/css/custom.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo admin_assets_url('css/celiums.css'); ?>" rel="stylesheet">
     <script> var siteBaseUrl = '<?php echo admin_url('/'); ?>'; </script>
+    <!-- jQuery -->
+    <script src="<?php echo common_assets_url('vendors/jquery/dist/jquery.min.js'); ?>"></script>
   </head>
   <body class="nav-md footer_fixed">
     <div class="container body">
@@ -112,8 +114,7 @@
     </div>
   </div>
 </div>
-    <!-- jQuery -->
-    <script src="<?php echo common_assets_url('vendors/jquery/dist/jquery.min.js'); ?>"></script>
+
     <!-- Bootstrap -->
     <script src="<?php echo common_assets_url('vendors/bootstrap/dist/js/bootstrap.bundle.min.js'); ?>"></script>
     <!-- FastClick -->
