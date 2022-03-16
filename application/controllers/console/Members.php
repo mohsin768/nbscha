@@ -120,8 +120,6 @@ class Members extends ConsoleController {
 				'last_name' => $this->input->post('last_name'),
 				'email' => $this->input->post('email'),
 				'phone' => $this->input->post('phone'),
-				'membername' => $this->input->post('membername'),
-				'role' => $this->input->post('role'),
 				'status' => $this->input->post('status'));
 			$insertrow = $this->MembersModel->update($mid,$data);
 			if ($insertrow) {

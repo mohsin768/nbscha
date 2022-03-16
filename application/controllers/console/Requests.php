@@ -24,6 +24,10 @@ class Requests extends ConsoleController {
 		$this->load->model('RequestsModel');
 		$this->load->model('PackagesModel');
 		$this->load->model('RegionsModel');
+		$this->load->model('CarelevelsModel');
+		$this->load->model('MembersModel');
+		$this->load->model('MembershipsModel');
+		$this->load->model('ResidencesModel');
 	}
 
 	public function index()
@@ -78,6 +82,7 @@ class Requests extends ConsoleController {
 			$vars['request'] =$this->RequestsModel->load($id);
 			$vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
 			$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
+			$vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('requests/view'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 	}
@@ -125,13 +130,79 @@ class Requests extends ConsoleController {
 
 	public function approve($id){
 		$requestRow = $this->RequestsModel->getRowCond(array('id'=>$id, 'status'=>'pending'));
+		$membershipId = $memberId = $residenceId = false;
 		if(!$requestRow){
 			redirect(admin_url_string('requests/overview'));
 		}
-		$resetData=array('status'=>'approved');
-		$cond = array('id' => $id);
-		$actionStatus=$this->RequestsModel->updateCond($resetData,$cond);
-		if($actionStatus){
+
+/////Insert Member//////
+		$memberData = array('first_name' => $requestRow->first_name,
+		'last_name' => $requestRow->last_name,
+		'email' => $requestRow->email,
+		'phone' => $requestRow->phone,
+		'password' => $requestRow->password,
+		'salt' => $requestRow->salt,
+		'created' => date('Y-m-d H:i:s'),
+		'status' => '1');
+		$memberId = $this->MembersModel->insert($memberData);
+
+/////Insert Residence Data//////
+		if($memberId){
+			$vacancy = '0';
+			$package =$this->PackagesModel->load($requestRow->package_id);
+			if($package) $vacancy = $package->bed_count;
+			$residencepData = array('address' => $requestRow->home_address,
+			'postalcode' => $requestRow->home_postalcode,
+			'contact_name' => $requestRow->home_contact_name,
+			'email' => $requestRow->home_email,
+			'phone' => $requestRow->home_phone,
+			'fax' => $requestRow->home_fax,
+			'package_id' => $requestRow->package_id,
+			'level_id' => $requestRow->home_level,
+			'pharmacy_name' => $requestRow->pharmacy_name,
+			'facilities' => $requestRow->facilities,
+			'region_id' => $requestRow->region_id,
+			'mainimage' => $requestRow->mainimage,
+			'image2' => $requestRow->image2,
+			'image3' => $requestRow->image3,
+			'image4' => $requestRow->image4,
+			'image5' => $requestRow->image5,
+			'image6' => $requestRow->image6,
+			'facebook' => $requestRow->facebook,
+			'instagram' => $requestRow->instagram,
+			'twitter' => $requestRow->twitter,
+			'youtube' => $requestRow->youtube,
+			'linkedin' => $requestRow->linkedin,
+			'website' => $requestRow->website,
+			'features' => $requestRow->features,
+			'vacancy' => $vacancy,
+			'created' => date('Y-m-d H:i:s'),
+			'status' => '1');
+			$residenceDescData = array('name' => $requestRow->home_name,
+			'description' => $requestRow->description,
+			'language' => $this->default_language);
+			$residenceId = $this->ResidencesModel->insert($residencepData,$residenceDescData);
+		}
+/////Insert Membership//////
+		if($memberId && $residenceId){
+			$membershipData = array('member_id' => $memberId,
+			'residence_id' => $residenceId,
+			'package_id' => $requestRow->package_id,
+			'issue_date' => date('Y-m-d H:i:s'),
+			'exipiry_date' => date('Y-m-d H:i:s'),
+			'status' => '1');
+			$membershipId = $this->MembershipsModel->insert($membershipData);
+			if($membershipId){
+				$membershipIdentifier = date('ymd').sprintf('%04d',$membershipId);
+				$this->MembershipsModel->updateCond(array('identifier'=>$membershipIdentifier),array('id'=>$membershipId));
+			}
+		}
+
+		if($membershipId){
+			$resetData=array('status'=>'approved','processed_date'=>date('Y-m-d H:i:s'),'processed_by'=>$this->session->userdata('admin_user_id'));
+			$cond = array('id' => $id);
+			$actionStatus=$this->RequestsModel->updateCond($resetData,$cond);
+
 			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Approved Successfully.'));
 			redirect(admin_url_string('requests/overview'));
 		} else {
@@ -145,7 +216,7 @@ class Requests extends ConsoleController {
 		if(!$requestRow){
 			redirect(admin_url_string('requests/overview'));
 		}
-		$resetData=array('status'=>'rejected');
+		$resetData=array('status'=>'rejected','processed_date'=>date('Y-m-d H:i:s'),'processed_by'=>$this->session->userdata('admin_user_id'));
 		$cond = array('id' => $id);
 		$actionStatus=$this->RequestsModel->updateCond($resetData,$cond);
 		if($actionStatus){
