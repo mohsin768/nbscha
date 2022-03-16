@@ -8,32 +8,50 @@ class Register extends FrontController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('PagesModel');
+		//$this->load->model('RequestsModel');
+		$this->load->model('PackagesModel');
+		$this->load->model('CarelevelsModel');
+		$this->load->model('FacilitiesModel');
+		$this->load->model('RegionsModel');
+		$this->load->model('FeaturesModel');
 	}
 
 	public function index()
 	{
-		$this->form_validation->set_rules('instrument', 'Instrument', 'required');
-		$this->form_validation->set_rules('name', 'Name', 'required');
-		$this->form_validation->set_rules('address', 'Address', 'required');
-		$this->form_validation->set_rules('dob', 'Date of Birth', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-		$this->form_validation->set_rules('home_phone', 'Home Phone', '');
-		$this->form_validation->set_rules('mobile', 'Cellphone', 'required');
-		$this->form_validation->set_rules('find_us', 'Find Us', 'required');
-		$this->form_validation->set_rules('experience', 'Experience', 'required');
-		$this->form_validation->set_rules('experience_summary', 'Experience Summary', '');
-		$this->form_validation->set_rules('emergency_contact_name', 'Contact Name', '');
-		$this->form_validation->set_rules('emergency_contact_phone', 'Contact Phone', '');
-		$this->form_validation->set_rules('medical_condition', 'Medical Condition', '');
-		$this->form_validation->set_rules('age_confirmation', 'Age', 'required');
-		$this->form_validation->set_rules('student_name', 'Student Name', 'required');
-		$this->form_validation->set_rules('agreement_date', 'Agreement Date', 'required');
-		$this->form_validation->set_rules('agreement', 'Agreement', 'required');
+		$this->form_validation->set_rules('first_name', 'First Name', 'required');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
+		$this->form_validation->set_rules('phone', 'Phone', 'required');
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+		$this->form_validation->set_rules('home_name', 'Home Name', 'required');
+		$this->form_validation->set_rules('home_address', 'Home Address', 'required');
+		$this->form_validation->set_rules('home_postalcode', 'Home Postal Code', 'required');
+		$this->form_validation->set_rules('home_contact_name', 'Contact Name', 'required');
+		$this->form_validation->set_rules('home_email', 'Home Email', 'required|valid_email');
+		$this->form_validation->set_rules('home_phone', 'Home Phone', 'required');
+		$this->form_validation->set_rules('home_fax', 'Home Fax', '');
+		$this->form_validation->set_rules('package_id', 'Beds', 'required');
+		$this->form_validation->set_rules('home_level', 'Level', 'required');
+		$this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
+		$this->form_validation->set_rules('facilities', 'Facilities', 'required');
+		$this->form_validation->set_rules('region_id', 'Region', 'required');
+		$this->form_validation->set_rules('description', 'Description', '');
+		$this->form_validation->set_rules('comments', 'Comments', '');
+		if (empty($_FILES['mainimage']['name'])){$this->form_validation->set_rules('mainimage', 'Main Image', 'required');}
+		$this->form_validation->set_rules('facebook', 'Facebook', '');
+		$this->form_validation->set_rules('instagram', 'Instagram', '');
+		$this->form_validation->set_rules('twitter', 'Twitter', '');
+		$this->form_validation->set_rules('youtube', 'Youtube', '');
+		$this->form_validation->set_rules('linkedin', 'Linkedin', '');
+		$this->form_validation->set_rules('website', 'website', '');
+		$this->form_validation->set_rules('features', 'Features', '');
+		$this->form_validation->set_rules('token', 'reCaptcha', 'required|callback_recaptcha_check');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if($this->form_validation->run() == FALSE)
 		{
-			$this->load->model('PackagesModel');
+			
 			$pageId = $this->settings['REGISTER_PAGE_ID'];
 			$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 			$this->pageType = 'register';
@@ -45,32 +63,111 @@ class Register extends FrontController {
 			$this->processPage();
 			$this->mainvars['banner']=$this->widgethelper->bannerWidget();
 			$vars = array();
-			$vars['pacakges'] = $this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
+			$vars['packages'] = $this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
+			$vars['levels'] = $this->CarelevelsModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
+			$vars['facilities'] = $this->FacilitiesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
+			$vars['regions'] = $this->RegionsModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
+			$vars['features'] = $this->FeaturesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
 			$this->mainvars['content_top']= $this->load->view(frontend_views_path('register/form'),$vars,TRUE);
 			$this->mainvars['content']=$this->widgethelper->pageContent();
 			$this->load->view(frontend_views_path('main'),$this->mainvars);
 		} else {
-			$this->load->model('MembersModel');
+			$this->load->helper('string');
+			$salt = random_string('alnum', 6);
+			$password = sha1($salt.$this->input->post('password').$salt);
+			$facilities = $this->input->post('facilities');
+			if(is_array($facilities)){
+				$facilities = implode(',',$facilities);
+			}
+			$features = $this->input->post('features');
+			if(is_array($features)){
+				$features = serialize($features);
+			}
+			$mainimage = $image2 = $image3 = $image4 = $image5 = $image6 = '';
+			$requestsImageUploadPath = 'public/uploads/requests/images';
+			if(!is_dir($artistImageUploadPath)){
+				mkdir($artistImageUploadPath, 0777, TRUE);
+			}
+			$imageConfig['encrypt_name'] = TRUE;
+			$imageConfig['upload_path'] = $requestsImageUploadPath;
+			$imageConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+			$this->load->library('upload', $imageConfig);
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('mainimage'))
+			{
+				$mainimageeData=$this->upload->data();
+				$mainimage=$mainimageeData['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image2'))
+			{
+				$image2Data=$this->upload->data();
+				$image2=$image2Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image3'))
+			{
+				$image3Data=$this->upload->data();
+				$image3=$image3Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image4'))
+			{
+				$image4Data=$this->upload->data();
+				$image4=$image4Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image5'))
+			{
+				$image5Data=$this->upload->data();
+				$image5=$image5Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image6'))
+			{
+				$image6Data=$this->upload->data();
+				$image6=$image6Data['file_name'];
+			}
 			$data = array(
-				'instrument' => secureInput($this->input->post('instrument')),
-				'name' => secureInput($this->input->post('name')),
-				'address' => secureInput($this->input->post('address')),
+				'first_name' => secureInput($this->input->post('first_name')),
+				'last_name' => secureInput($this->input->post('last_name')),
 				'email' => secureInput($this->input->post('email')),
-				'dob' => date('Y-m-d',strtotime(secureInput($this->input->post('dob')))),
+				'phone' => secureInput($this->input->post('phone')),
+				'password' => $password,
+				'salt' => $salt,
+				'home_name' => secureInput($this->input->post('home_name')),
+				'home_address' => secureInput($this->input->post('home_address')),
+				'home_postalcode' => secureInput($this->input->post('home_postalcode')),
+				'home_contact_name' => secureInput($this->input->post('home_contact_name')),
+				'home_email' => secureInput($this->input->post('home_email')),
 				'home_phone' => secureInput($this->input->post('home_phone')),
-				'mobile' => secureInput($this->input->post('mobile')),
-				'find_us' => secureInput($this->input->post('find_us')),
-				'experience' => secureInput($this->input->post('experience')),
-				'experience_summary' => secureInput($this->input->post('experience_summary')),
-				'emergency_contact_name' => secureInput($this->input->post('emergency_contact_name')),
-				'emergency_contact_phone' => secureInput($this->input->post('emergency_contact_phone')),
-				'medical_condition' => secureInput($this->input->post('medical_condition')),
-				'age_confirmation' => secureInput($this->input->post('age_confirmation')),
-				'student_name' => secureInput($this->input->post('student_name')),
-				'agreement_date' => date('Y-m-d',strtotime(secureInput($this->input->post('agreement_date'))))
+				'home_fax' => secureInput($this->input->post('home_fax')),
+				'package_id' => secureInput($this->input->post('package_id')),
+				'home_level' => secureInput($this->input->post('home_level')),
+				'pharmacy_name' => secureInput($this->input->post('pharmacy_name')),
+				'region_id' => secureInput($this->input->post('region_id')),
+				'facilities' => $facilities,
+				'features' => $features,
+				'description' => secureInput($this->input->post('description')),
+				'comments' => secureInput($this->input->post('comments')),
+				'mainimage' => $mainimage,
+				'image2' => $image2,
+				'image3' => $image3,
+				'image4' => $image4,
+				'image5' => $image5,
+				'image6' => $image6,
+				'facebook' => secureInput($this->input->post('facebook')),
+				'instagram' => secureInput($this->input->post('instagram')),
+				'twitter' => secureInput($this->input->post('twitter')),
+				'youtube' => secureInput($this->input->post('youtube')),
+				'linkedin' => secureInput($this->input->post('linkedin')),
+				'website' => secureInput($this->input->post('website')),
+				'status' => 'pending'
 			);
-			$actionStatus = $this->MembersModel->insert($data);
-			if($actionStatus){
+			$insertId = $this->RequestsModel->insert($data);
+			$identifier = date('ym').sprintf('%04d', $insertId);
+			$this->RequestsModel->updateCond(array('identifier'=>$identifier),array('id'=>$insertId));
+			if($insertId){
 				$adminMailData = $data;
 				$adminMailData['mail_to'] = $this->settings['ADMIN_EMAIL'];
 				$this->mailhelper->sendNotification('register_admin_notification',$adminMailData);
@@ -84,4 +181,46 @@ class Register extends FrontController {
 			redirect(site_url('register'));
 		}
 	}
+
+	function email_check($email) {
+		$cond = array('status !='=>'rejected','email'=>$email);
+		if($this->RequestsModel->getRowCond($cond)) {
+			$this->form_validation->set_message('email_check', 'Already Exists');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+	function recaptcha_check($email) {
+		$token = secureInput($this->input->post('token'));
+		$action = 'member_register';
+		if(!$this->verifyReCaptcha($token,$action)){
+			$this->form_validation->set_message('recaptcha_check', 'Invalid Captcha');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+	function verifyReCaptcha($token,$action){
+        $secretKey = $this->settings['RECAPTCHA_SECRET_KEY'];
+        // call curl to POST request
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,"https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('secret' => $secretKey, 'response' => $token)));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $arrResponse = json_decode($response, true);
+        // verify the response
+        if($arrResponse["success"] == '1' && $arrResponse["action"] == $action && $arrResponse["score"] >= 0.5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+	
 }

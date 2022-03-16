@@ -4,7 +4,7 @@
     <div class="row">
     <div class="col-sm-6 col-md-3">
         <div class="widget dark">
-        <img class="mt-10 mb-15" alt="" src="images/logo_footer.png">
+        <img class="mt-10 mb-15" alt="" src="<?php echo frontend_assets_url('images/logo_footer.png'); ?>">
         <p class="font-16 mb-10">The New Brunswick Special Care Home Association Inc. aims to assist members in providing quality, cost effective services for seniors, mental health residents, and adults with disabilities in cooperation with the Department of Social Development.</p>
         <ul class="styled-icons icon-dark mt-20">
             <!-- <li class="wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".1s" data-wow-offset="10"><a href="#" data-bg-color="#3B5998"><i class="fa fa-facebook"></i></a></li>

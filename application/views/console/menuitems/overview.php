@@ -22,6 +22,15 @@
                     <input class="btn btn-secondary btn-sm" type="submit" name="enable" value="Enable" />
                     <input class="btn btn-secondary btn-sm" type="submit" name="disable" value="Disable"  />
                 </div>
+                <div class="lang-col" style="float:right; width:50%">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <?php foreach($languages as $languageRow): ?>
+                        <li>
+                            <span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('menuitems/overview/'.$menu_detail->id.'/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
             <div class="x_content">
                 <div class="table-responsive">

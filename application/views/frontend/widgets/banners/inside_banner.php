@@ -4,10 +4,10 @@
         <div class="section-content">
             <div class="row">
             <div class="col-md-12">
-                <h2 class="title text-white text-center">About</h2>
+                <h2 class="title text-white text-center"><?php echo $title; ?></h2>
                 <ol class="breadcrumb text-left text-black mt-10">
-                <li><a href="https://nbscha.ca">Home</a></li>
-                <li class="active text-gray-silver">About</li>
+                <li><a href="<?php echo site_url('/'); ?>">Home</a></li>
+                <li class="active text-gray-silver"><?php echo $title; ?></li>
                 </ol>
             </div>
             </div>

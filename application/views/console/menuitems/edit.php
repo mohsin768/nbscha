@@ -9,7 +9,7 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'location-add');
-                echo form_open(admin_url_string('menuitems/edit/'.$menu_detail->id.'/'.$menu_item->id),$attributes);?>
+                echo form_open(admin_url_string('menuitems/edit/'.$menu_detail->id.'/'.$menu_item->id.'/'.$lang),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $menu_item->id; ?>" />
                 
                 <div class="form-group">

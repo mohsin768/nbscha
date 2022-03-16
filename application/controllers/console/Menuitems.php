@@ -16,15 +16,20 @@ class Menuitems extends ConsoleController {
 		redirect(admin_url_string('menuitems/overview'));	
 	}
 	
-	public function overview($menuId)
+	public function overview($menuId,$lang='')
 	{
+		if($lang==''){
+			$lang = $this->default_language;
+		}
 		$menuRow = $this->MenuModel->load($menuId);
 		if(!$menuRow){
 			redirect(admin_url_string('menus/overview'));
 		}
-		$menus = $this->MenuItemsModel->getMenuTree($menuId);
+		$menus = $this->MenuItemsModel->getMenuTree($menuId,$lang);
+		$vars['language'] = $lang;
 		$vars['menu_detail'] = $menuRow;
-		$vars['menus_list'] = $this->menuhelper->renderAdminMenuRows($menus);
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
+		$vars['menus_list'] = $this->menuhelper->renderAdminMenuRows($menus,'',$lang);
 		$this->mainvars['content']=$this->load->view(admin_url_string('menuitems/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
@@ -97,7 +102,7 @@ class Menuitems extends ConsoleController {
 		}
 	}
 
-	public function edit($menuId,$itemId){
+	public function edit($menuId,$itemId,$lang){
 		$menuRow=$this->MenuModel->load($menuId);
 		$menuItemRow=$this->MenuItemsModel->load($itemId);
 		if(!$menuRow || !$menuItemRow){
@@ -115,6 +120,7 @@ class Menuitems extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
+			$edit['lang'] = $lang;
 			$edit['menu_detail'] = $menuRow;
 			$edit['menu_item'] = $menuItemRow;
 			$edit['pages'] = $this->PagesModel->getArrayCond(array('status'=>'1'));	
@@ -124,7 +130,7 @@ class Menuitems extends ConsoleController {
 			$this->mainvars['content'] = $this->load->view(admin_url_string('menuitems/edit'), $edit, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
-			$data = array(
+			$maindata = array(
 				'menu_id'=>$menuId,
 				'parent_id'=>$this->input->post('parent_id'),
 				'link_type'=>$this->input->post('link_type'),
@@ -132,12 +138,15 @@ class Menuitems extends ConsoleController {
 				'target_type'=>$this->input->post('target_type'),
 				'sort_order'=>$this->input->post('sort_order'),
 				'class'=>$this->input->post('class'),
-				'name'=>$this->input->post('name'),
-				'link'=>$this->input->post('link'),
 				'status'=>$this->input->post('status')
 			);
+			$descdata = array(
+				'name'=>$this->input->post('name'),
+				'link'=>$this->input->post('link'),
+				'language'=> $lang
+			);
 			$cond = array('id'=>$itemId);
-			$actionStatus=$this->MenuItemsModel->updateCond($data,$cond);
+			$actionStatus=$this->MenuItemsModel->updateCond($maindata,$cond,$descdata);
 			if ($actionStatus) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Menu Item edited successfully.'));
 				redirect(admin_url_string('menuitems/overview/'.$menuId));
