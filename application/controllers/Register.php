@@ -8,7 +8,7 @@ class Register extends FrontController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('PagesModel');
-		$this->load->model('RequestsModel');
+		//$this->load->model('RequestsModel');
 		$this->load->model('PackagesModel');
 		$this->load->model('CarelevelsModel');
 		$this->load->model('FacilitiesModel');
@@ -46,6 +46,7 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('linkedin', 'Linkedin', '');
 		$this->form_validation->set_rules('website', 'website', '');
 		$this->form_validation->set_rules('features', 'Features', '');
+		$this->form_validation->set_rules('token', 'reCaptcha', 'required|callback_recaptcha_check');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if($this->form_validation->run() == FALSE)
@@ -163,8 +164,10 @@ class Register extends FrontController {
 				'website' => secureInput($this->input->post('website')),
 				'status' => 'pending'
 			);
-			$actionStatus = $this->RequestsModel->insert($data);
-			if($actionStatus){
+			$insertId = $this->RequestsModel->insert($data);
+			$identifier = date('ym').sprintf('%04d', $insertId);
+			$this->RequestsModel->updateCond(array('identifier'=>$identifier),array('id'=>$insertId));
+			if($insertId){
 				$adminMailData = $data;
 				$adminMailData['mail_to'] = $this->settings['ADMIN_EMAIL'];
 				$this->mailhelper->sendNotification('register_admin_notification',$adminMailData);
@@ -188,6 +191,36 @@ class Register extends FrontController {
 			return TRUE;
 		}
 	}
+
+	function recaptcha_check($email) {
+		$token = secureInput($this->input->post('token'));
+		$action = 'member_register';
+		if(!$this->verifyReCaptcha($token,$action)){
+			$this->form_validation->set_message('recaptcha_check', 'Invalid Captcha');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+	function verifyReCaptcha($token,$action){
+        $secretKey = $this->settings['RECAPTCHA_SECRET_KEY'];
+        // call curl to POST request
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,"https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('secret' => $secretKey, 'response' => $token)));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $arrResponse = json_decode($response, true);
+        // verify the response
+        if($arrResponse["success"] == '1' && $arrResponse["action"] == $action && $arrResponse["score"] >= 0.5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	
 }

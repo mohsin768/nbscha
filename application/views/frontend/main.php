@@ -129,6 +129,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   	#playbtnimg { display: none; }
   }
 </style>
+<script src="https://www.google.com/recaptcha/api.js?render=<?php echo $this->settings['RECAPTCHA_SITE_KEY']; ?>"></script>
+<script>
+    var siteBaseUrl = '<?php echo site_url('/'); ?>';
+    var captchaSiteKey = '<?php echo $this->settings['RECAPTCHA_SITE_KEY']; ?>';
+</script>
 </head>
 <body class="">
 	<div id="wrapper" class="clearfix">
