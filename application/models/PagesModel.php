@@ -17,12 +17,12 @@ class PagesModel extends CMS_Model {
         return $this->db->delete($this->table_name,array('id'=>$id));
     }
 
-    function getIdPair(){
-        $reqcats = array();
-        $this->db->select('*');
-        $this->db->from($this->table_name);
-        $query = $this->db->get();
-        $results = $query->result_array();
+    function getIdPair($lang=''){
+        if($lang==''){
+            $lang = $this->default_language;
+        }
+        $cond = array('status'=>'1','language' => $lang);
+        $results =$this->getArrayCond($cond);
         foreach($results as $result):
         $reqcats[$result['id']] = $result['title'];
         endforeach;

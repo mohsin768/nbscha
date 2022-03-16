@@ -47,11 +47,11 @@
 
 <!-- /menu footer buttons -->
 <div class="sidebar-footer hidden-small">
-    <a data-toggle="tooltip" data-placement="top" title="Settings" href="<?php echo member_url('home/settings'); ?>">
-    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-    </a>
     <a data-toggle="tooltip" data-placement="top" title="FullScreen" class="fullscreen-button">
     <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+    </a>
+    <a data-toggle="tooltip" data-placement="top" title="Change Profile" href="<?php echo member_url('home/editprofile'); ?>">
+    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
     </a>
     <a data-toggle="tooltip" data-placement="top" title="Change Password" href="<?php echo member_url('home/changepwd'); ?>">
     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>

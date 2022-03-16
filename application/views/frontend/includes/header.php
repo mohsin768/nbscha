@@ -1,82 +1,51 @@
-<header id="header" class="header-area">
-    <div class="elkevent-mobile-nav">
-        <div class="logo">
-            <a href="<?php echo site_url('/'); ?>"><img src="<?php echo frontend_assets_url('img/logo.png'); ?>" alt="logo"></a>
-        </div>
-    </div>
 
-    <div class="elkevent-nav">
+<!-- Header -->
+<header id="header" class="header">
+    <div class="header-top bg-white-f1 sm-text-center">
         <div class="container">
-            <nav class="navbar navbar-expand-md navbar-light">
-                <a class="navbar-brand" href="<?php echo site_url('/'); ?>"><img src="<?php echo frontend_assets_url('img/logo.png'); ?>" alt="logo"></a>
-
-                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto">
-                    <?php foreach($main_menu as $menuItem):?>
-                        <li class="nav-item"><a href="<?php echo $menuItem['url']; ?>" class="nav-link"><?php echo $menuItem['name']; ?></a></li>
-                    <?php endforeach; ?>
+            <div class="row">
+                <div class="col-md-7">
+                <div class="widget no-border m-0">
+                    <ul class="list-inline sm-text-center mt-5">
+                    <li> <i class="fa fa-phone text-theme-colored"></i> Call Us at <a href="#">(506) 639-4478</a> </li>
+                    <li> <i class="fa fa-envelope-o text-theme-colored"></i> <a href="info@nbscha.com">info@nbscha.com</a> </li>
                     </ul>
-
-                    <div class="others-option">
-                        <ul>
-                            <?php foreach($top_menu as $menuItem):?>
-                            <li>
-                                <a href="<?php echo $menuItem['url']; ?>" class="btn btn-primary"><?php echo $menuItem['name']; ?></a>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
+                </div>
+                </div>
+                <div class="col-md-5">
+                <div class="widget no-border m-0">
+                    <div class="pull-right flip sm-pull-none sm-text-center">
+                    <ul class="list-inline text-right sm-text-center">
+                    <?php $i=0; foreach($top_menu as $menuItem): $i++;?>
+                    <li>
+                        <a href="<?php echo $menuItem['url']; ?>" class="text-white"><b style="color: #ff0000"><?php echo $menuItem['name']; ?></b></a>
+                    </li>
+                    <?php if($i !='1'){ ?>
+                    <li class="text-white" style="color: #ff0000">|</li>
+                    <?php } ?>
+                    <?php endforeach; ?>
+                    </ul>     
                     </div>
                 </div>
-            </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-nav">
+        <div class="header-nav-wrapper navbar-scrolltofixed bg-white">
+            <div class="container">
+                <nav id="menuzord-right" class="menuzord default">
+                <a class="menuzord-brand pull-left flip" href="<?php echo site_url('/'); ?>">
+                    <img src="<?php echo frontend_assets_url('images/care_logo.png'); ?>" alt="">
+                </a>
+                <ul class="menuzord-menu">
+                    <?php foreach($main_menu as $menuItem):?>
+                    <li><a href="<?php echo $menuItem['url']; ?>"><?php echo $menuItem['name']; ?></a>
+                    <?php endforeach; ?>
+
+                </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </header>
-<?php /*
-<header id="navigation">  
-    <div class="navbar navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="<?php echo site_url('/'); ?>"><img class="img-responsive roa-logo" src="<?php echo frontend_assets_url('images/logo.png'); ?>" alt="Logo"></a>
-            </div>
-            <nav class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <?php foreach($main_menu as $menuItem):?>
-                    <li class="dropdown <?php echo $menuItem['status']; ?>">
-                        <a href="<?php echo $menuItem['url']; ?>"><?php echo $menuItem['name']; ?> <?php if(count($menuItem['submenu'])>0){ ?> <i class="fa fa-angle-down"></i> <?php } ?>
-                            <?php if($menuItem['level']=='0'){ ?>
-                            <div class="equalizer">
-                                <span class="bar bar-1"></span>
-                                <span class="bar bar-2"></span>
-                                <span class="bar bar-3"></span>
-                                <span class="bar bar-4"></span>
-                                <span class="bar bar-5"></span>
-                                <span class="bar bar-6"></span>
-                                <span class="bar bar-7"></span>
-                                <span class="bar bar-8"></span>
-                                <span class="bar bar-9"></span>
-                                <span class="bar bar-10"></span>
-                            </div>
-                            <?php } ?>
-                        </a>
-                        <?php if(count($menuItem['submenu'])>0){ ?>
-                        <ul class="sub-menu menu fadeInUp" role="menu">	
-                            <?php foreach($menuItem['submenu'] as $subMenuItem):?>
-                            <li><a href="<?php echo $subMenuItem['url']; ?>"><?php echo $subMenuItem['name']; ?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
-                        <?php } ?>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </nav>
-            <a href="<?php echo site_url('register'); ?>" class="btn btn-primary">Register now!</a> 
-        </div><!-- container -->
-    </div><!-- navbar -->                                
-</header><!-- Header --> 
-*/ ?>

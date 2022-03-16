@@ -140,7 +140,7 @@ class Home extends ConsoleController {
 			$cond = array('parent'=>'0','settingtype'=>'group','status'=>'Y','language'=>$lang);
 			$edit['settings_groups'] = $this->SettingsModel->getArrayCond($cond,'','sort_order','ASC');
 			$edit['grouped_settings'] = $this->SettingsModel->getGroupArray($lang);
-			$edit['pages'] = $this->PagesModel->getIdPair();
+			$edit['pages'] = $this->PagesModel->getIdPair($lang);
 			$edit['language'] = $lang;
 			$edit['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 			$this->mainvars['content']=$this->load->view(admin_url_string('home/settings/settings'),$edit,true);
@@ -162,8 +162,12 @@ class Home extends ConsoleController {
 	}
 
 
-	function addsettings()
+	function addsettings($lang='')
 	{
+		if($lang==''){
+			$lang = $this->default_language;
+		}
+		$this->load->model('LanguagesModel');
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('parent', 'Parent', 'required');
 		$this->form_validation->set_rules('settingkey', 'Key', 'required');
@@ -173,20 +177,20 @@ class Home extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$cond = array('parent'=>'0','settingtype'=>'group','status'=>'Y');
+			$cond = array('parent'=>'0','settingtype'=>'group','status'=>'Y','language'=>$lang);
 			$vars['settings_groups'] = $this->SettingsModel->getArrayCond($cond,'','sort_order','ASC');
 			$this->mainvars['content']=$this->load->view(admin_url_string('home/settings/addsettings'),$vars,true);
 			$this->load->view(admin_url_string('main'),$this->mainvars);
 		} else {
 			$this->load->model('SettingsModel');
-			$data = array('title' => $this->input->post('title'),
+			$maindata = array('title' => $this->input->post('title'),
 							'parent' => $this->input->post('parent'),
-				              'settingkey' =>  $this->input->post('settingkey'),
-				              'settingtype' =>  $this->input->post('settingtype'),
-							  'settingvalue'=>$this->input->post('settingvalue'),
-							  'sort_order'=>$this->input->post('sort_order'),
-				              'status' => $this->input->post('status'));
-			$insertrow =$this->SettingsModel->insert($data);
+								'settingkey' =>  $this->input->post('settingkey'),
+								'settingtype' =>  $this->input->post('settingtype'),
+								'sort_order'=>$this->input->post('sort_order'),
+								'status' => $this->input->post('status'));
+			$descdata = array('settingvalue'=>$this->input->post('settingvalue'));				
+			$insertrow =$this->SettingsModel->insert($maindata,$descdata);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Settings added successfully.'));
 				redirect(admin_url_string('home/settings'));

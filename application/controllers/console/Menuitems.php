@@ -54,7 +54,7 @@ class Menuitems extends ConsoleController {
 			$this->mainvars['content'] = $this->load->view(admin_url_string('menuitems/add'), $add, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
-			$data = array(
+			$maindata = array(
 				'menu_id'=>$menuId,
 				'parent_id'=>$this->input->post('parent_id'),
 				'link_type'=>$this->input->post('link_type'),
@@ -62,11 +62,13 @@ class Menuitems extends ConsoleController {
 				'target_type'=>$this->input->post('target_type'),
 				'sort_order'=>$this->input->post('sort_order'),
 				'class'=>$this->input->post('class'),
-				'name'=>$this->input->post('name'),
-				'link'=>$this->input->post('link'),
 				'status'=>$this->input->post('status')
 			);
-			$insertrow=$this->MenuItemsModel->insert($data);
+			$descdata = array(
+				'name'=>$this->input->post('name'),
+				'link'=>$this->input->post('link')
+			);
+			$insertrow=$this->MenuItemsModel->insert($maindata,$descdata);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Menu Item added successfully.'));
 				redirect(admin_url_string('menuitems/overview/'.$menuId));
