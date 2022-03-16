@@ -76,21 +76,13 @@ class Mailhelper {
         $mailMessage = $this->CI->load->view(admin_views_path('mails/contact_admin_notification'),$mailData,true);
         $mailSubject = "New Enquiry submitted on the Website";
         break;
-      case 'advertising_admin_notification':
-        $mailMessage = $this->CI->load->view(admin_views_path('mails/advertising_admin_notification'),$mailData,true);
-        $mailSubject = "New Advertising Request submitted on the Website";
+      case 'register_admin_notification':
+        $mailMessage = $this->CI->load->view(admin_views_path('mails/register_admin_notification'),$mailData,true);
+        $mailSubject = "New Membership Request submitted on the Website";
         break;
-      case 'sponsorship_admin_notification':
-        $mailMessage = $this->CI->load->view(admin_views_path('mails/sponsorship_admin_notification'),$mailData,true);
-        $mailSubject = "New Sponsorship Request submitted on the Website";
-        break;
-      case 'booking_admin_notification':
-        $mailMessage = $this->CI->load->view(admin_views_path('mails/booking_admin_notification'),$mailData,true);
-        $mailSubject = "New Booking Request submitted on the Website";
-        break;
-      case 'booking_user_notification':
-        $mailMessage = $this->CI->load->view(admin_views_path('mails/booking_user_notification'),$mailData,true);
-        $mailSubject = "Thank You for booking with us";
+      case 'register_user_notification':
+        $mailMessage = $this->CI->load->view(admin_views_path('mails/register_user_notification'),$mailData,true);
+        $mailSubject = "Thank you for registering with us";
         break;
 			default:
 				$mailMessage = "";
