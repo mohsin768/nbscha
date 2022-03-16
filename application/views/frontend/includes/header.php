@@ -40,7 +40,7 @@
                 </a>
                 <ul class="menuzord-menu">
                     <?php foreach($main_menu as $menuItem):?>
-                    <li><a href="<?php echo $menuItem['url']; ?>"><?php echo $menuItem['name']; ?></a>
+                    <li <?php if($menuItem['url']==$current_url){ ?>class="active"<?php } ?>><a href="<?php echo $menuItem['url']; ?>"><?php echo $menuItem['name']; ?></a>
                     <?php endforeach; ?>
 
                 </ul>

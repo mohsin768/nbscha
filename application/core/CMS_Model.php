@@ -8,7 +8,7 @@ class CMS_Model extends CI_Model {
 		parent::__construct();
 		$this->table_name = '';
 		$this->primary_key = '';
-    $this->desc_table_name = '';
+    	$this->desc_table_name = '';
 		$this->foreign_key = '';
 		$this->multilingual = FALSE;
 	}
@@ -148,14 +148,14 @@ class CMS_Model extends CI_Model {
 	function updateCond($data,$cond,$descdata=array())
 	{
 		$updateid = false;
-    if($this->multilingual && isset($cond[$this->primary_key])){
-      $id = $cond[$this->primary_key];
-      $desccond[$this->foreign_key]=$id;
-      if(count($descdata)>0){
-        $desccond['language'] = $descdata['language'];
-        $this->db->update($this->desc_table_name,$descdata,$desccond);
-      }
-    }
+		if($this->multilingual && isset($cond[$this->primary_key])){
+			$id = $cond[$this->primary_key];
+			$desccond[$this->foreign_key]=$id;
+			if(count($descdata)>0){
+				$desccond['language'] = $descdata['language'];
+				$this->db->update($this->desc_table_name,$descdata,$desccond);
+			}
+		}
 		$updateid = $this->db->update($this->table_name,$data,$cond);
 		return $updateid;
 	}

@@ -12,15 +12,19 @@ class Menuhelper {
     $this->CI->load->model('PagesModel');
 	}
 
-	function renderAdminMenuRows($menus,$intent='0'){
+	function renderAdminMenuRows($menus,$intent='0',$lang=''){
+    if($lang==''){
+			$lang = $this->CI->default_language;
+		}
     $menuRows = '';
     $intent++;
     foreach($menus as $menu):
+      $vars['lang'] = $lang;
       $vars['menu'] = $menu;
       $vars['intent'] = $intent;
       $menuRows .= $this->CI->load->view(admin_views_path('menuitems/menurow'),$vars,TRUE);
       if(isset($menu['submenu']) && count($menu['submenu'])>0){
-        $menuRows .= $this->renderAdminMenuRows($menu['submenu'],$intent);
+        $menuRows .= $this->renderAdminMenuRows($menu['submenu'],$intent,$lang);
       }
     endforeach;
     return $menuRows;

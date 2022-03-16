@@ -99,14 +99,14 @@ var THEMEMASCOT = {};
                 if (bmi >40) {
                     info = "very severely obese";
                 }
-                output = "Your BMI is <span>"  + bmi + "</span><br />" + 
+                output = "Your BMI is <span>"  + bmi + "</span><br />" +
                                                               "You are <span>"  + info + "</span>.";
             } else {
                 output = "You broke it!";
             };
             return output;
         },
-        
+
         calculateStandard: function (bmi_form) {
             var weight_lbs = bmi_form.find('input[name="bmi_standard_weight_lbs"]').val();
             var height_ft = bmi_form.find('input[name="bmi_standard_height_ft"]').val();
@@ -120,7 +120,7 @@ var THEMEMASCOT = {};
 
             bmi_form.find('#bmi_standard_calculator_form_result').html(output).fadeIn('slow');
         },
-        
+
         calculateMetric: function (bmi_form) {
             var weight_kg = bmi_form.find('input[name="bmi_metric_weight_kg"]').val();
             var height_cm = bmi_form.find('input[name="bmi_metric_height_cm"]').val();
@@ -134,7 +134,7 @@ var THEMEMASCOT = {};
 
             bmi_form.find('#bmi_metric_calculator_form_result').html(output).fadeIn('slow');
         },
-        
+
         init: function () {
             var bmi_Standard_Form = $('#form_bmi_standard_calculator');
             bmi_Standard_Form.on('submit', function(e) {
@@ -185,7 +185,7 @@ var THEMEMASCOT = {};
                 $('body.has-fixed-footer .main-content').css('margin-bottom', $fixed_footer.height());
             }
         },
-        
+
         /* ---------------------------------------------------------------------- */
         /* ------------------------------ Date Picker  -------------------------- */
         /* ---------------------------------------------------------------------- */
@@ -209,7 +209,7 @@ var THEMEMASCOT = {};
                         imagePosition: "left",
                         onSelected: function(selectedData){
                             $("#"+id+ " .dd-selected-value").prop ('name', name);
-                         }  
+                         }
                     });
                 });
             }
@@ -426,7 +426,7 @@ var THEMEMASCOT = {};
         /* ----------------------------- Magnific Popup ------------------------- */
         /* ---------------------------------------------------------------------- */
         TM_magnificPopup_lightbox: function() {
-            
+
             var $image_popup_lightbox = $('.image-popup-lightbox');
             if( $image_popup_lightbox.length > 0 ) {
                 $image_popup_lightbox.magnificPopup({
@@ -527,10 +527,10 @@ var THEMEMASCOT = {};
                             return element.find('img');
                         }
                     }
-                    
+
                 });
             }
-            
+
             var $popup_yt_vimeo_gmap = $('.popup-youtube, .popup-vimeo, .popup-gmaps');
             if( $popup_yt_vimeo_gmap.length > 0 ) {
                 $popup_yt_vimeo_gmap.magnificPopup({
@@ -581,7 +581,7 @@ var THEMEMASCOT = {};
                     mainClass: 'my-mfp-slide-bottom'
                 });
             }
-            
+
             var $ajaxload_popup = $('.ajaxload-popup');
             if( $ajaxload_popup.length > 0 ) {
                 $ajaxload_popup.magnificPopup({
@@ -604,7 +604,7 @@ var THEMEMASCOT = {};
                   type: 'ajax'
                 });
             }
-            
+
             var $popup_with_form = $('.popup-with-form');
             if( $popup_with_form.length > 0 ) {
                 $popup_with_form.magnificPopup({
@@ -728,7 +728,7 @@ var THEMEMASCOT = {};
                     hook: 'data-rel',
                     animation_speed:'normal',
                     theme:'light_square',
-                    slideshow:3000, 
+                    slideshow:3000,
                     autoplay_slideshow: false,
                     social_tools: false
                 });
@@ -936,7 +936,7 @@ var THEMEMASCOT = {};
                 e.preventDefault();
 
                 var $anchor = $(this);
-                
+
                 var $hearder_top = $('.header .header-nav');
                 var hearder_top_offset = 0;
                 if ($hearder_top[0]){
@@ -1042,7 +1042,7 @@ var THEMEMASCOT = {};
                     indicatorSecondLevel: "<i class='fa fa-angle-right'></i>"
                 });
             }
-            
+
             var $menuzord_vertical_nav = $("#menuzord-verticalnav");
             if( $menuzord_vertical_nav.length > 0 ) {
                 $menuzord_vertical_nav.menuzord({
@@ -1232,7 +1232,7 @@ var THEMEMASCOT = {};
                     var last_child_offset = parseInt(last_child.css('top'), 10);
                     var prev_last_offset  = parseInt(prev_last.css('top'), 10);
                     var offset_icon       = last_child_offset - prev_last_offset;
-                    
+
                     var go_top_to = 0;
                     if(offset_icon){
                         if ( offset_icon <= 87 ){
@@ -1242,7 +1242,7 @@ var THEMEMASCOT = {};
                             }, 300);
                         }
                     }
-                    
+
                     if( $(this).position().left === 0 ){
                         $(this).removeClass('item-right');
                         $(this).addClass('item-left');
@@ -1255,7 +1255,7 @@ var THEMEMASCOT = {};
 
             if( $masonry_timeline.length > 0 ) {
                 timeline_on_left_and_right();
-                
+
                 $window.resize(function() {
                     timeline_on_left_and_right();
                 });
@@ -1283,7 +1283,7 @@ var THEMEMASCOT = {};
                     });
                 });
             }
-            
+
             //isotope filter
             $document_body.on('click', portfolio_filter, function(e) {
                 $(portfolio_filter).removeClass("active");
@@ -1297,7 +1297,7 @@ var THEMEMASCOT = {};
                 });
                 return false;
             });
-            
+
             THEMEMASCOT.slider.TM_flexslider();
 
         },
@@ -1359,7 +1359,7 @@ var THEMEMASCOT = {};
             }
         },
 
-        
+
         /* ---------------------------------------------------------------------- */
         /* ----------------------- pie chart / circle skill bar ----------------- */
         /* ---------------------------------------------------------------------- */
@@ -1393,7 +1393,7 @@ var THEMEMASCOT = {};
                 });
             }
         },
-        
+
         /* ---------------------------------------------------------------------- */
         /* ------------------- progress bar / horizontal skill bar -------------- */
         /* ---------------------------------------------------------------------- */
@@ -1408,7 +1408,7 @@ var THEMEMASCOT = {};
                         var barcolor = current_item.data('barcolor');
                         current_item.append('<span class="percent">' + percent + '%' + '</span>').css('background-color', barcolor).css('width', percent + '%').addClass('appeared');
                     }
-                    
+
                 });
             }
         },
@@ -1542,7 +1542,7 @@ var THEMEMASCOT = {};
         TM_twittie: function() {
             var $twitter_feed = $('.twitter-feed');
             var $twitter_feed_carousel = $('.twitter-feed-carousel');
-            
+
             if( $twitter_feed.length > 0 ) {
                 $twitter_feed.twittie({
                     username: $twitter_feed.data('username'),
@@ -1795,7 +1795,7 @@ var THEMEMASCOT = {};
                     });
                 });
             }
-            
+
 
             var $owl_carousel_4col = $('.owl-carousel-4col');
             if ( $owl_carousel_4col.length > 0 ) {
@@ -2079,7 +2079,7 @@ var THEMEMASCOT = {};
                     }
                 });
             });
-            
+
         },
 
 
@@ -2181,11 +2181,20 @@ var THEMEMASCOT = {};
     $window.on('load',
         THEMEMASCOT.windowOnLoad.init
     );
-    $window.on('resize', 
+    $window.on('resize',
         THEMEMASCOT.windowOnResize.init
     );
 
     //call function before document ready
     THEMEMASCOT.initialize.TM_preLoaderClickDisable();
+    $('#facility-select').multiselect({
+        columns: 1,
+        placeholder: 'Select Facilities',
+        search: true,
+        selectAll: true
+    });
+    $(".payment-option input[type='radio']").change(function(){
+      $("#payment_info").show();
+    });
 
 })(jQuery);
