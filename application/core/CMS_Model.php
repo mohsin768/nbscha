@@ -275,10 +275,13 @@ class CMS_Model extends CI_Model {
 		}
 	}
 
-  function getElementPair($key='',$val='',$orderField='',$orderDirection=''){
+  function getElementPair($key='',$val='',$orderField='',$orderDirection='', $cond=array()){
       $pairs =array();
       if($key!='' && $val!=''){
         $this->db->select('*');
+        if (is_array($cond)) {
+    			$this->db->where($cond);
+    		}
         $this->db->from($this->table_name);
         if($this->multilingual){
     			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
@@ -311,7 +314,7 @@ class CMS_Model extends CI_Model {
   		}
       return $translates;
   }
-  
+
   function addTranslate($data,$cond,$descdata=array())
 	{
     $updateid = $this->db->update($this->table_name,$data,$cond);
