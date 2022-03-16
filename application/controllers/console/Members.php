@@ -201,8 +201,6 @@ class Members extends ConsoleController {
 					$this->session->unset_userdata($newdata);
 				}
 
-
-
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('member_sort_field_filter','member_sort_order_filter','member_search_key_filter','member_status_filter');
 				$this->session->unset_userdata($newdata);
@@ -215,10 +213,6 @@ class Members extends ConsoleController {
 								'member_search_key_filter'  => $this->input->post('member_search_key'),
 								'member_status_filter'  => $this->input->post('member_status'));
 						$this->session->set_userdata($newdata);
-
-						if($this->session->userdata('student_event_filter')!='' && !$this->EventBatchesModel->rowExists(array('bid'=>$this->session->userdata('student_batch_filter'),'event_id'=>$this->session->userdata('student_event_filter')))){
-							$this->session->unset_userdata(array('student_batch_filter'));
-						}
 				} else {
 					$newdata = array('member_search_key_filter','member_status_filter');
 					$this->session->unset_userdata($newdata);

@@ -19,7 +19,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('title'); ?>
-                        <input type="text" id="title" name="title" required="required" value="<?php echo set_value('title'); ?>" class="form-control">
+                        <input type="text" id="title" name="title" required value="<?php echo set_value('title'); ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -30,8 +30,13 @@
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Beds Count<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('bed_count'); ?>
-                        <input type="number" id="bed_count" name="bed_count" required="required" value="<?php echo set_value('bed_count'); ?>" class="form-control">
+                        <div id="bed-count-wrap">
+                          <?php echo form_error('bed_count'); ?>
+                          <input type="number"  id="bed_count" name="bed_count"  value="<?php echo set_value('bed_count'); ?>" class="form-control">
+                        </div>
+                        <div style="padding-top:8px;">
+                          <input class="bed_unlimited" name="bed_unlimited" value="1" <?php  echo set_checkbox('bed_unlimited', '1'); ?>  type="checkbox"/> Unlimited
+                        </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -100,3 +105,18 @@
         </div>
     </div>
 </div>
+<script>
+hideBedcount();
+$(document).ready(function(){
+  $('.bed_unlimited').change(function() {
+  hideBedcount();
+  });
+});
+function hideBedcount(){
+  if ($('input.bed_unlimited').is(':checked')) {
+    $("#bed-count-wrap").addClass("hide");
+  } else {
+    $("#bed-count-wrap").removeClass("hide");
+  }
+}
+</script>

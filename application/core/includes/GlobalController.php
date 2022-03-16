@@ -7,7 +7,7 @@ class GlobalController extends CI_Controller {
     parent::__construct();
     $this->load->model('SettingsModel');
     $this->load->model('LanguagesModel');
-    $this->languages_pair = $this->LanguagesModel->getElementPair('code','name','default_language','asc');
+    $this->languages_pair = $this->LanguagesModel->getElementPair('code','name','default_language','desc');
     $defaultLanguage = $this->LanguagesModel->getRowCond(array('default_language'));
     $this->default_language = 'en';
 	$this->site_language = 'en';

@@ -25,10 +25,14 @@ class Packages extends ConsoleController {
 		$like = array();
 
 		$sort_direction = 'asc';
-		$sort_field =  'pid';
+		$sort_field =  'sort_order';
 
 		if($this->session->userdata('package_status_filter')!=''){
 			$cond['status']= $this->session->userdata('package_status_filter');
+		}
+
+		if($this->session->userdata('package_language_filter')!=''){
+			$cond['language']= $this->session->userdata('package_language_filter');
 		}
 
 		if($this->session->userdata('package_search_key_filter')!=''){
@@ -56,7 +60,7 @@ class Packages extends ConsoleController {
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
-		$this->form_validation->set_rules('bed_count', 'Beds', 'required|numeric');
+		$this->form_validation->set_rules('bed_count', 'Beds', 'callback_bedscount_check');
 		$this->form_validation->set_rules('price', 'Price', 'numeric');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
@@ -76,7 +80,12 @@ class Packages extends ConsoleController {
 				'title' => $this->input->post('title'),
 				'description' => $this->input->post('description'),
 				'language' => $this->input->post('language'));
-
+				$bed_unlimited = $this->input->post('bed_unlimited');
+								if($bed_unlimited && $bed_unlimited=='1') {
+									$maindata['bed_unlimited'] = $bed_unlimited;
+								}else{
+									$maindata['bed_unlimited'] = '0';
+								}
 			$insertrow = $this->PackagesModel->insert($maindata,$descdata);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Package added successfully.'));
@@ -92,7 +101,7 @@ class Packages extends ConsoleController {
 	{
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
-		$this->form_validation->set_rules('bed_count', 'Beds', 'required|numeric');
+		$this->form_validation->set_rules('bed_count', 'Beds', 'callback_bedscount_check');
 		$this->form_validation->set_rules('price', 'Price', 'numeric');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
@@ -122,6 +131,13 @@ class Packages extends ConsoleController {
 				'title' => $this->input->post('title'),
 				'description' => $this->input->post('description'),
 				'language' => $this->input->post('language'));
+
+			$bed_unlimited = $this->input->post('bed_unlimited');
+							if($bed_unlimited && $bed_unlimited=='1') {
+								$maindata['bed_unlimited'] = $bed_unlimited;
+							}else{
+								$maindata['bed_unlimited'] = '0';
+							}
 				$cond = array('pid'=>$id);
 				if($translate=='translate'){
 					$updaterow = $this->PackagesModel->addTranslate($maindata,$cond,$descdata);
@@ -149,9 +165,9 @@ class Packages extends ConsoleController {
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
-	function delete($mid) {
+	function delete($pid) {
 		$data = array('delete_status' => '1','status'=>'0');
-		$cond = array('mid'=>$mid);
+		$cond = array('pid'=>$pid);
 		$updaterow = $this->PackagesModel->updateCond($data,$cond);
 		if ($updaterow) {
 			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'package deleted successfully.'));
@@ -166,16 +182,27 @@ class Packages extends ConsoleController {
 	{
 		$actionStatus=false;
 		$ids=$this->input->post('id');
+		$sort_orders=$this->input->post('sort_order');
+
 		if(isset($_POST['enable']) && $this->input->post('enable')=='Enable'){ $status='1';}
 		if(isset($_POST['disable']) && $this->input->post('disable')=='Disable'){ $status='0';}
 		if(isset($status) && isset($_POST['id'])){
 			foreach($ids as $id):
 				$data=array('status'=>$status);
-				$cond=array('mid'=>$id);
+				$cond=array('pid'=>$id);
 				$actionStatus=$this->PackagesModel->updateCond($data,$cond);
 			endforeach;
 		}
 
+		if(isset($_POST['sortsave']) && $this->input->post('sortsave')=='Save'){
+			if(count($sort_orders)>0){
+				foreach($sort_orders as $id => $sort_order):
+					$data=array('sort_order'=>$sort_order);
+					$cond=array('pid'=>$id);
+					$actionStatus=$this->PackagesModel->updateCond($data,$cond);
+				endforeach;
+			}
+		}
 
 		if(isset($_POST['sort_field']) && $this->input->post('sort_field')!=''){
 					$sortField = $this->input->post('sort_field');
@@ -192,30 +219,38 @@ class Packages extends ConsoleController {
 					$this->session->unset_userdata($newdata);
 				}
 
-
-
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
-				$newdata = array('package_sort_field_filter','package_sort_order_filter','package_search_key_filter','package_status_filter');
+				$newdata = array('package_sort_field_filter','package_sort_order_filter',
+				'package_search_key_filter','package_status_filter','package_language_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
 		if(isset($_POST['search']) && $this->input->post('search')=='Search'){
 				if($this->input->post('package_search_key')!=''||
+				$this->input->post('package_language')!=''||
 					 $this->input->post('package_status')!=''){
 						$newdata = array(
 								'package_search_key_filter'  => $this->input->post('package_search_key'),
+								'package_language_filter'  => $this->input->post('package_language'),
 								'package_status_filter'  => $this->input->post('package_status'));
 						$this->session->set_userdata($newdata);
 
-						if($this->session->userdata('student_event_filter')!='' && !$this->EventBatchesModel->rowExists(array('bid'=>$this->session->userdata('student_batch_filter'),'event_id'=>$this->session->userdata('student_event_filter')))){
-							$this->session->unset_userdata(array('student_batch_filter'));
-						}
 				} else {
-					$newdata = array('package_search_key_filter','package_status_filter');
+					$newdata = array('package_search_key_filter','package_status_filter','package_language_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
 
 		redirect(admin_url_string('packages/overview'));
 	}
+
+	function bedscount_check($val) {
+	 $bed_unlimited = $this->input->post('bed_unlimited');
+	 if(!$bed_unlimited  && $val=='') {
+		 $this->form_validation->set_message('bedscount_check', 'Beds count is required');
+		 return FALSE;
+	 } else {
+		 return TRUE;
+	 }
+ }
 }
