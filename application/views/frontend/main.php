@@ -37,7 +37,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- Revolution Slider 5.x CSS settings -->
 <link  href="<?php echo frontend_assets_url('css/revolution-slider/css/settings.css'); ?>" rel="stylesheet" type="text/css"/>
 <link  href="<?php echo frontend_assets_url('css/revolution-slider/css/layers.css'); ?>" rel="stylesheet" type="text/css"/>
-<link  href="<?php echo frontend_assets_url('css/revolution-slider/css/navigation.css'); ?> rel="stylesheet" type="text/css"/>
+<link  href="<?php echo frontend_assets_url('css/revolution-slider/css/navigation.css'); ?>" rel="stylesheet" type="text/css"/>
+<link  href="<?php echo frontend_assets_url('css/jquery.multiselect.css'); ?>" rel="stylesheet" type="text/css"/>
 
 <!-- CSS | Theme Color -->
 <link href="<?php echo frontend_assets_url('css/colors/theme-skin-color-set-1.css'); ?>" rel="stylesheet" type="text/css">
@@ -159,7 +160,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- end wrapper -->
 
 	<!-- Footer Scripts -->
+  <script src="<?php echo frontend_assets_url('js/jquery.multiselect.js'); ?>"></script>
 	<!-- JS | Custom script for all pages -->
+
 	<script src="<?php echo frontend_assets_url('js/custom.js'); ?>"></script>
 
 	<!-- SLIDER REVOLUTION 5.0 EXTENSIONS
