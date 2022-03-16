@@ -2189,7 +2189,7 @@ var THEMEMASCOT = {};
     THEMEMASCOT.initialize.TM_preLoaderClickDisable();
     $('#facility-select').multiselect({
         columns: 1,
-        placeholder: 'Select Languages',
+        placeholder: 'Select Facilities',
         search: true,
         selectAll: true
     });
