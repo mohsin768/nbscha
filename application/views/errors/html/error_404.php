@@ -76,7 +76,7 @@
                 <h1 class="font-150 text-theme-colored mt-0 mb-0"><i class="fa fa-map-signs text-theme-color-2"></i>404!</h1>
                 <h2 class="mt-0">Oops! Page Not Found</h2>
                 <p>The page you were looking for could not be found.</p>
-                <a class="btn btn-border btn-gray btn-transparent btn-circled" href="index-mp-layout1.html">Return Home</a>
+                <a class="btn btn-border btn-gray btn-transparent btn-circled" href="/">Return Home</a>
               </div>
             </div>
           </div>
