@@ -6,129 +6,148 @@ class Sponsors extends ConsoleController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('SponsorsModel');
-		$this->load->model('SponsorCategoriesModel');
-		$this->load->model('EventsModel');
-
 	}
 
 	public function index()
 	{
+		$newdata = array('sponsor_sort_field_filter',
+		'sponsor_sort_order_filter',
+		'sponsor_search_key_filter',
+		'sponsor_status_filter',
+		'sponsor_language_filter');
+		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('sponsors/overview'));
 	}
-	
+
 	public function overview()
 	{
+		$cond = array('delete_status'=>'0');
+		$like = array();
+
+		$sort_direction = 'asc';
+		$sort_field =  'sort_order';
+
+		if($this->session->userdata('sponsor_status_filter')!=''){
+			$cond['status']= $this->session->userdata('sponsor_status_filter');
+		}
+
+		if($this->session->userdata('sponsor_language_filter')!=''){
+			$cond['language']= $this->session->userdata('sponsor_language_filter');
+		}
+
+		if($this->session->userdata('sponsor_search_key_filter')!=''){
+			$like[] = array('field'=>'title', 'value' => $this->session->userdata('sponsor_search_key_filter'),'location' => 'both');
+		}
+
+		if($this->session->userdata('sponsor_sort_field_filter')!=''){
+			$sort_field = $this->session->userdata('sponsor_sort_field_filter');
+			$sort_direction = $this->session->userdata('sponsor_sort_order_filter');
+		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-        $config['base_url'] = admin_url('sponsors/overview');
-        $config['total_rows'] = $this->SponsorsModel->getPaginationCount();
-        $this->pagination->initialize($config);
-		$vars['events'] = $this->EventsModel->getIdPair();
-		$vars['categories'] = $this->SponsorCategoriesModel->getIdPair();
-		$vars['sponsors'] = $this->SponsorsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),'','sort_order','ASC');
+    $config['base_url'] = admin_url('sponsors/overview');
+    $config['total_rows'] = $this->SponsorsModel->getPaginationCount();
+    $this->pagination->initialize($config);
+		$vars['sponsors'] = $this->SponsorsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
+		$vars['sort_field'] = $sort_field;
+    $vars['sort_direction'] = $sort_direction;
 		$this->mainvars['content']=$this->load->view(admin_url_string('sponsors/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
 	function add()
 	{
-		$this->form_validation->set_rules('event', 'Event', 'required');
-		$this->form_validation->set_rules('category', 'Category', 'required');
-		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('title', 'Title', 'required');
+		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
-		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
-		if($this->form_validation->run() == FALSE)
-		{
-			$vars['events'] = $this->EventsModel->getIdPair();
-			$vars['categories'] = $this->SponsorCategoriesModel->getIdPair();
+		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE) {
+			$vars = array();
 			$this->mainvars['content'] = $this->load->view(admin_url_string('sponsors/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
-			$logo ='';
-			$sponsorLogoUploadPath = 'public/uploads/sponsors/logos';
-			if(!is_dir($sponsorLogoUploadPath)){
-				mkdir($sponsorLogoUploadPath, 0777, TRUE);
-			}
-			$logoConfig['upload_path'] = $sponsorLogoUploadPath;
-			$logoConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
-			$this->load->library('upload', $logoConfig);
-			$this->upload->initialize($logoConfig);
-			if($this->upload->do_upload('logo'))
+			$image='';
+			$config['upload_path'] = 'public/uploads/sponsors';
+			$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+			$this->load->library('upload', $config);
+			if($this->upload->do_upload('image'))
 			{
-				$logoData=$this->upload->data();
-				$logo=$logoData['file_name'];
+				$imagedata=$this->upload->data();
+				$image=$imagedata['file_name'];
 			}
-			$data=array(
-				'event'=>$this->input->post('event'),
-				'category'=>$this->input->post('category'),
-				'name'=>$this->input->post('name'),
-				'logo' => $logo,
-				'link_url'=>$this->input->post('link_url'),
-				'sort_order'=>$this->input->post('sort_order'),
-				'status'=>$this->input->post('status')
-			);
-			$insertid = $this->SponsorsModel->insert($data);
-			if($insertid){
-				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Added Successfully.'));
+
+			$maindata = array('image' => $image,
+			'status' => $this->input->post('status'));
+
+			$descdata = array(
+				'title' => $this->input->post('title'),
+				'description' => $this->input->post('description'),
+				'website' => $this->input->post('website'),
+				'language' => $this->input->post('language'));
+
+			$insertrow = $this->SponsorsModel->insert($maindata,$descdata);
+			if ($insertrow) {
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Sponsor added successfully.'));
 				redirect(admin_url_string('sponsors/overview'));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('sponsors/overview'));
+        redirect(admin_url_string('sponsors/overview'));
 			}
 		}
 	}
 
-  	public function edit($id)
+ public function edit($id, $lang, $translate='')
 	{
-		$sponsorRow = $this->SponsorsModel->load($id);
-		if(!$sponsorRow){
-			redirect(admin_url_string('sponsors/overview'));
-		}
-		$this->form_validation->set_rules('event', 'Event', 'required');
-		$this->form_validation->set_rules('category', 'Category', 'required');
-		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
-		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$edit['events'] = $this->EventsModel->getIdPair();
-			$edit['categories'] = $this->SponsorCategoriesModel->getIdPair();
-			$edit['sponsor']= $this->SponsorsModel->load($id);
-			$this->mainvars['content'] = $this->load->view(admin_url_string('sponsors/edit'), $edit,true);
+			$langCond = $lang;
+			if($translate=='translate'){
+				$langCond = $this->default_language;
+			}
+			$vars['language'] = $lang;
+			$vars['translate'] = $translate;
+			$vars['sponsor']= $this->SponsorsModel->getRowCond(array('id'=>$id,'language'=>$langCond));
+			$this->mainvars['content'] = $this->load->view(admin_url_string('sponsors/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
-			$data=array(
-				'event'=>$this->input->post('event'),
-				'category'=>$this->input->post('category'),
-				'name'=>$this->input->post('name'),
-				'link_url'=>$this->input->post('link_url'),
-				'sort_order'=>$this->input->post('sort_order'),
-				'status'=>$this->input->post('status')
-			);
-			if($this->input->post('remove_logo') && $this->input->post('remove_logo')=='1'){
-				$data['logo']='';
-			} else{
-			$sponsorLogoUploadPath = 'public/uploads/sponsors/logos';
-			if(!is_dir($sponsorLogoUploadPath)){
-				mkdir($sponsorLogoUploadPath, 0777, TRUE);
-			}
-			$logoConfig['upload_path'] = $sponsorLogoUploadPath;
-			$logoConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
-			$this->load->library('upload', $logoConfig);
-			$this->upload->initialize($logoConfig);
-				if($this->upload->do_upload('logo'))
-				{
-					$logoData=$this->upload->data();
-					$data['logo']=$logoData['file_name'];
+			$maindata = array('status' => $this->input->post('status'));
+
+			$descdata = array(
+				'sponsor_id' => $id,
+				'title' => $this->input->post('title'),
+				'description' => $this->input->post('description'),
+				'website' => $this->input->post('website'),
+				'language' => $this->input->post('language'));
+
+				$config['upload_path'] = 'public/uploads/sponsors';
+								$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+								$this->load->library('upload', $config);
+
+					if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
+						$maindata['image']='';
+					} else{
+
+						if($this->upload->do_upload('image'))
+						{
+								$imagedata=$this->upload->data();
+								$maindata['image']=$imagedata['file_name'];
+						}
+					}
+
+				$cond = array('id'=>$id);
+				if($translate=='translate'){
+					$updaterow = $this->SponsorsModel->addTranslate($maindata,$cond,$descdata);
+				}else{
+					$updaterow = $this->SponsorsModel->updateCond($maindata,$cond,$descdata);
 				}
-			}
-			
-			$cond = array('id' => $id);
-      		$actionStatus=$this->SponsorsModel->updateCond($data,$cond);
-			if($actionStatus){
+
+			if($updaterow){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
 				redirect(admin_url_string('sponsors/overview'));
 			} else {
@@ -138,183 +157,94 @@ class Sponsors extends ConsoleController {
 		}
 	}
 
-	
-	public function delete($id)
+
+	public function translates($id)
 	{
-		$sponsorRow = $this->SponsorsModel->load($id);
-		if(!$sponsorRow){
-			redirect(admin_url_string('sponsors/overview'));
-		}
-		$actionStatus=$this->SponsorsModel->delete($id);
-		if($actionStatus){
-			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Deleted Successfully.'));
+		$cond = array('id'=>$id);
+		$vars['translates'] = $this->SponsorsModel->getTranslates($cond);
+		$vars['sponsor_id'] = $id;
+		$this->mainvars['content']=$this->load->view(admin_url_string('sponsors/translates'),$vars,true);
+		$this->load->view(admin_url_string('main'),$this->mainvars);
+	}
+
+	function delete($id) {
+		$data = array('delete_status' => '1','status'=>'0');
+		$cond = array('id'=>$id);
+		$updaterow = $this->SponsorsModel->updateCond($data,$cond);
+		if ($updaterow) {
+			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'sponsor deleted successfully.'));
 			redirect(admin_url_string('sponsors/overview'));
 		} else {
 			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 			redirect(admin_url_string('sponsors/overview'));
 		}
-    }
+	}
 
 	function actions()
 	{
 		$actionStatus=false;
 		$ids=$this->input->post('id');
 		$sort_orders=$this->input->post('sort_order');
+
 		if(isset($_POST['enable']) && $this->input->post('enable')=='Enable'){ $status='1';}
 		if(isset($_POST['disable']) && $this->input->post('disable')=='Disable'){ $status='0';}
 		if(isset($status) && isset($_POST['id'])){
 			foreach($ids as $id):
 				$data=array('status'=>$status);
 				$cond=array('id'=>$id);
-				$actionStatus=$this->SponsorsModel->updateCond($data,$cond);				
-			endforeach;			
+				$actionStatus=$this->SponsorsModel->updateCond($data,$cond);
+			endforeach;
 		}
+
 		if(isset($_POST['sortsave']) && $this->input->post('sortsave')=='Save'){
 			if(count($sort_orders)>0){
 				foreach($sort_orders as $id => $sort_order):
 					$data=array('sort_order'=>$sort_order);
 					$cond=array('id'=>$id);
-					$actionStatus=$this->SponsorsModel->updateCond($data,$cond);				
-				endforeach;			
+					$actionStatus=$this->SponsorsModel->updateCond($data,$cond);
+				endforeach;
 			}
 		}
-		if($actionStatus){
-			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-		} else {
-			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+
+		if(isset($_POST['sort_field']) && $this->input->post('sort_field')!=''){
+					$sortField = $this->input->post('sort_field');
+					$newdata = array('sponsor_sort_field_filter'  => $sortField);
+
+					if($this->session->userdata('sponsor_sort_order_filter')=='asc'){
+						$newdata['sponsor_sort_order_filter'] = 'desc';
+					} else{
+						$newdata['sponsor_sort_order_filter'] = 'asc';
+					}
+					$this->session->set_userdata($newdata);
+				}else{
+					$newdata = array('sponsor_sort_order_filter','sponsor_sort_field_filter');
+					$this->session->unset_userdata($newdata);
+				}
+
+		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
+				$newdata = array('sponsor_sort_field_filter','sponsor_sort_order_filter',
+				'sponsor_search_key_filter','sponsor_status_filter','sponsor_language_filter');
+				$this->session->unset_userdata($newdata);
 		}
+
+		if(isset($_POST['search']) && $this->input->post('search')=='Search'){
+				if($this->input->post('sponsor_search_key')!=''||
+				$this->input->post('sponsor_language')!=''||
+					 $this->input->post('sponsor_status')!=''){
+						$newdata = array(
+								'sponsor_search_key_filter'  => $this->input->post('sponsor_search_key'),
+								'sponsor_language_filter'  => $this->input->post('sponsor_language'),
+								'sponsor_status_filter'  => $this->input->post('sponsor_status'));
+						$this->session->set_userdata($newdata);
+
+				} else {
+					$newdata = array('sponsor_search_key_filter','sponsor_status_filter','sponsor_language_filter');
+					$this->session->unset_userdata($newdata);
+				}
+		}
+
 		redirect(admin_url_string('sponsors/overview'));
 	}
 
-	public function categories()
-	{
-		$this->load->library('pagination');
-		$config = $this->paginationConfig();
-        $config['base_url'] = admin_url('sponsors/categories');
-        $config['total_rows'] = $this->SponsorCategoriesModel->getPaginationCount();
-        $this->pagination->initialize($config);
-		$vars['categories'] = $this->SponsorCategoriesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),'','id','ASC');
-		$this->mainvars['content']=$this->load->view(admin_url_string('sponsors/categories'),$vars,true);
-		$this->load->view(admin_url_string('main'),$this->mainvars);
-	}
-
-	function addcategory()
-	{
-		$this->form_validation->set_rules('name', 'Name', 'required');
-		$this->form_validation->set_rules('status', 'Status', 'required');
-		$this->form_validation->set_message('required', 'required');
-		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
-		if($this->form_validation->run() == FALSE)
-		{
-			$this->mainvars['content'] = $this->load->view(admin_url_string('sponsors/addcategory'), $this->mainvars, true);
-			$this->load->view(admin_url_string('main'), $this->mainvars);
-		} else {
-			$data=array(
-				'name'=>$this->input->post('name'),
-				'sort_order'=>$this->input->post('sort_order'),
-				'status'=>$this->input->post('status')
-			);
-			$insertid = $this->SponsorCategoriesModel->insert($data);
-			if($insertid){
-				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Added Successfully.'));
-				redirect(admin_url_string('sponsors/categories'));
-			} else {
-				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('sponsors/categories'));
-			}
-		}
-	}
-
-  	public function editcategory($id)
-	{
-		$sponsorRow = $this->SponsorCategoriesModel->load($id);
-		if(!$sponsorRow){
-			redirect(admin_url_string('sponsors/categories'));
-		}
-		$this->form_validation->set_rules('name', 'Name', 'required');
-		$this->form_validation->set_rules('status', 'Status', 'required');
-		$this->form_validation->set_message('required', 'required');
-		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
-		if ($this->form_validation->run() == FALSE)
-		{
-			$edit['category']= $this->SponsorCategoriesModel->load($id);
-			$this->mainvars['content'] = $this->load->view(admin_url_string('sponsors/editcategory'), $edit,true);
-			$this->load->view(admin_url_string('main'), $this->mainvars);
-
-		} else {
-			$data=array(
-				'name'=>$this->input->post('name'),
-				'sort_order'=>$this->input->post('sort_order'),
-				'status'=>$this->input->post('status')
-			);
-			$cond = array('id' => $id);
-      		$actionStatus=$this->SponsorCategoriesModel->updateCond($data,$cond);
-			if($actionStatus){
-			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('sponsors/categories'));
-			} else {
-				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('sponsors/categories'));
-			}
-		}
-	}
-
-	
-	public function deletecategory($id)
-	{
-		$actionStatus = false;
-		$sponsorRow = $this->SponsorCategoriesModel->load($id);
-		if(!$sponsorRow){
-			redirect(admin_url_string('sponsors/categories'));
-		}
-		$cond = array('category'=>$id);
-		$sponsors = $this->SponsorsModel->getArrayCond($cond);
-		if(isset($sponsors) && count($sponsors)>0){
-			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Cannot delete already have sponsors under this category'));
-			redirect(admin_url_string('sponsors/categories'));
-		} else {
-			$actionStatus=$this->SponsorCategoriesModel->delete($id);
-		}
-		if($actionStatus){
-			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Deleted Successfully.'));
-			redirect(admin_url_string('sponsors/categories'));
-		} else {
-			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-			redirect(admin_url_string('sponsors/categories'));
-		}
-    }
-
-	function categoryactions()
-	{
-		$actionStatus=false;
-		$ids=$this->input->post('id');
-		$sort_orders=$this->input->post('sort_order');
-		if(isset($_POST['enable']) && $this->input->post('enable')=='Enable'){ $status='1';}
-		if(isset($_POST['disable']) && $this->input->post('disable')=='Disable'){ $status='0';}
-		if(isset($status) && isset($_POST['id'])){
-			foreach($ids as $id):
-				$data=array('status'=>$status);
-				$cond=array('id'=>$id);
-				$actionStatus=$this->SponsorCategoriesModel->updateCond($data,$cond);				
-			endforeach;			
-		}
-		if(isset($_POST['sortsave']) && $this->input->post('sortsave')=='Save'){
-			if(count($sort_orders)>0){
-				foreach($sort_orders as $id => $sort_order):
-					$data=array('sort_order'=>$sort_order);
-					$cond=array('id'=>$id);
-					$actionStatus=$this->SponsorCategoriesModel->updateCond($data,$cond);				
-				endforeach;			
-			}
-		}
-		if($actionStatus){
-			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-		} else {
-			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-		}
-		redirect(admin_url_string('sponsors/categories'));
-	}
-
-	
 
 }
