@@ -107,6 +107,12 @@ $(document).ready(function(){
     $('.confirmAction').on('click', function (e) {
         e.preventDefault();
         var url = $(this).attr('href');
+        var bodyText = $(this).attr('data-body-text');
+        var buttonText = $(this).attr('data-button-text');
+        var cancelButtonText = $(this).attr('cancel-button-text');
+        if(typeof(bodyText) != "undefined" && bodyText !== null){ $('#confirm-action-text').html(bodyText); }
+        if(typeof(buttonText) != "undefined" && buttonText !== null){ $('#confirm-action-button').html(buttonText); }
+        if(typeof(cancelButtonText) != "undefined" && cancelButtonText !== null){ $('#confirm-cancel-button').html(cancelButtonText); }
         $('#confirm-action-popup')
             .modal({ backdrop: 'static', keyboard: false })
             .one('click', '#confirm-action-button', function (e) {

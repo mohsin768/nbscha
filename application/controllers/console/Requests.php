@@ -24,6 +24,8 @@ class Requests extends ConsoleController {
 		$this->load->model('RequestsModel');
 		$this->load->model('PackagesModel');
 		$this->load->model('RegionsModel');
+		$this->load->model('FeaturesModel');
+		$this->load->model('FacilitiesModel');
 		$this->load->model('CarelevelsModel');
 		$this->load->model('MembersModel');
 		$this->load->model('MembershipsModel');
@@ -83,6 +85,8 @@ class Requests extends ConsoleController {
 			$vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
 			$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 			$vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
+			$vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
+			$vars['features'] =$this->FeaturesModel->getElementPair('fid','feature_title','sort_order','asc',array('language'=>$this->default_language));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('requests/view'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 	}

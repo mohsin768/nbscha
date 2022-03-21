@@ -33,7 +33,7 @@
                             <?php
                             $attributes = array('class' => '', 'id' => 'nbchform');
                             echo form_open_multipart(admin_url_string('register'),$attributes);
-                            ?>												
+                            ?>
                             <div class="form-row">
                                 <div class="form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="First Name*" name="first_name" id="first_name" aria-label="First Name" required="">

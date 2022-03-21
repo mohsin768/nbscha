@@ -87,12 +87,12 @@
     <div id="confirm-action-popup" class="modal fade">
       <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-body">
+        <div class="modal-body" id="confirm-action-text">
           Are you sure?
         </div>
         <div class="modal-footer">
           <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm-action-button">Yes</button>
-          <button type="button" data-dismiss="modal" class="btn btn-secondary">No</button>
+          <button type="button" data-dismiss="modal" class="btn btn-secondary" id="confirm-cancel-button">No</button>
         </div>
       </div>
       </div>
