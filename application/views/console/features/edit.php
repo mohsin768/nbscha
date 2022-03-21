@@ -17,7 +17,7 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'location-add');
-                echo form_open(admin_url_string('features/edit/'.$feature->fid.'/'.$language.'/'.$translate),$attributes);?>
+                echo form_open_multipart(admin_url_string('features/edit/'.$feature->fid.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="fid" value="<?php echo $feature->fid; ?>" />
                 <input type="hidden" name="language" value="<?php echo $language; ?>" />
 
