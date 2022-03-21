@@ -51,7 +51,7 @@ class Register extends FrontController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if($this->form_validation->run() == FALSE)
 		{
-			
+
 			$pageId = $this->settings['REGISTER_PAGE_ID'];
 			$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 			$this->pageType = 'register';
@@ -222,5 +222,5 @@ class Register extends FrontController {
         }
     }
 
-	
+
 }

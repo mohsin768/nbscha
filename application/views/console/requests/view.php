@@ -110,7 +110,13 @@
                 <th scope="row">Pharmacy Name</th>  <td><?php echo $request->pharmacy_name; ?></td>
                 </tr>
                 <tr>
-                <th scope="row">Facilities</th>  <td><?php echo $request->facilities; ?></td>
+                <th scope="row">Facilities</th>  <td>
+                  <?php $facilityArr = (explode(",",$request->facilities));
+                   $i=0; foreach ($facilityArr as $key => $value):
+                     if($i!=0) echo ', ';
+                      echo $facilities[$value];
+                      $i++;
+                  endforeach;  ?></td>
                 </tr>
                 <tr>
                 <th scope="row">Region</th>  <td><?php echo $regions[$request->region_id];?></td>
@@ -122,21 +128,25 @@
                 <th scope="row">Notes/Comments for Admin</th>  <td><?php echo $request->comments; ?></td>
                 </tr>
                 <tr>
-                <th scope="row">Main Image</th>  <td><img src="<?php echo common_assets_url('images/logo.png'); ?>" style="width:400px;" ></td>
+                <th scope="row">Main Image</th>  <td><?php if($request->mainimage!=''){?> <img src="<?php echo frontend_uploads_url('requests/images/'.$request->mainimage); ?>" style="width:400px;" ><?php } ?></td>
                 </tr>
                 <tr>
                 <th scope="row">Other Images</th>  <td>
-                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
-                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
-                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
-                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" >
-                      <img src="<?php echo common_assets_url('images/small-logo.png'); ?>" style="max-width:200px;margin:5px; display:inline;" ></td>
+                        <?php if($request->image2!=''){?> <img src="<?php echo frontend_uploads_url('requests/images/'.$request->image2); ?>" style="max-width:200px;margin:10px; display:inline;" ><?php } ?>
+                        <?php if($request->image3!=''){?> <img src="<?php echo frontend_uploads_url('requests/images/'.$request->image3); ?>" style="max-width:200px;margin:10px; display:inline;" ><?php } ?>
+                        <?php if($request->image4!=''){?> <img src="<?php echo frontend_uploads_url('requests/images/'.$request->image4); ?>" style="max-width:200px;margin:10px; display:inline;" ><?php } ?>
+                        <?php if($request->image5!=''){?> <img src="<?php echo frontend_uploads_url('requests/images/'.$request->image5); ?>" style="max-width:200px;margin:10px; display:inline;" ><?php } ?>
+                        <?php if($request->image6!=''){?> <img src="<?php echo frontend_uploads_url('requests/images/'.$request->image6); ?>" style="max-width:200px;margin:10px; display:inline;" ><?php } ?>
+                      </td>
                 </tr>
                 <tr>
                 <th scope="row">Social Media Links</th>  <td>
-                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a  href="#/facebook-square"><i style="font-size:22px;" class="fa fa-facebook-square"></i> facebook.com</a></div>
-                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="#/twitter-square"><i style="font-size:22px;" class="fa fa-twitter-square"></i> twitter.com</a></div>
-                  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="#/youtube"><i style="font-size:22px;" class="fa fa-youtube"></i> youtube</a>  </div>
+                  <?php if($request->facebook!=''){?>  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a  href="<?php echo $request->facebook; ?>" target="_blank"><i style="font-size:22px;" class="fa fa-facebook-square"></i> <?php echo $request->facebook; ?></a></div><?php } ?>
+                  <?php if($request->twitter!=''){?>  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="<?php echo $request->twitter; ?>" target="_blank"><i style="font-size:22px;" class="fa fa-twitter-square"></i> <?php echo $request->twitter; ?>"</a></div><?php } ?>
+                  <?php if($request->youtube!=''){?>  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="<?php echo $request->youtube; ?>" target="_blank"><i style="font-size:22px;" class="fa fa-youtube"></i> <?php echo $request->youtube; ?></a>  </div><?php } ?>
+                  <?php if($request->instagram!=''){?>  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="<?php echo $request->instagram; ?>" target="_blank"><i style="font-size:22px;" class="fa fa-instagram"></i> <?php echo $request->instagram; ?></a>  </div><?php } ?>
+                  <?php if($request->linkedin!=''){?>  <div class="fa-hover col-md-3 col-sm-4 col-xs-12"><a href="<?php echo $request->linkedin; ?>" target="_blank"><i style="font-size:22px;" class="fa fa-linkedin-square"></i> <?php echo $request->linkedin; ?></a>  </div><?php } ?>
+                      <?php if($request->website!=''){?>  <div class="fa-hover col-md-12 col-sm-12 col-xs-12">WEBSITE: <a href="<?php echo $request->website; ?>" target="_blank"> <?php echo $request->website; ?></a>  </div><?php } ?>
                 </td>
                 </tr>
                 <tr>
@@ -144,47 +154,15 @@
                 <td>
                   <div class="x_content bs-example-popovers">
 
-                  <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
-                    <strong>Can a resident bring their pet to live with them?</strong>
-                  </div>
+                    <?php $selectedFeatures = unserialize($request->features);
 
-                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;">
-                    Do you look after managing their comfort and clothing money?
-                  </div>
-                  <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
-                    <strong>Can a resident bring their pet to live with them?</strong>
-                  </div>
+                    foreach ($features as $key=>$feature):?>
+                      <div class="alert <?php if(isset($selectedFeatures[$key]) && $selectedFeatures[$key]=='1') echo 'alert-success'; else echo 'alert-danger';?>" role="alert" style="padding: 0.4rem 1.25rem;">
+                        <strong><?php echo $feature;?></strong>
+                        <?php if(isset($selectedFeatures[$key]) && $selectedFeatures[$key]=='1') echo '<i style="font-size:22px;float:right" class="fa fa-check-circle"></i>'; else echo '<i style="font-size:22px;float:right" class="fa fa-times-circle"></i>';?>
+                      </div>
+                    <?php endforeach;?>
 
-                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;">
-                    Do you look after managing their comfort and clothing money?
-                  </div>
-                  <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
-                    <strong>Can a resident bring their pet to live with them?</strong>
-                  </div>
-                  <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
-                    <strong>Can a resident bring their pet to live with them?</strong>
-                  </div>
-                  <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
-                    <strong>Can a resident bring their pet to live with them?</strong>
-                  </div>
-                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;">
-                    Do you look after managing their comfort and clothing money?
-                  </div>
-                  <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
-                    <strong>Can a resident bring their pet to live with them?</strong>
-                  </div>
-                  <div class="alert alert-success" role="alert" style="padding: 0.4rem 1.25rem;">
-                    <strong>Can a resident bring their pet to live with them?</strong>
-                  </div>
-                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;">
-                    Do you look after managing their comfort and clothing money?
-                  </div>
-                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;">
-                    Do you look after managing their comfort and clothing money?
-                  </div>
-                  <div class="alert alert-danger" role="alert" style="padding: 0.4rem 1.25rem;">
-                    Do you look after managing their comfort and clothing money?
-                  </div>
 
                 </div>
 
