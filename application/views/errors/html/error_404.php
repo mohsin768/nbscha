@@ -10,7 +10,7 @@
 <meta name="author" content="NBSCHA" />
 
 <!-- Page Title -->
-<title>NBSCHA</title>
+<title>404 - Page not found - NBSCHA</title>
 
 <!-- Favicon and Touch Icons -->
 <link href="/public/frontend/images/favicon.png" rel="shortcut icon" type="image/png">
