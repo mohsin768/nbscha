@@ -87,8 +87,11 @@ if($this->uri->segment(4)==""){
                                 <td class="center-align" style="color:<?php if($request['status'] =='approved'){ echo 'green';} elseif($request['status'] =='rejected'){ echo 'red'; } ?>"><?php echo ucwords($request['status']);?></td>
                                 <td class=" last">
 																	<?php if($request['status'] =='pending'){ ?>
-                                      <a class=" btn btn-success btn-xs confirmAction" href="<?php echo admin_url('requests/approve/'.$request['id']); ?>" title="Approve"><i class="fa fa-check"></i> Approve</a>
-																			<a class=" btn btn-danger btn-xs confirmAction" href="<?php echo admin_url('requests/reject/'.$request['id']); ?>" title="Reject"><i class="fa fa-ban"></i> Reject</a>
+																		<?php $approvalBodyText = 'Are you sure you want to APPROVE the request #'.$request['identifier'].'?';?>
+																		<?php $rejectionBodyText = 'Are you sure you want to REJECT the request #'.$request['identifier'].'?';?>
+
+                                      <a class=" btn btn-success btn-xs confirmAction" data-body-text="<?php echo $approvalBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/approve/'.$request['id']); ?>" title="Approve"><i class="fa fa-check"></i> Approve</a>
+																			<a class=" btn btn-danger btn-xs confirmAction" data-body-text="<?php echo $rejectionBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/reject/'.$request['id']); ?>" title="Reject"><i class="fa fa-ban"></i> Reject</a>
                                       <?php } ?>
 																	<a class="btn btn-primary btn-xs" href="<?php echo admin_url('requests/view/'.$request['id']); ?>"title="View"><i class="fa fa-eye"></i> Details</a>
                                 </td>
