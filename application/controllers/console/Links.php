@@ -36,7 +36,7 @@ class Links extends ConsoleController {
 		if($this->session->userdata('link_language_filter')!=''){
 			$cond['language']= $this->session->userdata('link_language_filter');
 		}
-		if($this->session->userdata('link_ltype_filter')!=''){
+		if($this->session->userdata('link_type_filter')!=''){
 			$cond['type']= $this->session->userdata('link_type_filter');
 		}
 		if($this->session->userdata('link_search_key_filter')!=''){

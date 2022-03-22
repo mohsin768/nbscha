@@ -43,7 +43,7 @@ if($this->uri->segment(4)==""){
 													<select id="feature_language" name="feature_language" class="form-control filter">
 	                            <option value=""> All </option>
 	                            <?php foreach($this->languages_pair as $code => $name): ?>
-	                                <option value="<?php echo $code; ?>" <?php echo set_select('feature_language_filter',$code); ?>><?php echo $name; ?></option>
+	                                <option value="<?php echo $code; ?>" <?php if($this->session->userdata('feature_language_filter')==$code){ echo 'selected'; }?>><?php echo $name; ?></option>
 	                            <?php endforeach; ?>
 	                        </select>
 
@@ -93,7 +93,7 @@ if($this->uri->segment(4)==""){
 																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $feature['fid']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
                                 <td class=" "><?php echo $feature['feature_title'];?></td>
-                                
+
 																<td class=" "><?php echo $this->languages_pair[$feature['language']];?></td>
 																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($feature['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $feature['fid'];?>]" value="<?php echo $feature['sort_order'];?>" /> </td>
                                 <td class="center-align"><?php echo $status[$feature['status']];?></td>

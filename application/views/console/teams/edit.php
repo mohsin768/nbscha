@@ -25,8 +25,17 @@
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Name <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('title'); ?>
-                        <input type="text" id="title" name="title" required="required" value="<?php echo $team->title; ?>" class="form-control">
+                        <?php echo form_error('name'); ?>
+                        <input type="text" id="name" name="name" required="required" value="<?php echo $team->name; ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Url Slug <span class="lang_label">(All Languages)</span><span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('slug'); ?>
+                        <input type="text" id="slug" name="slug" required="required" value="<?php echo $team->slug; ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -105,7 +114,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('bio'); ?>
-                        <textarea  id="bio"  name="bio" class="form-control" ><?php echo $team->bio; ?></textarea>
+                        <?php echo $this->ckeditor->editor("bio",html_entity_decode($team->bio)); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -113,7 +122,7 @@
 
                 <div class="form-group">
                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Photo <span class="lang_label">(All Languages)</span>
-                     <?php if($team->image!='') { echo '<img src="'.base_url('public/uploads/certificatetemplates/'.$team->image).'" width="50px" />'; } ?></label>
+                     <?php if($team->photo!='') { echo '<img src="'.base_url('public/uploads/teams/'.$team->photo).'" width="50px" />'; } ?></label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('image'); ?>
                         <input id="image" name="image" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">

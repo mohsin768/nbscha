@@ -43,7 +43,7 @@ if($this->uri->segment(4)==""){
 													<select id="sponsor_language" name="sponsor_language" class="form-control filter">
 	                            <option value=""> All </option>
 	                            <?php foreach($this->languages_pair as $code => $name): ?>
-	                                <option value="<?php echo $code; ?>" <?php echo set_select('sponsor_language_filter',$code); ?>><?php echo $name; ?></option>
+	                                <option value="<?php echo $code; ?>" <?php if($this->session->userdata('sponsor_language_filter')==$code){ echo 'selected'; }?>><?php echo $name; ?></option>
 	                            <?php endforeach; ?>
 	                        </select>
 

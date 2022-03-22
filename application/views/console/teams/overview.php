@@ -43,7 +43,7 @@ if($this->uri->segment(4)==""){
 													<select id="team_language" name="team_language" class="form-control filter">
 	                            <option value=""> All </option>
 	                            <?php foreach($this->languages_pair as $code => $name): ?>
-	                                <option value="<?php echo $code; ?>" <?php echo set_select('team_language_filter',$code); ?>><?php echo $name; ?></option>
+	                                <option value="<?php echo $code; ?>" <?php if($this->session->userdata('team_language_filter')==$code){ echo 'selected'; }?>><?php echo $name; ?></option>
 	                            <?php endforeach; ?>
 	                        </select>
 
@@ -75,7 +75,7 @@ if($this->uri->segment(4)==""){
 															<th class="column-title">
 																<?php $title_direction = ''; if($sort_field=='title'){ $title_direction = $sort_direction; } ?>
 																<a href="#0" class="team-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Name</a></th>
-
+																<th class="column-title">
 																<?php $position_direction = ''; if($sort_field=='position'){ $position_direction = $sort_direction; } ?>
 																<a href="#0" class="team-sort sort-list-link <?php echo $position_direction; ?>" data-sort-field="position" data-sort-direction="<?php echo $position_direction; ?>">Position</a></th>
 
@@ -96,7 +96,7 @@ if($this->uri->segment(4)==""){
                             <tr class="even pointer">
 																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $team['id']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
-                                <td class=" "><?php echo $team['title'];?></td>
+                                <td class=" "><?php echo $team['name'];?></td>
 																<td class=" "><?php echo $team['position'];?></td>
 																<td class=" "><?php echo $this->languages_pair[$team['language']];?></td>
 																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($team['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $team['id'];?>]" value="<?php echo $team['sort_order'];?>" /> </td>

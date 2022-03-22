@@ -29,7 +29,7 @@
 
                             <tr class="even pointer">
                                 <td class=" "><?php echo ++$i; ?></td>
-                                <td class=" "><strong><?php if(isset($translates[$code])) { echo $translates[$code]['title'];} else { echo '--';}?> </strong>
+                                <td class=" "><strong><?php if(isset($translates[$code])) { echo $translates[$code]['name'];} else { echo '--';}?> </strong>
 																<?php if($this->default_language==$code) {?> <span class="lang_label">(Original Language)</span> <?php }?></td>
                                 <td class=" "><?php echo $name;?></td>
                                 <td class=" last">

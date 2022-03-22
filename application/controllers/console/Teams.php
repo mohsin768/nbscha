@@ -36,7 +36,7 @@ class Teams extends ConsoleController {
 		}
 
 		if($this->session->userdata('team_search_key_filter')!=''){
-			$like[] = array('field'=>'title', 'value' => $this->session->userdata('team_search_key_filter'),'location' => 'both');
+			$like[] = array('field'=>'name', 'value' => $this->session->userdata('team_search_key_filter'),'location' => 'both');
 		}
 
 		if($this->session->userdata('team_sort_field_filter')!=''){
@@ -57,10 +57,10 @@ class Teams extends ConsoleController {
 
 	function add()
 	{
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
-		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {
 			$vars = array();
@@ -96,7 +96,7 @@ class Teams extends ConsoleController {
 
 			$insertrow = $this->TeamsModel->insert($maindata,$descdata);
 			if ($insertrow) {
-				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Team added successfully.'));
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Member added successfully.'));
 				redirect(admin_url_string('teams/overview'));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
@@ -107,7 +107,9 @@ class Teams extends ConsoleController {
 
  public function edit($id, $lang, $translate='')
 	{
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('slug', 'Slug', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
@@ -124,13 +126,14 @@ class Teams extends ConsoleController {
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
-			$maindata = array('phone' => $this->input->post('phone'),
+			$slug=$this->TeamsModel->updateSlug($this->input->post('slug'),$id);
+			$maindata = array('slug' => $slug,
+												'phone' => $this->input->post('phone'),
 												'email' => $this->input->post('email'),
 												'facebook' => $this->input->post('facebook'),
 												'twitter' => $this->input->post('twitter'),
 												'linkedin' => $this->input->post('linkedin'),
 												'skype' => $this->input->post('skype'),
-												'photo' => $image,
 												'status' => $this->input->post('status'));
 
 			$descdata = array('board_member_id' => $id,
@@ -145,7 +148,7 @@ class Teams extends ConsoleController {
 								$this->load->library('upload', $config);
 
 					if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
-						$maindata['image']='';
+						$maindata['photo']='';
 					} else{
 
 						if($this->upload->do_upload('image'))
@@ -177,17 +180,16 @@ class Teams extends ConsoleController {
 	{
 		$cond = array('id'=>$id);
 		$vars['translates'] = $this->TeamsModel->getTranslates($cond);
-		$vars['board_member_id'] = $id;
+		$vars['team_id']= $id;
 		$this->mainvars['content']=$this->load->view(admin_url_string('teams/translates'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
 	function delete($id) {
-		$data = array('delete_status' => '1','status'=>'0');
 		$cond = array('id'=>$id);
-		$updaterow = $this->TeamsModel->updateCond($data,$cond);
+		$updaterow = $this->TeamsModel->deleteCond($cond);
 		if ($updaterow) {
-			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'team deleted successfully.'));
+			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Member deleted successfully.'));
 			redirect(admin_url_string('teams/overview'));
 		} else {
 			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
