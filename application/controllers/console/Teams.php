@@ -109,7 +109,6 @@ class Teams extends ConsoleController {
 	{
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('name', 'Name', 'required');
-		$this->form_validation->set_rules('slug', 'Slug', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
@@ -126,9 +125,8 @@ class Teams extends ConsoleController {
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
-			$slug=$this->TeamsModel->updateSlug($this->input->post('slug'),$id);
-			$maindata = array('slug' => $slug,
-												'phone' => $this->input->post('phone'),
+
+			$maindata = array('phone' => $this->input->post('phone'),
 												'email' => $this->input->post('email'),
 												'facebook' => $this->input->post('facebook'),
 												'twitter' => $this->input->post('twitter'),
@@ -174,7 +172,40 @@ class Teams extends ConsoleController {
 			}
 		}
 	}
+	public function seo($id, $lang)
+	 {
+		 $this->form_validation->set_rules('slug', 'slug', 'required|callback_urlslug_check');
+		 $this->form_validation->set_message('required', 'required');
+		 $this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+		 if ($this->form_validation->run() == FALSE)
+		 {
+			 $vars['language'] = $lang;
+			 $vars['team']= $this->TeamsModel->getRowCond(array('id'=>$id,'language'=>$lang));
+			 $this->mainvars['content'] = $this->load->view(admin_url_string('teams/seo'), $vars,true);
+			 $this->load->view(admin_url_string('main'), $this->mainvars);
 
+		 } else {
+			 $maindata = array('slug' => $this->input->post('slug'),);
+
+			 $descdata = array('board_member_id' => $id,
+			 									'meta_title' => $this->input->post('meta_title'),
+											 'meta_desc' => $this->input->post('meta_desc'),
+											 'meta_keywords' => $this->input->post('meta_keywords'),
+											 'language' => $this->input->post('language'));
+
+				 $cond = array('id'=>$id);
+				 $updaterow = $this->TeamsModel->updateCond($maindata,$cond,$descdata);
+
+
+			 if($updaterow){
+				 $this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
+				 redirect(admin_url_string('teams/overview'));
+			 } else {
+				 $this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				 redirect(admin_url_string('teams/overview'));
+			 }
+		 }
+	 }
 
 	public function translates($id)
 	{
@@ -263,5 +294,17 @@ class Teams extends ConsoleController {
 		redirect(admin_url_string('teams/overview'));
 	}
 
-
+	function urlslug_check($val) {
+		if($this->input->post('id')){
+			$cond = array('id !=' => $this->input->post('id'), 'slug' => $val);
+		} else {
+			$cond = array('slug' => $val);
+		}
+		if($this->TeamsModel->rowExists($cond)) {
+			$this->form_validation->set_message('urlslug_check', 'Slug - '. $val .' - already exists!!');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
 }
