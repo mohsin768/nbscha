@@ -26,7 +26,7 @@ class Pagehelper {
 
   function getContentWidget($pageBlock){
     $vars = array();
-    $template = isset($pageBlock['widget_template'])?$pageBlock['widget_template']:'advanced-callout-right';
+    $template = isset($pageBlock['widget_template'])?$pageBlock['widget_template']:'simple-callout';
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
     $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
@@ -46,7 +46,7 @@ class Pagehelper {
 
   function getBlockWidget($pageBlock){
     $vars = array();
-    $template = isset($pageBlock['widget_template'])?$pageBlock['widget_template']:'advanced-callout';
+    $template = isset($pageBlock['widget_template'])?$pageBlock['widget_template']:'single-row';
     $category = isset($pageBlock['block_category'])?$pageBlock['block_category']:'';
     $limit = 0;
     if($template=='simple-row-grid'){

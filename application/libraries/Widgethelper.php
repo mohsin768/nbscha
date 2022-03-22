@@ -8,10 +8,8 @@ class Widgethelper {
 	public function __construct(){
 		$this->CI = & get_instance();
         $this->CI->load->library('contenthelper');
+        $this->CI->load->library('blockhelper');
         $this->CI->load->library('pagehelper');
-        $this->CI->load->library('socialhelper');
-        $this->CI->load->library('generalhelper');
-        $this->CI->load->library('formhelper');
 	}
 
     function bannerWidget(){
@@ -83,47 +81,44 @@ class Widgethelper {
             case 'content_block_widget':
                 $pageBlockContent = $this->CI->pagehelper->getBlockWidget($pageBlock);
                 break;
-            case 'counter_widget':
-                $pageBlockContent = $this->CI->generalhelper->getCounterWidget($pageBlock);
+            case 'about_intro_widget':
+                $pageBlockContent = $this->CI->blockhelper->getAboutIntroWidget($pageBlock);
                 break;
-            case 'statistics_widget':
-                $pageBlockContent = $this->CI->generalhelper->getStatisticsWidget($pageBlock);
+            case 'about_mission_widget':
+                $pageBlockContent = $this->CI->blockhelper->getAboutMissionWidget($pageBlock);
                 break;
-            case 'pricing_widget':
-                $pageBlockContent = $this->CI->contenthelper->getPricingWidget($pageBlock);
+            case 'home_about_widget':
+                $pageBlockContent = $this->CI->blockhelper->getHomeAboutWidget($pageBlock);
                 break;
-            case 'sponsors_widget':
+            case 'home_blocks_widget':
+                $pageBlockContent = $this->CI->blockhelper->getHomeBlocksWidget($pageBlock);
+                break;
+            case 'home_works_widget':
+                $pageBlockContent = $this->CI->blockhelper->getHomeWorksWidget($pageBlock);
+                break;
+            case 'board_members_widget':
+                $pageBlockContent = $this->CI->contenthelper->getBoardMembersWidget($pageBlock);
+                break;
+            case 'faqs_widget':
+                $pageBlockContent = $this->CI->contenthelper->getFaqsWidget($pageBlock);
+                break;
+            case 'latest_news_widget':
+                $pageBlockContent = $this->CI->contenthelper->getLatestNewsWidget($pageBlock);
+                break;
+            case 'news_list_widget':
+                $pageBlockContent = $this->CI->contenthelper->getNewsWidget($pageBlock);
+                break;
+            case 'residences_list_widget':
+                $pageBlockContent = $this->CI->contenthelper->getResidencesWidget($pageBlock);
+                break;
+            case 'sponsors_list_widget':
                 $pageBlockContent = $this->CI->contenthelper->getSponsorsWidget($pageBlock);
                 break;
-            case 'latest_videos_widget':
-                $pageBlockContent = $this->CI->contenthelper->getLatestVideosWidget($pageBlock);
+            case 'statistics_widget':
+                $pageBlockContent = $this->CI->contenthelper->getStatisticsWidget($pageBlock);
                 break;
-            case 'packages_widget':
-                $pageBlockContent = $this->CI->contenthelper->getPackagesWidget($pageBlock);
-                break;
-            case 'exhibitors_widget':
-                $pageBlockContent = $this->CI->contenthelper->getExhibitorsWidget($pageBlock);
-                break;
-            case 'faq_list_widget':
-                $pageBlockContent = $this->CI->contenthelper->getFaqListWidget($pageBlock);
-                break;
-            case 'contact_details_widget':
-                $pageBlockContent = $this->CI->generalhelper->getContactDetailsWidget($pageBlock);
-                break;
-            case 'contact_map_widget':
-                $pageBlockContent = $this->CI->generalhelper->getContactMapWidget($pageBlock);
-                break;
-            case 'askquestion_form_widget':
-                $pageBlockContent = $this->CI->formhelper->getAskQuestionFormWidget($pageBlock);
-                break;
-            case 'sponsorship_form_widget':
-                $pageBlockContent = $this->CI->formhelper->getSponsorshipFormWidget($pageBlock);
-                break;
-            case 'advertising_form_widget':
-                $pageBlockContent = $this->CI->formhelper->getAdvertisingFormWidget($pageBlock);
-                break;
-            case 'booking_form_widget':
-                $pageBlockContent = $this->CI->formhelper->getBookingFormWidget($pageBlock);
+            case 'testimonials_widget':
+                $pageBlockContent = $this->CI->contenthelper->getTestimonialsWidget($pageBlock);
                 break;
             case 'combined_widget':
                 $pageBlockContent = $this->CI->pagehelper->getCombinedWidget($pageBlock);

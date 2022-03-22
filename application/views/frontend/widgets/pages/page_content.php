@@ -1,7 +1,9 @@
-<div class="page-section section-padding before-after bg-white">
-    <div class="page-content">
-        <div class="container">
-            <?php echo $pageContent; ?>
+<section>
+    <div class="container">
+        <div class="section-content">
+            <div class="row">
+                <?php echo $pageContent; ?>
+            </div>
         </div>
-    </div><!-- row -->
-</div>
+    </div>
+</section>

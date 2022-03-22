@@ -14,20 +14,19 @@ class WidgetsModel extends CMS_Model {
             array('key' =>'page_content_widget','type'=>'system','dynamic'=>'0','combinable'=>'0','name'=>'Page Content'),
             array('key' =>'content_widget','type'=>'dynamic','dynamic'=>'1','combinable'=>'0','name'=>'Content Widget'),
             array('key' =>'content_block_widget','type'=>'dynamic','dynamic'=>'1','combinable'=>'0','name'=>'Content Block Widget'),
-            array('key' =>'counter_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Counter Widget'),
+            array('key' =>'about_intro_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'About Intro'),
+            array('key' =>'about_mission_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'About Mission Widget'),
+            array('key' =>'home_about_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Home About Widget'),
+            array('key' =>'home_blocks_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Home Blocks Widget'),
+            array('key' =>'home_works_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Home How It Works Widget'),
+            array('key' =>'board_members_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Board Members Widget'),
+            array('key' =>'faqs_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'FAQs Widget'),
+            array('key' =>'latest_news_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Latest News Widget'),
+            array('key' =>'news_list_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'News List Widget'),
+            array('key' =>'residences_list_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Residences List Widget'),
+            array('key' =>'sponsors_list_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Sponsors List Widget'),
             array('key' =>'statistics_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Statistics Widget'),
-            array('key' =>'pricing_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Pricing Widget'),
-            array('key' =>'sponsors_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Sponsors Widget'),
-            array('key' =>'latest_videos_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Latest Videos Widget'),
-            array('key' =>'exhibitors_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Exhibitors Widget'),
-            array('key' =>'packages_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Packages Widget'),
-            array('key' =>'faq_list_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'FAQ List Widget'),
-            array('key' =>'contact_details_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Contact Details Widget'),
-            array('key' =>'contact_map_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Contact Map Widget'),
-            array('key' =>'booking_form_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Booking Form Widget'),
-            array('key' =>'askquestion_form_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Ask Question Widget'),
-            array('key' =>'sponsorship_form_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Sponsorship Form Widget'),
-            array('key' =>'advertising_form_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Advertising Form Widget')
+            array('key' =>'testimonials_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Testimonials Widget')
 		);
 	}
 

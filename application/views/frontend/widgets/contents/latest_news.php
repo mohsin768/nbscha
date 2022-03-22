@@ -1,5 +1,4 @@
-    <!-- Section: Blog -->
-    <section id="blog">
+<section id="blog">
     <div class="container pb-70">
     <div class="section-title mb-20 text-center">
         <div class="row">
