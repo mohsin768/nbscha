@@ -2,81 +2,65 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Edit Statistics</h2>
+                <h2><?php if($statistic->language==$language) echo 'Edit Statistic'; else echo 'Statistic - Add '.$this->languages_pair[$language].' Translate';?></h2>
+                <?php if($statistic->language!=$language){?>
+                  <ul class="nav navbar-right panel_toolbox">
+                      <li>
+                          <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('statistics/translates/'.$statistic->id); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
+                      </li>
+                  </ul>
+                <?php } ?>
+
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <br />
                 <?php
-                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'statistic-edit');
-                echo form_open_multipart(admin_url_string('statistics/edit/'.$statistic->id),$attributes);?>
+                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'location-add');
+                echo form_open_multipart(admin_url_string('statistics/edit/'.$statistic->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $statistic->id; ?>" />
+                <input type="hidden" name="language" value="<?php echo $language; ?>" />
+
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="event">Event<span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Name <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('event'); ?>
-                        <select id="event" name="event" required="required" class="form-control">
-                            <option value="">Please Select</option>
-                            <?php foreach($events as $id => $name): $selected = false; if($statistic->event == $id){ $selected = true; } ?>
-                                <option value="<?php echo $id; ?>" <?php echo set_select('event',$id,$selected); ?>><?php echo $name; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title<span class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('title'); ?>
-                        <input type="text" id="title" name="title" required="required" value="<?php echo $statistic->title; ?>" class="form-control">
+                        <?php echo form_error('name'); ?>
+                        <input type="text" id="name" name="name" required="required" value="<?php echo $statistic->name; ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
 
+
+
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="number">Number<span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Number <span class="lang_label">(All Languages)</span><span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('number'); ?>
-                        <input type="text" id="number" name="number" required="required" value="<?php echo $statistic->number; ?>" class="form-control">
+                        <input type="text" id="number" required  name="number"  value="<?php echo $statistic->number; ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
-
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="icon_class">Icon Class<span class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('icon_class'); ?>
-                        <input type="text" id="icon_class" name="icon_class" required="required" value="<?php echo $statistic->icon_class; ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
+                   <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Icon <span class="lang_label">(All Languages)</span>
+                     <?php if($statistic->icon!='') { echo '<img src="'.base_url('public/uploads/statistics/'.$statistic->icon).'" width="50px" />'; } ?></label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('image'); ?>
+                        <input id="image" name="image" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">
+                             Remove Icon? <input  name="remove_image"   type="checkbox" value="1">
+                   </div>
+                   <div class="clearfix"></div>
                 </div>
-
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="sort_order">Sort order
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('sort_order'); ?>
-                        <input type="text" id="sort_order" name="sort_order" value="<?php echo $statistic->sort_order; ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-              
-
-               
-                
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="required">*</span></label>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="lang_label">(All Languages)</span><span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('status'); ?>
                         <div id="status" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary <?php if($statistic->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                            <label class="btn btn-default <?php if($statistic->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
                                 <input type="radio"  required="required" name="status" value="1" <?php if($statistic->status=='1') { echo 'checked="checked"'; } ?>> &nbsp; Enabled &nbsp;
                             </label>
-                            <label class="btn btn-secondary <?php if($statistic->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
+                            <label class="btn btn-default <?php if($statistic->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
                                 <input type="radio"  required="required" name="status" value="0" <?php if($statistic->status=='0') { echo 'checked="checked"'; } ?>> Disabled
                             </label>
                         </div>

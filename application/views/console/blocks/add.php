@@ -6,130 +6,134 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'block-add');
                 echo form_open_multipart(admin_url_string('blocks/add'),$attributes);
                 ?>
+                <input type="hidden" name="language" value="<?php echo $this->default_language;?>" />
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="category">Category<span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title<span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('title'); ?>
+                        <input type="text" id="title" required name="title"  value="<?php echo set_value('title'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Block Category<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('category'); ?>
-                        <select id="category" name="category" required="required" class="form-control">
-                            <option value="">Please Select</option>
-                            <?php foreach($categories as $id => $name): ?>
-                                <option value="<?php echo $id; ?>" <?php echo set_select('category',$id); ?>><?php echo $name; ?></option>
+                        <select id="category" name="category" class="form-control">
+                            <option value=""> -- Select -- </option>
+                            <?php foreach($categories as $key => $value): ?>
+                                <option value="<?php echo $key; ?>" ><?php echo $value; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                
+
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title<span class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('title'); ?>
-                        <input type="text" id="title" name="title" required="required" value="<?php echo set_value('title'); ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="summary">Summary
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Description
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('summary'); ?>
-                        <textarea id="summary" name="summary" class="form-control"><?php echo set_value('summary'); ?></textarea>
+                          <?php echo $this->ckeditor->editor("summary",html_entity_decode(set_value('summary'))); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="caption_title">Left Title</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('caption_title'); ?>
-                        <input type="text" id="caption_title" name="caption_title" value="<?php echo set_value('caption_title'); ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="caption_subtitle">Left Sub Title</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('caption_subtitle'); ?>
-                        <input type="text" id="caption_subtitle" name="caption_subtitle" value="<?php echo set_value('caption_subtitle'); ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="link_url">Link URL</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('link_url'); ?>
-                        <input type="text" id="link_url" name="link_url" value="<?php echo set_value('link_url'); ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="link_title">Link Title</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('link_title'); ?>
-                        <input type="text" id="link_title" name="link_title" value="<?php echo set_value('link_title'); ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="subtitle">Caption Title
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                         <?php echo form_error('image'); ?>
-                        <input id="image" name="image" class="form-control" style="padding:0px;"  type="file">
+                        <?php echo form_error('caption_title'); ?>
+                        <input type="text" id="caption_title"  name="caption_title"  value="<?php echo set_value('caption_title'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="caption_subtitle">Caption Subtitle
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('caption_subtitle'); ?>
+                        <input type="text" id="caption_subtitle"  name="caption_subtitle"  value="<?php echo set_value('caption_subtitle'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="icon_class">Icon Class
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('icon_class'); ?>
+                        <input type="text" id="icon_class"  name="icon_class"  value="<?php echo set_value('icon_class'); ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="video">Icon
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="link_url">Link Url
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                         <?php echo form_error('icon'); ?>
-                        <input id="icon" name="icon" class="form-control" style="padding:0px;"  type="file">
+                        <?php echo form_error('link_url'); ?>
+                        <input type="text" id="link_url"  name="link_url"  value="<?php echo set_value('link_url'); ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="icon_class">Icon Class</label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('icon_class'); ?>
-                        <input type="text" id="icon_class" name="icon_class" value="<?php echo set_value('icon_class'); ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="sort_order">Sort order
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="link_title">Link Title
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('sort_order'); ?>
-                        <input type="text" id="sort_order" name="sort_order" value="<?php echo set_value('sort_order'); ?>" class="form-control">
+                        <?php echo form_error('link_title'); ?>
+                        <input type="text" id="link_title"  name="link_title"  value="<?php echo set_value('link_title'); ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
+
+                <div class="form-group">
+                   <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Icon
+                   <br/><small>Formats supported: jpg, jpeg, png</small></label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('icon'); ?>
+                       <input id="icon" name="icon" class="form-control" style="padding:0px;"  type="file">
+                   </div>
+                   <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                   <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image
+                   <br/><small>Formats supported: jpg, jpeg, png</small></label>
+                   <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('image'); ?>
+                       <input id="image" name="image" class="form-control" style="padding:0px;"  type="file">
+                   </div>
+                   <div class="clearfix"></div>
+                </div>
+
+
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('status'); ?>
                         <div id="status" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary <?php if(set_value('status')=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                            <label class="btn btn-default <?php if(set_value('status')=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
                                 <input type="radio"  required="required" name="status" value="1" <?php if(set_value('status')=='1') { echo 'checked="checked"'; } ?> /> &nbsp; Enabled &nbsp;
                             </label>
-                            <label class="btn btn-secondary <?php if(set_value('status')=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
+                            <label class="btn btn-default <?php if(set_value('status')=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
                                 <input type="radio" required="required" name="status" value="0" <?php if(set_value('status')=='0') { echo 'checked="checked"'; } ?> /> Disabled
                             </label>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-        
-                <div class="ln_solid"></div>          
+
+                <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 offset-md-3">
                         <button type="submit" class="btn btn-success">Submit</button>

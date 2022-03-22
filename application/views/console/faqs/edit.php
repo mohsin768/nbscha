@@ -2,18 +2,27 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Edit Faqs</h2>
+                <h2><?php if($faq->language==$language) echo 'Edit Faq'; else echo 'Faq - Add '.$this->languages_pair[$language].' Translate';?></h2>
+                <?php if($faq->language!=$language){?>
+                  <ul class="nav navbar-right panel_toolbox">
+                      <li>
+                          <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('faqs/translates/'.$faq->id); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
+                      </li>
+                  </ul>
+                <?php } ?>
+
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <br />
                 <?php
-                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'faq-edit');
-                echo form_open_multipart(admin_url_string('faqs/edit/'.$faq->id),$attributes);?>
+                $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'location-add');
+                echo form_open_multipart(admin_url_string('faqs/edit/'.$faq->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $faq->id; ?>" />
-                
+                <input type="hidden" name="language" value="<?php echo $language; ?>" />
+
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="question">Question<span class="required">*</span>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Question <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('question'); ?>
@@ -23,36 +32,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="answer">Answer
-                    <span class="required">*</span></label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Answer <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('answer'); ?>
                         <?php echo $this->ckeditor->editor("answer",html_entity_decode($faq->answer)); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="sort_order">Sort order
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('sort_order'); ?>
-                        <input type="text" id="sort_order" name="sort_order" value="<?php echo $faq->sort_order; ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-              
 
-               
-                
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="required">*</span></label>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="lang_label">(All Languages)</span><span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('status'); ?>
                         <div id="status" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary <?php if($faq->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                            <label class="btn btn-default <?php if($faq->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
                                 <input type="radio"  required="required" name="status" value="1" <?php if($faq->status=='1') { echo 'checked="checked"'; } ?>> &nbsp; Enabled &nbsp;
                             </label>
-                            <label class="btn btn-secondary <?php if($faq->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
+                            <label class="btn btn-default <?php if($faq->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
                                 <input type="radio"  required="required" name="status" value="0" <?php if($faq->status=='0') { echo 'checked="checked"'; } ?>> Disabled
                             </label>
                         </div>

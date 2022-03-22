@@ -6,7 +6,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-
+<?php echo validation_errors(); ?>
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'team-add');
@@ -18,8 +18,8 @@
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Name<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('title'); ?>
-                        <input type="text" id="title" required name="title"  value="<?php echo set_value('title'); ?>" class="form-control">
+                        <?php echo form_error('name'); ?>
+                        <input type="text" id="name" required name="name"  value="<?php echo set_value('name'); ?>" class="form-control">
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -104,7 +104,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('bio'); ?>
-                        <textarea  id="bio"  name="bio" class="form-control" ><?php echo set_value('bio'); ?></textarea>
+                          <?php echo $this->ckeditor->editor("bio",html_entity_decode(set_value('bio'))); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>

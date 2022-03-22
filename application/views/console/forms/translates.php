@@ -2,10 +2,10 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Link Translates</h2>
+                <h2>Form Translates</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('links'); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('forms'); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -20,7 +20,7 @@
 															<th class="column-name" style="width: 20px;">#</th>
 															<th class="column-name">Name</th>
 															<th class="column-name">Language</th>
-															<th class="column-name no-link last"><span class="nobr">Action</span></th>
+															<th class="column-name no-form last"><span class="nobr">Action</span></th>
                             </tr>
                         </thead>
 
@@ -34,9 +34,9 @@
                                 <td class=" "><?php echo $name;?></td>
                                 <td class=" last">
 																	<?php if(isset($translates[$code])) { ?>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('links/edit/'.$translates[$code]['id'].'/'.$code); ?>"name="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('forms/edit/'.$translates[$code]['id'].'/'.$code); ?>"name="Edit"><i class="fa fa-edit"></i> Edit</a>
 																<?php } else{ ?>
-																	<a class="btn btn-success btn-xs" href="<?php echo admin_url('links/edit/'.$link_id.'/'.$code.'/translate'); ?>"name="add"><i class="fa fa-plus"></i> Add</a>
+																	<a class="btn btn-success btn-xs" href="<?php echo admin_url('forms/edit/'.$form_id.'/'.$code.'/translate'); ?>"name="add"><i class="fa fa-plus"></i> Add</a>
 																<?php } ?>
                                 </td>
                             </tr>
