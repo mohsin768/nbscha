@@ -104,6 +104,7 @@ if($this->uri->segment(4)==""){
                                 <td class=" last">
 																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('teams/translates/'.$team['id']); ?>"><i class="fa fa-language"></i> Translates</a>
 																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('teams/edit/'.$team['id'].'/'.$team['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-warning btn-xs" href="<?php echo admin_url('teams/seo/'.$team['id'].'/'.$team['language']); ?>" title="Edit"><i class="fa fa-globe"></i> SEO</a>
 																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('teams/delete/'.$team['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>

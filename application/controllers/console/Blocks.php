@@ -291,6 +291,121 @@ class Blocks extends ConsoleController {
 
 		redirect(admin_url_string('blocks/overview'));
 	}
+	public function categories()
+		{
+			$this->load->library('pagination');
+			$config = $this->paginationConfig();
+	        $config['base_url'] = admin_url('blocks/categories');
+	        $config['total_rows'] = $this->BlockCategoriesModel->getPaginationCount();
+	        $this->pagination->initialize($config);
+			$vars['categories'] = $this->BlockCategoriesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),'','id','ASC');
+			$this->mainvars['content']=$this->load->view(admin_url_string('blocks/categories'),$vars,true);
+			$this->load->view(admin_url_string('main'),$this->mainvars);
+		}
 
+		function addcategory()
+		{
+			$this->form_validation->set_rules('name', 'Name', 'required');
+			$this->form_validation->set_rules('status', 'Status', 'required');
+			$this->form_validation->set_message('required', 'required');
+			$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+			if($this->form_validation->run() == FALSE)
+			{
+				$this->mainvars['content'] = $this->load->view(admin_url_string('blocks/addcategory'), $this->mainvars, true);
+				$this->load->view(admin_url_string('main'), $this->mainvars);
+			} else {
+				$data=array(
+					'name'=>$this->input->post('name'),
+					'status'=>$this->input->post('status')
+				);
+				$insertid = $this->BlockCategoriesModel->insert($data);
+				if($insertid){
+					$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Added Successfully.'));
+					redirect(admin_url_string('blocks/categories'));
+				} else {
+					$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+					redirect(admin_url_string('blocks/categories'));
+				}
+			}
+		}
+
+	  	public function editcategory($id)
+		{
+			$blockRow = $this->BlockCategoriesModel->load($id);
+			if(!$blockRow){
+				redirect(admin_url_string('blocks/categories'));
+			}
+			$this->form_validation->set_rules('name', 'Name', 'required');
+			$this->form_validation->set_rules('status', 'Status', 'required');
+			$this->form_validation->set_message('required', 'required');
+			$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+			if ($this->form_validation->run() == FALSE)
+			{
+				$edit['category']= $this->BlockCategoriesModel->load($id);
+				$this->mainvars['content'] = $this->load->view(admin_url_string('blocks/editcategory'), $edit,true);
+				$this->load->view(admin_url_string('main'), $this->mainvars);
+
+			} else {
+				$data=array(
+					'name'=>$this->input->post('name'),
+					'status'=>$this->input->post('status')
+				);
+				$cond = array('id' => $id);
+	      		$actionStatus=$this->BlockCategoriesModel->updateCond($data,$cond);
+				if($actionStatus){
+				 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
+					redirect(admin_url_string('blocks/categories'));
+				} else {
+					$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+					redirect(admin_url_string('blocks/categories'));
+				}
+			}
+		}
+
+
+		public function deletecategory($id)
+		{
+			$actionStatus = false;
+			$blockRow = $this->BlockCategoriesModel->load($id);
+			if(!$blockRow){
+				redirect(admin_url_string('blocks/categories'));
+			}
+			$cond = array('category'=>$id);
+			$blocks = $this->BlocksModel->getArrayCond($cond);
+			if(isset($blocks) && count($blocks)>0){
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Cannot delete already have blocks under this category'));
+				redirect(admin_url_string('blocks/categories'));
+			} else {
+				$actionStatus=$this->BlockCategoriesModel->delete($id);
+			}
+			if($actionStatus){
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Deleted Successfully.'));
+				redirect(admin_url_string('blocks/categories'));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				redirect(admin_url_string('blocks/categories'));
+			}
+	    }
+
+		function categoryactions()
+		{
+			$actionStatus=false;
+			$ids=$this->input->post('id');
+			if(isset($_POST['enable']) && $this->input->post('enable')=='Enable'){ $status='1';}
+			if(isset($_POST['disable']) && $this->input->post('disable')=='Disable'){ $status='0';}
+			if(isset($status) && isset($_POST['id'])){
+				foreach($ids as $id):
+					$data=array('status'=>$status);
+					$cond=array('id'=>$id);
+					$actionStatus=$this->BlockCategoriesModel->updateCond($data,$cond);
+				endforeach;
+			}
+			if($actionStatus){
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+			}
+			redirect(admin_url_string('blocks/categories'));
+		}
 
 }

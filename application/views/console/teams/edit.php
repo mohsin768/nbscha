@@ -30,15 +30,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Url Slug <span class="lang_label">(All Languages)</span><span class="required">*</span>
-                    </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('slug'); ?>
-                        <input type="text" id="slug" name="slug" required="required" value="<?php echo $team->slug; ?>" class="form-control">
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
+      
 
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Position <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
