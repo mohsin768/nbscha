@@ -1,5 +1,3 @@
-
-<!-- Section: About -->
 <section id="about">
     <div class="container pb-70">
     <div class="section-content">
@@ -91,4 +89,3 @@
     </div>
     </div>
 </section>
-

@@ -67,7 +67,7 @@ class Register extends FrontController {
 			$vars['facilities'] = $this->FacilitiesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
 			$vars['regions'] = $this->RegionsModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
 			$vars['features'] = $this->FeaturesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
-			$this->mainvars['content_top']= $this->load->view(frontend_views_path('register/form'),$vars,TRUE);
+			$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/register'),$vars,TRUE);
 			$this->mainvars['content']=$this->widgethelper->pageContent();
 			$this->load->view(frontend_views_path('main'),$this->mainvars);
 		} else {
