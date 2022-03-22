@@ -32,11 +32,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Description <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Description <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('description'); ?>
-                        <textarea  id="description"  name="description" class="form-control" ><?php echo $sponsor->description; ?></textarea>
+                        <?php echo $this->ckeditor->editor("description",html_entity_decode($sponsor->description)); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image <span class="lang_label">(All Languages)</span>
-                     <?php if($sponsor->image!='') { echo '<img src="'.base_url('public/uploads/certificatetemplates/'.$sponsor->image).'" width="50px" />'; } ?></label>
+                     <?php if($sponsor->image!='') { echo '<img src="'.base_url('public/uploads/sponsors/'.$sponsor->image).'" width="50px" />'; } ?></label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('image'); ?>
                         <input id="image" name="image" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">

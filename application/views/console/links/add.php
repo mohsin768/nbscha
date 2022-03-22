@@ -24,11 +24,11 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Resource Type
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Resource Type<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('type'); ?>
-                        <select id="type" name="type" class="form-control filter">
+                        <select id="type" name="type" class="form-control">
                             <option value=""> -- Select -- </option>
                             <?php foreach($resourse_types as $key => $value): ?>
                                 <option value="<?php echo $key; ?>" ><?php echo $value; ?></option>
@@ -42,7 +42,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('summary'); ?>
-                        <textarea  id="summary"  name="summary" class="form-control" ><?php echo set_value('summary'); ?></textarea>
+                        <?php echo $this->ckeditor->editor("summary",html_entity_decode(set_value('summary'))); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>

@@ -35,7 +35,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('type'); ?>
-                        <select id="type" name="type" class="form-control filter">
+                        <select id="type" name="type" class="form-control">
                             <option value=""> -- Select -- </option>
                             <?php foreach($resourse_types as $key => $value): ?>
                                 <option <?php if($link->type==$key) echo 'selected';?> value="<?php echo $key; ?>" ><?php echo $value; ?></option>
@@ -45,11 +45,11 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Summary <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Summary <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('summary'); ?>
-                        <textarea  id="summary"  name="summary" class="form-control" ><?php echo $link->summary; ?></textarea>
+                          <?php echo $this->ckeditor->editor("summary",html_entity_decode($link->summary)); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="form-group">
                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image <span class="lang_label">(All Languages)</span>
-                     <?php if($link->image!='') { echo '<img src="'.base_url('public/uploads/certificatetemplates/'.$link->image).'" width="50px" />'; } ?></label>
+                     <?php if($link->image!='') { echo '<img src="'.base_url('public/uploads/links/'.$link->image).'" width="50px" />'; } ?></label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('image'); ?>
                         <input id="image" name="image" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">

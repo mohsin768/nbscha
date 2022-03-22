@@ -29,7 +29,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('description'); ?>
-                        <textarea  id="description"  name="description" class="form-control" ><?php echo set_value('description'); ?></textarea>
+                          <?php echo $this->ckeditor->editor("description",html_entity_decode(set_value('description'))); ?>
                     </div>
                     <div class="clearfix"></div>
                 </div>

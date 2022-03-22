@@ -31,6 +31,17 @@ if($this->uri->segment(4)==""){
 												</div>
 
 												<div class="filter-col">
+													Type:
+													<select id="link_type" name="link_type" class="form-control filter">
+	                            <option value=""> All </option>
+	                            <?php foreach($resourse_types as $key => $value): ?>
+	                                <option value="<?php echo $key; ?>" <?php echo set_select('link_type_filter',$key); ?>><?php echo $value; ?></option>
+	                            <?php endforeach; ?>
+	                        </select>
+
+												</div>
+
+												<div class="filter-col">
 													Status:
 													<select name="link_status" class="form-control filter">
 															<option value="">Select</option>

@@ -57,6 +57,7 @@ class Sponsors extends ConsoleController {
 
 	function add()
 	{
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
@@ -99,6 +100,7 @@ class Sponsors extends ConsoleController {
 
  public function edit($id, $lang, $translate='')
 	{
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
