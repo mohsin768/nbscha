@@ -30,6 +30,7 @@ class Pages extends ConsoleController {
 	function add()
 	{
 		$this->form_validation->set_rules('title', 'Title', 'required');
+		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
@@ -66,16 +67,20 @@ class Pages extends ConsoleController {
 				$videoData=$this->upload->data();
 				$banner_video=$videoData['file_name'];
 			}
-			$data=array(
+			$maindata=array(
 				'slug'=>$slug,
+				'banner_image'=>$banner_image,
+				'banner_video'=>$banner_video,
+				'status'=>$this->input->post('status')
+			);
+
+			$descdata=array(
 				'title'=>$this->input->post('title'),
 				'meta_title'=>$this->input->post('title'),
 				'subtitle'=>$this->input->post('subtitle'),
-				'banner_image'=>$banner_image,
-				'banner_video'=>$banner_video,
-				'status'=>$this->input->post('status'),
+				'language' => $this->input->post('language')
 			);
-			$insertid = $this->PagesModel->insert($data);
+			$insertid = $this->PagesModel->insert($maindata,$descdata);
 			if($insertid){
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Added Successfully.'));
 				redirect(admin_url_string('pages/overview'));

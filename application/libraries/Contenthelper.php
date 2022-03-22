@@ -10,6 +10,16 @@ class Contenthelper {
 
 	}
 
+  function getContactWidget($pageBlock){
+    $vars = array();
+    $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
+    $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
+    $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
+    $vars['primary_link_title'] = isset($pageBlock['primary_link_title'])?$pageBlock['primary_link_title']:'';
+    $vars['primary_link_url'] = isset($pageBlock['primary_link_url'])?$pageBlock['primary_link_url']:'';
+    return $this->CI->load->view(frontend_views_path('widgets/contents/contact'),$vars,TRUE);
+  }
+
   function getBoardMembersWidget($pageBlock){
     $vars = array();
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
