@@ -6,7 +6,7 @@
     <ul>
       <?php 
       $i=0; 
-      foreach($sliders as $slider): 
+      foreach($sliders as $slide): 
         $i++; 
         $sliderImage = frontend_assets_url('images/slide/c1.jpg');
         if($slide['image']!=''){
