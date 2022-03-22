@@ -21,7 +21,7 @@ class Sponsors extends ConsoleController {
 
 	public function overview()
 	{
-		$cond = array('delete_status'=>'0');
+		$cond = array();
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -57,6 +57,7 @@ class Sponsors extends ConsoleController {
 
 	function add()
 	{
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
@@ -99,6 +100,7 @@ class Sponsors extends ConsoleController {
 
  public function edit($id, $lang, $translate='')
 	{
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
@@ -168,9 +170,8 @@ class Sponsors extends ConsoleController {
 	}
 
 	function delete($id) {
-		$data = array('delete_status' => '1','status'=>'0');
 		$cond = array('id'=>$id);
-		$updaterow = $this->SponsorsModel->updateCond($data,$cond);
+		$updaterow = $this->SponsorsModel->deleteCond($cond);
 		if ($updaterow) {
 			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'sponsor deleted successfully.'));
 			redirect(admin_url_string('sponsors/overview'));
