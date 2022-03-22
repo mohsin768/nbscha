@@ -4,7 +4,12 @@
         <div class="pl-md-5 mainRow">
             <div role="main" class="main">
                 <div class="overflow-hidden">
-                    <!-- <span class="d-block top-sub-title text-color-primary appear-animation" data-appear-animation="maskUp" data-appear-animation-delay="600"><b>Launching June 30th 2019</b></span> -->
+                <?php if($this->session->flashdata('message')){ ?>
+                    <div class="alert <?php echo $this->session->flashdata('message')['status']; ?>">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <?php echo $this->session->flashdata('message')['message']; ?>
+                    </div>
+                <?php } ?>  
                 </div>
                 <br>
                 <div class="overflow-hidden mb-2" style="text-align: center;">
@@ -31,33 +36,33 @@
                         </div>
                         <p class="text-color-light opacity-6 mb-3"></p>
                             <?php
-                            $attributes = array('class' => '', 'id' => 'nbchform');
-                            echo form_open_multipart(admin_url_string('register'),$attributes);
+                            $attributes = array('class' => '', 'id' => 'nbscha-register-form');
+                            echo form_open_multipart('register',$attributes);
                             ?>
                             <div class="form-row">
                                 <div class="form-group col-lg-4 ">
-                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="First Name*" name="first_name" id="first_name" aria-label="First Name" required="">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="First Name*" name="first_name" id="first_name" aria-label="First Name" required="" value="<?php echo set_value('first_name'); ?>">
                                     <div class="error"><?php echo form_error('first_name'); ?></div>
                                 </div>
                                 <div class="form-group col-lg-4 ">
-                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Last Name*" name="last_name" id="last_name" aria-label="Last Name" required="">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Last Name*" name="last_name" id="last_name" aria-label="Last Name" required="" value="<?php echo set_value('last_name'); ?>">
                                     <div class="error"><?php echo form_error('last_name'); ?></div>
                                 </div>
                                 <div class="form-group col-lg-4 ">
-                                    <input type="email" class="form-control rounded-0 border-0 line-height-1" placeholder="Email*" name="email" id="email" required="">
-                                    <div class="error"><?php echo form_error('last_name'); ?></div>
+                                    <input type="email" class="form-control rounded-0 border-0 line-height-1" placeholder="Email*" name="email" id="email" required="" value="<?php echo set_value('email'); ?>">
+                                    <div class="error"><?php echo form_error('email'); ?></div>
                                 </div>
                                 <div class="form-group col-lg-4 ">
-                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Phone Number*" name="phone" id="phone" aria-label="Phone Number" required="">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Phone Number*" name="phone" id="phone" aria-label="Phone Number" required="" value="<?php echo set_value('phone'); ?>">
                                     <div class="error"><?php echo form_error('phone'); ?></div>
                                 </div>
 
                                 <div class="form-group col-lg-4 ">
-                                    <input type="password" class="form-control rounded-0 border-0 line-height-1" placeholder="Password*" name="password" id="password" aria-label="Password" required="">
+                                    <input type="password" class="form-control rounded-0 border-0 line-height-1" placeholder="Password*" name="password" id="password" aria-label="Password" required="" value="<?php echo set_value('password'); ?>">
                                     <div class="error"><?php echo form_error('password'); ?></div>
                                 </div>
                                 <div class="form-group col-lg-4 ">
-                                    <input type="password" class="form-control rounded-0 border-0 line-height-1" placeholder="Confirm Password" name="confirm_password" id="confirm_password" aria-label="Confirm Password" required="">
+                                    <input type="password" class="form-control rounded-0 border-0 line-height-1" placeholder="Confirm Password" name="confirm_password" id="confirm_password" aria-label="Confirm Password" required="" value="<?php echo set_value('confirm_password'); ?>">
                                     <div class="error"><?php echo form_error('confirm_password'); ?></div>
                                 </div>
                                 <div id="sc_427" class="row ap-cls">
@@ -70,113 +75,157 @@
                                         </div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Name*" name="spch[sp_427][spch_name]" id="spch[sp_427][spch_name]_spid_427" required="" onchange="">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Name*" name="home_name" id="home_name" required="" onchange="" value="<?php echo set_value('home_name'); ?>">
+                                        <div class="error"><?php echo form_error('home_name'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Address*" name="spch[sp_427][spch_address]" id="spch[sp_427][spch_address]_spid_427" required="" onchange="">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Address*" name="home_address" id="home_address" required="" onchange="" value="<?php echo set_value('home_address'); ?>">
+                                        <div class="error"><?php echo form_error('home_address'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Postal Code*" name="spch[sp_427][spch_postal_code]" id="spch[sp_427][spch_postal_code]_spid_427" required="" onchange="">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Postal Code*" name="home_postalcode" id="home_postalcode" required="" onchange="" value="<?php echo set_value('home_postalcode'); ?>">
+                                        <div class="error"><?php echo form_error('home_postalcode'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Contact Person*" name="spch[sp_427][spch_contact_name]" id="spch[sp_427][spch_contact_name]_spid_427" required="" onchange="">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Contact Person*" name="home_contact_name" id="home_contact_name" required="" onchange="" value="<?php echo set_value('home_contact_name'); ?>">
+                                        <div class="error"><?php echo form_error('home_contact_name'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="email" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Email*" name="spch[sp_427][spch_email]" id="spch[sp_427][spch_email]_spid_427" required="" onchange="">
+                                        <input type="email" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Email*" name="home_email" id="home_email" required="" onchange="" value="<?php echo set_value('home_email'); ?>">
+                                        <div class="error"><?php echo form_error('home_email'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Phone*" name="spch[sp_427][spch_phone]" id="spch[sp_427][spch_phone]_spid_427" required="" onchange="">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Phone*" name="home_phone" id="home_phone" required="" onchange="" value="<?php echo set_value('home_phone'); ?>">
+                                        <div class="error"><?php echo form_error('home_phone'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Fax Number" name="spch[sp_427][spch_fax]" id="spch[sp_427][spch_fax]_spid_427" onchange="">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Fax Number" name="home_fax" id="home_fax" onchange="" value="<?php echo set_value('set_value'); ?>">
+                                        <div class="error"><?php echo form_error('home_fax'); ?></div>
                                     </div>
                                 <div class="spchclass form-group col-lg-4 ">
-                                    <select class="form-control rounded-0 border-0 line-height-1" name="spch[sp_427][spch_num_bed]" id="spch[sp_427][spch_num_bed]_spid_427" required="">
+                                    <select class="form-control rounded-0 border-0 line-height-1" name="package_id" id="package_id" required="">
                                       <option value="">--Select Number of Beds*--</option>
                                       <?php foreach($packages as $package): ?>
-                                      <option value="<?php echo $package['pid']; ?>"><?php echo $package['title']; ?></option>
+                                      <option value="<?php echo $package['pid']; ?>" <?php echo set_select('package_id',$package['pid']); ?> data-package-price="<?php echo $package['price']; ?>" data-package-currency="$"><?php echo $package['title']; ?></option>
                                       <?php endforeach; ?>
                                     </select>
+                                    <div class="error"><?php echo form_error('package_id'); ?></div>
                                   </div>
                                   <div class="spchclass form-group col-lg-4 ">
-                                    <select class="form-control rounded-0 border-0 line-height-1" name="spch[sp_427][spch_level_care]" id="spch[sp_427][spch_level_care]_spid_427" required="">
+                                    <select class="form-control rounded-0 border-0 line-height-1" name="home_level" id="home_level" required="">
                                       <option value="">--Select Level of Care*--</option>
                                       <?php foreach($levels as $level): ?>
-                                      <option value="<?php echo $level['cid']; ?>"><?php echo $level['carelevel_title']; ?></option>
+                                      <option value="<?php echo $level['cid']; ?>" <?php echo set_select('home_level',$level['cid']); ?>><?php echo $level['carelevel_title']; ?></option>
                                       <?php endforeach; ?>
                                     </select>
+                                    <div class="error"><?php echo form_error('home_level'); ?></div>
                                   </div>
                                   <div class="spchclass form-group col-lg-4 ">
-                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Pharmacy Name*" name="spch[sp_427][spch_pharmacy_name]" id="spch[sp_427][spch_pharmacy_name]_spid_427" required="" onchange="">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Pharmacy Name*" name="pharmacy_name" id="pharmacy_name" required="" onchange="" value="<?php echo set_value('pharmacy_name'); ?>">
+                                    <div class="error"><?php echo form_error('pharmacy_name'); ?></div>
                                   </div>
 
-                                <!-- <div class="spchclass form-group col-lg-4 "><select class="form-control rounded-0 border-0 line-height-1" name="spch[sp_427][facility]" id="spch[sp_427][facility]_spid_427" required=""><option value="">--Select Facility*--</option><option value="Mental Health">Mental Health</option><option value="Intellectual and Developmental Disabilities">Intellectual and Developmental Disabilities</option><option value="Seniors">Seniors</option><option value="Blended Facility">Blended Facility</option></select></div> -->
-
                                 <div class="spchclass form-group col-lg-4 rounded-0 border-0 line-height-1">
-                                        <div class="selectBox">
-                                            <select class="form-control" id="facility-select" name="facility-select[]" multiple>
-                                                <?php foreach($facilities as $facility): ?>
-                                                <option value="<?php echo $facility['fid']; ?>"><?php echo $facility['facility_title']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-
-                                        </div>
-
+                                    <div class="selectBox">
+                                        <select class="form-control" id="facilities" name="facilities[]" multiple>
+                                            <?php foreach($facilities as $facility): ?>
+                                            <option value="<?php echo $facility['fid']; ?>" <?php echo set_select('facilities[]',$facility['fid']); ?>><?php echo $facility['facility_title']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="error"><?php echo form_error('facilities[]'); ?></div>
                                 </div>
 
                                 <div class="spchclass form-group col-lg-4 ">
-                                  <select class="form-control rounded-0 border-0 line-height-1" name="spch[sp_427][region]" id="spch[sp_427][region]_spid_427" required="">
+                                  <select class="form-control rounded-0 border-0 line-height-1" name="region_id" id="region_id" required="">
                                     <option value="">--Select Region*--</option>
                                     <?php foreach($regions as $region): ?>
-                                      <option value="<?php echo $region['rid']; ?>"><?php echo $region['region_name']; ?></option>
+                                      <option value="<?php echo $region['rid']; ?>" <?php echo set_select('region_id',$region['rid']); ?>><?php echo $region['region_name']; ?></option>
                                       <?php endforeach; ?>
                                   </select>
+                                  <div class="error"><?php echo form_error('region_id'); ?></div>
                                 </div>
 
 
-                                <div class="spchclass form-group col-lg-12 "><textarea class="form-control rounded-0 border-0 line-height-1" placeholder="Description of Home and Services to the Public" name="spch[sp_427][public_description]" id="spch[sp_4273][public_description]_spid_4273" style="height: 150px!important;" required=""></textarea></div>
+                                <div class="spchclass form-group col-lg-12 ">
+                                    <textarea class="form-control rounded-0 border-0 line-height-1" placeholder="Description of Home and Services to the Public" name="description" id="description" style="height: 150px!important;" required=""><?php echo set_value('description'); ?></textarea>
+                                    <div class="error"><?php echo form_error('description'); ?></div>
+                                </div>
 
-                                <div class="spchclass form-group col-lg-12 "><textarea class="form-control rounded-0 border-0 line-height-1" placeholder="Notes/Comments for Admin" name="spch[sp_427][spch_notes]" id="spch[sp_427][spch_notes]_spid_427" required=""></textarea></div>
+                                <div class="spchclass form-group col-lg-12 ">
+                                    <textarea class="form-control rounded-0 border-0 line-height-1" placeholder="Notes/Comments for Admin" name="comments" id="comments"><?php echo set_value('comments'); ?></textarea>
+                                    <div class="error"><?php echo form_error('comments'); ?></div>
+                                </div>
 
 
                                 <div class="spchclass form-group col-lg-4 ">
-                                  <label class="label-control">Upload Main Image</label>*<input type="file" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Notes" name="spch[sp_427][photo_url]" id="spch[sp_427][photo_url]_spid_427" required="" onchange="addRemoeOpt(this)"></div>
-                                  <div class="spchclass form-group col-lg-4 "><label class="label-control">Upload 2nd Image</label><input type="file" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Notes" name="spch[sp_427][photo_url_two]" id="spch[sp_427][photo_url_two]_spid_427" onchange="addRemoeOpt(this)"></div>
-                                  <div class="spchclass form-group col-lg-4 "><label class="label-control">Upload 3rd Image</label><input type="file" class="form-control rounded-0 border-0 line-height-1" placeholder="Notes" name="spch[sp_427][photo_url_three]" id="spch[sp_427][photo_url_three]_spid_427" onchange="addRemoeOpt(this)"></div>
-                                  <div class="spchclass form-group col-lg-4 "><label class="label-control">Upload 4th Image</label><input type="file" class="form-control rounded-0 border-0 line-height-1" placeholder="Notes" name="spch[sp_427][photo_url_four]" id="spch[sp_427][photo_url_four]_spid_427" onchange="addRemoeOpt(this)"></div>
-                                  <div class="spchclass form-group col-lg-4 "><label class="label-control">Upload 5th Image</label><input type="file" class="form-control rounded-0 border-0 line-height-1" placeholder="Notes" name="spch[sp_427][photo_url_five]" id="spch[sp_427][photo_url_five]_spid_427" onchange="addRemoeOpt(this)"></div>
-                                  <div class="spchclass form-group col-lg-4 "><label class="label-control">Upload 6th Image</label><input type="file" class="form-control rounded-0 border-0 line-height-1" placeholder="Notes" name="spch[sp_427][photo_url_six]" id="spch[sp_427][photo_url_six]_spid_427" onchange="addRemoeOpt(this)"></div>
-                                  <div class="spchclass form-group col-lg-4 "><input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Facebook link" name="spch[sp_427][fb_url]" id="spch[sp_427][fb_url]_spid_427" onchange=""></div>
-                                  <div class="spchclass form-group col-lg-4 "><input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Instagram link" name="spch[sp_427][inst_url]" id="spch[sp_427][inst_url]_spid_427" onchange=""></div>
-                                  <div class="spchclass form-group col-lg-4 "><input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Twitter link" name="spch[sp_427][twi_url]" id="spch[sp_427][twi_url]_spid_427" onchange=""></div>
-                                  <div class="spchclass form-group col-lg-4 "><input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="YouTube link" name="spch[sp_427][youtube_url]" id="spch[sp_427][youtube_url]_spid_427" onchange=""></div>
-                                  <div class="spchclass form-group col-lg-4 "><input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="LinkedIn link" name="spch[sp_427][linkdin_url]" id="spch[sp_427][linkdin_url]_spid_427" onchange=""></div>
-                                  <div class="spchclass form-group col-lg-4 "><input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Website link" name="spch[sp_427][website_url]" id="spch[sp_427][website_url]_spid_427" onchange=""></div>
-                                  <div class="form-group col-lg-12 t-wh"><h4>Please check the boxes if you answer <b><u>YES</u></b> to any of the following questions:</h4></div>
+                                    <label class="label-control">Upload Main Image</label>*
+                                    <input type="file" class="form-control rounded-0 border-0 line-height-1" name="mainimage" id="mainimage" required="">
+                                    <div class="error"><?php echo form_error('mainimage'); ?></div>
+                                </div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <label class="label-control">Upload 2nd Image</label>
+                                    <input type="file" class="form-control rounded-0 border-0 line-height-1" name="image2" id="image2">
+                                </div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <label class="label-control">Upload 3rd Image</label>
+                                    <input type="file" class="form-control rounded-0 border-0 line-height-1" name="image3" id="image3" ></div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <label class="label-control">Upload 4th Image</label>
+                                    <input type="file" class="form-control rounded-0 border-0 line-height-1" name="image4" id="image4" ></div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <label class="label-control">Upload 5th Image</label>
+                                    <input type="file" class="form-control rounded-0 border-0 line-height-1"  name="image5" id="image5" ></div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <label class="label-control">Upload 6th Image</label>
+                                    <input type="file" class="form-control rounded-0 border-0 line-height-1"  name="image6" id="image6"></div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Facebook link" name="facebook" id="facebook" onchange="" value="<?php echo set_value('facebook'); ?>">
+                                </div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Instagram link" name="instagram" id="instagram" onchange="" value="<?php echo set_value('instagram'); ?>">
+                                </div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Twitter link" name="twitter" id="twitter" onchange="" value="<?php echo set_value('twitter'); ?>">
+                                </div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="YouTube link" name="youtube" id="youtube" onchange="" value="<?php echo set_value('youtube'); ?>">
+                                </div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="LinkedIn link" name="linkedin" id="linkedin" onchange="" value="<?php echo set_value('linkedin'); ?>">
+                                </div>
+                                <div class="spchclass form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Website link" name="website" id="website" onchange="" value="<?php echo set_value('website'); ?>">
+                                </div>
+                                <div class="form-group col-lg-12 t-wh">
+                                    <h4>Please check the boxes if you answer <b><u>YES</u></b> to any of the following questions:</h4>
+                                    <div class="error"><?php echo form_error('features[]'); ?></div>
+                                </div>
                                     <?php foreach($features as $feature): ?>
                                         <div class=" che-cls form-group col-lg-6 ">
-                                            <input type="checkbox" class="mr-3 rounded-0 border-0 line-height-1" name="features[<?php echo $feature['fid']; ?>]" id="feature-<?php echo $feature['fid']; ?>" value="1">
+                                            <input type="checkbox" class="mr-3 rounded-0 border-0 line-height-1" <?php echo set_checkbox("features[".$feature['fid']."]", "1"); ?> name="features[<?php echo $feature['fid']; ?>]" id="feature-<?php echo $feature['fid']; ?>" value="1">
                                             <?php echo $feature['feature_title']; ?>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
-                                <div class="form-group col-lg-12">
-                                  <h4>Yearly Membership Fees: <span id="invoice-amount" class="invoice-amount">$200.00</span></h4>
+                                <div class="form-group col-lg-12" id="amount-info">
+                                  <h4>Yearly Membership Fees: <span id="invoice-amount" class="invoice-amount"></span></h4>
                                 </div>
                                 <div class="form-group col-lg-12 payment-option">
-
                                     <h4>Please chose your Preferred payment option:</h4>
-                                   <input type="radio" id="etransfer" name="preferred-payment" value="HTML">
-                                  <label for="etransfer">E-Transfer</label><br>
-                                  <input type="radio" id="check" name="preferred-payment" value="CSS">
-                                  <label for="check">Check</label><br>
-                                  <input type="radio" id="cash" name="preferred-payment" value="JavaScript">
-                                  <label for="cash">Cash</label>
-                                  <input  style="display:none;" type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Payment Info" name="payment_info" id="payment_info" aria-label="Payment Info">
-
+                                    <div class="error"><?php echo form_error('payment_method'); ?></div>
+                                    <input type="radio" id="etransfer" name="payment_method" <?php echo set_radio("payment_method", "eTransfer"); ?> value="eTransfer">
+                                    <label for="etransfer">E-Transfer</label><br>
+                                    <input type="radio" id="check" name="payment_method" <?php echo set_radio("payment_method", "Cheque"); ?> value="Cheque">
+                                    <label for="check">Cheque</label><br>
+                                    <input type="radio" id="cash" name="payment_method" <?php echo set_radio("payment_method", "Cash"); ?> value="Cash">
+                                    <label for="cash">Cash</label>
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Payment Info" name="payment_info" id="payment_info" aria-label="Payment Info" value="<?php echo set_value('payment_info'); ?>">
+                                    <div id="payment_info_error" class="error"><?php echo form_error('payment_info'); ?></div>
                                 </div>
                             <div class="form-group col-lg-12 text-center">
-                                <input type="submit" value="Finished/Submit" class="btnsubmit btn btn-quaternary btn-v-3 font-weight-semibold justify-content-center w-100 h-100 rounded-0" onclick="validate_form()">
+                                <input id="token" name="token" type="hidden" value="">
+                                <input id="register-submit" type="submit" value="Finished/Submit" class="btnsubmit btn btn-quaternary btn-v-3 font-weight-semibold justify-content-center w-100 h-100 rounded-0">
                             </div>
                             </div>
                         </form>

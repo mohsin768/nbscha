@@ -8,7 +8,7 @@ class Register extends FrontController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('PagesModel');
-		//$this->load->model('RequestsModel');
+		$this->load->model('RequestsModel');
 		$this->load->model('PackagesModel');
 		$this->load->model('CarelevelsModel');
 		$this->load->model('FacilitiesModel');
@@ -34,7 +34,7 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('package_id', 'Beds', 'required');
 		$this->form_validation->set_rules('home_level', 'Level', 'required');
 		$this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
-		$this->form_validation->set_rules('facilities', 'Facilities', 'required');
+		$this->form_validation->set_rules('facilities[]', 'Facilities', 'required');
 		$this->form_validation->set_rules('region_id', 'Region', 'required');
 		$this->form_validation->set_rules('description', 'Description', '');
 		$this->form_validation->set_rules('comments', 'Comments', '');
@@ -51,7 +51,6 @@ class Register extends FrontController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if($this->form_validation->run() == FALSE)
 		{
-
 			$pageId = $this->settings['REGISTER_PAGE_ID'];
 			$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 			$this->pageType = 'register';
@@ -83,10 +82,12 @@ class Register extends FrontController {
 			if(is_array($features)){
 				$features = serialize($features);
 			}
+			$packageId = secureInput($this->input->post('package_id'));
+			$packageInfo = $this->PackagesModel->load($packageId);
 			$mainimage = $image2 = $image3 = $image4 = $image5 = $image6 = '';
 			$requestsImageUploadPath = 'public/uploads/requests/images';
-			if(!is_dir($artistImageUploadPath)){
-				mkdir($artistImageUploadPath, 0777, TRUE);
+			if(!is_dir($requestsImageUploadPath)){
+				mkdir($requestsImageUploadPath, 0777, TRUE);
 			}
 			$imageConfig['encrypt_name'] = TRUE;
 			$imageConfig['upload_path'] = $requestsImageUploadPath;
@@ -95,8 +96,8 @@ class Register extends FrontController {
 			$this->upload->initialize($imageConfig);
 			if($this->upload->do_upload('mainimage'))
 			{
-				$mainimageeData=$this->upload->data();
-				$mainimage=$mainimageeData['file_name'];
+				$mainimageData=$this->upload->data();
+				$mainimage=$mainimageData['file_name'];
 			}
 			$this->upload->initialize($imageConfig);
 			if($this->upload->do_upload('image2'))
@@ -142,7 +143,7 @@ class Register extends FrontController {
 				'home_email' => secureInput($this->input->post('home_email')),
 				'home_phone' => secureInput($this->input->post('home_phone')),
 				'home_fax' => secureInput($this->input->post('home_fax')),
-				'package_id' => secureInput($this->input->post('package_id')),
+				'package_id' => $packageInfo->pid,
 				'home_level' => secureInput($this->input->post('home_level')),
 				'pharmacy_name' => secureInput($this->input->post('pharmacy_name')),
 				'region_id' => secureInput($this->input->post('region_id')),
@@ -162,6 +163,11 @@ class Register extends FrontController {
 				'youtube' => secureInput($this->input->post('youtube')),
 				'linkedin' => secureInput($this->input->post('linkedin')),
 				'website' => secureInput($this->input->post('website')),
+				'amount'=>$packageInfo->price,
+				'payment_method' => secureInput($this->input->post('payment_method')),
+				'payment_info' => secureInput($this->input->post('payment_info')),
+				'payment_status' => '0',
+				'created' => date('Y-m-d H:i:s'),
 				'status' => 'pending'
 			);
 			$insertId = $this->RequestsModel->insert($data);

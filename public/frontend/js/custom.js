@@ -2131,6 +2131,8 @@ var THEMEMASCOT = {};
             THEMEMASCOT.slider.init();
             THEMEMASCOT.widget.init();
             THEMEMASCOT.windowOnscroll.init();
+            updateAmoutInfo();
+            updatePaymentInfo();
         }
     };
 
@@ -2177,6 +2179,7 @@ var THEMEMASCOT = {};
     /* ---------------------------------------------------------------------- */
     $document.ready(
         THEMEMASCOT.documentOnReady.init
+        
     );
     $window.on('load',
         THEMEMASCOT.windowOnLoad.init
@@ -2187,14 +2190,50 @@ var THEMEMASCOT = {};
 
     //call function before document ready
     THEMEMASCOT.initialize.TM_preLoaderClickDisable();
-    $('#facility-select').multiselect({
+    $('#facilities').multiselect({
         columns: 1,
         placeholder: 'Select Facilities',
         search: true,
         selectAll: true
     });
-    $(".payment-option input[type='radio']").change(function(){
-      $("#payment_info").show();
+    $(".payment-option input[type='radio']").on('change',function(){
+      updatePaymentInfo();
+    });
+    $("#package_id").on('change',function(){
+        updateAmoutInfo();
+    });
+
+    function updatePaymentInfo(){
+        var paymentMethod = $('.payment-option input[type=radio]:checked').val();
+        if(paymentMethod == 'eTransfer' || paymentMethod == 'Cheque'){
+            $('#payment_info').show();
+        } else {
+            $('#payment_info').hide();
+            $('#payment_info').value('');
+            $('#payment_info_error').html('');
+            
+        }
+    }
+
+    function updateAmoutInfo(){
+        var packageSelected = $('#package_id').val();
+        if(packageSelected!=''){
+            var price = $('#package_id').find(":selected").attr('data-package-price');
+            var currency = $('#package_id').find(":selected").attr('data-package-currency');
+            $('#invoice-amount').html(currency+price);
+            $('#amount-info').show();
+        } else {
+            $('#amount-info').hide();
+        }
+    }
+    $("#register-submit").on('click',function(e){
+        e.preventDefault();
+        grecaptcha.ready(function() {
+            grecaptcha.execute(captchaSiteKey, {action: 'member_register'}).then(function(token) {
+                $('#token').val(token);
+                $('#nbscha-register-form').submit();
+            });;
+        });
     });
 
 })(jQuery);
