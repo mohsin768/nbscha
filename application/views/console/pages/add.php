@@ -11,7 +11,7 @@
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'page-add');
                 echo form_open_multipart(admin_url_string('pages/add'),$attributes);
                 ?>
-                
+                <input type="hidden" name="language" value="<?php echo $this->default_language;?>" />
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title<span class="required">*</span>
                     </label>

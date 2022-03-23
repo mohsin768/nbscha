@@ -31,7 +31,15 @@
                     <div class="clearfix"></div>
                 </div>
 
-
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="icon_class">Icon Class <span class="lang_label">(All Languages)</span><span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('icon_class'); ?>
+                        <input type="text" id="icon_class" required  name="icon_class"  value="<?php echo $statistic->icon_class; ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Number <span class="lang_label">(All Languages)</span><span class="required">*</span>

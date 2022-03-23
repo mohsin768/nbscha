@@ -12,10 +12,6 @@
 section.inner-header.divider.parallax.layer-overlay.overlay-dark-5{
     background-image: url('public/header-bar-img.jpg')!important;
 }
-div#rs-1-layer-1 {
-    font-size: 90px!important;
-}
-
 .post .entry-content {
     height: 180px;
     overflow: hidden;

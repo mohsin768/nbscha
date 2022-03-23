@@ -6,7 +6,7 @@
     <ul>
       <?php 
       $i=0; 
-      foreach($sliders as $slider): 
+      foreach($sliders as $slide): 
         $i++; 
         $sliderImage = frontend_assets_url('images/slide/c1.jpg');
         if($slide['image']!=''){
@@ -91,7 +91,7 @@
               data-splitin="none"
               data-splitout="none"
               data-responsive_offset="on"
-              style="z-index: 5; white-space: nowrap; letter-spacing:0px; font-weight:600;"><?php echo $slide['body']; ?>
+              style="z-index: 5; white-space: nowrap; letter-spacing:0px; font-weight:600;"><?php echo $slide['summary']; ?>
            </div>
       </li>
       <?php endforeach; ?>

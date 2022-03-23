@@ -80,6 +80,7 @@ class Statistics extends ConsoleController {
 			}
 
 			$maindata = array('icon' => $image,
+			'icon_class' => $this->input->post('icon_class'),
 			'number' => $this->input->post('number'),
 			'status' => $this->input->post('status'));
 
@@ -119,7 +120,10 @@ class Statistics extends ConsoleController {
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
-			$maindata = array('number' => $this->input->post('number'), 'status' => $this->input->post('status'));
+			$maindata = array(
+				'icon_class' => $this->input->post('icon_class'),
+				'number' => $this->input->post('number'), 
+				'status' => $this->input->post('status'));
 
 			$descdata = array(
 				'statistics_id' => $id,

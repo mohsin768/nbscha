@@ -120,6 +120,9 @@ class Widgethelper {
             case 'testimonials_widget':
                 $pageBlockContent = $this->CI->contenthelper->getTestimonialsWidget($pageBlock);
                 break;
+            case 'contact_widget':
+                $pageBlockContent = $this->CI->contenthelper->getContactWidget($pageBlock);
+                break;
             case 'combined_widget':
                 $pageBlockContent = $this->CI->pagehelper->getCombinedWidget($pageBlock);
                 break;

@@ -12,7 +12,7 @@ class Board extends FrontController {
 
 	public function index($slug='')
 	{
-		$pageId = $this->settings['REGISTER_PAGE_ID'];
+		$pageId = $this->settings['BOARD_PAGE_ID'];
 		$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 		$this->pageType = 'register';
 		if(!$pageObject){

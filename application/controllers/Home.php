@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Contact extends FrontController {
+class Home extends FrontController {
 
 	var $pageObject, $pageType, $pageId;
 

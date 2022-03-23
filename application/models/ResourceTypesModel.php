@@ -10,8 +10,8 @@ class ResourceTypesModel extends CMS_Model {
 
     function getResourceTypes(){
       $results = array(
-            'public' => 'Public',
-            'member' => 'Member'
+        'public' => 'Public',
+        'member' => 'Member'
       );
       return $results;
   }

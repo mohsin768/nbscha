@@ -19,6 +19,7 @@ $status = array('0' => 'Not Published','1' => 'Published');
                         <thead>
                             <tr class="headings">
                                 <th class="column-title">Title</th>
+                                <th class="column-title">Language</th>
                                 <th class="column-title fix-100 center-align">Status</th>
                                 <th class="column-title no-link last"><span class="nobr">Action</span>
                                 </th>
@@ -29,12 +30,14 @@ $status = array('0' => 'Not Published','1' => 'Published');
                             <?php foreach($pages as $page):?>
                             <tr class="even pointer">
                                 <td class=" "><?php echo $page['title'];?></td>
+                                <td class=" "><?php echo $this->languages_pair[$page['language']];?></td>
                                 <td class="center-align"><?php echo $status[$page['status']];?></td>
                                 <td class=" last">
-                                <a href="<?php echo admin_url('pages/edit/'.$page['id']); ?>">Edit</a>
+                                    <a class="btn btn-dark btn-xs" href="<?php echo admin_url('pages/translates/'.$page['id']); ?>"><i class="fa fa-language"></i> Translates</a>    
+                                    | <a href="<?php echo admin_url('pages/edit/'.$page['id'].'/'.$page['language']); ?>">Edit</a>
                                     | <a href="<?php echo admin_url('pages/contents/'.$page['id']); ?>">Content Blocks</a>
                                     | <a href="<?php echo admin_url('pages/widgets/'.$page['id']); ?>">Widgets</a>
-                                    | <a href="<?php echo admin_url('pages/seo/'.$page['id']); ?>">SEO</a>
+                                    | <a href="<?php echo admin_url('pages/seo/'.$page['id'].'/'.$page['language']); ?>">SEO</a>
                                     | <a class="confirmDelete" href="<?php echo admin_url('pages/delete/'.$page['id']); ?>">Delete</a>
                                 </td>
                             </tr>
