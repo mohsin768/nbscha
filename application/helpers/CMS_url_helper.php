@@ -175,3 +175,19 @@ if ( ! function_exists('news_url'))
 		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
+if ( ! function_exists('board_url'))
+{
+	function board_url($slug, $protocol = NULL)
+	{
+		$uri = 'board/'.$slug;
+		return get_instance()->config->site_url($uri, $protocol);
+	}
+}
+if ( ! function_exists('residences_url'))
+{
+	function residences_url($slug, $protocol = NULL)
+	{
+		$uri = 'residences/'.$slug;
+		return get_instance()->config->site_url($uri, $protocol);
+	}
+}

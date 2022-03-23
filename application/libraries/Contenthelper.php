@@ -22,20 +22,20 @@ class Contenthelper {
 
   function getBoardMembersWidget($pageBlock){
     $vars = array();
+    $this->CI->load->model('TeamsModel');
+    $boardMembersCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $vars['boardMembers'] = $this->CI->TeamsModel->getArrayCond($boardMembersCond);
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
-    $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
-    $vars['primary_link_title'] = isset($pageBlock['primary_link_title'])?$pageBlock['primary_link_title']:'';
-    $vars['primary_link_url'] = isset($pageBlock['primary_link_url'])?$pageBlock['primary_link_url']:'';
+    $vars['content'] = isset($pageBlock['content'])?$pageBlock['content']:'';
     return $this->CI->load->view(frontend_views_path('widgets/contents/board_members'),$vars,TRUE);
   }
 
   function getFaqsWidget($pageBlock){
     $vars = array();
-    $vars = array();
     $this->CI->load->model('FaqsModel');
-    $factsCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['faqs'] = $this->CI->FaqsModel->getArrayCond($factsCond);
+    $faqsCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $vars['faqs'] = $this->CI->FaqsModel->getArrayCond($faqsCond);
     return $this->CI->load->view(frontend_views_path('widgets/contents/faqs'),$vars,TRUE);
   }
 
@@ -72,11 +72,9 @@ class Contenthelper {
 
   function getSponsorsWidget($pageBlock){
     $vars = array();
-    $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
-    $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
-    $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
-    $vars['primary_link_title'] = isset($pageBlock['primary_link_title'])?$pageBlock['primary_link_title']:'';
-    $vars['primary_link_url'] = isset($pageBlock['primary_link_url'])?$pageBlock['primary_link_url']:'';
+    $this->CI->load->model('SponsorsModel');
+    $sponsorsCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $vars['sponsors'] = $this->CI->SponsorsModel->getArrayCond($sponsorsCond);
     return $this->CI->load->view(frontend_views_path('widgets/contents/sponsors'),$vars,TRUE);
   }
 
