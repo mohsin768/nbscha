@@ -25,11 +25,13 @@
                             <div class="pricing  maxwidth400">
                                 <div class="row">
                                     <div class="icon-box icon-box-effect mb-0 mt-0 p-15 bg-theme-colored border-bottom-3px">
-                                        <?php if($link['image']!=''){ $linkImage = frontend_uploads_url('links/images/'.$link['image']); ?>
                                         <a href="<?php echo $link['link_url']; ?>" class="icon mb-0 mr-0 pull-left flip">
+                                        <?php if($link['image']!=''){ $linkImage = frontend_uploads_url('links/images/'.$link['image']); ?>
                                             <img src="<?php echo $linkImage; ?>" style="width: 50px; height: 50px; padding-top: 15px;">
-                                        </a>
+                                        <?php } else { ?>
+                                            <i class="fa fa-stethoscope text-white font-48"></i>
                                         <?php } ?>
+                                        </a>
                                         <div class="ml-80">
                                             <h5 class="icon-box-title mt-15 mb-5 text-white text-left"><strong><a href="<?php echo $link['link_url']; ?>" target="_blank"><?php echo $link['name']; ?></a></strong></h5>
                                             <p class="text-white text-left" style="padding-right:20px;"><?php echo $link['summary']; ?></p>

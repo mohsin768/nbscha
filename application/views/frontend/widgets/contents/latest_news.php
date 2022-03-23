@@ -17,7 +17,7 @@
                     <div class="entry-header">
                         <?php if($newsitem['image']!=''){ $newsImage = frontend_uploads_url('news/images/'.$newsitem['image']); ?>
                         <div class="post-thumb thumb home-thumb">
-                            <img src="<?php echo $newsImage; ?>" alt="" class="img-responsive img-fullwidth" width="370" height="247">
+                            <img src="<?php echo $newsImage; ?>" alt="<?php echo $newsitem['title']; ?>" class="img-responsive img-fullwidth" width="370" height="247">
                         </div>
                         <?php } ?>
                     </div>
@@ -25,7 +25,7 @@
                         <div class="entry-meta mt-0 no-bg no-border">
                             <div class="event-content">
                             <h4 class="entry-title text-white text-capitalize m-0">
-                                <a href="<?php echo news_url($newsitem['id']); ?>" style="pointer-events: none; cursor: none;"><?php echo $newsitem['title']; ?></a>
+                                <a href="<?php echo news_url($newsitem['slug']); ?>" style="pointer-events: none; cursor: none;"><?php echo $newsitem['title']; ?></a>
                             </h4>
                             </div>
                         </div>

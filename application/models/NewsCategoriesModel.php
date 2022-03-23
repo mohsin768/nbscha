@@ -10,4 +10,5 @@ class NewsCategoriesModel extends CMS_Model {
       $this->foreign_key = 'news_category_id';
       $this->multilingual = TRUE;
   }
+
 }

@@ -42,7 +42,7 @@ class Contenthelper {
   function getLatestNewsWidget($pageBlock){
     $vars = array();
     $this->CI->load->model('NewsModel');
-    $newsCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $newsCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
     $vars['news'] = $this->CI->NewsModel->getArrayLimitCond('3',$newsCond);
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
@@ -53,13 +53,20 @@ class Contenthelper {
   function getNewsWidget($pageBlock){
     $vars = array();
     $this->CI->load->model('LinksModel');
+    $this->CI->load->model('NewsModel');
+    $this->CI->load->model('NewsCategoriesModel');
     $linksCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
     $vars['links'] = $this->CI->LinksModel->getArrayCond($linksCond);
-    $this->CI->load->model('NewsCategoriesModel');
     $catCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['categories'] = $this->CI->NewsCategoriesModel->getArrayCond($catCond);
-    $this->CI->load->model('NewsModel');
-    $newsCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $categories = $this->CI->NewsCategoriesModel->getArrayCond($catCond);
+    $categoryCount = array();
+    foreach($categories as $category):
+      $catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->CI->site_language);
+      $categoryCount[$category['id']] = $this->CI->NewsModel->getCountCond($catCountCond);
+    endforeach;
+    $vars['categories'] = $categories;
+    $vars['categoryCount'] = $categoryCount;
+    $newsCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
     $vars['news'] = $this->CI->NewsModel->getArrayCond($newsCond);
     return $this->CI->load->view(frontend_views_path('widgets/contents/news'),$vars,TRUE);
   }
