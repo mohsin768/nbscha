@@ -58,7 +58,7 @@
                             <select id="block_category" name="block_category" required="required" class="form-control">
                                 <option value="">Please Select</option>
                                 <?php foreach($categories as $id => $name): $selected = false; if($widget->block_category == $id){ $selected = true; } ?>
-                                    <option value="<?php echo $id; ?>" <?php echo set_select('block_category',$id); ?>><?php echo $name; ?></option>
+                                    <option value="<?php echo $id; ?>" <?php echo set_select('block_category',$id,$selected); ?>><?php echo $name; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -66,7 +66,7 @@
                     </div>
                 <?php } ?>
                 <?php 
-                $titleWidgets = array('content_widget','about_mission_widget','home_works_widget','latest_news_widget','testimonials_widget','board_members_widget');
+                $titleWidgets = array('content_widget','about_mission_widget','latest_news_widget','testimonials_widget','board_members_widget');
                 if(in_array($type,$titleWidgets)){
                 ?>
                 <div class="form-group">

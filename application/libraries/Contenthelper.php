@@ -42,11 +42,12 @@ class Contenthelper {
 
   function getLatestNewsWidget($pageBlock){
     $vars = array();
+    $this->CI->load->model('NewsModel');
+    $newsCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $vars['news'] = $this->CI->NewsModel->getArrayLimitCond('3',$newsCond);
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
-    $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
-    $vars['primary_link_title'] = isset($pageBlock['primary_link_title'])?$pageBlock['primary_link_title']:'';
-    $vars['primary_link_url'] = isset($pageBlock['primary_link_url'])?$pageBlock['primary_link_url']:'';
+    $vars['content'] = isset($pageBlock['content'])?$pageBlock['content']:'';
     return $this->CI->load->view(frontend_views_path('widgets/contents/latest_news'),$vars,TRUE);
   }
 

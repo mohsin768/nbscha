@@ -15,7 +15,7 @@
                 <div class="icon-box icon-left iconbox-theme-colored pb-0 pt-30">
                     <?php if($block['icon_class']){ ?>
                     <a style="pointer-events: none;" class="icon  icon-bordered icon-circled icon-border-effect mr-20 mt-10 effect-circled pull-left flip" href="<?php echo $block['link_url']; ?>">
-                    <i class="fa fa-home"></i>
+                    <i class="fa <?php echo $block['icon_class']; ?>"></i>
                     </a>
                     <?php } ?>
                     <a href="<?php echo $block['link_url']; ?>"><h5 class="icon-box-title mb-5" style="cursor: pointer!important;"><?php echo $block['title']; ?></h5></a>

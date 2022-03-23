@@ -71,7 +71,10 @@ class WidgetsModel extends CMS_Model {
         return $typesPair;
     }
 
-    function getPageWidgets($id,$language){
+    function getPageWidgets($id,$language=''){
+        if($language==''){
+            $language = $this->default_language;
+        }
         $cond = array('page_id'=>$id,'widgets_desc.language'=>$language);
         $this->db->select($this->table_name.'.*,'.$this->desc_table_name.'.*,page_widgets.sort_order');
         $this->db->from($this->table_name);

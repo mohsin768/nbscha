@@ -57,7 +57,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><?php echo $request->payment_amount; ?></td>
+                    <td><?php echo $request->amount; ?></td>
                     <td><?php echo $request->payment_method; ?></td>
                     <td><?php echo $request->transaction_id; ?></td>
                     <td><?php if($request->payment_status=='1') echo '<strong style="color:green" >Success</strong>'; else echo '<strong style="color:red" >Pending</strong>'; ?></td>
