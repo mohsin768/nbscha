@@ -75,33 +75,27 @@
     </div>
     <div class="col-md-6">
         <h3 class="line-bottom mt-0">Get in touch with us today!</h3>
-        <p>We’re here to help and answer any question you might have. Fill out the form below or message us on one of our social media platforms and we'll be in touch with you as soon as possible. We look forward to hearing from you.</p>
+        <p><?php echo $this->settings['CONTACT_GETINTOUCH']; ?></p>
 
 
         <div class="icon-box media mb-0 pb-0"> <a class="media-left pull-left flip mr-20" href="#"> <i class="pe-7s-map-2 text-theme-colored"></i></a>
         <div class="media-body">
             <h5 class="mt-0">Our Mailing Address</h5>
-            <p>527 Dundonald Street, Suite 176<br> Fredericton, New Brunswick E3B 1X5</p>
+            <p><?php echo $this->settings['CONTACT_ADDRESS']; ?></p>
         </div>
         </div>
         <div class="icon-box media mb-0 pb-0 pt-0 mt-0"> <a class="media-left pull-left flip mr-15" href="#"> <i class="pe-7s-call text-theme-colored"></i></a>
         <div class="media-body">
             <h5 class="mt-0">Contact Number</h5>
-            <p><a href="tel:+325-12345-65478">(506) 639-4478</a></p>
+            <p><a href="tel:+<?php echo preg_replace("/[^0-9]/", "", $this->settings['CONTACT_PHONE']); ?>"><?php echo $this->settings['CONTACT_PHONE']; ?></a></p>
         </div>
         </div>
         <div class="icon-box media mb-0 pb-0 pt-0 mt-0"> <a class="media-left pull-left flip mr-15" href="#"> <i class="pe-7s-mail text-theme-colored"></i></a>
         <div class="media-body">
             <h5 class="mt-0">Email Address</h5>
-            <p><a href="mailto:supporte@yourdomin.com">info@nbscha.com</a></p>
+            <p><a href="mailto:<?php echo $this->settings['CONTACT_EMAIL']; ?>"><?php echo $this->settings['CONTACT_EMAIL']; ?></a></p>
         </div>
         </div>
-        <!-- <div class="icon-box media mb-0 pb-0 pt-0 mt-0"> <a class="media-left pull-left flip mr-20" href="#"> <i class="fa fa-skype text-theme-colored"></i></a>
-        <div class="media-body">
-            <h5 class="mt-0">Make a Video Call</h5>
-            <p>ThemeMascotSkype</p>
-        </div>
-        </div> -->
     </div>
     </div>
 

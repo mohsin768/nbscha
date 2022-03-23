@@ -38,7 +38,12 @@ class FrontController extends GlobalController {
     }
     function setFooter(){
         $vars = array();
-        $vars['footer_menu'] = $this->menuhelper->getProcessedMenu('footer_menu');
+        $this->load->model('NewsModel');
+        $newsCond = array('status'=>'1','type'=>'public','language'=>$this->site_language);
+        $vars['news'] = $this->NewsModel->getArrayLimitCond('5',$newsCond);
+        $this->load->model('LinksModel');
+        $linksCond = array('status'=>'1','type'=>'public','language'=>$this->site_language);
+        $vars['links'] = $this->LinksModel->getArrayLimitCond('5',$linksCond);
         $this->mainvars['footer']= $this->load->view(frontend_views_path('includes/footer'),$vars,TRUE);
     }
 
