@@ -10,28 +10,37 @@
     </div>
     <div class="section-content">
         <div class="row">
+            <?php if(is_array($news) && count($news)>0){ ?>
+            <?php $i=0; foreach($news as $newsitem): $i++; ?>
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <article class="post clearfix mb-sm-30">
                     <div class="entry-header">
+                        <?php if($newsitem['image']!=''){ $newsImage = frontend_uploads_url('news/images/'.$newsitem['image']); ?>
                         <div class="post-thumb thumb home-thumb">
-                            <img src="https://img.youtube.com/vi/LmIV2L4xVqs/mqdefault.jpg" alt="" class="img-responsive img-fullwidth" width="370" height="247">
+                            <img src="<?php echo $newsImage; ?>" alt="" class="img-responsive img-fullwidth" width="370" height="247">
                         </div>
+                        <?php } ?>
                     </div>
                     <div class="entry-content p-20 pr-10">
                         <div class="entry-meta mt-0 no-bg no-border">
                             <div class="event-content">
-                            <h4 class="entry-title text-white text-capitalize m-0"><a href="#" style="pointer-events: none; cursor: none;">NBSCHA Affordable. Quality. No...</a></h4>
+                            <h4 class="entry-title text-white text-capitalize m-0">
+                                <a href="<?php echo news_url($newsitem['id']); ?>" style="pointer-events: none; cursor: none;"><?php echo $newsitem['title']; ?></a>
+                            </h4>
                             </div>
                         </div>
-                        <p class="mt-10">New Brunswick Special Care Home Association offers over 400 homes with up to 1000 available beds. Affordable quality health care available right now. <a href="news-details.html" class="text-theme-colored font-15 pl-20"> Read More →</a></p>
+                        <p class="mt-10">
+                            <?php echo $newsitem['summary']; ?><a href="<?php echo news_url($newsitem['slug']); ?>" class="text-theme-colored font-15 pl-20"> Read More →</a>
+                        </p>
                         <div class="clearfix"></div>
                     </div>
                     <div class="bg-theme-colored p-5 text-center pt-10 pb-10">
-                        <span class="mb-10 text-white mr-10 font-13"><i class="fa fa-calendar mr-5 text-white"></i>31&nbsp;March</span>
-                        <span class="mb-10 text-white mr-10 font-13"><i class="fa fa-user mr-5 text-white"></i>posted by NBSCHA</span>
+                        <span class="mb-10 text-white mr-10 font-13"><i class="fa fa-calendar mr-5 text-white"></i><?php echo date('d F',strtotime($newsitem['publish_date'])); ?></span>
+                        <span class="mb-10 text-white mr-10 font-13"><i class="fa fa-user mr-5 text-white"></i>posted by <?php echo $newsitem['author']; ?></span>
                     </div>
                 </article>
             </div>
+            <?php endforeach; } ?>
         </div>
     </div>
     </div>

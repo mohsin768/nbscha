@@ -122,7 +122,7 @@
                 </div>
                 <?php } ?>
                 <?php 
-                $backgroundWidgets = array('content_widget');
+                $backgroundWidgets = array('statistics_widget','testimonials_widget','content_widget');
                 if(in_array($type,$backgroundWidgets)){
                 ?>
                 <div class="form-group">

@@ -167,3 +167,11 @@ if ( ! function_exists('frontend_artist_url'))
 		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
+if ( ! function_exists('news_url'))
+{
+	function news_url($slug, $protocol = NULL)
+	{
+		$uri = 'news/category/'.$slug;
+		return get_instance()->config->site_url($uri, $protocol);
+	}
+}

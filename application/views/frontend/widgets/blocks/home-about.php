@@ -25,7 +25,7 @@
                             <div class="pricing  maxwidth400">
                                 <div class="row">
                                     <div class="icon-box icon-box-effect mb-0 mt-0 p-15 bg-theme-colored border-bottom-3px">
-                                        <?php if($link['image']!=''){ $linkImage = frontend_upload_url('links/images/'.$link['image']); ?>
+                                        <?php if($link['image']!=''){ $linkImage = frontend_uploads_url('links/images/'.$link['image']); ?>
                                         <a href="<?php echo $link['link_url']; ?>" class="icon mb-0 mr-0 pull-left flip">
                                             <img src="<?php echo $linkImage; ?>" style="width: 50px; height: 50px; padding-top: 15px;">
                                         </a>
