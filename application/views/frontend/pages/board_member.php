@@ -57,7 +57,7 @@
 							<?php } ?>
 							<?php if($boardMember->email!=''){ ?>	 
 							<span>Email:</span>
-						    <a href="mailto:<?php echo $boardMember->phone; ?>"><?php echo $boardMember->phone; ?></a>
+						    <a href="mailto:<?php echo $boardMember->email; ?>"><?php echo $boardMember->email; ?></a>
 							<?php } ?>
 							</p>
 	                     </div>
