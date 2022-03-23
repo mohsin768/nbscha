@@ -52,11 +52,15 @@ class Contenthelper {
 
   function getNewsWidget($pageBlock){
     $vars = array();
-    $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
-    $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
-    $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
-    $vars['primary_link_title'] = isset($pageBlock['primary_link_title'])?$pageBlock['primary_link_title']:'';
-    $vars['primary_link_url'] = isset($pageBlock['primary_link_url'])?$pageBlock['primary_link_url']:'';
+    $this->CI->load->model('LinksModel');
+    $linksCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
+    $vars['links'] = $this->CI->LinksModel->getArrayCond($linksCond);
+    $this->CI->load->model('NewsCategoriesModel');
+    $catCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $vars['categories'] = $this->CI->NewsCategoriesModel->getArrayCond($catCond);
+    $this->CI->load->model('NewsModel');
+    $newsCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $vars['news'] = $this->CI->NewsModel->getArrayCond($newsCond);
     return $this->CI->load->view(frontend_views_path('widgets/contents/news'),$vars,TRUE);
   }
 

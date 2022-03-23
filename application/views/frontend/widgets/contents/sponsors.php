@@ -6,7 +6,7 @@
             <?php $i=0; foreach($sponsors as $sponsor): $i++; ?>
             <div class="col-sm-6 col-md-3 col-lg-3">
             <div class="schedule-box maxwidth500 bg-light mb-30">
-            <?php if($sponsor['image']!=''){ $sponsorImage = frontend_uploads_url('sponsors/images/'.$sponsor['image']); ?>
+            <?php if($sponsor['image']!=''){ $sponsorImage = frontend_uploads_url('sponsors/'.$sponsor['image']); ?>
             <div class="thumb">
                 <img class="img-fullwidth" alt="<?php echo $sponsor['title']; ?>" src="<?php echo $sponsorImage; ?>">
                 <div class="overlay">

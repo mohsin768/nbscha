@@ -72,6 +72,7 @@ class Teams extends ConsoleController {
 			$config['upload_path'] = 'public/uploads/teams';
 			$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
 			if($this->upload->do_upload('image'))
 			{
 				$imagedata=$this->upload->data();
@@ -144,7 +145,7 @@ class Teams extends ConsoleController {
 				$config['upload_path'] = 'public/uploads/teams';
 								$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 								$this->load->library('upload', $config);
-
+								$this->upload->initialize($config);
 					if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
 						$maindata['photo']='';
 					} else{
