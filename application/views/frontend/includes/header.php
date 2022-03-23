@@ -7,8 +7,8 @@
                 <div class="col-md-7">
                 <div class="widget no-border m-0">
                     <ul class="list-inline sm-text-center mt-5">
-                    <li> <i class="fa fa-phone text-theme-colored"></i> Call Us at <a href="#">(506) 639-4478</a> </li>
-                    <li> <i class="fa fa-envelope-o text-theme-colored"></i> <a href="info@nbscha.com">info@nbscha.com</a> </li>
+                    <li> <i class="fa fa-phone text-theme-colored"></i> Call Us at <a href="tel:+<?php echo preg_replace("/[^0-9]/", "", $this->settings['CONTACT_PHONE']); ?>"><?php echo $this->settings['CONTACT_PHONE']; ?></a> </li>
+                    <li> <i class="fa fa-envelope-o text-theme-colored"></i> <a href="mailto:<?php echo $this->settings['CONTACT_EMAIL']; ?>"><?php echo $this->settings['CONTACT_EMAIL']; ?></a> </li>
                     </ul>
                 </div>
                 </div>
