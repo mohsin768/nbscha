@@ -15,7 +15,7 @@ class News extends FrontController {
 
 	public function index($slug='')
 	{
-		$pageId = $this->settings['REGISTER_PAGE_ID'];
+		$pageId = $this->settings['NEWS_PAGE_ID'];
 		$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 		$this->pageType = 'register';
 		if(!$pageObject){
@@ -26,6 +26,12 @@ class News extends FrontController {
 		$this->processPage();
 		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
 		$vars = array();
+		$newsObject = $this->NewsModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
+		if(!$newsObject){
+			redirect('pagenotfound');
+		}
+		$vars['news'] = $newsObject;
+		$vars['category'] = $this->NewsCategoriesModel->getRowCond(array('id'=>$newsObject->category,'language'=>$this->site_language));
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/news_details'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
@@ -47,8 +53,7 @@ class News extends FrontController {
 		$newsCond = array('status'=>'1','type'=>'public','language'=>$this->site_language);
 		$categoryObject = $this->NewsCategoriesModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
 		if(!$categoryObject){
-			redirect('news');
-			
+			redirect('pagenotfound');
 		}
 		$newsCond['category'] = $categoryObject->id;
 		$vars = array();
