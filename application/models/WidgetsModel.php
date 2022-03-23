@@ -6,6 +6,9 @@ class WidgetsModel extends CMS_Model {
         parent::__construct();
         $this->table_name = 'widgets';
         $this->primary_key = 'id';
+        $this->desc_table_name = 'widgets_desc';
+        $this->foreign_key = 'widget_id';
+        $this->multilingual = TRUE;
     }
 
     function getTypes()
@@ -26,7 +29,8 @@ class WidgetsModel extends CMS_Model {
             array('key' =>'residences_list_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Residences List Widget'),
             array('key' =>'sponsors_list_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Sponsors List Widget'),
             array('key' =>'statistics_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Statistics Widget'),
-            array('key' =>'testimonials_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Testimonials Widget')
+            array('key' =>'testimonials_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Testimonials Widget'),
+            array('key' =>'contact_widget','type'=>'custom','dynamic'=>'0','combinable'=>'0','name'=>'Contact Widget')
 		);
 	}
 
@@ -67,10 +71,11 @@ class WidgetsModel extends CMS_Model {
         return $typesPair;
     }
 
-    function getPageWidgets($id){
-        $cond = array('page_id'=>$id);
-        $this->db->select($this->table_name.'.*,page_widgets.sort_order');
+    function getPageWidgets($id,$language){
+        $cond = array('page_id'=>$id,'widgets_desc.language'=>$language);
+        $this->db->select($this->table_name.'.*,'.$this->desc_table_name.'.*,page_widgets.sort_order');
         $this->db->from($this->table_name);
+        $this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
         $this->db->join("page_widgets", "page_widgets.widget_id = $this->table_name.id");
 		if (is_array($cond) && count($cond) > 0) {
 			$this->db->where($cond);

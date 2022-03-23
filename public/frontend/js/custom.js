@@ -2209,7 +2209,7 @@ var THEMEMASCOT = {};
             $('#payment_info').show();
         } else {
             $('#payment_info').hide();
-            $('#payment_info').value('');
+            $('#payment_info').val('');
             $('#payment_info_error').html('');
             
         }

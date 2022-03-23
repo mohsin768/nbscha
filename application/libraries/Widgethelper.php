@@ -59,7 +59,7 @@ class Widgethelper {
             if($this->CI->pageType=="packages"){
                 $pageBlocks = $this->CI->WidgetsModel->getPackageWidgets($pageId);
             } else {
-                $pageBlocks = $this->CI->WidgetsModel->getPageWidgets($pageId);
+                $pageBlocks = $this->CI->WidgetsModel->getPageWidgets($pageId,$this->CI->site_language);
             }
             foreach($pageBlocks as $pageBlock):
                 $pageContent .= $this->processPageBlock($pageBlock);

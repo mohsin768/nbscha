@@ -30,6 +30,7 @@ $status = array('0' => 'Not Published','1' => 'Published');
                             <tr class="headings">
                                 <th class="column-title">Name</th>
                                 <th class="column-title">Widget Type</th>
+                                <th class="column-title">Language</th>
                                 <th class="column-title no-link last"><span class="nobr">Action</span>
                                 </th>
                             </tr>
@@ -40,9 +41,10 @@ $status = array('0' => 'Not Published','1' => 'Published');
                             <tr class="even pointer">
                                 <td ><?php echo $widget['name'];?></td>
                                 <td ><?php echo $widgetType['name'];?></td>
+                                <td ><?php echo $this->languages_pair[$widget['language']];?></td>
                                 <td class=" last">
                                     <?php if($widgetType['type']!='system'){ ?>
-                                    <a href="<?php echo admin_url('widgets/edit/'.$widget['widget_type'].'/'.$widget['id']); ?>">Edit</a>
+                                    <a href="<?php echo admin_url('widgets/edit/'.$widget['widget_type'].'/'.$widget['id'].'/'.$widget['language']); ?>">Edit</a>
                                     <?php } ?>
                                     <?php if($widgetType['type']=='dynamic'){ ?>
                                     | <a class="confirmDelete" href="<?php echo admin_url('widgets/delete/'.$widget['id']); ?>">Delete</a>

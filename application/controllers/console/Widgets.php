@@ -104,28 +104,32 @@ class Widgets extends ConsoleController {
 			$widgets[0] = ($this->input->post('left_widget')!='')?$this->input->post('left_widget'):'0';
 			$widgets[1] = ($this->input->post('right_widget')!='')?$this->input->post('right_widget'):'0';
 			$widgets  = implode(',',$widgets);
-			$data=array(
+			$maindata=array(
 				'name'=>$this->input->post('name'),
 				'widget_type'=>$type,
 				'widget_template'=>$this->input->post('widget_template'),
 				'block_category'=>$this->input->post('block_category'),
+				'class'=>$this->input->post('class'),
+				'image'=>$image,
+				'background'=>$background,
+				'video'=>$video,
+				'widgets'=>$widgets
+			);
+			$descdata=array(
 				'title'=>$this->input->post('title'),
 				'subtitle'=>$this->input->post('subtitle'),
 				'inset_title'=>$this->input->post('inset_title'),
 				'class'=>$this->input->post('class'),
 				'content'=>$this->input->post('content'),
-				'image'=>$image,
-				'background'=>$background,
-				'video'=>$video,
 				'primary_link_title'=>$this->input->post('primary_link_title'),
 				'primary_link_url'=>$this->input->post('primary_link_url'),
 				'secondary_link_title'=>$this->input->post('secondary_link_title'),
 				'secondary_link_url'=>$this->input->post('secondary_link_url'),
 				'attachment_link_title'=>$this->input->post('attachment_link_title'),
 				'attachment'=>$attachment,
-				'widgets'=>$widgets
+				'language'=>$this->input->post('language')
 			);
-			$actionStatus = $this->WidgetsModel->insert($data);
+			$actionStatus = $this->WidgetsModel->insert($maindata,$descdata);
 			if($actionStatus){
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Added Successfully.'));
 				redirect(admin_url_string('widgets/overview'));
@@ -136,7 +140,7 @@ class Widgets extends ConsoleController {
 		}
 	}
 
-  	public function edit($type,$widgetId)
+  	public function edit($type,$widgetId, $lang, $translate='')
 	{
 		$this->ckeditorCall();
 		$widgetRow = $this->WidgetsModel->load($widgetId);
@@ -149,12 +153,18 @@ class Widgets extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
+			$langCond = $lang;
+			if($translate=='translate'){
+				$langCond = $this->default_language;
+			}
+			$edit['language'] = $lang;
+			$edit['translate'] = $translate;
 			$edit['type']= $type;
 			$edit['content_widget_templates']= $this->WidgetsModel->getContentWidgetTemplates();
 			$edit['block_widget_templates']= $this->WidgetsModel->getBlockWidgetTemplates();
 			$edit['categories']= $this->BlockCategoriesModel->getIdPair();
 			$edit['combinedWidgets'] = $this->WidgetsModel->getAllCombinableWidgets();
-			$edit['widget']= $this->WidgetsModel->load($widgetId);
+			$edit['widget']= $this->WidgetsModel->getRowCond(array('id'=>$widgetId,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('widgets/edit'), $edit,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
@@ -163,24 +173,57 @@ class Widgets extends ConsoleController {
 			$widgets[0] = ($this->input->post('left_widget')!='')?$this->input->post('left_widget'):'0';
 			$widgets[1] = ($this->input->post('right_widget')!='')?$this->input->post('right_widget'):'0';
 			$widgets  = implode(',',$widgets);
-			$data=array(
+			$maindata=array(
 				'name'=>$this->input->post('name'),
 				'widget_template'=>$this->input->post('widget_template'),
 				'block_category'=>$this->input->post('block_category'),
+				'class'=>$this->input->post('class'),
+				'widgets'=>$widgets
+			);
+			$descdata=array(
 				'title'=>$this->input->post('title'),
 				'subtitle'=>$this->input->post('subtitle'),
 				'inset_title'=>$this->input->post('inset_title'),
-				'class'=>$this->input->post('class'),
 				'content'=>$this->input->post('content'),
 				'primary_link_title'=>$this->input->post('primary_link_title'),
 				'primary_link_url'=>$this->input->post('primary_link_url'),
 				'secondary_link_title'=>$this->input->post('secondary_link_title'),
 				'secondary_link_url'=>$this->input->post('secondary_link_url'),
 				'attachment_link_title'=>$this->input->post('attachment_link_title'),
-				'widgets'=>$widgets
+				'language' => $this->input->post('language')
 			);
+			if($this->input->post('remove_gallery') && $this->input->post('remove_gallery')=='1'){
+				$maindata['gallery']='';
+			} else{
+				$widgetGalleryUploadPath = 'public/uploads/widgets/gallery';
+				if(!is_dir($widgetGalleryUploadPath)){
+					mkdir($widgetGalleryUploadPath, 0777, TRUE);
+				}
+				$gallery = array();
+				$count = count($_FILES['gallery']['name']);
+				for($i=0;$i<$count;$i++){
+					if(!empty($_FILES['gallery']['name'][$i])){
+						$_FILES['galleryitem']['name'] = $_FILES['gallery']['name'][$i];
+						$_FILES['galleryitem']['type'] = $_FILES['gallery']['type'][$i];
+						$_FILES['galleryitem']['tmp_name'] = $_FILES['gallery']['tmp_name'][$i];
+						$_FILES['galleryitem']['error'] = $_FILES['gallery']['error'][$i];
+						$_FILES['galleryitem']['size'] = $_FILES['gallery']['size'][$i];
+						$imageConfig['upload_path'] = $widgetGalleryUploadPath;
+						$imageConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+						$imageConfig['file_name'] = $_FILES['gallery']['name'][$i];
+						$this->load->library('upload', $imageConfig);
+						$this->upload->initialize($imageConfig);
+						if($this->upload->do_upload('galleryitem'))
+						{
+								$imageData=$this->upload->data();
+								$gallery[] = $imageData['file_name'];
+						}
+					}
+				}
+				$maindata['gallery']=implode(',',$gallery);
+			}
 			if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
-				$data['image']='';
+				$maindata['image']='';
 			} else{
 				$widgetImageUploadPath = 'public/uploads/widgets/images';
 				if(!is_dir($widgetImageUploadPath)){
@@ -193,12 +236,12 @@ class Widgets extends ConsoleController {
 				if($this->upload->do_upload('image'))
 				{
 						$imageData=$this->upload->data();
-						$data['image']=$imageData['file_name'];
+						$maindata['image']=$imageData['file_name'];
 				}
 			}
 
 			if($this->input->post('remove_background') && $this->input->post('remove_background')=='1'){
-				$data['background']='';
+				$maindata['background']='';
 			} else{
 				$widgetBackgroundUploadPath = 'public/uploads/widgets/background';
 				if(!is_dir($widgetBackgroundUploadPath)){
@@ -211,12 +254,12 @@ class Widgets extends ConsoleController {
 				if($this->upload->do_upload('background'))
 				{
 						$backgroundData=$this->upload->data();
-						$data['background']=$backgroundData['file_name'];
+						$maindata['background']=$backgroundData['file_name'];
 				}
 			}
 
 			if($this->input->post('remove_video') && $this->input->post('remove_video')=='1'){
-				$data['video']='';
+				$maindata['video']='';
 			} else{
 				$widgetVideoUploadPath = 'public/uploads/widgets/videos';
 				if(!is_dir($widgetVideoUploadPath)){
@@ -229,11 +272,11 @@ class Widgets extends ConsoleController {
 				if($this->upload->do_upload('video'))
 				{
 						$videoData=$this->upload->data();
-						$data['video']=$videoData['file_name'];
+						$maindata['video']=$videoData['file_name'];
 				}
 			}
 			if($this->input->post('remove_attachment') && $this->input->post('remove_attachment')=='1'){
-				$data['attachment']='';
+				$descdata['attachment']='';
 			} else{
 				$widgetAttachmentUploadPath = 'public/uploads/widgets/attachments';
 				if(!is_dir($widgetAttachmentUploadPath)){
@@ -246,11 +289,15 @@ class Widgets extends ConsoleController {
 				if($this->upload->do_upload('attachment'))
 				{
 						$attachmentData=$this->upload->data();
-						$data['attachment']=$attachmentData['file_name'];
+						$descdata['attachment']=$attachmentData['file_name'];
 				}
 			}
 			$cond = array('id' => $widgetId);
-      		$actionStatus=$this->WidgetsModel->updateCond($data,$cond);
+			if($translate=='translate'){
+				$actionStatus = $this->WidgetsModel->addTranslate($maindata,$cond,$descdata);
+			}else{
+				$actionStatus=$this->WidgetsModel->updateCond($maindata,$cond,$descdata);
+			}
 			if($actionStatus){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
 				redirect(admin_url_string('widgets/overview'));

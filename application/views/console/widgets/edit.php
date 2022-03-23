@@ -9,10 +9,10 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'widget-edit');
-                echo form_open_multipart(admin_url_string('widgets/edit/'.$type.'/'.$widget->id),$attributes);?>
+                echo form_open_multipart(admin_url_string('widgets/edit/'.$type.'/'.$widget->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $widget->id; ?>" />
                 <input type="hidden" name="widget_type" value="<?php echo $widget->widget_type; ?>" />
-
+                <input type="hidden" name="language" value="<?php echo $language; ?>" />
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Name<span class="required">*</span>
                     </label>
@@ -47,7 +47,9 @@
                         <div class="clearfix"></div>
                     </div>
                 <?php } ?>
-                <?php if($type == 'content_block_widget'){ ?>    
+                <?php 
+                $blockWidgets = array('content_block_widget','about_intro_widget','about_mission_widget','home_blocks_widget');
+                if(in_array($type,$blockWidgets)){ ?>    
                     <div class="form-group">
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="block_category">Category<span class="required">*</span>
                         </label>
@@ -63,6 +65,10 @@
                         <div class="clearfix"></div>
                     </div>
                 <?php } ?>
+                <?php 
+                $titleWidgets = array('content_widget','about_mission_widget','home_works_widget','latest_news_widget','testimonials_widget','board_members_widget');
+                if(in_array($type,$titleWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title
                     </label>
@@ -72,7 +78,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-
+                <?php } ?>
+                <?php 
+                $subtitleWidgets = array('content_widget','latest_news_widget','testimonials_widget','board_members_widget');
+                if(in_array($type,$subtitleWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="subtitle">Sub Title
                     </label>
@@ -82,6 +92,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $insetWidgets = array('content_widget');
+                if(in_array($type,$insetWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="inset_title">Inset Title
                     </label>
@@ -91,6 +106,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $classWidgets = array('content_widget');
+                if(in_array($type,$classWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="class">Class
                     </label>
@@ -100,6 +120,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $backgroundWidgets = array('content_widget');
+                if(in_array($type,$backgroundWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="label">
                         Background<br/> <?php if($widget->background!='') { echo $widget->background; } ?>
@@ -112,7 +137,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <?php if($widget->widget_type == 'content_widget'){ ?>
+                <?php } ?>
+                <?php 
+                $contentWidgets = array('content_widget','home_about_widget','about_intro_widget','home_works_widget','latest_news_widget','testimonials_widget','board_members_widget');
+                if(in_array($type,$contentWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="content">Content
                     </label>
@@ -122,6 +151,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $imageWidgets = array('content_widget','about_intro_widget');
+                if(in_array($type,$imageWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="label">
                         Image<br/> <?php if($widget->image!='') { echo $widget->image; } ?>
@@ -134,6 +168,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $videoWidgets = array('content_widget','about_mission_widget','home_works_widget');
+                if(in_array($type,$videoWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="label">
                         Video <br/> <?php if($widget->video!='') { echo $widget->video; } ?>
@@ -147,6 +186,10 @@
                     <div class="clearfix"></div>
                 </div>
                 <?php } ?>
+                <?php 
+                $primaryLinkWidgets = array('content_widget');
+                if(in_array($type,$primaryLinkWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="primary_link_title">Primary Link Title
                     </label>
@@ -165,6 +208,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $secondaryLinkWidgets = array('content_widget');
+                if(in_array($type,$secondaryLinkWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="secondary_link_title">Secondary Link Title
                     </label>
@@ -183,6 +231,11 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $attachmentWidgets = array('content_widget');
+                if(in_array($type,$attachmentWidgets)){
+                ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="attachment_link_title">Attachment Link Title
                     </label>
@@ -204,6 +257,24 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <?php } ?>
+                <?php 
+                $galleryWidgets = array('home_about_widget');
+                if(in_array($type,$galleryWidgets)){
+                ?>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="label">
+                        Gallery<br/> <?php if($widget->gallery!='') { echo $widget->gallery; } ?>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="gallery" name="gallery[]" class="form-control" style="padding:0px;"  type="file" multiple="">
+                        <?php if($widget->gallery!='') { ?>
+                        Remove Gallery? <input  name="remove_gallery"   type="checkbox" value="1">
+                        <?php } ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <?php } ?>
                 <?php if($type == 'combined_widget'){ $currentWidgets = explode(',',$widget->widgets);?>
                     <div class="form-group">
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="left_widget">Left Widget<span class="required">*</span>
