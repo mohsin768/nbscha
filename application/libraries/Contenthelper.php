@@ -32,11 +32,10 @@ class Contenthelper {
 
   function getFaqsWidget($pageBlock){
     $vars = array();
-    $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
-    $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
-    $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
-    $vars['primary_link_title'] = isset($pageBlock['primary_link_title'])?$pageBlock['primary_link_title']:'';
-    $vars['primary_link_url'] = isset($pageBlock['primary_link_url'])?$pageBlock['primary_link_url']:'';
+    $vars = array();
+    $this->CI->load->model('FaqsModel');
+    $factsCond = array('status'=>'1','language'=>$this->CI->site_language);
+    $vars['faqs'] = $this->CI->FaqsModel->getArrayCond($factsCond);
     return $this->CI->load->view(frontend_views_path('widgets/contents/faqs'),$vars,TRUE);
   }
 
