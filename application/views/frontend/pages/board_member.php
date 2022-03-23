@@ -3,7 +3,7 @@
 	       <div class="section-content">
 	       		         <div class="row">
 	           <div class="col-md-4">
-			  	 <?php if($boardMember->photo!=''){ $boardMemberImage = frontend_uploads_url('teams/'.$boardMember['photo']); ?>  
+			  	 <?php if($boardMember->photo!=''){ $boardMemberImage = frontend_uploads_url('teams/'.$boardMember->photo); ?>  
 	             <div class="thumb">
 	               <img src="<?php echo $boardMemberImage; ?>" alt=<?php echo $boardMember->name; ?>">
 	             </div>
