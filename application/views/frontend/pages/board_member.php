@@ -3,20 +3,26 @@
 	       <div class="section-content">
 	       		         <div class="row">
 	           <div class="col-md-4">
+			  	 <?php if($boardMember->photo!=''){ $boardMemberImage = frontend_uploads_url('teams/'.$boardMember['photo']); ?>  
 	             <div class="thumb">
-	               <img src="public/images/bm_jan_d.jpg" alt="">
+	               <img src="<?php echo $boardMemberImage; ?>" alt=<?php echo $boardMember->name; ?>">
 	             </div>
+				 <?php } ?>
 	           </div>
 	           <div class="col-md-8">
-	             <h4 class="name font-24 mt-0 mb-0">Jan Seely</h4>
-	             <h5 class="mt-5">President</h5>
-	             <p>Jan has been the President of the NB Special Care Home Association for many years.  She is a strong advocate for community based services.  Jan works hard to forge productive relationships with government, and other community partners, to strengthen the sector overall.
-
-Her and her husband own and operate a small Special Care Home in Saint John.  The past 25 years in this occupation has given her a comprehensive knowledge base of the challenges faced by operators and their employees as they strive to deliver quality services to clients.</p>
+	             <h4 class="name font-24 mt-0 mb-0"><?php echo $boardMember->name; ?></h4>
+	             <h5 class="mt-5"><?php echo $boardMember->position; ?></h5>
+	             <?php echo $boardMember->bio; ?>
 	             <ul class="styled-icons icon-dark icon-theme-colored icon-sm mt-15 mb-0">
-	              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-	              <li><a href="#"><i class="fa fa-skype"></i></a></li>
-	              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+				  <?php if($boardMember->facebook!=''){ ?>	 
+	              <li><a href="<?php echo $boardMember->facebook; ?>"><i class="fa fa-facebook"></i></a></li>
+				  <?php } ?>
+				  <?php if($boardMember->skype!=''){ ?>	 
+	              <li><a href="<?php echo $boardMember->skype; ?>"><i class="fa fa-skype"></i></a></li>
+				  <?php } ?>
+				  <?php if($boardMember->twitter!=''){ ?>	 
+	              <li><a href="<?php echo $boardMember->twitter; ?>"><i class="fa fa-twitter"></i></a></li>
+				  <?php } ?>
 	            </ul>
 	           </div>
 	         </div>
@@ -25,6 +31,7 @@ Her and her husband own and operate a small Special Care Home in Saint John.  Th
 	             <h4 class="line-bottom">About Me:</h4>
 	             <div class="volunteer-address">
 	               <ul>
+				   <?php if($boardMember->location!=''){ ?>	 
 	                 <li>
 	                   <div class="bg-light media border-bottom p-15 mb-20">
 	                     <div class="media-left">
@@ -32,21 +39,11 @@ Her and her husband own and operate a small Special Care Home in Saint John.  Th
 	                     </div>
 	                     <div class="media-body">
 	                       <h5 class="mt-0 mb-0">Location:</h5>
-	                       <p>Bayswater, NB</p>
+	                       <p><?php echo $boardMember->location; ?></p>
 	                     </div>
 	                   </div>
 	                 </li>
-	                 <!-- <li>
-	                   <div class="bg-light media border-bottom p-15 mb-20">
-	                     <div class="media-left">
-	                       <i class="fa fa-map-marker text-theme-colored font-24 mt-5"></i>
-	                     </div>
-	                     <div class="media-body">
-	                       <h5 class="mt-0 mb-0">Address:</h5>
-	                       <p>Bayswater, NB</p>
-	                     </div>
-	                   </div>
-	                 </li> -->
+					 <?php } ?>
 	                 <li>
 	                   <div class="bg-light media border-bottom p-15">
 	                     <div class="media-left">
@@ -54,7 +51,15 @@ Her and her husband own and operate a small Special Care Home in Saint John.  Th
 	                     </div>
 	                     <div class="media-body">
 	                       <h5 class="mt-0 mb-0">Contact:</h5>
-	                       <p><span>Phone:</span>(506) 639-4478<br><span>Email:</span> <a href="mailto:jan.seely@rogers.com">jan.seely@rogers.com</a></p>
+	                       <p>
+						   	<?php if($boardMember->phone!=''){ ?>	   
+							<span>Phone:</span><?php echo $boardMember->phone; ?><br> 
+							<?php } ?>
+							<?php if($boardMember->email!=''){ ?>	 
+							<span>Email:</span>
+						    <a href="mailto:<?php echo $boardMember->phone; ?>"><?php echo $boardMember->phone; ?></a>
+							<?php } ?>
+							</p>
 	                     </div>
 	                   </div>
 	                 </li>

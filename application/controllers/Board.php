@@ -8,6 +8,7 @@ class Board extends FrontController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('PagesModel');
+		$this->load->model('TeamsModel');
 	}
 
 	public function index($slug='')
@@ -23,6 +24,11 @@ class Board extends FrontController {
 		$this->processPage();
 		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
 		$vars = array();
+		$boardObject = $this->TeamsModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
+		if(!$boardObject){
+			redirect('pagenotfound');
+		}
+		$vars['boardMember'] = $boardObject;
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/board_member'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
