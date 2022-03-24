@@ -5,7 +5,7 @@
         <h3 class="line-bottom mt-0 mb-30">Interested in discussing?</h3>
 
         <!-- Contact Form -->
-        <form id="contact_form" name="contact_form" class="" action="ajax/forms/enquiries" method="post" novalidate="novalidate">
+        <form id="contact_form" name="contact_form" class="" action="<?php echo site_url('ajax/forms/enquiries');?>" method="post" novalidate="novalidate">
         <input type="hidden" name="form_type" value="contact" />     
         <input type="hidden" name="form_token" id="form_token" value="" />  
         <input type="hidden" name="form_action" id="form_action" value="" />  
