@@ -34,7 +34,7 @@
                                         </a>
                                         <div class="ml-80">
                                             <h5 class="icon-box-title mt-15 mb-5 text-white text-left"><strong><a href="<?php echo $link['link_url']; ?>" target="_blank"><?php echo $link['name']; ?></a></strong></h5>
-                                            <p class="text-white text-left" style="padding-right:20px;"><?php echo $link['summary']; ?></p>
+                                            <p class="text-white text-left" style="padding-right:20px;"><?php echo strip_tags($link['summary']); ?></p>
                                         </div>
                                     </div>
                                 </div>
