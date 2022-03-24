@@ -10,14 +10,17 @@ class Forms extends GlobalController {
 	{
         $error = false;
 		$responseData = array("status"=>"0","message"=>"Form submission failed. Try again.");
-        $type = secureInput($this->input->post('type'));
-        $name = secureInput($this->input->post('name'));
-        $email = secureInput($this->input->post('email'));
-        $phone = secureInput($this->input->post('phone'));
-        $subject = secureInput($this->input->post('subject'));
-        $message = secureInput($this->input->post('message'));
-        $token = secureInput($this->input->post('token'));
-        $action = secureInput($this->input->post('action'));
+        $type = secureInput($this->input->post('form_type'));
+        $board_member_id = secureInput($this->input->post('form_board_member_id'));
+        $member_id = secureInput($this->input->post('form_member_id'));
+        $home_id = secureInput($this->input->post('form_home_id'));
+        $name = secureInput($this->input->post('form_name'));
+        $email = secureInput($this->input->post('form_email'));
+        $phone = secureInput($this->input->post('form_phone'));
+        $subject = secureInput($this->input->post('form_subject'));
+        $message = secureInput($this->input->post('form_message'));
+        $token = secureInput($this->input->post('form_token'));
+        $action = secureInput($this->input->post('form_action'));
         if($name=='' || $email ==''|| $subject ==''|| $message ==''){
             $error = true;
             $responseData = array("status"=>"0","message"=>"Form submission failed. Required field missing. Try again.");

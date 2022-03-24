@@ -5,8 +5,11 @@
         <h3 class="line-bottom mt-0 mb-30">Interested in discussing?</h3>
 
         <!-- Contact Form -->
-        <form id="contact_form" name="contact_form" class="" action="contact_form" method="post" novalidate="novalidate">
-            <input type="hidden" name="_token" value="E6wKJ3XoRj1fUT597IzVbKWI2aM0IySP2Q2xgERn">            <div class="row">
+        <form id="contact_form" name="contact_form" class="" action="ajax/forms/enquiries" method="post" novalidate="novalidate">
+        <input type="hidden" name="form_type" value="contact" />     
+        <input type="hidden" name="form_token" id="form_token" value="" />  
+        <input type="hidden" name="form_action" id="form_action" value="" />  
+        <div class="row">
             <div class="col-sm-6">
             <div class="form-group">
                 <label>Name <small>*</small></label>
@@ -40,9 +43,7 @@
             <label>Message</label>
             <textarea name="form_message" class="form-control required" rows="5" placeholder="Enter Message" aria-required="true"></textarea>
         </div>
-        <div class="g-recaptcha" data-sitekey="6LeFWxEbAAAAAO6srig3VEXTzIuLJXF6CkC7L1SC"></div>
         <div class="form-group">
-            <input name="form_botcheck" class="form-control" type="hidden" value="">
             <button type="submit" class="btn btn-dark btn-theme-colored btn-flat mr-5" data-loading-text="Please wait...">Send your message</button>
             <button type="reset" class="btn btn-default btn-flat btn-theme-colored">Reset</button>
         </div>
@@ -52,23 +53,32 @@
         <script type="text/javascript">
         $("#contact_form").validate({
             submitHandler: function(form) {
-            var form_btn = $(form).find('button[type="submit"]');
-            var form_result_div = '#form-result';
-            $(form_result_div).remove();
-            form_btn.before('<div id="form-result" class="alert alert-success" role="alert" style="display: none;"></div>');
-            var form_btn_old_msg = form_btn.html();
-            form_btn.html(form_btn.prop('disabled', true).data("loading-text"));
-            $(form).ajaxSubmit({
-                dataType:  'json',
-                success: function(data) {
-                if( data.status == 'true' ) {
-                    $(form).find('.form-control').val('');
-                }
-                form_btn.prop('disabled', false).html(form_btn_old_msg);
-                $(form_result_div).html(data.message).fadeIn('slow');
-                setTimeout(function(){ $(form_result_div).fadeOut('slow') }, 6000);
-                }
-            });
+                var form_btn = $(form).find('button[type="submit"]');
+                var form_result_div = '#form-result';
+                $(form_result_div).remove();
+                form_btn.before('<div id="form-result" class="alert" style="display: none;"></div>');
+                var form_btn_old_msg = form_btn.html();
+                form_btn.html(form_btn.prop('disabled', true).data("loading-text"));
+                grecaptcha.ready(function() {
+                    grecaptcha.execute(captchaSiteKey, {action: 'contact_form'}).then(function(token) {
+                        $('#form_token').val(token);
+                        $('#form_action').val('contact_form');
+                        $(form).ajaxSubmit({
+                            dataType:  'json',
+                            success: function(data) {
+                            if( data.status == '1' ) {
+                                $(form).find('.form-control').val('');
+                            }
+                            form_btn.prop('disabled', false).html(form_btn_old_msg);
+                            var resultClass = 'alert-danger';
+                            if(data.status=='1'){ resultClass = 'alert-success'; }
+                            $(form_result_div).addClass(resultClass);
+                            $(form_result_div).html(data.message).fadeIn('slow');
+                            setTimeout(function(){ $(form_result_div).fadeOut('slow') }, 6000);
+                            }
+                        });
+                    });;
+                });
             }
         });
         </script>
