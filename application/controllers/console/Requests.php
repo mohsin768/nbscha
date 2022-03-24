@@ -153,10 +153,15 @@ class Requests extends ConsoleController {
 
 /////Insert Residence Data//////
 		if($memberId){
+			$slug = $this->ResidencesModel->createSlug($requestRow->home_name);
+			$metaTitle = $requestRow->home_name;
 			$vacancy = '0';
+			$bedsCount = '0';
 			$package =$this->PackagesModel->load($requestRow->package_id);
-			if($package) $vacancy = $package->bed_count;
-			$residencepData = array('address' => $requestRow->home_address,
+			if($package)$bedsCount = $vacancy = $package->bed_count;
+			$residencepData = array('slug' => $slug,
+			'member_id' => $memberId,
+			'address' => $requestRow->home_address,
 			'postalcode' => $requestRow->home_postalcode,
 			'contact_name' => $requestRow->home_contact_name,
 			'email' => $requestRow->home_email,
@@ -180,11 +185,13 @@ class Requests extends ConsoleController {
 			'linkedin' => $requestRow->linkedin,
 			'website' => $requestRow->website,
 			'features' => $requestRow->features,
+			'beds_count' => $bedsCount,
 			'vacancy' => $vacancy,
 			'created' => date('Y-m-d H:i:s'),
 			'status' => '1');
 			$residenceDescData = array('name' => $requestRow->home_name,
 			'description' => $requestRow->description,
+			'meta_title'=>$metaTitle,
 			'language' => $this->default_language);
 			$residenceId = $this->ResidencesModel->insert($residencepData,$residenceDescData);
 		}
@@ -245,12 +252,12 @@ class Requests extends ConsoleController {
 		$certificateDate = $memberShip->issue_date;
 		$expiryDate= $memberShip->expiry_date;
 		$certificateSignature = '';
-		if($certificateTemplate->signature!='')$certificateSignature = '<img src="'.base_url('public/uploads/certificatetemplates/'.$certificateTemplate->signature).'" style="max-width:100%" />';
+		if($certificateTemplate->signature!='')$certificateSignature = '<img src="'.base_url('public/uploads/certificates/'.$certificateTemplate->signature).'" style="max-width:100%" />';
 		$signatory = $certificateTemplate->signatory;
 		$background = '';
 		$walletBackground = '';
-		if($certificateTemplate->background!='') $background = base_url('public/uploads/certificatetemplates/'.$certificateTemplate->background);
-		if($certificateTemplate->wallet_bg!='') $walletBackground = base_url('public/uploads/certificatetemplates/'.$certificateTemplate->wallet_bg);
+		if($certificateTemplate->background!='') $background = base_url('public/uploads/certificates/'.$certificateTemplate->background);
+		if($certificateTemplate->wallet_bg!='') $walletBackground = base_url('public/uploads/certificates/'.$certificateTemplate->wallet_bg);
 
 		$replacements = array('{{residence}}'=>$residenceName,
 													'{{identifier}}'=>$membershipIdentifier,

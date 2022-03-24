@@ -1,4 +1,4 @@
-<div id="certificateModal" class="modal fade"  role="dialog" aria-labelledby="certificateLabel" aria-hidden="true">
+<div id="walletCertificateModal" class="modal fade"  role="dialog" aria-labelledby="certificateLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

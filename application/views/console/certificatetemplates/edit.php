@@ -56,7 +56,7 @@
 
                 <div class="form-group">
                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Signature <span class="lang_label">(All Languages)</span>
-                     <?php if($template->signature!='') { echo '<img src="'.base_url('public/uploads/certificatetemplates/'.$template->signature).'" width="50px" />'; } ?></label>
+                     <?php if($template->signature!='') { echo '<img src="'.base_url('public/uploads/certificates/'.$template->signature).'" width="50px" />'; } ?></label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('signature'); ?>
                         <input id="signature" name="signature" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">
@@ -76,7 +76,7 @@
 
                 <div class="form-group">
                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Image <span class="lang_label">(All Languages)</span>
-                     <?php if($template->image!='') { echo '<img src="'.base_url('public/uploads/certificatetemplates/'.$template->image).'" width="50px" />'; } ?></label>
+                     <?php if($template->image!='') { echo '<img src="'.base_url('public/uploads/certificates/'.$template->image).'" width="50px" />'; } ?></label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('image'); ?>
                         <input id="image" name="image" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">
@@ -87,7 +87,7 @@
 
                 <div class="form-group">
                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Background <span class="lang_label">(All Languages)</span>
-                     <?php if($template->background!='') { echo '<img src="'.base_url('public/uploads/certificatetemplates/'.$template->background).'" width="50px" />'; } ?></label>
+                     <?php if($template->background!='') { echo '<img src="'.base_url('public/uploads/certificates/'.$template->background).'" width="50px" />'; } ?></label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('background'); ?>
                         <input id="background" name="background" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">
@@ -98,7 +98,7 @@
 
                 <div class="form-group">
                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="image">Wallet Background <span class="lang_label">(All Languages)</span>
-                     <?php if($template->wallet_bg!='') { echo '<img src="'.base_url('public/uploads/certificatetemplates/'.$template->wallet_bg).'" width="50px" />'; } ?></label>
+                     <?php if($template->wallet_bg!='') { echo '<img src="'.base_url('public/uploads/certificates/'.$template->wallet_bg).'" width="50px" />'; } ?></label>
                    <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('wallet_bg'); ?>
                         <input id="wallet_bg" name="wallet_bg" class=" col-md-7 col-xs-12" style="padding:0px;"  type="file">

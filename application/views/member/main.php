@@ -112,6 +112,19 @@
     </div>
   </div>
 </div>
+<div id="confirm-box" class="modal fade">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Are you sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm-button">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn btn-default">No</button>
+      </div>
+    </div>
+    </div>
+    </div>
     <!-- jQuery -->
     <script src="<?php echo common_assets_url('vendors/jquery/dist/jquery.min.js'); ?>"></script>
     <!-- Bootstrap -->
