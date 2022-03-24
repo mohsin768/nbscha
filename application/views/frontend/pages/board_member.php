@@ -71,26 +71,30 @@
 	             <div class="clearfix">
 	               <h4 class="line-bottom">Quick Contact:</h4>
 	             </div>
-	             <form id="contact_form" class="contact-form-transparent" action="contact/board-member/2" method="post" novalidate="novalidate">
-	             	<input type="hidden" name="_token" value="6YcrRmoRnGgy9oOLhtTMm1ZpmBJz3IzhYBiAgnz1">	               <div class="row">
+	             <form id="board_form" class="contact-form-transparent" action="<?php echo site_url('ajax/forms/enquiries');?>" method="post" novalidate="novalidate">
+					<input type="hidden" name="form_type" value="board_member" />     
+					<input type="hidden" name="form_board_member_id" value="<?php echo $boardMember->id; ?>" />    
+					<input type="hidden" name="form_token" id="form_token" value="" />  
+					<input type="hidden" name="form_action" id="form_action" value="" />  
+	             	<div class="row">
 	                 <div class="col-sm-12">
 	                   <div class="form-group">
-	                     <input type="text" placeholder="Enter Name" id="contact_name" name="contact_name" required="" class="form-control">
+	                     <input type="text" placeholder="Enter Name" id="form_name" name="form_name" required="" class="form-control">
 	                   </div>
 	                 </div>
 	                 <div class="col-sm-6">
 	                   <div class="form-group">
-	                     <input type="text" placeholder="Enter Email" id="contact_email" name="contact_email" class="form-control" required="">
+	                     <input type="text" placeholder="Enter Email" id="form_email" name="form_email" class="form-control" required="">
 	                   </div>
 	                 </div>
 	                 <div class="col-sm-6">
 	                   <div class="form-group">
-	                     <input type="text" placeholder="Enter Subject" id="contact_subject" name="contact_subject" class="form-control" required="">
+	                     <input type="text" placeholder="Enter Subject" id="form_subject" name="form_subject" class="form-control" required="">
 	                   </div>
 	                 </div>
 	               </div>
 	               <div class="form-group">
-	                 <textarea rows="5" placeholder="Enter Message" id="contact_message" name="contact_message" required class="form-control"></textarea>
+	                 <textarea rows="5" placeholder="Enter Message" id="form_message" name="form_message" required class="form-control"></textarea>
 	               </div>
 	               <div class="g-recaptcha" data-sitekey="6LeFWxEbAAAAAO6srig3VEXTzIuLJXF6CkC7L1SC"></div>
 	               <div class="form-group">
@@ -101,25 +105,34 @@
 	         </div>
 	         		          	<!-- Contact Form Validation-->
 	         		          	<script type="text/javascript">
-	             		            $("#contact_form").validate({
+	             		            $("#board_form").validate({
 	             		              submitHandler: function(form) {
 	             		                var form_btn = $(form).find('button[type="submit"]');
 	             		                var form_result_div = '#form-result';
 	             		                $(form_result_div).remove();
-	             		                form_btn.before('<div id="form-result" class="alert alert-success" role="alert" style="display: none;"></div>');
+	             		                form_btn.before('<div id="form-result" class="alert" role="alert" style="display: none;"></div>');
 	             		                var form_btn_old_msg = form_btn.html();
 	             		                form_btn.html(form_btn.prop('disabled', true).data("loading-text"));
-	             		                $(form).ajaxSubmit({
-	             		                  dataType:  'json',
-	             		                  success: function(data) {
-	             		                    if( data.status == 'true' ) {
-	             		                      $(form).find('.form-control').val('');
-	             		                    }
-	             		                    form_btn.prop('disabled', false).html(form_btn_old_msg);
-	             		                    $(form_result_div).html(data.message).fadeIn('slow');
-	             		                    setTimeout(function(){ $(form_result_div).fadeOut('slow') }, 6000);
-	             		                  }
-	             		                });
+										grecaptcha.ready(function() {
+											grecaptcha.execute(captchaSiteKey, {action: 'contact_form'}).then(function(token) {
+												$('#form_token').val(token);
+												$('#form_action').val('contact_form');
+												$(form).ajaxSubmit({
+													dataType:  'json',
+													success: function(data) {
+														if( data.status == '1' ) {
+														$(form).find('.form-control').val('');
+														}
+														var resultClass = 'alert-danger';
+														if(data.status=='1'){ resultClass = 'alert-success'; }
+														$(form_result_div).addClass(resultClass);
+														form_btn.prop('disabled', false).html(form_btn_old_msg);
+														$(form_result_div).html(data.message).fadeIn('slow');
+														setTimeout(function(){ $(form_result_div).fadeOut('slow') }, 6000);
+													}
+												});
+											});;
+                						});	
 	             		              }
 	             		            });
 	         		           </script>
