@@ -73,11 +73,16 @@ class Contenthelper {
 
   function getResidencesWidget($pageBlock){
     $vars = array();
-    $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
-    $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
-    $vars['inset_title'] = isset($pageBlock['inset_title'])?$pageBlock['inset_title']:'';
-    $vars['primary_link_title'] = isset($pageBlock['primary_link_title'])?$pageBlock['primary_link_title']:'';
-    $vars['primary_link_url'] = isset($pageBlock['primary_link_url'])?$pageBlock['primary_link_url']:'';
+    $this->CI->load->model('PackagesModel');
+    $this->CI->load->model('CarelevelsModel');
+    $this->CI->load->model('RegionsModel');
+    $this->CI->load->model('FeaturesModel');
+    $this->CI->load->model('FacilitiesModel');
+    $vars['packages'] = $this->CI->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');
+		$vars['levels'] = $this->CI->CarelevelsModel->getArrayCond(array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');
+		$vars['regions'] = $this->CI->RegionsModel->getArrayCond(array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');
+		$vars['features'] = $this->CI->FeaturesModel->getArrayCond(array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');
+    $vars['facilities'] = $this->CI->FacilitiesModel->getArrayCond(array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');
     return $this->CI->load->view(frontend_views_path('widgets/contents/residences'),$vars,TRUE);
   }
 

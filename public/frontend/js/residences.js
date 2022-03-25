@@ -1,12 +1,46 @@
     // Tabs
     (function ($) {
-        var residencesParams = {page:'1'};
+        var residencesParams = {page:'1','region_id':'','package_id':'','level_id':'','facilities':'','vaccancy':'','residence_name':''};
         if($('#residences-list').length){
             loadResidences(residencesParams);
         }
         $('#residences-load-more').click( function(){
             $('#residences-load-more').addClass('loading');
             residencesParams.page = parseInt(residencesParams.page)+parseInt("1");
+            loadResidences(residencesParams);
+        });
+        $('#residence-search').click( function(e){
+            e.preventDefault();
+            $('#residences-load-more').addClass('loading');
+            residencesParams.page = 1;
+            var facilities = $('#residence-facilities').val();
+            var facilitiesStr = facilities.join(",");
+            residencesParams.region_id = $('#residence-region').val();
+            residencesParams.package_id = $('#residence-package').val();
+            residencesParams.level_id = $('#residence-level').val();
+            residencesParams.facilities = facilitiesStr;
+            residencesParams.vaccancy = $('#residence-vaccancy').val();
+            residencesParams.residence_name = $('#residence-name').val();
+            $('.residence-item').remove();
+            loadResidences(residencesParams);
+        });
+        $('#residence-reset').click( function(e){
+            e.preventDefault();
+            $('#residences-load-more').addClass('loading');
+            residencesParams.page = 1
+            $('#residence-region').val('');
+            $('#residence-package').val('');
+            $('#residence-level').val('');
+            $('#residence-facilities').val('');
+            $('#residence-vaccancy').val('');
+            $('#residence-name').val('');
+            residencesParams.region_id = '';
+            residencesParams.package_id = '';
+            residencesParams.level_id = '';
+            residencesParams.facilities = '';
+            residencesParams.vaccancy = '';
+            residencesParams.residence_name = '';
+            $('.residence-item').remove();
             loadResidences(residencesParams);
         });
         function processResidencesList(result) {
@@ -25,10 +59,17 @@
         function loadResidences(params){
             if(siteBaseUrl!=''){
                 var output = '';
-                var residencesUrl = siteBaseUrl+'ajax/residences/index';
+                var processedParams = cleanObject(params);
+                var residencesQueryString = $.param(processedParams);
+                var residencesBaseUrl = siteBaseUrl+'ajax/residences/index';
+                var residencesUrl = residencesBaseUrl+'?'+residencesQueryString;
                 $.getJSON(residencesUrl, function(result){
-                    output = processResidencesList(result);
                     $('.no-residences').remove();
+                    if(result.status=='1'){
+                        output = processResidencesList(result);
+                    } else {
+                        output = $('#no-residences-tpl').html();
+                    }
                     $('#residences-list').append(output);
                     $('#residences-load-more').removeClass('loading');
                     $('#residences-list').removeClass('loading');
@@ -39,5 +80,13 @@
                     }
                 });
             }
+        }
+        function cleanObject(obj) {
+            for (var propName in obj) {
+              if (obj[propName] === null || obj[propName] === undefined || obj[propName] === '') {
+                delete obj[propName];
+              }
+            }
+            return obj;
         }
     })(jQuery);
