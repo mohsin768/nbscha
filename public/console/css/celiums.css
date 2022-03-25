@@ -657,3 +657,18 @@ span.lang_label{
 .hide{
   display: none;
 }
+h4.modal-title{
+  font-size: 15px;
+}
+.no-padd{
+  padding: 0px;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-default:hover {
+  background-color: #eeeeee;
+}
