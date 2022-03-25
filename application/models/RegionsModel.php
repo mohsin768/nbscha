@@ -11,4 +11,16 @@ class RegionsModel extends CMS_Model {
     		$this->multilingual = TRUE;
     }
 
+    function getIdPair($lang=''){
+        if($lang==''){
+            $lang = $this->default_language;
+        }
+        $cond = array('status'=>'1','language' => $lang);
+        $results =$this->getArrayCond($cond);
+        foreach($results as $result):
+        $reqcats[$result['rid']] = $result['region_name'];
+        endforeach;
+        return $reqcats;
+    }
+
 }

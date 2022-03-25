@@ -109,6 +109,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<!-- JS | Custom script for all pages -->
 
 	<script src="<?php echo frontend_assets_url('js/custom.js'); ?>"></script>
+	<script src="<?php echo frontend_assets_url('js/mustache.min.js'); ?>"></script>
+	<script src="<?php echo frontend_assets_url('js/residences.js'); ?>"></script>
 
 	<!-- SLIDER REVOLUTION 5.0 EXTENSIONS
 	      (Load Extensions only on Local File Systems !

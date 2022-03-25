@@ -33,6 +33,9 @@ class Forms extends GlobalController {
             $this->load->model('EnquiriesModel');
             $data=array(
 				'type'=>$type,
+                'board_member_id'=>$board_member_id,
+                'member_id'=>$member_id,
+                'home_id'=>$home_id,
 				'name'=>$name,
                 'email'=>$email,
                 'phone'=>$phone,

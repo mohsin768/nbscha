@@ -7,30 +7,21 @@ class Residences extends GlobalController {
 		parent::__construct();
 	}
 
-	public function index($package='',$page='1')
+	public function index($page='1')
 	{
-		$exhibitorsData = array('status'=>'0','pager'=>array('current_page'=>'0','pages'=>'0'),'data'=>'');
-		$this->load->model('PackagesModel');
-		$package = $this->PackagesModel->load($package);
-		if($package){
-			$perPage = 2;
-			$offset = $perPage*($page-1);
-			$this->load->model('ExhibitorsModel');
-			$exhibitorsCond = array('status'=>'1');
-			$this->load->model('EventsModel');
-			$currentEvent = $this->EventsModel->getCurrentEvent();
-			if($currentEvent){
-			  $exhibitorsCond['event'] = $currentEvent->id;
-			}
-			if($package!=''){
-				$exhibitorsCond['package'] = $package->id;
-			}
-			$totalCount = $this->ExhibitorsModel->getPaginationCount($exhibitorsCond);
-			$totalPages = ceil($totalCount/$perPage);
-			$exhibitors = $this->ExhibitorsModel->getPagination($perPage,$offset,$exhibitorsCond,'','name','ASC');
-			$exhibitorsData = array('status'=>'1','pager'=>array('current_page'=>$page,'pages'=>$totalPages),'data'=>$exhibitors);
+		$residencesData = array('status'=>'0','pager'=>array('current_page'=>'0','pages'=>'0'),'data'=>'');
+		$this->load->model('ResidencesModel');
+		$perPage = 12;
+		$offset = $perPage*($page-1);
+		$residenceCond = array('status'=>'1');
+		$totalCount = $this->ResidencesModel->getPaginationCount($residenceCond);
+		$totalPages = ceil($totalCount/$perPage);
+		$residences = $this->ResidencesModel->getPagination($perPage,$offset,$residenceCond,'','name','ASC');
+		if(is_array($residences) && count($residences)>0){
+			$residencesData = array('status'=>'1','pager'=>array('current_page'=>$page,'pages'=>$totalPages),'data'=>$residences);
 		}
-		$this->output->set_content_type('application/json');
-		echo json_encode( $exhibitorsData );
+		$this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($residencesData));
 	}
 }
