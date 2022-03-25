@@ -2196,6 +2196,12 @@ var THEMEMASCOT = {};
         search: true,
         selectAll: true
     });
+    $('#residence-facilities').multiselect({
+        columns: 1,
+        placeholder: 'Select Facilities',
+        search: true,
+        selectAll: true
+    });
     $(".payment-option input[type='radio']").on('change',function(){
       updatePaymentInfo();
     });
