@@ -76,22 +76,25 @@ class Certificatetemplates extends ConsoleController {
 				$config['upload_path'] = 'public/uploads/certificates';
 				$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
 				if($this->upload->do_upload('image'))
 				{
 					$imagedata=$this->upload->data();
 					$image=$imagedata['file_name'];
 				}
+				$this->upload->initialize($config);
 				if($this->upload->do_upload('backgound'))
 				{
 					$bgdata=$this->upload->data();
 					$background=$bgdata['file_name'];
 				}
+				$this->upload->initialize($config);
 				if($this->upload->do_upload('wallet_bg'))
 				{
 					$walletBgdata=$this->upload->data();
 					$wallet_background=$walletBgdata['file_name'];
 				}
-
+				$this->upload->initialize($config);
 				if($this->upload->do_upload('signature'))
 				{
 					$signaturedata=$this->upload->data();
@@ -160,7 +163,7 @@ class Certificatetemplates extends ConsoleController {
 															if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
 																$maindata['image']='';
 															} else{
-
+																$this->upload->initialize($config);
 																if($this->upload->do_upload('image'))
 																{
 																		$imagedata=$this->upload->data();
@@ -171,7 +174,7 @@ class Certificatetemplates extends ConsoleController {
 															if($this->input->post('remove_background') && $this->input->post('remove_background')=='1'){
 																$maindata['background']='';
 															} else{
-
+																$this->upload->initialize($config);
 																if($this->upload->do_upload('background'))
 																{
 																		$bgdata=$this->upload->data();
@@ -182,7 +185,7 @@ class Certificatetemplates extends ConsoleController {
 															if($this->input->post('remove_wallet_bg') && $this->input->post('remove_wallet_bg')=='1'){
 																$maindata['wallet_bg']='';
 															} else{
-
+																$this->upload->initialize($config);
 																if($this->upload->do_upload('wallet_bg'))
 																{
 																		$walletbgdata=$this->upload->data();
@@ -193,7 +196,7 @@ class Certificatetemplates extends ConsoleController {
 															if($this->input->post('remove_signature') && $this->input->post('remove_signature')=='1'){
 																$maindata['signature']='';
 															} else{
-
+																$this->upload->initialize($config);
 																if($this->upload->do_upload('signature'))
 																{
 																		$signaturedata=$this->upload->data();

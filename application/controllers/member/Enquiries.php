@@ -85,5 +85,15 @@ class Enquiries extends MemberController {
 		redirect(member_url_string('enquiries/overview'));
 	}
 
+	public function view()
+	{
+		$id = $this->input->post('id', TRUE);
+		$enquiryRow = $this->EnquiriesModel->load($id);
+		if(!$enquiryRow){
+			redirect(member_url_string('enquiries/overview'));
+		}
+		$edit['enquiry']= $enquiryRow;
+		$this->load->view(member_url_string('enquiries/view'), $edit);
+	}
 
 }

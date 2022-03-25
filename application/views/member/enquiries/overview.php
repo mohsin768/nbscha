@@ -79,7 +79,7 @@ if($this->uri->segment(4)==""){
                             		<td> <?php echo date('M j, Y H:i', strtotime($enquiry['created'])); ?></td>
 
 																 <td class=" last">
-																	<a class="btn btn-info btn-xs" href="#" data-nid="<?php echo $enquiry['id'];?>"  name="view"><i class="fa fa-folder-open"></i> Details</a>
+																	<a class="btn btn-info btn-xs enquiry-view" href="#" data-id="<?php echo $enquiry['id'];?>"  name="view"><i class="fa fa-folder-open"></i> Details</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

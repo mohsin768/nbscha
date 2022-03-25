@@ -21,6 +21,9 @@
     <link href="<?php echo common_assets_url('vendors/jqvmap/dist/jqvmap.min.css'); ?>" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
     <link href="<?php echo common_assets_url('vendors/bootstrap-daterangepicker/daterangepicker.css'); ?>" rel="stylesheet">
+
+    <link rel="stylesheet" href="<?php echo common_assets_url('build/css/bootstrap-multiselect.css'); ?>" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo common_assets_url('vendors/fancybox/jquery.fancybox-1.3.4.css'); ?>" media="screen" />
     <!-- Custom Theme Style -->
     <link href="<?php echo common_assets_url('build/css/custom.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo member_assets_url('css/celiums.css'); ?>" rel="stylesheet">
@@ -153,6 +156,9 @@
     <script src="<?php echo common_assets_url('vendors/moment/min/moment.min.js'); ?>"></script>
     <script src="<?php echo common_assets_url('vendors/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
 
+    <script type="text/javascript" src="<?php echo common_assets_url('build/js/bootstrap-multiselect.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo common_assets_url('vendors/fancybox/jquery.mousewheel-3.0.4.pack.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo common_assets_url('vendors/fancybox/jquery.fancybox-1.3.4.js'); ?>"></script>
     <!-- Custom Theme Scripts -->
     <script src="<?php echo common_assets_url('build/js/custom.min.js'); ?>"></script>
     <script src="<?php echo member_assets_url('js/celiums.js'); ?>"></script>

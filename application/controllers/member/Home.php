@@ -6,17 +6,34 @@ class Home extends MemberController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('MembersModel');
+		$this->load->model('MembershipsModel');
+		$this->load->model('PackagesModel');
+		$this->load->model('ResidencesModel');
+		$this->load->model('PackagesModel');
+		$this->load->model('RegionsModel');
+		$this->load->model('FeaturesModel');
+		$this->load->model('FacilitiesModel');
+		$this->load->model('CarelevelsModel');
+		$this->load->model('EnquiriesModel');
 	}
 
 	public function index()
 	{
 		redirect(member_url_string('home/dashboard'));
 	}
-	
+
 	public function dashboard()
 	{
-		$vars = array();
-		$vars['enquiries'] = array();
+		$language = $this->default_language;
+		$residence = $this->ResidencesModel->getRowCond(array('member_id'=>$this->session->userdata('member_user_id'),'language'=>$language));
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$this->session->userdata('member_user_id')));
+		$packageId = $memberShip->package_id;
+		$package = $this->PackagesModel->getRowCond(array('pid'=>$packageId,'language'=>$language));
+		$vars['membership'] = $memberShip;
+		$vars['residence'] = $residence;
+		$vars['package'] = $package;
+		$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
+		$vars['enquiries'] = $this->EnquiriesModel->getArrayLimitCond('5', array('member_id'=>$this->session->userdata('member_user_id')),'created' , 'asc');
 		$this->mainvars['content'] = $this->load->view(member_views_path('home/dashboard'),$vars,true);
 		$this->load->view(member_views_path('main'),$this->mainvars);
 	}

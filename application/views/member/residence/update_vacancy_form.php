@@ -3,6 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="statusLabel">Residence Vacancy - <?php echo $residence->name;?></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       </div>
       <div class="modal-body">
 
