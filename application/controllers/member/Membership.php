@@ -65,7 +65,7 @@ class Membership extends MemberController {
 		}
 	}
 
-	public function walletBgdatacertificatepreview(){
+	public function walletcertificatepreview(){
 		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$this->session->userdata('member_user_id')));
 		if($memberShip->wallet_certificate==''){
 			exit;
@@ -73,7 +73,7 @@ class Membership extends MemberController {
 		$certificateContent = unserialize($memberShip->wallet_certificate);
 		$vars['certificate'] = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
 		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'http://nbscha.com/public/common/images/certificate_bg.jpg';
-		$content = $this->load->view(member_views_path('membership/certificate'),$vars, true);
+		$content = $this->load->view(member_views_path('membership/wallet_certificate'),$vars, true);
 		$results = array('content' => $content);
 		$json=json_encode($results);
 		exit($json);

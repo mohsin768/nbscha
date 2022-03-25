@@ -73,7 +73,7 @@ class Certificatetemplates extends ConsoleController {
 				$signature='';
 				$background='';
 				$wallet_background='';
-				$config['upload_path'] = 'public/uploads/certificatetemplates';
+				$config['upload_path'] = 'public/uploads/certificates';
 				$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 				$this->load->library('upload', $config);
 				if($this->upload->do_upload('image'))
@@ -86,7 +86,7 @@ class Certificatetemplates extends ConsoleController {
 					$bgdata=$this->upload->data();
 					$background=$bgdata['file_name'];
 				}
-				if($this->upload->do_upload('wallet_background'))
+				if($this->upload->do_upload('wallet_bg'))
 				{
 					$walletBgdata=$this->upload->data();
 					$wallet_background=$walletBgdata['file_name'];
@@ -153,7 +153,7 @@ class Certificatetemplates extends ConsoleController {
 											'signatory' => $this->input->post('signatory'),
 											'language' => $this->input->post('language'));
 
-											$config['upload_path'] = 'public/uploads/certificatetemplates';
+											$config['upload_path'] = 'public/uploads/certificates';
 															$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 															$this->load->library('upload', $config);
 
