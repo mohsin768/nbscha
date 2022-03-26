@@ -1,8 +1,8 @@
-<table class="table table-striped jambo_table popup-view-table">          
+<table class="table table-striped jambo_table popup-view-table">
     <tr>
         <td>
             <label>Type</label><br/>
-            <?php echo $enquiry->type; ?>
+            <?php echo ucwords($enquiry->type); ?>
         </td>
         <td>
             <label>Name</label><br/>

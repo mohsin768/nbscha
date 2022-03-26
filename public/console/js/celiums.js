@@ -253,6 +253,7 @@ $(document).ready(function(){
        });
     });
 
+
     $('.arequest-view').click(function(){
         var enquiryId = $(this).data('id');
         $.ajax({
