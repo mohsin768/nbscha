@@ -37,12 +37,15 @@ class CMS_Model extends CI_Model {
 		return $query->result();
 	}
 
-	function getArrayLimit($limit) {
+	function getArrayLimit($limit, $orderField='', $orderDirection='') {
 		$this->db->limit($limit);
 		$this->db->from($this->table_name);
     if($this->multilingual){
 			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
 		}
+    if ($orderField!='' && $orderDirection!='') {
+      $this->db->order_by($orderField, $orderDirection);
+    }
 		$query = $this->db->get();
 		return $query->result_array();
 	}
