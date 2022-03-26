@@ -18,7 +18,7 @@ class Enquiries extends MemberController {
 		$cond = array('member_id'=>$this->session->userdata('member_user_id'));
 		$like = array();
 
-		$sort_direction = 'asc';
+		$sort_direction = 'desc';
 		$sort_field =  'created';
 
 		if($this->session->userdata('enquiry_search_key_filter')!=''){

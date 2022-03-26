@@ -15,6 +15,10 @@ class Home extends MemberController {
 		$this->load->model('FacilitiesModel');
 		$this->load->model('CarelevelsModel');
 		$this->load->model('EnquiriesModel');
+		$this->load->model('NewsModel');
+		$this->load->model('NewsCategoriesModel');
+		$this->load->model('FormsModel');
+		$this->load->model('LinksModel');
 	}
 
 	public function index()
@@ -33,7 +37,17 @@ class Home extends MemberController {
 		$vars['residence'] = $residence;
 		$vars['package'] = $package;
 		$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
-		$vars['enquiries'] = $this->EnquiriesModel->getArrayLimitCond('5', array('member_id'=>$this->session->userdata('member_user_id')),'created' , 'asc');
+		$vars['enquiries'] = $this->EnquiriesModel->getArrayLimitCond('5', array('member_id'=>$this->session->userdata('member_user_id')),'created' , 'desc');
+		$vars['news'] = $this->NewsModel->getArrayLimitCond('5', array('status'=>'1','type'=>'member'),'sort_order' , 'desc');
+		$vars['news_categories'] = $this->NewsCategoriesModel->getElementPair('id','name');
+		$vars['forms'] = $this->FormsModel->getArrayLimitCond('5', array('status'=>'1','type'=>'member','language'=>$this->default_language),'publish_date' , 'desc');
+		$vars['links'] = $this->LinksModel->getArrayLimitCond('5', array('status'=>'1','type'=>'member','language'=>$this->default_language),'sort_order' , 'desc');
+
+		$vars['enquiries_count'] = $this->EnquiriesModel->getCountCond( array('member_id'=>$this->session->userdata('member_user_id')));
+		$vars['news_count'] = $this->NewsModel->getCountCond(array('status'=>'1','type'=>'member'));
+		$vars['forms_count'] = $this->FormsModel->getCountCond(array('status'=>'1','type'=>'member','language'=>$this->default_language));
+		$vars['links_count'] = $this->LinksModel->getCountCond(array('status'=>'1','type'=>'member','language'=>$this->default_language));
+
 		$this->mainvars['content'] = $this->load->view(member_views_path('home/dashboard'),$vars,true);
 		$this->load->view(member_views_path('main'),$this->mainvars);
 	}

@@ -59,7 +59,7 @@ if($this->uri->segment(4)==""){
 
                                 <td class="center-align"><?php echo date('M j, Y', strtotime($form['publish_date'])); ?></td>
                                 <td class=" last">
-																	<a class="btn btn-info btn-xs" href="#" data-nid="<?php echo $form['id'];?>" data-lan="<?php echo $form['language'];?>" name="view"><i class="fa fa-folder-open"></i> Preview</a>
+																	<a class="btn btn-info btn-xs"  href="<?php echo base_url('public/uploads/forms/'.$form['attachment']);?>" download  name="view"><i class="fa fa-download"></i> Download</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

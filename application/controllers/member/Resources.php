@@ -97,6 +97,18 @@ class Resources extends MemberController {
 		redirect(member_url_string('resources/news'));
 	}
 
+	public function newsdetails()
+	{
+		$id = $this->input->post('id', TRUE);
+		$language = $this->input->post('language', TRUE);
+		$newsRow = $this->NewsModel->getRowCond(array('id'=>$id,'language'=>$language));
+		if(!$newsRow){
+			redirect(member_url_string('resources/news'));
+		}
+		$var['news']= $newsRow;
+		$var['categories'] = $this->NewsCategoriesModel->getElementPair('id','name');
+		$this->load->view(member_url_string('resources/news_details'), $var);
+	}
 
 	public function forms()
 	{
