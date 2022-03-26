@@ -31,7 +31,7 @@ class Dompdf_lib {
 			$paperSize = $paperSizeType;
 		}
 		if($background==''){
-			$background = 'http://nbscha.com/public/common/images/certificate_bg.jpg';
+			$background = 'https://nbscha.celiums.com/public/common/images/certificate_bg.jpg';
 		}
 		if($orientation==''){
 			$this->_dompdf->set_paper($paperSize);
