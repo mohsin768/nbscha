@@ -38,7 +38,7 @@ class Membership extends MemberController {
 		}
 		$certificateContent = unserialize($memberShip->certificate);
 		$vars['certificate'] = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
-		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'http://nbscha.com/public/common/images/certificate_bg.jpg';
+		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'https://nbscha.celiums.com/public/common/images/certificate_bg.jpg';
 		$content = $this->load->view(member_views_path('membership/certificate'),$vars, true);
 		$results = array('content' => $content);
 		$json=json_encode($results);
@@ -72,7 +72,7 @@ class Membership extends MemberController {
 		}
 		$certificateContent = unserialize($memberShip->wallet_certificate);
 		$vars['certificate'] = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
-		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'http://nbscha.com/public/common/images/certificate_bg.jpg';
+		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'https://nbscha.celiums.com/public/common/images/certificate_bg.jpg';
 		$content = $this->load->view(member_views_path('membership/wallet_certificate'),$vars, true);
 		$results = array('content' => $content);
 		$json=json_encode($results);
