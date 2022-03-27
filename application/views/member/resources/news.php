@@ -96,7 +96,7 @@ if($this->uri->segment(4)==""){
 																<td class=" "><?php echo $categories[$neW['category']];?></td>
 																<td class=" "><?php echo $this->languages_pair[$neW['language']];?></td>
 																  <td class=" last">
-																	<a class="btn btn-info btn-xs" href="#" data-nid="<?php echo $neW['id'];?>" data-lan="<?php echo $neW['language'];?>" name="view"><i class="fa fa-folder-open"></i> Details</a>
+																	<a class="btn btn-info btn-xs news-view" href="#" data-id="<?php echo $neW['id'];?>" data-lan="<?php echo $neW['language'];?>" name="view"><i class="fa fa-folder-open"></i> Details</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

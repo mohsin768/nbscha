@@ -21,6 +21,8 @@
     <link href="<?php echo common_assets_url('vendors/jqvmap/dist/jqvmap.min.css'); ?>" rel="stylesheet"/>
     <!-- bootstrap-daterangepicker -->
     <link href="<?php echo common_assets_url('vendors/bootstrap-daterangepicker/daterangepicker.css'); ?>" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo common_assets_url('build/css/bootstrap-multiselect.css'); ?>" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo common_assets_url('vendors/fancybox/jquery.fancybox-1.3.4.css'); ?>" media="screen" />
     <!-- Custom Theme Style -->
     <link href="<?php echo common_assets_url('build/css/custom.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo admin_assets_url('css/celiums.css'); ?>" rel="stylesheet">
@@ -115,6 +117,20 @@
   </div>
 </div>
 
+<div id="confirm-box" class="modal fade">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Are you sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm-button">Yes</button>
+        <button type="button" data-dismiss="modal" class="btn btn-default">No</button>
+      </div>
+    </div>
+    </div>
+    </div>
+
     <!-- Bootstrap -->
     <script src="<?php echo common_assets_url('vendors/bootstrap/dist/js/bootstrap.bundle.min.js'); ?>"></script>
     <!-- FastClick -->
@@ -140,6 +156,9 @@
     <!-- bootstrap-daterangepicker -->
     <script src="<?php echo common_assets_url('vendors/moment/min/moment.min.js'); ?>"></script>
     <script src="<?php echo common_assets_url('vendors/bootstrap-daterangepicker/daterangepicker.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo common_assets_url('build/js/bootstrap-multiselect.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo common_assets_url('vendors/fancybox/jquery.mousewheel-3.0.4.pack.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo common_assets_url('vendors/fancybox/jquery.fancybox-1.3.4.js'); ?>"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="<?php echo common_assets_url('build/js/custom.min.js'); ?>"></script>

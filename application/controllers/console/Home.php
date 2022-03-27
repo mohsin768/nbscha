@@ -6,18 +6,33 @@ class Home extends ConsoleController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('AdminsModel');
+		$this->load->model('EnquiriesModel');
+		$this->load->model('ResidencesModel');
+		$this->load->model('RequestsModel');
+		$this->load->model('MembersModel');
 	}
 
 	public function index()
 	{
 		redirect(admin_url_string('home/dashboard'));
 	}
-	
+
 	public function dashboard()
 	{
-		$this->load->model('EnquiriesModel');
+		$language = $this->default_language;
 		$vars = array();
-		$vars['enquiries'] = $this->EnquiriesModel->getArrayLimitCond('5','','created','DESC');
+		$vars['enquiries'] = $this->EnquiriesModel->getArrayLimit('5','created','DESC');
+		$vars['enquiries_count'] = $this->EnquiriesModel->getCountCond();
+		$vars['residences'] = $this->ResidencesModel->getArrayLimit('5','created','DESC');
+		$vars['active_residences_count'] = $this->ResidencesModel->getCountCond(array('status'=>'1'));
+
+		$vars['pending_requests'] = $this->RequestsModel->getArrayLimitCond('5',array('status'=>'pending'),'created','DESC');
+		$vars['pending_requests_count'] = $this->RequestsModel->getCountCond(array('status'=>'pending'));
+
+		$vars['members'] = $this->MembersModel->getArrayLimit('5','created','DESC');
+		$vars['members_count'] = $this->MembersModel->getCountCond();
+
+		$residence = $this->ResidencesModel->getRowCond(array('member_id'=>$this->session->userdata('member_user_id'),'language'=>$language));
 		$this->mainvars['content'] = $this->load->view(admin_views_path('home/dashboard'),$vars,true);
 		$this->load->view(admin_views_path('main'),$this->mainvars);
 	}
@@ -189,7 +204,7 @@ class Home extends ConsoleController {
 								'settingtype' =>  $this->input->post('settingtype'),
 								'sort_order'=>$this->input->post('sort_order'),
 								'status' => $this->input->post('status'));
-			$descdata = array('settingvalue'=>$this->input->post('settingvalue'));				
+			$descdata = array('settingvalue'=>$this->input->post('settingvalue'));
 			$insertrow =$this->SettingsModel->insert($maindata,$descdata);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Settings added successfully.'));

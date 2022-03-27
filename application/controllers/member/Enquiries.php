@@ -18,7 +18,7 @@ class Enquiries extends MemberController {
 		$cond = array('member_id'=>$this->session->userdata('member_user_id'));
 		$like = array();
 
-		$sort_direction = 'asc';
+		$sort_direction = 'desc';
 		$sort_field =  'created';
 
 		if($this->session->userdata('enquiry_search_key_filter')!=''){
@@ -85,5 +85,15 @@ class Enquiries extends MemberController {
 		redirect(member_url_string('enquiries/overview'));
 	}
 
+	public function view()
+	{
+		$id = $this->input->post('id', TRUE);
+		$enquiryRow = $this->EnquiriesModel->load($id);
+		if(!$enquiryRow){
+			redirect(member_url_string('enquiries/overview'));
+		}
+		$edit['enquiry']= $enquiryRow;
+		$this->load->view(member_url_string('enquiries/view'), $edit);
+	}
 
 }

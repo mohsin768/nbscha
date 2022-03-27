@@ -15,11 +15,8 @@
                         <thead>
                             <tr class="headings">
 															<th class="column-name">Image</th>
-															<th class="column-name">Name</th>
-															<th class="column-name">Address</th>
+															<th class="column-name">Home</th>
 															<th class="column-name">Contact</th>
-															<th class="column-name">Email</th>
-															<th class="column-name">Phone</th>
 															<th class="column-name">Beds</th>
 															<th class="column-name">Vacancy</th>
 															<th class="column-name no-form "><span class="nobr">Action</span></th>

@@ -248,7 +248,6 @@ class Requests extends ConsoleController {
 		$certificate = $certificateTemplate->template;
 		$walletCertificate = $certificateTemplate->wallet_template;
 		$residenceName = $residence->name;
-		$membershipIdentifier = $memberShip->identifier;
 		$certificateDate = $memberShip->issue_date;
 		$expiryDate= $memberShip->expiry_date;
 		$certificateSignature = '';
@@ -260,7 +259,7 @@ class Requests extends ConsoleController {
 		if($certificateTemplate->wallet_bg!='') $walletBackground = base_url('public/uploads/certificates/'.$certificateTemplate->wallet_bg);
 
 		$replacements = array('{{residence}}'=>$residenceName,
-													'{{identifier}}'=>$membershipIdentifier,
+													'{{identifier}}'=>$memberShip->identifier,
 													'{{signature}}'=>$certificateSignature,
 													'{{signatory}}'=>$signatory,
 													'{{date}}'=>$certificateDate,

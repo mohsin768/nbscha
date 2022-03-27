@@ -247,6 +247,20 @@ $(document).ready(function(){
        });
     });
 
+    $('.news-view').click(function(){
+        var newsId = $(this).data('id');
+        var newsLan = $(this).data('lan');
+        $.ajax({
+         url: siteBaseUrl+'/resources/newsdetails',
+         type: 'post',
+         data: {id: newsId,language:newsLan},
+         success: function(response){
+           $('#ajaxModal .modal-body').html(response);
+           $('#ajaxModal').modal('show');
+         }
+       });
+    });
+
     $('.arequest-view').click(function(){
         var enquiryId = $(this).data('id');
         $.ajax({

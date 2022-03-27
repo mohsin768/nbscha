@@ -149,17 +149,18 @@
                       <?php if($request->website!=''){?>  <div class="fa-hover col-md-12 col-sm-12 col-xs-12">WEBSITE: <a href="<?php echo $request->website; ?>" target="_blank"> <?php echo $request->website; ?></a>  </div><?php } ?>
                 </td>
                 </tr>
-                <tr>
-                <th scope="row">Features Provided</th>
-                <td>
+                <tr><th scope="row" colspan="2">Features Provided</th><tr/>
+                <tr><td colspan="2">
                   <div class="x_content bs-example-popovers">
 
                     <?php $selectedFeatures = unserialize($request->features);
 
                     foreach ($features as $key=>$feature):?>
-                      <div class="alert <?php if(isset($selectedFeatures[$key]) && $selectedFeatures[$key]=='1') echo 'alert-success'; else echo 'alert-danger';?>" role="alert" style="padding: 0.4rem 1.25rem;">
-                        <strong><?php echo $feature;?></strong>
-                        <?php if(isset($selectedFeatures[$key]) && $selectedFeatures[$key]=='1') echo '<i style="font-size:22px;float:right" class="fa fa-check-circle"></i>'; else echo '<i style="font-size:22px;float:right" class="fa fa-times-circle"></i>';?>
+                      <div class="col-md-6">
+                        <div class="alert <?php if(isset($selectedFeatures[$key]) && $selectedFeatures[$key]=='1') echo 'alert-success'; else echo 'alert-danger';?>" role="alert" style="padding: 0.4rem 1.25rem;">
+                          <strong><?php echo $feature;?></strong>
+                          <?php if(isset($selectedFeatures[$key]) && $selectedFeatures[$key]=='1') echo '<i style="font-size:22px;float:right" class="fa fa-check-circle"></i>'; else echo '<i style="font-size:22px;float:right" class="fa fa-times-circle"></i>';?>
+                        </div>
                       </div>
                     <?php endforeach;?>
 
