@@ -18,21 +18,24 @@ class Residences extends FrontController {
 
 	public function index($slug='')
 	{
-		$pageId = $this->settings['RESIDENCE_PAGE_ID'];
-		$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
-		$this->pageType = 'register';
-		if(!$pageObject){
-			redirect('pagenotfound');
+		if($slug==''){
+			redirect('/');
 		}
-		$this->pageObject = $pageObject;
-		$this->pageId = $pageObject->id;
-		$this->processPage();
-		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
-		$vars = array();
 		$residenceObject = $this->ResidencesModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
+		$this->pageType = 'residences';
 		if(!$residenceObject){
 			redirect('pagenotfound');
 		}
+		$this->pageObject = $residenceObject;
+		$this->pageId = $residenceObject->id;
+		$landingPageId = $this->settings['RESIDENCE_PAGE_ID'];
+		$landingPageObject = $this->PagesModel->getRowCond(array('id'=>$landingPageId,'language'=>$this->site_language));
+		if($landingPageObject){
+			$this->landingPageObject = $landingPageObject;
+		}
+		$this->processPage();
+		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
+		$vars = array();
 		$vars['residence'] = $residenceObject;
 		$residenceImages = array();
 		if($residenceObject->mainimage!=''){

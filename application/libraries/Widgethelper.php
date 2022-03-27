@@ -13,15 +13,18 @@ class Widgethelper {
 	}
 
     function bannerWidget(){
+        $this->CI->load->helper('text');
         $vars = array();
         $banner = frontend_assets_url('images/default_header.jpg');
-        $title = 'Fort McMurray Trade Show';
-        $subtitle = 'Are you ready to attend?';
+        $title = '';
+        $subtitle = '';
         $bannerPageObject = '';
-        if(isset($this->CI->landingPageObject) && $this->CI->pageType=='blogs'){
-            $bannerPageObject = $this->CI->landingPageObject;
-        } else if($this->CI->pageObject){
-            $bannerPageObject = $this->CI->pageObject;
+        $bannerPageObject = $this->CI->pageObject;
+        $parentSlug = '';
+        $parentTitle = '';
+        $breadcrumbTitle = '';
+        if(isset($this->CI->landingPageObject->banner_image) && $this->CI->landingPageObject->banner_image!=''){
+            $banner = frontend_uploads_url('pages/images/'.$this->CI->landingPageObject->banner_image);
         }
         if(isset($bannerPageObject->banner_image) && $bannerPageObject->banner_image!=''){
             $banner = frontend_uploads_url('pages/images/'.$bannerPageObject->banner_image);
@@ -31,8 +34,30 @@ class Widgethelper {
         }
         if(isset($bannerPageObject->subtitle) && $bannerPageObject->subtitle!=''){
             $subtitle = $bannerPageObject->subtitle;
+        } 
+        if($this->CI->pageType=='board'){
+            $title = $bannerPageObject->name;
+            $parentSlug = 'board';
+            $parentTitle = 'Board Members';
         }
+        $breadcrumbTitle = $title;
+        if($this->CI->pageType=='news'){
+            $title = 'News';
+            $parentSlug = 'news';
+            $parentTitle = 'News';
+            $breadcrumbTitle = word_limiter($breadcrumbTitle,4);
+        }
+        if($this->CI->pageType=='residences'){
+            $title = 'Residences';
+            $parentSlug = 'residences';
+            $parentTitle = 'Residences';
+            $breadcrumbTitle = word_limiter($bannerPageObject->name,4);
+        }
+        $vars['pageType'] =  $this->CI->pageType;
+        $vars['parentSlug'] = $parentSlug;
+        $vars['parentTitle'] = $parentTitle;
         $vars['banner'] = $banner;
+        $vars['breadcrumbTitle'] = $breadcrumbTitle;
         $vars['title'] = $title;
         $vars['subtitle'] = $subtitle;
         return $this->CI->load->view(frontend_views_path('widgets/banners/inside_banner'),$vars,TRUE);

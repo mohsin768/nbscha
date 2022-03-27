@@ -7,7 +7,10 @@
                 <h2 class="title text-white text-center"><?php echo $title; ?></h2>
                 <ol class="breadcrumb text-left text-black mt-10">
                 <li class="text-gray-silver"><a href="<?php echo site_url('/'); ?>">Home</a></li>
-                <li class="active text-gray-silver"><?php echo $title; ?></li>
+                <?php if($parentSlug!='' && $parentTitle!=''){ ?>
+                <li class="text-gray-silver"><a href="<?php echo site_url($parentSlug); ?>"><?php echo $parentTitle; ?></a></li>
+                <?php }?>
+                <li class="active text-gray-silver"><?php echo $breadcrumbTitle; ?></li>
                 </ol>
             </div>
             </div>

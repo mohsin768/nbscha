@@ -9,25 +9,29 @@ class Board extends FrontController {
 		parent::__construct();
 		$this->load->model('PagesModel');
 		$this->load->model('TeamsModel');
+		$this->landingPageObject ='';
 	}
 
 	public function index($slug='')
 	{
-		$pageId = $this->settings['BOARD_PAGE_ID'];
-		$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
-		$this->pageType = 'register';
-		if(!$pageObject){
-			redirect('pagenotfound');
+		if($slug==''){
+			redirect('/');
 		}
-		$this->pageObject = $pageObject;
-		$this->pageId = $pageObject->id;
-		$this->processPage();
-		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
-		$vars = array();
 		$boardObject = $this->TeamsModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
+		$this->pageType = 'board';
 		if(!$boardObject){
 			redirect('pagenotfound');
 		}
+		$this->pageObject = $boardObject;
+		$this->pageId = $boardObject->id;
+		$landingPageId = $this->settings['BOARD_PAGE_ID'];
+		$landingPageObject =  $this->PagesModel->getRowCond(array('id'=>$landingPageId,'language'=>$this->site_language));
+		if($landingPageObject){
+			$this->landingPageObject = $landingPageObject;
+		}
+		$this->processPage();
+		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
+		$vars = array();
 		$vars['boardMember'] = $boardObject;
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/board_member'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();

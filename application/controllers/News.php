@@ -15,21 +15,25 @@ class News extends FrontController {
 
 	public function index($slug='')
 	{
-		$pageId = $this->settings['NEWS_PAGE_ID'];
-		$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
-		$this->pageType = 'register';
-		if(!$pageObject){
-			redirect('pagenotfound');
+
+		if($slug==''){
+			redirect('/');
 		}
-		$this->pageObject = $pageObject;
-		$this->pageId = $pageObject->id;
-		$this->processPage();
-		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
-		$vars = array();
 		$newsObject = $this->NewsModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
+		$this->pageType = 'news';
 		if(!$newsObject){
 			redirect('pagenotfound');
 		}
+		$this->pageObject = $newsObject;
+		$this->pageId = $newsObject->id;
+		$landingPageId = $this->settings['NEWS_PAGE_ID'];
+		$landingPageObject =  $this->PagesModel->getRowCond(array('id'=>$landingPageId,'language'=>$this->site_language));
+		if($landingPageObject){
+			$this->landingPageObject = $landingPageObject;
+		}
+		$this->processPage();
+		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
+		$vars = array();
 		$vars['news'] = $newsObject;
 		$vars['category'] = $this->NewsCategoriesModel->getRowCond(array('id'=>$newsObject->category,'language'=>$this->site_language));
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/news_details'),$vars,TRUE);
