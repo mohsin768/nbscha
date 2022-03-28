@@ -31,6 +31,12 @@ class Home extends MemberController {
 		$language = $this->default_language;
 		$residence = $this->ResidencesModel->getRowCond(array('member_id'=>$this->session->userdata('member_user_id'),'language'=>$language));
 		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$this->session->userdata('member_user_id')));
+		if(!$memberShip){
+			redirect(member_url_string('home/logout'));
+		}
+		if(!$residence){
+			redirect(member_url_string('home/logout'));
+		}
 		$packageId = $memberShip->package_id;
 		$package = $this->PackagesModel->getRowCond(array('pid'=>$packageId,'language'=>$language));
 		$vars['membership'] = $memberShip;

@@ -111,7 +111,6 @@ class Residences extends MemberController {
 						'region_id' => $this->input->post('region_id'),
 						'facilities' => $facilities,
 						'features' => $features,
-						//'comments' => $this->input->post('comments'),
 						'facebook' => $this->input->post('facebook'),
 						'instagram' => $this->input->post('instagram'),
 						'twitter' => $this->input->post('twitter'),

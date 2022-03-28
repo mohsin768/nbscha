@@ -38,6 +38,7 @@ class News extends FrontController {
 		$vars['category'] = $this->NewsCategoriesModel->getRowCond(array('id'=>$newsObject->category,'language'=>$this->site_language));
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/news_details'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
+		$this->mainvars['bodyClass'] = 'news-detail';
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}
