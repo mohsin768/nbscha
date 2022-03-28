@@ -10,7 +10,7 @@
     font-weight: 600;
 }
 section.inner-header.divider.parallax.layer-overlay.overlay-dark-5{
-    background-image: url('public/header-bar-img.jpg')!important;
+    background-image: url('/public/frontend/images/header-bar-img.jpg')!important;
 }
 .post .entry-content {
     height: 180px;
@@ -78,7 +78,7 @@ h5.icon-box-title.mb-5 a {
     .md-re { min-height: unset!important; }
     #playbtnimg { display: none; }
 }
-.p-name{ font-size: 25px!important; } 
+.p-name{ font-size: 25px!important; }
 .form-transparent .form-control {
     color: #000!important;
 }
