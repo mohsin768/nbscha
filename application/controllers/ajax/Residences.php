@@ -9,7 +9,7 @@ class Residences extends GlobalController {
 
 	public function index()
 	{
-		$residenceCond = array('status'=>'1','language'=>$this->site_language);
+		$residenceCond = array('residences.status'=>'1','language'=>$this->site_language);
 		$residenceLike = array();
 		$residenceFindIn = array();
 		$page = secureInput($this->input->get('page'));
@@ -47,9 +47,9 @@ class Residences extends GlobalController {
 		$perPage = 12;
 		$offset = $perPage*($page-1);
 		
-		$totalCount = $this->ResidencesModel->getPaginationCount($residenceCond,$residenceLike,$residenceFindIn);
+		$totalCount = $this->ResidencesModel->getActivePaginationCount($residenceCond,$residenceLike,$residenceFindIn);
 		$totalPages = ceil($totalCount/$perPage);
-		$residences = $this->ResidencesModel->getPagination($perPage,$offset,$residenceCond,'','name','ASC',$residenceFindIn,$residenceFindIn);
+		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'','name','ASC',$residenceFindIn,$residenceFindIn);
 		$residencesinfo = array();
 		foreach($residences as $residence):
 			$residence['package_name'] = (isset($packages[$residence['package_id']]))?$packages[$residence['package_id']]:'';

@@ -62,7 +62,8 @@ class ResidencesModel extends CMS_Model {
       return $query->result_array();
     }
 
-    function getPaginationCount($cond = '', $like='',$findin='') {
+    function getActivePaginationCount($cond = '', $like='',$findin='') {
+      $currentDate = date('Y-m-d');
 		$this->db->select('*');
 		if (is_array($cond) && count($cond) > 0) {
 			$this->db->where($cond);
@@ -81,14 +82,17 @@ class ResidencesModel extends CMS_Model {
                 endforeach;
                 $this->db->group_end();
         }
+    $this->db->where('memberships.expiry_date <=',$currentDate);
 		$this->db->from($this->table_name);
+    $this->db->join('memberships', "memberships.residence_id = $this->table_name.$this->primary_key");
     if($this->multilingual){
 			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
 		}
 		return $this->db->count_all_results();
 	}
 
-	function getPagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='',$findin='') {
+	function getActivePagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='',$findin='') {
+    $currentDate = date('Y-m-d');
 		$this->db->select('*');
 		if (is_array($cond) && count($cond) > 0) {
 		  $this->db->where($cond);
@@ -110,7 +114,9 @@ class ResidencesModel extends CMS_Model {
 		if ($orderField!='' && $orderDirection!='') {
 			$this->db->order_by($orderField, $orderDirection);
 		}
+    $this->db->where('memberships.expiry_date <=',$currentDate);
 		$this->db->from($this->table_name);
+    $this->db->join('memberships', "memberships.residence_id = $this->table_name.$this->primary_key");
     if($this->multilingual){
 			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
 		}
