@@ -666,3 +666,7 @@ section.inner-header.divider.parallax.layer-overlay.overlay-dark-5 {
     height: 160;
   }
 }
+.residence .main-content, .residences .main-content, .about .main-content
+{
+  background-color: #f7f7f7 !important;
+}
