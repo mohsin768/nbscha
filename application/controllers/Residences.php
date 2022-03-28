@@ -28,10 +28,14 @@ class Residences extends FrontController {
 		}
 		$this->pageObject = $residenceObject;
 		$this->pageId = $residenceObject->id;
+		$bodyClass = 'residence';
 		$landingPageId = $this->settings['RESIDENCE_PAGE_ID'];
 		$landingPageObject = $this->PagesModel->getRowCond(array('id'=>$landingPageId,'language'=>$this->site_language));
 		if($landingPageObject){
 			$this->landingPageObject = $landingPageObject;
+			if($landingPageObject->class!=''){
+				$bodyClass = $landingPageObject->class;
+			}
 		}
 		$this->processPage();
 		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
@@ -79,7 +83,7 @@ class Residences extends FrontController {
 		$vars['features'] = $this->FeaturesModel->getIdPair();
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/residence'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
-		$this->mainvars['bodyClass'] = 'residence';
+		$this->mainvars['bodyClass'] = $bodyClass;
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}

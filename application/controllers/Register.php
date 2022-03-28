@@ -69,7 +69,11 @@ class Register extends FrontController {
 			$vars['features'] = $this->FeaturesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
 			$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/register'),$vars,TRUE);
 			$this->mainvars['content']=$this->widgethelper->pageContent();
-			$this->mainvars['bodyClass'] = 'register';
+			$bodyClass = 'register';
+			if($pageObject->class!=''){
+				$bodyClass = $pageObject->class;
+			}
+			$this->mainvars['bodyClass'] = $bodyClass;
 			$this->load->view(frontend_views_path('main'),$this->mainvars);
 		} else {
 			$this->load->helper('string');

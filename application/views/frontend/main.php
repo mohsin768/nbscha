@@ -137,13 +137,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		  return check;
 		};
 		if(mobileCheck){
-			var vid = document.getElementById("mediavid");
-			vid.addEventListener('play',function(){
-				$("#playbtnimg").hide();
-			});
-			vid.addEventListener('pause',function(){
-				$("#playbtnimg").show();
-			});
+			if($("#mediavid").length){
+				var vid = document.getElementById("mediavid");
+				vid.addEventListener('play',function(){
+					$("#playbtnimg").hide();
+				});
+				vid.addEventListener('pause',function(){
+					$("#playbtnimg").show();
+				});
+			}
 		}
 
 	</script>
