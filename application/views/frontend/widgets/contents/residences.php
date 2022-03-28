@@ -28,14 +28,7 @@
 
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-3 multiselect">
-                                            <label for="Region ">Facility</label>
-                                            <select class="form-control" id="residence-facilities" name="facilities[]" multiple>
-                                                <?php foreach($facilities as $facility): ?>
-                                                <option value="<?php echo $facility['fid']; ?>"><?php echo $facility['facility_title']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
+
                                         <div class="form-group col-md-3">
                                         <label for="inputPassword4">Level of care</label>
                                         <select class="form-control" name="home_level" id="residence-level">
@@ -45,6 +38,16 @@
                                             <?php endforeach; ?>
                                         </select>
                                         </div>
+
+                                        <div class="form-group col-md-3 multiselect">
+                                            <label for="Region ">Facility</label>
+                                            <select class="form-control" id="residence-facilities" name="facilities[]" multiple>
+                                                <?php foreach($facilities as $facility): ?>
+                                                <option value="<?php echo $facility['fid']; ?>"><?php echo $facility['facility_title']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        
                                         <div class="form-group col-md-3">
                                         <label for="idss">Vacancy</label>
                                         <select class="form-control sl-op" name="vacancy" id="residence-vacancy">
@@ -79,7 +82,7 @@
                     </div>
                 </div>
                 <div class="row" id="residences-list">
-                       
+
                 </div>
             </div>
         </div>
@@ -93,7 +96,7 @@
     </div>
 </section>
 <script id="no-residences-tpl" type="text/template">
-    <div class="no-residences col-sm-12 col-md-12"> 
+    <div class="no-residences col-sm-12 col-md-12">
                 No residences to display
     </div>
 </script>
@@ -113,5 +116,5 @@
                 <a class="btn btn-flat btn-dark btn-theme-colored btn-md pull-left font-20 ab-btn new-btn" href="{{ residence_url }}"><span>VIEW HOME</span><i class="fa fa-play"></i></a>
             </div>
         </div>
-    </div>       
+    </div>
 </script>

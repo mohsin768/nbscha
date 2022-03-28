@@ -9,6 +9,7 @@
             residencesParams.page = parseInt(residencesParams.page)+parseInt("1");
             loadResidences(residencesParams);
         });
+        $('#propertiesDetailsSlider .carousel-inner .carousel-item:first').addClass('active');
         $('#residence-search').click( function(e){
             e.preventDefault();
             $('#residences-load-more').addClass('loading');

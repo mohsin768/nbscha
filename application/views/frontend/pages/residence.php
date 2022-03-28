@@ -7,7 +7,7 @@
             <div id="propertiesDetailsSlider" class="carousel properties-details-sliders slide mb-40">
                 <div class="carousel-inner">
                     <?php $i=0; foreach($images as $image):  ?>
-                    <div class="item carousel-item active" data-slide-number="<?php echo $i; ?>">
+                    <div class="item carousel-item" data-slide-number="<?php echo $i; ?>">
                         <img src="<?php echo $image; ?>" width="100%">
                     </div>
                     <?php $i++; endforeach; ?>
@@ -85,11 +85,11 @@
 
                         <!-- Contact Form -->
                 <form id="residence_form" name="contact_form" class="" action="<?php echo site_url('ajax/forms/enquiries');?>" method="post" novalidate="novalidate">
-                    <input type="hidden" name="form_type" value="residence" />     
-                    <input type="hidden" name="form_member_id" value="<?php echo $residence->member_id; ?>" />     
-                    <input type="hidden" name="form_home_id" value="<?php echo $residence->id; ?>" />     
-                    <input type="hidden" name="form_token" id="form_token" value="" />  
-                    <input type="hidden" name="form_action" id="form_action" value="" />  
+                    <input type="hidden" name="form_type" value="residence" />
+                    <input type="hidden" name="form_member_id" value="<?php echo $residence->member_id; ?>" />
+                    <input type="hidden" name="form_home_id" value="<?php echo $residence->id; ?>" />
+                    <input type="hidden" name="form_token" id="form_token" value="" />
+                    <input type="hidden" name="form_action" id="form_action" value="" />
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -159,7 +159,7 @@
                                         }
                                     });
                                 });;
-                            });     
+                            });
                         }
                     });
                 </script>
@@ -170,16 +170,16 @@
                 <h3 class="widget-title line-bottom">Social Network</h3>
                 <div class="row">
                 <div class="col-md-12">
-                    <ul class="styled-icons icon-dark icon-theme-colored mt-20"> 
+                    <ul class="styled-icons icon-dark icon-theme-colored mt-20">
                         <?php if($residence->facebook!=''){ ?>
-                        <li><a href="<?php echo $residence->facebook; ?>"><i class="fa fa-facebook"></i></a></li>	
-                        <?php } if($residence->instagram!=''){ ?>		  	 
+                        <li><a href="<?php echo $residence->facebook; ?>"><i class="fa fa-facebook"></i></a></li>
+                        <?php } if($residence->instagram!=''){ ?>
                         <li><a href="<?php echo $residence->instagram; ?>"><i class="fa fa-instagram"></i></a></li>
-                        <?php } if($residence->youtube!=''){ ?>	
+                        <?php } if($residence->youtube!=''){ ?>
                         <li><a href="<?php echo $residence->youtube; ?>"><i class="fa fa-youtube"></i></a></li>
-                        <?php } if($residence->twitter!=''){ ?>		  	 
+                        <?php } if($residence->twitter!=''){ ?>
                         <li><a href="<?php echo $residence->twitter; ?>"><i class="fa fa-twitter"></i></a></li>
-                        <?php } if($residence->linkedin!=''){ ?>	
+                        <?php } if($residence->linkedin!=''){ ?>
                         <li><a href="<?php echo $residence->linkedin; ?>"><i class="fa fa-linkedin"></i></a></li>
                         <?php } ?>
 				    </ul>
