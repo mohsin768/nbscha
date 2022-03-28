@@ -52,6 +52,10 @@ class Residences extends GlobalController {
 		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'','name','ASC',$residenceFindIn,$residenceFindIn);
 		$residencesinfo = array();
 		foreach($residences as $residence):
+			if($residence['mainimage']!=''){
+				$main_image = imageCropOnFly(frontend_uploads_path('requests/images'),$residence['mainimage'],'570','400','listthumb');
+			}
+			$residence['main_image'] = $main_image;
 			$residence['package_name'] = (isset($packages[$residence['package_id']]))?$packages[$residence['package_id']]:'';
 			$residence['residence_url'] = residences_url($residence['slug']);
 			$residencesinfo[] = $residence;

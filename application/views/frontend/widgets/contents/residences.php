@@ -100,11 +100,11 @@
 <script id="residences-item-tpl" type="text/template">
     <div class="residence-item col-sm-6 col-md-4">
         <div class="project mb-30 border-2px">
-            {{#mainimage}}
+            {{#main_image}}
             <div class="thumb">
-                <img class="img-fullwidth" alt="{{ name }}" src="<?php echo frontend_uploads_url('requests/images'); ?>/{{ mainimage }}">
+                <img class="img-fullwidth" alt="{{ name }}" src="{{ main_image }}">
             </div>
-            {{/mainimage}}
+            {{/main_image}}
             <div class="project-details p-15 pt-10 pb-10">
                 <h5 class="font-14 font-weight-500 mb-5"></h5>
                 <h4 class="font-weight-700 text-uppercase mt-0">{{ name }}</h4>
