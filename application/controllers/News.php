@@ -26,10 +26,14 @@ class News extends FrontController {
 		}
 		$this->pageObject = $newsObject;
 		$this->pageId = $newsObject->id;
+		$bodyClass = 'news-detail';
 		$landingPageId = $this->settings['NEWS_PAGE_ID'];
 		$landingPageObject =  $this->PagesModel->getRowCond(array('id'=>$landingPageId,'language'=>$this->site_language));
 		if($landingPageObject){
 			$this->landingPageObject = $landingPageObject;
+			if($landingPageObject->class!=''){
+				$bodyClass = $landingPageObject->class;
+			}
 		}
 		$this->processPage();
 		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
@@ -38,7 +42,7 @@ class News extends FrontController {
 		$vars['category'] = $this->NewsCategoriesModel->getRowCond(array('id'=>$newsObject->category,'language'=>$this->site_language));
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/news_details'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
-		$this->mainvars['bodyClass'] = 'news-detail';
+		$this->mainvars['bodyClass'] = $bodyClass;
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}

@@ -82,7 +82,7 @@ class ResidencesModel extends CMS_Model {
                 endforeach;
                 $this->db->group_end();
         }
-    $this->db->where('memberships.expiry_date <=',$currentDate);
+    $this->db->where('1memberships.expiry_date >=',$currentDate);
 		$this->db->from($this->table_name);
     $this->db->join('memberships', "memberships.residence_id = $this->table_name.$this->primary_key");
     if($this->multilingual){

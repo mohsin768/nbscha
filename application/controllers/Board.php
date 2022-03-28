@@ -24,10 +24,14 @@ class Board extends FrontController {
 		}
 		$this->pageObject = $boardObject;
 		$this->pageId = $boardObject->id;
+		$bodyClass = 'board-member';
 		$landingPageId = $this->settings['BOARD_PAGE_ID'];
 		$landingPageObject =  $this->PagesModel->getRowCond(array('id'=>$landingPageId,'language'=>$this->site_language));
 		if($landingPageObject){
 			$this->landingPageObject = $landingPageObject;
+			if($landingPageObject->class!=''){
+				$bodyClass = $landingPageObject->class;
+			}
 		}
 		$this->processPage();
 		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
@@ -35,7 +39,7 @@ class Board extends FrontController {
 		$vars['boardMember'] = $boardObject;
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/board_member'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
-		$this->mainvars['bodyClass'] = 'board-member';
+		$this->mainvars['bodyClass'] = $bodyClass;
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}

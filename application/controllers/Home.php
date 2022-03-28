@@ -33,6 +33,7 @@ class Home extends FrontController {
 			$this->mainvars['banner']=$this->widgethelper->bannerWidget();
 		}
 		$this->mainvars['content']=$this->widgethelper->pageContent();
+		$this->mainvars['bodyClass'] = $pageObject->class;
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 	}
 }
