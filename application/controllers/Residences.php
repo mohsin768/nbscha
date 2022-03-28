@@ -79,6 +79,7 @@ class Residences extends FrontController {
 		$vars['features'] = $this->FeaturesModel->getIdPair();
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/residence'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
+		$this->mainvars['bodyClass'] = 'residence';
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}

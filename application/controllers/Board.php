@@ -35,6 +35,7 @@ class Board extends FrontController {
 		$vars['boardMember'] = $boardObject;
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/board_member'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
+		$this->mainvars['bodyClass'] = 'board-member';
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}

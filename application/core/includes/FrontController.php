@@ -16,6 +16,7 @@ class FrontController extends GlobalController {
         $this->mainvars['content_top']='';
         $this->mainvars['content']='';
         $this->mainvars['content_bottom']='';
+        $this->mainvars['bodyClass'] ='';
     }
 
     function processPage(){

@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     var captchaSiteKey = '<?php echo $this->settings['RECAPTCHA_SITE_KEY']; ?>';
 </script>
 </head>
-<body class="">
+<body class="<?php echo $bodyClass; ?>">
 	<div id="wrapper" class="clearfix">
   <!-- preloader -->
   <div id="preloader">
