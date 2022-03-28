@@ -670,3 +670,13 @@ section.inner-header.divider.parallax.layer-overlay.overlay-dark-5 {
 {
   background-color: #f7f7f7 !important;
 }
+.load-more-wrap
+{
+  text-align: center;
+}
+a#residences-load-more
+{
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
