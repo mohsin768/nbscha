@@ -49,7 +49,7 @@ class Residences extends GlobalController {
 		
 		$totalCount = $this->ResidencesModel->getActivePaginationCount($residenceCond,$residenceLike,$residenceFindIn);
 		$totalPages = ceil($totalCount/$perPage);
-		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'','name','ASC',$residenceFindIn,$residenceFindIn);
+		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'name','ASC',$residenceLike,$residenceFindIn);
 		$residencesinfo = array();
 		foreach($residences as $residence):
 			if($residence['mainimage']!=''){
