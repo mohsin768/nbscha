@@ -69,6 +69,7 @@
               <div class="clearfix"></div>
           </div>
 
+
           <div class="form-group col-md-4">
               <label class="control-label col-md-12 no-padd" for="label">Pharmacy<span>*</span></label>
 

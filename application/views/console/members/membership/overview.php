@@ -13,7 +13,7 @@ if($this->uri->segment(4)==""){
                 <h2>Membership</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo member_url('membership/renew'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Renew Membership</a></span>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('members/renew/'.$membership->member_id); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Renew Membership</a></span>
                     </li>
                 </ul>
                 <div class="clearfix"></div>

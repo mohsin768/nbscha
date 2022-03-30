@@ -70,7 +70,7 @@ class Requests extends ConsoleController {
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
     $config['base_url'] = admin_url('requests/overview');
-    $config['total_rows'] = $this->RequestsModel->getPaginationCount();
+    $config['total_rows'] = $this->RequestsModel->getPaginationCount($cond,$like);
     $this->pagination->initialize($config);
 		$vars['requests'] = $this->RequestsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;

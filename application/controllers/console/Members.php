@@ -220,4 +220,125 @@ class Members extends ConsoleController {
 		redirect(admin_url_string('members/overview'));
 	}
 
+	public function membership($id)
+	{
+		$this->load->model('MembershipsModel');
+		$this->load->model('ResidencesModel');
+		$this->load->model('PackagesModel');
+		$language = $this->default_language;
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
+		if(!$memberShip){
+			redirect(admin_url_string('members/overview'));
+		}
+		$residenceId = $memberShip->residence_id;
+		$packageId = $memberShip->package_id;
+		$residence = $this->ResidencesModel->getRowCond(array('id'=>$residenceId,'language'=>$language));
+		$package = $this->PackagesModel->getRowCond(array('pid'=>$packageId,'language'=>$language));
+		$vars['membership'] = $memberShip;
+		$vars['residence'] = $residence;
+		$vars['package'] = $package;
+		$this->mainvars['content']=$this->load->view(admin_url_string('members/membership/overview'),$vars,true);
+		$this->mainvars['page_scripts'] = $this->load->view(admin_url_string('members/membership/script'),$vars,true);
+		$this->load->view(admin_url_string('main'),$this->mainvars);
+
+	}
+
+	public function renew($id)
+	{
+		$this->load->model('MembershipsModel');
+		$this->load->model('RenewalsModel');
+		$this->load->model('PackagesModel');
+		$language = $this->default_language;
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
+		if(!$memberShip){
+			redirect(admin_url('members'));
+		}
+		$renewalRequest  = $this->RenewalsModel->getRowCond(array('member_id'=>$id,'status'=>'pending'));
+		if($renewalRequest){
+			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'You already have a renewal request in process.'));
+			redirect(admin_url_string('members/membership/'.$id));
+		}
+		$memberShipRenewal = false;
+		$expiryYear = date('Y',strtotime($memberShip->expiry_date));
+		$currentYear = date('Y');
+		$yearDifference = $currentYear-$expiryYear;
+		if($expiryYear==$currentYear){
+			$memberShipRenewal = true;
+		}
+		if($yearDifference>=1){
+			$memberShipRenewal = true;
+		}
+		if(!$memberShipRenewal){
+			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Your membership cannot be renewed now'));
+			redirect(member_url('membership'));
+		}
+		$this->form_validation->set_rules('package_id', 'Number of beds', 'required');
+		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
+		$this->form_validation->set_message('required', 'required');
+		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE)
+		{
+			$vars['membership'] =$memberShip;
+			$vars['packages'] =$this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->default_language));
+			$this->mainvars['content']=$this->load->view(admin_url_string('members/membership/renew'),$vars,true);
+			$this->mainvars['page_scripts'] = $this->load->view(admin_url_string('members/membership/script'),'',true);
+			$this->load->view(member_views_path('main'),$this->mainvars);
+		} else {
+			$packageId = $this->input->post('package_id');
+			$package = $this->PackagesModel->getRowCond(array('pid'=>$packageId,'language'=>$language));
+			$data=array(
+				'member_id' => $id,
+				'previous_package_id'=>$memberShip->package_id,
+				'previous_issue_date'=>$memberShip->issue_date,
+				'previous_expiry_date'=>$memberShip->expiry_date,
+				'new_package_id'=>$packageId,
+				'amount'=>$package->price,
+				'payment_method'=>$this->input->post('payment_method'),
+				'payment_comments'=>$this->input->post('comments'),
+				'payment_info'=>$this->input->post('payment_info'),
+				'created_by'=>'member',
+				'created_date'=>date('Y-m-d H:i:s'),
+				'status'=>'pending'
+			);
+      		$actionStatus=$this->RenewalsModel->insert($data);
+			if($actionStatus){
+			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Renewal Requested Successfully.'));
+				redirect(admin_url_string('members/membership/'.$id));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				redirect(admin_url_string('members/membership/'.$id));
+			}
+		}
+	}
+
+	public function certificatepreview($id){
+		$this->load->model('MembershipsModel');
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
+		if($memberShip->certificate==''){
+			exit;
+		}
+		$certificateContent = unserialize($memberShip->certificate);
+		$vars['certificate'] = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
+		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'https://nbscha.celiums.com/public/common/images/certificate_bg.jpg';
+		$content = $this->load->view(admin_url_string('members/membership/certificate'),$vars, true);
+		$results = array('content' => $content);
+		$json=json_encode($results);
+		exit($json);
+	}
+
+	public function walletcertificatepreview($id){
+		$this->load->model('MembershipsModel');
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
+		if($memberShip->wallet_certificate==''){
+			exit;
+		}
+		$certificateContent = unserialize($memberShip->wallet_certificate);
+		$vars['certificate'] = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
+		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'https://nbscha.celiums.com/public/common/images/certificate_bg.jpg';
+		$content = $this->load->view(admin_url_string('members/membership/wallet_certificate'),$vars, true);
+		$results = array('content' => $content);
+		$json=json_encode($results);
+		exit($json);
+	}
+
 }
