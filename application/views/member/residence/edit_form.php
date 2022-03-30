@@ -68,20 +68,6 @@
                 </div>
               <div class="clearfix"></div>
           </div>
-          <div class="form-group col-md-4">
-              <label class="control-label col-md-12 no-padd" for="label">Number of beds<span>*</span></label>
-
-              <div class="col-md-12 no-padd">
-                <?php echo form_error('package_id'); ?>
-                <select id="package_id" name="package_id" class="form-control">
-                    <option value=""> -- Select -- </option>
-                    <?php foreach($packages as $key => $value): ?>
-                        <option <?php if($residence->package_id==$key) echo 'selected';?> value="<?php echo $key; ?>" ><?php echo $value; ?></option>
-                    <?php endforeach; ?>
-                </select>
-              </div>
-              <div class="clearfix"></div>
-          </div>
 
           <div class="form-group col-md-4">
               <label class="control-label col-md-12 no-padd" for="label">Pharmacy<span>*</span></label>

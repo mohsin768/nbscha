@@ -124,7 +124,6 @@ class Residences extends ConsoleController {
 				 $language = $this->default_language;
 				 $residence = $this->ResidencesModel->getRowCond(array('id'=>$rId,'language'=>$language));
 				 $vars['residence'] = $residence;
-				 $vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
 				 $vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 				 $vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
 				 $vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
@@ -148,7 +147,6 @@ class Residences extends ConsoleController {
 					$this->form_validation->set_rules('email', 'Home Email', 'required|valid_email');
 					$this->form_validation->set_rules('phone', 'Home Phone', 'required');
 					$this->form_validation->set_rules('fax', 'Home Fax', '');
-					$this->form_validation->set_rules('package_id', 'Beds', 'required');
 					$this->form_validation->set_rules('level_id', 'Level', 'required');
 					$this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
 					$this->form_validation->set_rules('facilities[]', 'Facilities', 'required');
@@ -188,7 +186,6 @@ class Residences extends ConsoleController {
 							'email' => $this->input->post('email'),
 							'phone' => $this->input->post('phone'),
 							'fax' => $this->input->post('fax'),
-							'package_id' => $this->input->post('package_id'),
 							'level_id' => $this->input->post('level_id'),
 							'pharmacy_name' => $this->input->post('pharmacy_name'),
 							'region_id' => $this->input->post('region_id'),
