@@ -12,7 +12,8 @@
         $('#propertiesDetailsSlider .carousel-inner .carousel-item:first').addClass('active');
         $('#residence-search').click( function(e){
             e.preventDefault();
-            $('#residences-load-more').addClass('loading');
+            $('#residences-list').addClass('loading');
+            $('#residences-load-more').hide();
             residencesParams.page = 1;
             var facilities = $('#residence-facilities').val();
             var facilitiesStr = '';
@@ -30,7 +31,8 @@
         });
         $('#residence-reset').click( function(e){
             e.preventDefault();
-            $('#residences-load-more').addClass('loading');
+            $('#residences-list').addClass('loading');
+            $('#residences-load-more').hide();
             residencesParams.page = 1
             $('#residence-region').val('');
             $('#residence-package').val('');
@@ -75,7 +77,6 @@
                         output = $('#no-residences-tpl').html();
                     }
                     $('#residences-list').append(output);
-                    $('#residences-load-more').removeClass('loading');
                     $('#residences-list').removeClass('loading');
                     if(result.pager.current_page<(result.pager.pages)){
                         $('#residences-load-more').show();
