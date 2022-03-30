@@ -15,7 +15,10 @@
             $('#residences-load-more').addClass('loading');
             residencesParams.page = 1;
             var facilities = $('#residence-facilities').val();
-            var facilitiesStr = facilities.join(",");
+            var facilitiesStr = '';
+            if (facilities !== null){
+                facilitiesStr = facilities.join(",");
+            }
             residencesParams.region_id = $('#residence-region').val();
             residencesParams.package_id = $('#residence-package').val();
             residencesParams.level_id = $('#residence-level').val();
