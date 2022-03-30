@@ -160,6 +160,15 @@ class Pages extends ConsoleController {
 		}
 	}
 
+	public function translates($id)
+	{
+		$cond = array('id'=>$id);
+		$vars['translates'] = $this->PagesModel->getTranslates($cond);
+		$vars['page_id'] = $id;
+		$this->mainvars['content']=$this->load->view(admin_url_string('pages/translates'),$vars,true);
+		$this->load->view(admin_url_string('main'),$this->mainvars);
+	}
+
 	public function seo($id)
 	{
 		$pageRow = $this->PagesModel->load($id);
