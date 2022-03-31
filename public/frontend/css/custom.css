@@ -426,7 +426,7 @@ section.inner-header.divider.parallax.layer-overlay.overlay-dark-5 {
 }
 .residences .ab-btn {
   position: absolute;
-  bottom: 40px;
+  bottom: 20px;
 }
 .residences .row.btn-row .col-md-4 {
   padding: 0 5px 0 0;
@@ -683,4 +683,7 @@ a#residences-load-more
 #payment_message{
   font-weight: bold;
   margin-bottom:10px ;
+}
+.residences .project .project-details{
+  position: relative;
 }
