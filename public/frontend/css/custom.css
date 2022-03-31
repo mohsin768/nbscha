@@ -641,6 +641,7 @@ section.inner-header.divider.parallax.layer-overlay.overlay-dark-5 {
   .residences .ad-serch label {
     display: unset;
   }
+  /*
   .residences .tab-content {
     border: unset;
   }
@@ -649,7 +650,7 @@ section.inner-header.divider.parallax.layer-overlay.overlay-dark-5 {
   }
   .residences .thumb img.img-fullwidth {
     height: 250px !important;
-  }
+  }*/
 }
 @media (max-width: 767px) {
   .residences .project-details {
