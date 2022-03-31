@@ -163,25 +163,30 @@ class Certificatetemplates extends ConsoleController {
 											'signatory' => $this->input->post('signatory'),
 											'language' => $this->input->post('language'));
 
-											$config['upload_path'] = 'public/uploads/certificates';
-															$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
-															$this->load->library('upload', $config);
+											$certificatesUploadPath = 'public/uploads/certificates';
+											if(!is_dir($certificatesUploadPath)){
+												mkdir($certificatesUploadPath, 0777, TRUE);
+											}
+											$certificatesConfig['upload_path'] = $certificatesUploadPath;
+											$certificatesConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 
-															if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
-																$maindata['image']='';
-															} else{
-																$this->upload->initialize($config);
-																if($this->upload->do_upload('image'))
-																{
-																		$imagedata=$this->upload->data();
-																		$maindata['image']=$imagedata['file_name'];
-																}
-															}
+											if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
+												$maindata['image']='';
+											} else{
+												$this->load->library('upload', $certificatesConfig);
+												$this->upload->initialize($certificatesConfig);
+												if($this->upload->do_upload('image'))
+												{
+														$imagedata=$this->upload->data();
+														$maindata['image']=$imagedata['file_name'];
+												}
+											}
 
 															if($this->input->post('remove_background') && $this->input->post('remove_background')=='1'){
 																$maindata['background']='';
 															} else{
-																$this->upload->initialize($config);
+																$this->load->library('upload', $certificatesConfig);
+																$this->upload->initialize($certificatesConfig);
 																if($this->upload->do_upload('background'))
 																{
 																		$bgdata=$this->upload->data();
@@ -192,7 +197,8 @@ class Certificatetemplates extends ConsoleController {
 															if($this->input->post('remove_wallet_bg') && $this->input->post('remove_wallet_bg')=='1'){
 																$maindata['wallet_bg']='';
 															} else{
-																$this->upload->initialize($config);
+																$this->load->library('upload', $certificatesConfig);
+																$this->upload->initialize($certificatesConfig);
 																if($this->upload->do_upload('wallet_bg'))
 																{
 																		$walletbgdata=$this->upload->data();
@@ -203,7 +209,8 @@ class Certificatetemplates extends ConsoleController {
 															if($this->input->post('remove_signature') && $this->input->post('remove_signature')=='1'){
 																$maindata['signature']='';
 															} else{
-																$this->upload->initialize($config);
+																$this->load->library('upload', $certificatesConfig);
+																$this->upload->initialize($certificatesConfig);
 																if($this->upload->do_upload('signature'))
 																{
 																		$signaturedata=$this->upload->data();

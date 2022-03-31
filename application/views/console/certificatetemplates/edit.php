@@ -10,7 +10,7 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'template-edit');
-                echo form_open(admin_url_string('certificatetemplates/edit/'.$template->id.'/'.$language.'/'.$translate),$attributes);?>
+                echo form_open_multipart(admin_url_string('certificatetemplates/edit/'.$template->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $template->id; ?>" />
                 <input type="hidden" name="language" value="<?php echo $this->default_language;?>" />
 
