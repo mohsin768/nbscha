@@ -5,7 +5,7 @@
         <h4 class="modal-title" id="statusLabel">Certificate</h4>
       </div>
       <div class="modal-body overflow-auto" >
-        <div style="width:700px;height:533px;display: block;background:<?php echo 'url('.$background.') center no-repeat'; ?>;background-size: 100%;margin:0 auto">
+        <div style="width:877px;height:620px;display: block;background:<?php echo 'url('.$background.') center no-repeat'; ?>;background-size: 100%;margin:0 auto">
           <?php echo $certificate;?></div>
        </div>
 
