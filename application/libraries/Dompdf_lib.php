@@ -30,9 +30,6 @@ class Dompdf_lib {
 		} else {
 			$paperSize = $paperSizeType;
 		}
-		if($background==''){
-			$background = site_url('public/common/images/certificate_bg.jpg');
-		}
 		if($orientation==''){
 			$this->_dompdf->set_paper($paperSize);
 		} else {
