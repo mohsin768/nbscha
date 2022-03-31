@@ -42,7 +42,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('summary'); ?>
-                        <?php echo $this->ckeditor->editor("summary",html_entity_decode(set_value('summary'))); ?>
+                        <textarea id="summary"  name="summary" class="form-control"><?php echo set_value('summary'); ?></textarea>
                     </div>
                     <div class="clearfix"></div>
                 </div>

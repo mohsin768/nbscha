@@ -49,7 +49,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('summary'); ?>
-                          <?php echo $this->ckeditor->editor("summary",html_entity_decode($link->summary)); ?>
+                        <textarea rows="5" id="summary"  name="summary" class="form-control"><?php echo $link->summary; ?></textarea>
                     </div>
                     <div class="clearfix"></div>
                 </div>
