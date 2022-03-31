@@ -137,6 +137,21 @@ class Renewals extends ConsoleController {
 
 		redirect(admin_url_string('renewals/overview'));
 	}
+
+	function regeneratecertificates(){
+		$memberships = $this->MembershipsModel->getArray();
+		foreach($memberships as $membership):
+			$membershipId = $membership['id'];
+			$certificates = $this->certificatehelper->generateCertificates($membershipId);
+			$certificate = '';
+			if($certificates['main_certificate']) $certificate = serialize($certificates['main_certificate']);
+			$wallet_certificate = '';
+			if($certificates['wallet_certificate']) $wallet_certificate = serialize($certificates['wallet_certificate']);
+			$this->MembershipsModel->updateCond(array('certificate'=>$certificate,'wallet_certificate'=>$wallet_certificate),array('id'=>$membershipId));
+		endforeach;
+		$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Regenerated All Certificates'));
+		redirect(admin_url_string('home/dashboard'));
+	}
 	
 
 }

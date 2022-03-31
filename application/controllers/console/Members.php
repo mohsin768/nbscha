@@ -270,7 +270,7 @@ class Members extends ConsoleController {
 		}
 		if(!$memberShipRenewal){
 			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Your membership cannot be renewed now'));
-			redirect(member_url('membership'));
+			redirect(admin_url_string('members/membership/'.$id));
 		}
 		$this->form_validation->set_rules('package_id', 'Number of beds', 'required');
 		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
@@ -282,7 +282,7 @@ class Members extends ConsoleController {
 			$vars['packages'] =$this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->default_language));
 			$this->mainvars['content']=$this->load->view(admin_url_string('members/membership/renew'),$vars,true);
 			$this->mainvars['page_scripts'] = $this->load->view(admin_url_string('members/membership/script'),'',true);
-			$this->load->view(member_views_path('main'),$this->mainvars);
+			$this->load->view(admin_url_string('main'),$this->mainvars);
 		} else {
 			$packageId = $this->input->post('package_id');
 			$package = $this->PackagesModel->getRowCond(array('pid'=>$packageId,'language'=>$language));
