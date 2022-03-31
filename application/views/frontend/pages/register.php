@@ -9,7 +9,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                         <?php echo $this->session->flashdata('message')['message']; ?>
                     </div>
-                <?php } ?>  
+                <?php } ?>
                 </div>
                 <br>
                 <div class="overflow-hidden mb-2" style="text-align: center;">
@@ -187,8 +187,8 @@
                                     <label class="label-control">Upload 6th Image</label>
                                     <input type="file" class="form-control rounded-0 border-0 line-height-1"  name="image6" id="image6"></div>
                                 <div class="spchclass form-group col-lg-12 ">
-                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Virtual Tour" name="virtual_tour" id="virtual_tour" onchange="" value="<?php echo set_value('virtual_tour'); ?>">
-                                </div>    
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Virtual Tour (Youtube Link)" name="virtual_tour" id="virtual_tour" onchange="" value="<?php echo set_value('virtual_tour'); ?>">
+                                </div>
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Facebook link" name="facebook" id="facebook" onchange="" value="<?php echo set_value('facebook'); ?>">
                                 </div>
