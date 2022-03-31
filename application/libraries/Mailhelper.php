@@ -76,6 +76,14 @@ class Mailhelper {
         $mailMessage = $this->CI->load->view(admin_views_path('mails/contact_admin_notification'),$mailData,true);
         $mailSubject = "New Enquiry submitted on the Website";
         break;
+      case 'contact_board_member_notification':
+        $mailMessage = $this->CI->load->view(admin_views_path('mails/contact_board_member_notification'),$mailData,true);
+        $mailSubject = "New Enquiry submitted against you on the Website";
+        break;
+      case 'contact_residence_notification':
+        $mailMessage = $this->CI->load->view(admin_views_path('mails/contact_residence_notification'),$mailData,true);
+        $mailSubject = "New Enquiry submitted against the residence on the Website";
+        break;  
       case 'register_admin_notification':
         $mailMessage = $this->CI->load->view(admin_views_path('mails/register_admin_notification'),$mailData,true);
         $mailSubject = "New Membership Request submitted on the Website";

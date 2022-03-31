@@ -4,6 +4,8 @@ class Forms extends GlobalController {
 
 	function __construct() {
 		parent::__construct();
+        $this->load->model('TeamsModel');
+        $this->load->model('ResidencesModel');
 	}
 
 	public function enquiries()
@@ -45,8 +47,32 @@ class Forms extends GlobalController {
 			$insertid = $this->EnquiriesModel->insert($data);
             if($insertid){
                 $adminMailData = $data;
-				$adminMailData['mail_to'] = $this->settings['ADMIN_EMAIL'];
-				$this->mailhelper->sendNotification('contact_admin_notification',$adminMailData);
+                $toName = 'Administrator';
+                $toEmail = $this->settings['ADMIN_EMAIL'];
+                $mailTemplateType = 'contact_admin_notification';
+                if($type=='board_member' && $board_member_id!=''){
+                    $boardMember = $this->TeamsModel->getRowCond(array('id'=>$board_member_id,'language'=>$this->site_language));
+                    if($boardMember->email != ''){
+                        $toEmail = $boardMember->email;
+                    }
+                    if($boardMember->name != ''){
+                        $toName = $boardMember->name;
+                    }
+                    $mailTemplateType = 'contact_board_member_notification';
+                }
+                if($type=='residence'  && $home_id!=''){
+                    $residenceObj = $this->ResidencesModel->getRowCond(array('id'=>$home_id,'language'=>$this->site_language));
+                    if($residenceObj->email != ''){
+                        $toEmail = $residenceObj->email;
+                    }
+                    if($residenceObj->contact_name != ''){
+                        $toName = $residenceObj->contact_name;
+                    }
+                    $mailTemplateType = 'contact_residence_notification';
+                }
+                $adminMailData['toName'] = $toName;
+				$adminMailData['mail_to'] = $toEmail;
+				$this->mailhelper->sendNotification($mailTemplateType,$adminMailData);
                 $responseData = array("status"=>"1","message"=>"Thank you for contacting us. Will get back to you soon.");
             }
         }
