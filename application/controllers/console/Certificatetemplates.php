@@ -73,28 +73,35 @@ class Certificatetemplates extends ConsoleController {
 				$signature='';
 				$background='';
 				$wallet_background='';
-				$config['upload_path'] = 'public/uploads/certificates';
-				$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
-				$this->load->library('upload', $config);
-				$this->upload->initialize($config);
+				$certificatesUploadPath = 'public/uploads/certificates';
+				if(!is_dir($certificatesUploadPath)){
+					mkdir($certificatesUploadPath, 0777, TRUE);
+				}
+				$certificatesConfig['upload_path'] = $certificatesUploadPath;
+				$certificatesConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+				$this->load->library('upload', $certificatesConfig);
+				$this->upload->initialize($certificatesConfig);
 				if($this->upload->do_upload('image'))
 				{
 					$imagedata=$this->upload->data();
 					$image=$imagedata['file_name'];
 				}
-				$this->upload->initialize($config);
+				$this->load->library('upload', $certificatesConfig);
+				$this->upload->initialize($certificatesConfig);
 				if($this->upload->do_upload('backgound'))
 				{
 					$bgdata=$this->upload->data();
 					$background=$bgdata['file_name'];
 				}
-				$this->upload->initialize($config);
+				$this->load->library('upload', $certificatesConfig);
+				$this->upload->initialize($certificatesConfig);
 				if($this->upload->do_upload('wallet_bg'))
 				{
 					$walletBgdata=$this->upload->data();
 					$wallet_background=$walletBgdata['file_name'];
 				}
-				$this->upload->initialize($config);
+				$this->load->library('upload', $certificatesConfig);
+				$this->upload->initialize($certificatesConfig);
 				if($this->upload->do_upload('signature'))
 				{
 					$signaturedata=$this->upload->data();
