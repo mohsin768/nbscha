@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <div class="event-count p-15 mt-15"> 
+                            <div class="event-count p-15 mt-15">
                                 <ul>
                                 <li><i class="fa fa-calendar"></i> <?php echo date('d F',strtotime($newsitem['publish_date'])); ?></li>
                                 <li><i class="fa fa-user"></i> posted by <a href="#"><?php echo $newsitem['author']; ?></a> </li>
@@ -40,7 +40,7 @@
                         <h5 class="widget-title line-bottom">Categories</h5>
                         <div class="categories">
                             <ul class="list list-border angle-double-right">
-                            <?php foreach($categories as $category): ?>    
+                            <?php foreach($categories as $category): ?>
                             <li><a href="<?php echo news_category_url($category['slug']); ?>"><?php echo $category['name']; ?><span>(<?php echo $categoryCount[$category['id']]; ?>)</span></a></li>
                             <?php endforeach; ?>
                             </ul>
@@ -64,7 +64,7 @@
                                                 </a>
                                                 <div class="ml-80">
                                                     <h5 class="icon-box-title mt-15 mb-5 text-white text-left"><strong><a href="<?php echo $link['link_url']; ?>" target="_blank"><?php echo $link['name']; ?></a></strong></h5>
-                                                    <p class="text-white text-left" style="padding-right:20px;"><?php echo $link['summary']; ?></p>
+                                                    <p class="text-white text-left" style="padding-right:20px;"><?php echo strip_tags($link['summary']); ?></p>
                                                 </div>
                                             </div>
                                         </div>
