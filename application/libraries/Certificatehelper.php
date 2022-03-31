@@ -37,7 +37,7 @@ class Certificatehelper {
         $certificateDate = $memberShip->issue_date;
         $expiryDate= $memberShip->expiry_date;
         $certificateSignature = '';
-        if($certificateTemplate->signature!='')$certificateSignature = '<img src="'.base_url('public/uploads/certificates/'.$certificateTemplate->signature).'" style="max-width:100%" />';
+        if($certificateTemplate->signature!='')$certificateSignature = '<img src="'.base_url('public/uploads/certificates/'.$certificateTemplate->signature).'" style="width:200px;" />';
         $signatory = $certificateTemplate->signatory;
         $background = '';
         $walletBackground = '';
