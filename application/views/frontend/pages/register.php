@@ -224,12 +224,13 @@
                                 <div class="form-group col-lg-12 payment-option">
                                     <h4>Please chose your Preferred payment option:</h4>
                                     <div class="error"><?php echo form_error('payment_method'); ?></div>
-                                    <input type="radio" id="etransfer" name="payment_method" <?php echo set_radio("payment_method", "eTransfer"); ?> value="eTransfer">
+                                    <input type="radio" id="etransfer" name="payment_method" <?php echo set_radio("payment_method", "eTransfer"); ?> value="eTransfer" class="paymentmethods" data-message="<?php echo $this->settings['ETRANSFER_MESSAGE']; ?>">
                                     <label for="etransfer">E-Transfer</label><br>
-                                    <input type="radio" id="check" name="payment_method" <?php echo set_radio("payment_method", "Cheque"); ?> value="Cheque">
+                                    <input type="radio" id="check" name="payment_method" <?php echo set_radio("payment_method", "Cheque"); ?> value="Cheque" class="paymentmethods" data-message="<?php echo $this->settings['CASH_CHEQUE_MESSAGE']; ?>">
                                     <label for="check">Cheque</label><br>
-                                    <input type="radio" id="cash" name="payment_method" <?php echo set_radio("payment_method", "Cash"); ?> value="Cash">
+                                    <input type="radio" id="cash" name="payment_method" <?php echo set_radio("payment_method", "Cash"); ?> value="Cash" class="paymentmethods" data-message="<?php echo $this->settings['CASH_CHEQUE_MESSAGE']; ?>">
                                     <label for="cash">Cash</label>
+                                    <div id="payment_message" style="display:none;"></div>
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Payment Info" name="payment_info" id="payment_info" aria-label="Payment Info" value="<?php echo set_value('payment_info'); ?>">
                                     <div id="payment_info_error" class="error"><?php echo form_error('payment_info'); ?></div>
                                 </div>

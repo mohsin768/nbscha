@@ -680,3 +680,7 @@ a#residences-load-more
   font-weight: bold;
   text-transform: uppercase;
 }
+#payment_message{
+  font-weight: bold;
+  margin-bottom:10px ;
+}
