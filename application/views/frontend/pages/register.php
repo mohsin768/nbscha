@@ -121,8 +121,13 @@
                                     <div class="error"><?php echo form_error('home_level'); ?></div>
                                   </div>
                                   <div class="spchclass form-group col-lg-4 ">
-                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Pharmacy Name*" name="pharmacy_name" id="pharmacy_name" required="" onchange="" value="<?php echo set_value('pharmacy_name'); ?>">
-                                    <div class="error"><?php echo form_error('pharmacy_name'); ?></div>
+                                    <select class="form-control rounded-0 border-0 line-height-1" name="home_language" id="home_language" required="">
+                                      <option value="">--Select Language(s)*--</option>
+                                      <?php foreach($homeLanguages as $id => $name ): ?>
+                                      <option value="<?php echo $id; ?>" <?php echo set_select('home_language',$id); ?>><?php echo $name; ?></option>
+                                      <?php endforeach; ?>
+                                    </select>
+                                    <div class="error"><?php echo form_error('home_language'); ?></div>
                                   </div>
 
                                 <div class="spchclass form-group col-lg-4 rounded-0 border-0 line-height-1">
@@ -145,8 +150,10 @@
                                   </select>
                                   <div class="error"><?php echo form_error('region_id'); ?></div>
                                 </div>
-
-
+                                <div class="spchclass form-group col-lg-12 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Pharmacy Name*" name="pharmacy_name" id="pharmacy_name" required="" onchange="" value="<?php echo set_value('pharmacy_name'); ?>">
+                                    <div class="error"><?php echo form_error('pharmacy_name'); ?></div>
+                                  </div>
                                 <div class="spchclass form-group col-lg-12 ">
                                     <textarea class="form-control rounded-0 border-0 line-height-1" placeholder="Description of Home and Services to the Public" name="description" id="description" style="height: 150px!important;" required=""><?php echo set_value('description'); ?></textarea>
                                     <div class="error"><?php echo form_error('description'); ?></div>
@@ -179,6 +186,9 @@
                                 <div class="spchclass form-group col-lg-4 ">
                                     <label class="label-control">Upload 6th Image</label>
                                     <input type="file" class="form-control rounded-0 border-0 line-height-1"  name="image6" id="image6"></div>
+                                <div class="spchclass form-group col-lg-12 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Virtual Tour" name="virtual_tour" id="virtual_tour" onchange="" value="<?php echo set_value('virtual_tour'); ?>">
+                                </div>    
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Facebook link" name="facebook" id="facebook" onchange="" value="<?php echo set_value('facebook'); ?>">
                                 </div>

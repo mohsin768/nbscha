@@ -14,6 +14,7 @@ class Residences extends FrontController {
 		$this->load->model('FacilitiesModel');
 		$this->load->model('RegionsModel');
 		$this->load->model('FeaturesModel');
+		$this->load->model('HomeLanguagesModel');
 	}
 
 	public function index($slug='')
@@ -41,6 +42,14 @@ class Residences extends FrontController {
 		$this->mainvars['banner']=$this->widgethelper->bannerWidget();
 		$vars = array();
 		$vars['residence'] = $residenceObject;
+		$youtubeId = '';
+		if($residenceObject->virtual_tour!=''){ 
+			preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i',$residenceObject->virtual_tour,$matches);
+			if(isset( $matches[1]) &&  $matches[1] !=''){
+				$youtubeId = $matches[1];
+			}
+		}
+		$vars['youtubeId'] = $youtubeId;
 		$residenceImages = array();
 		if($residenceObject->mainimage!=''){
 			$residenceImages[] = frontend_uploads_url('requests/images/'.$residenceObject->mainimage);
@@ -77,6 +86,7 @@ class Residences extends FrontController {
 		$residenceFeatures = unserialize($residenceFeatures);
 		$vars['residenceFeatures'] = $residenceFeatures;
 		$vars['facilities'] = $residenceFacilitiesStr;
+		$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
 		$vars['packages'] = $this->PackagesModel->getIdPair();
 		$vars['levels'] = $this->CarelevelsModel->getIdPair();
 		$vars['regions'] = $this->RegionsModel->getIdPair();

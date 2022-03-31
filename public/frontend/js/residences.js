@@ -1,6 +1,6 @@
     // Tabs
     (function ($) {
-        var residencesParams = {page:'1','region_id':'','package_id':'','level_id':'','facilities':'','vaccancy':'','residence_name':''};
+        var residencesParams = {page:'1','language_id':'','region_id':'','package_id':'','level_id':'','facilities':'','vaccancy':'','residence_name':''};
         if($('#residences-list').length){
             loadResidences(residencesParams);
         }
@@ -20,6 +20,7 @@
             if (facilities !== null){
                 facilitiesStr = facilities.join(",");
             }
+            residencesParams.language_id = $('#residence-language-id').val();
             residencesParams.region_id = $('#residence-region').val();
             residencesParams.package_id = $('#residence-package').val();
             residencesParams.level_id = $('#residence-level').val();
@@ -34,6 +35,7 @@
             $('#residences-list').addClass('loading');
             $('#residences-load-more').hide();
             residencesParams.page = 1
+            $('#residence-language-id').val('');
             $('#residence-region').val('');
             $('#residence-package').val('');
             $('#residence-level').val('');

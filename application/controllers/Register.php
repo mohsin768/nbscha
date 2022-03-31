@@ -14,6 +14,7 @@ class Register extends FrontController {
 		$this->load->model('FacilitiesModel');
 		$this->load->model('RegionsModel');
 		$this->load->model('FeaturesModel');
+		$this->load->model('HomeLanguagesModel');
 	}
 
 	public function index()
@@ -32,6 +33,7 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('home_phone', 'Home Phone', 'required');
 		$this->form_validation->set_rules('home_fax', 'Home Fax', '');
 		$this->form_validation->set_rules('package_id', 'Beds', 'required');
+		$this->form_validation->set_rules('home_language', 'Languages', 'required');
 		$this->form_validation->set_rules('home_level', 'Level', 'required');
 		$this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
 		$this->form_validation->set_rules('facilities[]', 'Facilities', 'required');
@@ -39,6 +41,7 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('description', 'Description', '');
 		$this->form_validation->set_rules('comments', 'Comments', '');
 		if (empty($_FILES['mainimage']['name'])){$this->form_validation->set_rules('mainimage', 'Main Image', 'required');}
+		$this->form_validation->set_rules('virtual_tour', 'Virtual Tour', '');
 		$this->form_validation->set_rules('facebook', 'Facebook', '');
 		$this->form_validation->set_rules('instagram', 'Instagram', '');
 		$this->form_validation->set_rules('twitter', 'Twitter', '');
@@ -62,6 +65,7 @@ class Register extends FrontController {
 			$this->processPage();
 			$this->mainvars['banner']=$this->widgethelper->bannerWidget();
 			$vars = array();
+			$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
 			$vars['packages'] = $this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
 			$vars['levels'] = $this->CarelevelsModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
 			$vars['facilities'] = $this->FacilitiesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
@@ -149,6 +153,7 @@ class Register extends FrontController {
 				'home_phone' => secureInput($this->input->post('home_phone')),
 				'home_fax' => secureInput($this->input->post('home_fax')),
 				'package_id' => $packageInfo->pid,
+				'home_language' => secureInput($this->input->post('home_language')),
 				'home_level' => secureInput($this->input->post('home_level')),
 				'pharmacy_name' => secureInput($this->input->post('pharmacy_name')),
 				'region_id' => secureInput($this->input->post('region_id')),
@@ -162,6 +167,7 @@ class Register extends FrontController {
 				'image4' => $image4,
 				'image5' => $image5,
 				'image6' => $image6,
+				'virtual_tour' => secureInput($this->input->post('virtual_tour')),
 				'facebook' => secureInput($this->input->post('facebook')),
 				'instagram' => secureInput($this->input->post('instagram')),
 				'twitter' => secureInput($this->input->post('twitter')),

@@ -5,6 +5,7 @@ class Residences extends GlobalController {
 
 	function __construct() {
 		parent::__construct();
+		$this->load->helper('text');
 	}
 
 	public function index()
@@ -13,6 +14,10 @@ class Residences extends GlobalController {
 		$residenceLike = array();
 		$residenceFindIn = array();
 		$page = secureInput($this->input->get('page'));
+		$language_id = secureInput($this->input->get('language_id'));
+		if($language_id!=''){
+			$residenceCond['language_id'] = $language_id; 
+		}
         $region_id = secureInput($this->input->get('region_id'));
 		if($region_id!=''){
 			$residenceCond['region_id'] = $region_id; 
@@ -23,7 +28,7 @@ class Residences extends GlobalController {
 		}
         $package_id = secureInput($this->input->get('package_id'));
 		if($package_id!=''){
-			$residenceCond['package_id'] = $package_id; 
+			$residenceCond['residences.package_id'] = $package_id; 
 		}
         $facilities = secureInput($this->input->get('facilities'));
 		if($facilities!=''){
@@ -55,6 +60,7 @@ class Residences extends GlobalController {
 			if($residence['mainimage']!=''){
 				$main_image = imageCropOnFly(frontend_uploads_path('requests/images'),$residence['mainimage'],'570','400','listthumb');
 			}
+			$residence['name'] = word_limiter(strip_tags($residence['name']), 7);
 			$residence['main_image'] = $main_image;
 			$residence['package_name'] = (isset($packages[$residence['package_id']]))?$packages[$residence['package_id']]:'';
 			$residence['residence_url'] = residences_url($residence['slug']);

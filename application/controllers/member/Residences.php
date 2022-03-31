@@ -13,6 +13,7 @@ class Residences extends MemberController {
 		$this->load->model('FeaturesModel');
 		$this->load->model('FacilitiesModel');
 		$this->load->model('CarelevelsModel');
+		$this->load->model('HomeLanguagesModel');
 	}
 
 	public function index()
@@ -41,6 +42,7 @@ class Residences extends MemberController {
 			 $language = $this->default_language;
 			 $residence = $this->ResidencesModel->getRowCond(array('id'=>$rId,'language'=>$language));
 			 $vars['residence'] = $residence;
+			 $vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
 			 $vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 			 $vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
 			 $vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
@@ -64,12 +66,14 @@ class Residences extends MemberController {
 				$this->form_validation->set_rules('email', 'Home Email', 'required|valid_email');
 				$this->form_validation->set_rules('phone', 'Home Phone', 'required');
 				$this->form_validation->set_rules('fax', 'Home Fax', '');
+				$this->form_validation->set_rules('language_id', 'Language', 'required');
 				$this->form_validation->set_rules('level_id', 'Level', 'required');
 				$this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
 				$this->form_validation->set_rules('facilities[]', 'Facilities', 'required');
 				$this->form_validation->set_rules('region_id', 'Region', 'required');
 				$this->form_validation->set_rules('description', 'Description', '');
 				$this->form_validation->set_rules('comments', 'Comments', '');
+				$this->form_validation->set_rules('virtual_tour', 'Virtual Tour', '');
 				$this->form_validation->set_rules('facebook', 'Facebook', '');
 				$this->form_validation->set_rules('instagram', 'Instagram', '');
 				$this->form_validation->set_rules('twitter', 'Twitter', '');
@@ -81,6 +85,7 @@ class Residences extends MemberController {
 				if($this->form_validation->run() == FALSE)
 				{
 					$vars['residence'] = $residence;
+					$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
 					$vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
 	 			 $vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 	 			 $vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
@@ -103,11 +108,13 @@ class Residences extends MemberController {
 						'email' => $this->input->post('email'),
 						'phone' => $this->input->post('phone'),
 						'fax' => $this->input->post('fax'),
+						'language_id' => $this->input->post('language_id'),
 						'level_id' => $this->input->post('level_id'),
 						'pharmacy_name' => $this->input->post('pharmacy_name'),
 						'region_id' => $this->input->post('region_id'),
 						'facilities' => $facilities,
 						'features' => $features,
+						'virtual_tour' => $this->input->post('virtual_tour'),
 						'facebook' => $this->input->post('facebook'),
 						'instagram' => $this->input->post('instagram'),
 						'twitter' => $this->input->post('twitter'),

@@ -55,6 +55,21 @@
           </div>
 
           <div class="form-group col-md-4">
+              <label class="control-label col-md-12 no-padd" for="label">Language(s)<span>*</span></label>
+
+                <div class="col-md-12 no-padd">
+                    <?php echo form_error('language_id'); ?>
+                    <select id="language_id" name="language_id" class="form-control">
+                        <option value=""> -- Select -- </option>
+                        <?php foreach($homeLanguages as $key => $value): ?>
+                            <option <?php if($residence->language_id==$key) echo 'selected';?> value="<?php echo $key; ?>" ><?php echo $value; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+              <div class="clearfix"></div>
+          </div>
+
+          <div class="form-group col-md-4">
               <label class="control-label col-md-12 no-padd" for="label">Home Level<span>*</span></label>
 
                 <div class="col-md-12 no-padd">
@@ -133,7 +148,14 @@
                 <input type="text" class="form-control" name="comments"  value=" "></div>
               <div class="clearfix"></div>
           </div>
+          <div class="form-group col-md-12">
+              <label class="control-label col-md-12 no-padd" for="label">Virtual Tour</label>
 
+              <div class="col-md-12 no-padd">
+                <?php echo form_error('virtual_tour'); ?>
+                <input type="text" class="form-control" name="virtual_tour"  value="<?php echo $residence->virtual_tour;?>"></div>
+              <div class="clearfix"></div>
+          </div>
           <div class="form-group col-md-4">
               <label class="control-label col-md-12 no-padd" for="label">Facebook link</label>
 

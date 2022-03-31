@@ -35,6 +35,8 @@
                 <li><b>Phone</b><br><?php echo $residence->phone; ?></li>
                 <?php } if($residence->fax!=''){ ?>
                 <li><b>Fax</b><br><?php echo $residence->fax; ?></li>
+                <?php } if($residence->language_id!='' && isset($homeLanguages[$residence->language_id])){ ?>
+                <li><b>Language(s)</b><br><?php echo $homeLanguages[$residence->language_id]; ?></li>
                 <?php } if($residence->region_id!='' && isset($regions[$residence->region_id])){ ?>
                 <li><b>Region</b><br><?php echo $regions[$residence->region_id]; ?></li>
                 <?php } if($residence->postalcode!=''){ ?>
@@ -69,7 +71,14 @@
     </div>
     <div class="col-sm-12 col-md-4 maincl">
         <div class="sidebar sidebar-left mt-sm-30 ml-40">
-
+        <?php if($youtubeId!=''){ ?>
+        <div class="widget">
+            <h4 class="widget-title line-bottom">Virtual Tour</h4>
+            <div class="services-list">
+            <iframe width="560" height="315" src="//www.youtube.com/embed/<?php echo $youtubeId; ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+        <?php } ?>
         <div class="widget">
             <h4 class="widget-title line-bottom">Capacity</h4>
             <div class="services-list">
