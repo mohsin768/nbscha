@@ -2087,6 +2087,7 @@ var THEMEMASCOT = {};
         /* ----------------------------- BxSlider  ------------------------------ */
         /* ---------------------------------------------------------------------- */
         TM_bxslider: function() {
+            alert('hi');
             var $bxslider = $('.bxslider');
             if( $bxslider.length > 0 ) {
                 $bxslider.bxSlider({
