@@ -26,7 +26,7 @@ class Dompdf_lib {
 	function convert_html_to_custom_pdf($html, $filename ='', $stream = TRUE,$paperSizeType = 'custom',$orientation ='',$background ='')
 	{
 		if($paperSizeType=='custom'){
-			$paperSize = array(0,0,459,732);
+			$paperSize = array(0,0,306,488);
 		} else {
 			$paperSize = $paperSizeType;
 		}
