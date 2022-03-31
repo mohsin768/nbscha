@@ -76,7 +76,7 @@ class Links extends ConsoleController {
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$image='';
-			$config['upload_path'] = 'public/uploads/links';
+			$config['upload_path'] = 'public/uploads/links/images';
 			$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 			$this->load->library('upload', $config);
 			if($this->upload->do_upload('image'))
@@ -138,7 +138,7 @@ class Links extends ConsoleController {
 				'link_url' => $this->input->post('link_url'),
 				'language' => $this->input->post('language'));
 
-				$config['upload_path'] = 'public/uploads/links';
+				$config['upload_path'] = 'public/uploads/links/images';
 								$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 								$this->load->library('upload', $config);
 
