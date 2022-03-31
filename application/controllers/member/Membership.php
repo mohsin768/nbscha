@@ -154,7 +154,7 @@ class Membership extends MemberController {
 				$background = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'';
 				if($certificate){
 					$this->load->library('dompdf_lib');
-					$this->dompdf_lib->convert_html_to_custom_pdf($certificate, $pdf_filename, 'TRUE','A4','landscape',$background);
+					$this->dompdf_lib->convert_html_to_custom_pdf($certificate, $pdf_filename, 'TRUE','custom','landscape',$background);
 				}
 				return true;
 			}else{

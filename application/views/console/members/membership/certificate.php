@@ -10,7 +10,7 @@
        </div>
 
       <div class="modal-footer">
-        <a href="<?php echo member_url('membership/generatecertificate');?>" class="btn btn-success" id="" >Download</a>
+        <a target="_blank" download href="<?php echo admin_url('members/generatecertificate/'.$member_id);?>" class="btn btn-success" id="" >Download</a>
       <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
      </div>
     </div>

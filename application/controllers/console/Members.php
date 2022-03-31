@@ -318,12 +318,35 @@ class Members extends ConsoleController {
 			exit;
 		}
 		$certificateContent = unserialize($memberShip->certificate);
+		$vars['member_id'] = $id;
 		$vars['certificate'] = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
 		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'https://nbscha.celiums.com/public/common/images/certificate_bg.jpg';
 		$content = $this->load->view(admin_url_string('members/membership/certificate'),$vars, true);
 		$results = array('content' => $content);
 		$json=json_encode($results);
 		exit($json);
+	}
+
+	public function generatecertificate($id){
+		$this->load->model('MembershipsModel');
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
+		if($memberShip->certificate==''){
+			return false;
+		} else{
+			$pdf_filename  = $memberShip->identifier.'-certificate.pdf';
+			$certificateContent = unserialize($memberShip->certificate);
+			if($certificateContent){
+				$certificate = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
+				$background = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'';
+				if($certificate){
+					$this->load->library('dompdf_lib');
+					$this->dompdf_lib->convert_html_to_custom_pdf($certificate, $pdf_filename, TRUE,'A4','landscape',$background);
+				}
+				return true;
+			}else{
+				return false;
+			}
+		}
 	}
 
 	public function walletcertificatepreview($id){
@@ -333,12 +356,36 @@ class Members extends ConsoleController {
 			exit;
 		}
 		$certificateContent = unserialize($memberShip->wallet_certificate);
+		$vars['member_id'] = $id;
 		$vars['certificate'] = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
 		$vars['background'] = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'https://nbscha.celiums.com/public/common/images/certificate_bg.jpg';
 		$content = $this->load->view(admin_url_string('members/membership/wallet_certificate'),$vars, true);
 		$results = array('content' => $content);
 		$json=json_encode($results);
 		exit($json);
+	}
+
+	public function generatewalletcertificate($id){
+		$this->load->model('MembershipsModel');
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
+		if($memberShip->wallet_certificate==''){
+			return false;
+		} else{
+			$pdf_filename  = $memberShip->identifier.'-certificate.pdf';
+			$certificateContent = unserialize($memberShip->wallet_certificate);
+			if($certificateContent){
+				$certificate = (isset($certificateContent['certificate']) && $certificateContent['certificate']!='')?$certificateContent['certificate']:'';
+				$background = (isset($certificateContent['background']) && $certificateContent['background']!='')?$certificateContent['background']:'';
+				if($certificate){
+					$this->load->library('dompdf_lib');
+					$this->dompdf_lib->convert_html_to_custom_pdf($certificate, $pdf_filename, TRUE,'custom','landscape',$background);
+				}
+				return true;
+			}else{
+				return false;
+			}
+		}
+
 	}
 
 }
