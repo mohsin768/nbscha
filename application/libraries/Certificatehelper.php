@@ -56,7 +56,7 @@ class Certificatehelper {
         }
         if($walletCertificate!=''){
             $walletCertificate = strtr($walletCertificate,$replacements);
-            $certificateContent['wallet_certificate'] = array('certificate'=>$walletCertificate,'background'=>$background);
+            $certificateContent['wallet_certificate'] = array('certificate'=>$walletCertificate,'background'=>$walletBackground);
         }
 
         return $certificateContent;
