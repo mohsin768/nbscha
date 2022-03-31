@@ -1580,11 +1580,11 @@ var THEMEMASCOT = {};
         init: function() {
 
             var t = setTimeout(function() {
+                THEMEMASCOT.slider.TM_bxslider();
                 THEMEMASCOT.slider.TM_typedAnimation();
                 THEMEMASCOT.slider.TM_flexslider();
                 THEMEMASCOT.slider.TM_owlCarousel();
                 THEMEMASCOT.slider.TM_maximageSlider();
-                THEMEMASCOT.slider.TM_bxslider();
             }, 0);
 
         },
