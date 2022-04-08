@@ -53,6 +53,14 @@
                 <input type="text" class="form-control" name="phone"  value="<?php echo $residence->phone;?>"></div>
               <div class="clearfix"></div>
           </div>
+          <div class="form-group col-md-4">
+              <label class="control-label col-md-12 no-padd" for="label">Fax</label>
+
+              <div class="col-md-12 no-padd">
+                <?php echo form_error('fax'); ?>
+                <input type="text" class="form-control" name="fax"  value="<?php echo $residence->fax;?>"></div>
+              <div class="clearfix"></div>
+          </div>
 
           <div class="form-group col-md-4">
               <label class="control-label col-md-12 no-padd" for="label">Language(s)<span>*</span></label>
@@ -83,13 +91,12 @@
                 </div>
               <div class="clearfix"></div>
           </div>
-
           <div class="form-group col-md-4">
-              <label class="control-label col-md-12 no-padd" for="label">Pharmacy<span>*</span></label>
+              <label class="control-label col-md-12 no-padd" for="label">Maximum Licensed Beds<span>*</span></label>
 
               <div class="col-md-12 no-padd">
-                <?php echo form_error('pharmacy_name'); ?>
-                <input type="text" class="form-control" name="pharmacy_name"  value="<?php echo $residence->pharmacy_name;?>"></div>
+                <?php echo form_error('max_beds_count'); ?>
+                <input type="text" class="form-control" name="max_beds_count"  value="<?php echo $residence->max_beds_count;?>"></div>
               <div class="clearfix"></div>
           </div>
 
@@ -111,7 +118,7 @@
               <label class="control-label col-md-12 no-padd" for="label">Region<span>*</span></label>
 
               <div class="col-md-12 no-padd">
-                <?php echo form_error('package_id'); ?>
+                <?php echo form_error('region_id'); ?>
                 <select id="region_id" name="region_id" class="form-control">
                     <option value=""> -- Select -- </option>
                     <?php foreach($regions as $key => $value): ?>
@@ -121,13 +128,12 @@
               </div>
                 <div class="clearfix"></div>
           </div>
-
-          <div class="form-group col-md-4">
-              <label class="control-label col-md-12 no-padd" for="label">Fax</label>
+          <div class="form-group col-md-12">
+              <label class="control-label col-md-12 no-padd" for="label">Pharmacy<span>*</span></label>
 
               <div class="col-md-12 no-padd">
-                <?php echo form_error('fax'); ?>
-                <input type="text" class="form-control" name="fax"  value="<?php echo $residence->fax;?>"></div>
+                <?php echo form_error('pharmacy_name'); ?>
+                <input type="text" class="form-control" name="pharmacy_name"  value="<?php echo $residence->pharmacy_name;?>"></div>
               <div class="clearfix"></div>
           </div>
 

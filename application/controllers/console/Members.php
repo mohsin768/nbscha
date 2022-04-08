@@ -22,6 +22,8 @@ class Members extends ConsoleController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('MembersModel');
+		$this->load->model('ResidencesModel');
+		
 	}
 
 	public function index()
@@ -58,6 +60,7 @@ class Members extends ConsoleController {
     $config['base_url'] = admin_url('members/overview');
     $config['total_rows'] = $this->MembersModel->getPaginationCount();
     $this->pagination->initialize($config);
+	$vars['residences'] = $this->ResidencesModel->getElementPair('member_id','name');
 		$vars['members'] = $this->MembersModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
     $vars['sort_direction'] = $sort_direction;
@@ -248,6 +251,7 @@ class Members extends ConsoleController {
 		$this->load->model('MembershipsModel');
 		$this->load->model('RenewalsModel');
 		$this->load->model('PackagesModel');
+		$this->load->model('PaymentMethodsModel');
 		$language = $this->default_language;
 		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
 		if(!$memberShip){
@@ -273,11 +277,13 @@ class Members extends ConsoleController {
 			redirect(admin_url_string('members/membership/'.$id));
 		}
 		$this->form_validation->set_rules('package_id', 'Number of beds', 'required');
+		$this->form_validation->set_rules('max_beds_count', 'Maximum Licensed Beds', 'required|callback_package_count_check');
 		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
+			$vars['paymentMethods'] = $this->PaymentMethodsModel->getMethods();
 			$vars['membership'] =$memberShip;
 			$vars['packages'] =$this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->default_language));
 			$this->mainvars['content']=$this->load->view(admin_url_string('members/membership/renew'),$vars,true);
@@ -292,6 +298,7 @@ class Members extends ConsoleController {
 				'previous_issue_date'=>$memberShip->issue_date,
 				'previous_expiry_date'=>$memberShip->expiry_date,
 				'new_package_id'=>$packageId,
+				'new_max_beds_count'=>$this->input->post('max_beds_count'),
 				'amount'=>$package->price,
 				'payment_method'=>$this->input->post('payment_method'),
 				'payment_comments'=>$this->input->post('comments'),
@@ -308,6 +315,21 @@ class Members extends ConsoleController {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 				redirect(admin_url_string('members/membership/'.$id));
 			}
+		}
+	}
+
+	function package_count_check($maxbadscount) {
+		$packageId = secureInput($this->input->post('package_id'));
+		if($packageId!=''){
+			$packageInfo = $this->PackagesModel->load($packageId);
+			if($packageInfo->bed_count>0 && $maxbadscount>$packageInfo->bed_count) {
+				$this->form_validation->set_message('package_count_check', 'Licensed bed cannot exceed package limit.');
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return TRUE;
 		}
 	}
 

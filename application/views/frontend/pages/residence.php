@@ -83,7 +83,7 @@
             <h4 class="widget-title line-bottom">Capacity</h4>
             <div class="services-list">
             <ul class="list list-border angle-double-right">
-                <p class="vc-pc"><b>Licensed Beds: <?php echo $residence->beds_count; ?></b></p>
+                <p class="vc-pc"><b>Licensed Beds: <?php echo $residence->max_beds_count; ?></b></p>
                 <p class="vc-pc"><b>Current Vacancy: <?php echo $residence->vacancy; ?></b></p>
             </ul>
             </div>

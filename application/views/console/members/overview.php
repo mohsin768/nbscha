@@ -63,8 +63,9 @@ if($this->uri->segment(4)==""){
 															<th style="width: 20px;"><input type="checkbox" class="select_all" name="ids" id="ids" /></th>
                                 <th class="column-title">#</th>
                                 <th class="column-title">
-																	<?php $first_name_direction = ''; if($sort_field=='first_name'){ $first_name_direction = $sort_direction; } ?>
-																	<a href="#0" class="member-sort sort-list-link <?php echo $first_name_direction; ?>" data-sort-field="first_name" data-sort-direction="<?php echo $first_name_direction; ?>">Full Name</a></th>
+								<?php $first_name_direction = ''; if($sort_field=='first_name'){ $first_name_direction = $sort_direction; } ?>
+								<a href="#0" class="member-sort sort-list-link <?php echo $first_name_direction; ?>" data-sort-field="first_name" data-sort-direction="<?php echo $first_name_direction; ?>">Full Name</a></th>
+								<th class="column-title">Residence</th>
                                 <th class="column-title">
 																	<?php $email_direction = ''; if($sort_field=='email'){ $email_direction = $sort_direction; } ?>
 																	<a href="#0" class="member-sort sort-list-link <?php echo $email_direction; ?>" data-sort-field="email" data-sort-direction="<?php echo $email_direction; ?>">Email</a></th>
@@ -83,15 +84,15 @@ if($this->uri->segment(4)==""){
 																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $member['mid']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
                                 <td class=" "><?php echo $member['first_name'].' '.$member['last_name'];?></td>
-                                <td class=" "><?php echo $member['email'];?></td>
-                                <td class=" "><?php echo $member['phone'];?></td>
+								<td class=" "><?php if(isset($residences[$member['mid']])){ echo $residences[$member['mid']]; } ?></td>
+                                <td class=" "><a href="mailto:<?php echo $member['email'];?>"><?php echo $member['email'];?></a></td>
+                                <td class=" "><a href="tel:<?php echo $member['phone'];?>"><?php echo $member['phone'];?></a></td>
                                 <td class="center-align"><?php echo $status[$member['status']];?></td>
                                 <td class=" last">
-									
-																	<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/edit/'.$member['mid']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('members/changepwd/'.$member['mid']); ?>"><i class="fa fa-lock"></i> Change Password</a>
-																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('members/delete/'.$member['mid']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
-																	<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/membership/'.$member['mid']); ?>"title="Membership"><i class="fa fa-eye"></i> Membership</a>
+									<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/edit/'.$member['mid']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+									<a class="btn btn-info btn-xs" href="<?php echo admin_url('members/changepwd/'.$member['mid']); ?>"><i class="fa fa-lock"></i> Change Password</a>
+									<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('members/delete/'.$member['mid']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+									<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/membership/'.$member['mid']); ?>"title="Membership"><i class="fa fa-eye"></i> Membership</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

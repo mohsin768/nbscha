@@ -37,7 +37,7 @@ class ResidencesModel extends CMS_Model {
     }
 
     function getConsolePagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='') {
-      $this->db->select("*,members.email as member_email,members.phone as member_phone,$this->table_name.created as created,memberships.identifier as member_identifier ");
+      $this->db->select("*,members.email as member_email,members.phone as member_phone,residences.phone as residence_phone,residences.status as residence_status,$this->table_name.created as created,memberships.identifier as member_identifier ");
       if (is_array($cond) && count($cond) > 0) {
         $this->db->where($cond);
       }

@@ -30,6 +30,7 @@ class Requests extends ConsoleController {
 		$this->load->model('MembersModel');
 		$this->load->model('MembershipsModel');
 		$this->load->model('ResidencesModel');
+		$this->load->model('HomeLanguagesModel');
 		$this->load->model('CertificatetemplatesModel');
 		$this->load->library('certificatehelper');
 	}
@@ -169,6 +170,7 @@ class Requests extends ConsoleController {
 			'phone' => $requestRow->home_phone,
 			'fax' => $requestRow->home_fax,
 			'package_id' => $requestRow->package_id,
+			'max_beds_count' => $requestRow->max_beds_count,
 			'language_id' => $requestRow->home_language,
 			'level_id' => $requestRow->home_level,
 			'pharmacy_name' => $requestRow->pharmacy_name,
@@ -248,4 +250,170 @@ class Requests extends ConsoleController {
 			redirect(admin_url_string('requests/overview'));
 		}
 	}
+
+	public function edit($rId){
+		$this->output->set_content_type('application/json');
+		$language = $this->default_language;
+		$request = $this->RequestsModel->getRowCond(array('id'=>$rId));
+		$vars['request'] = $request;
+		$vars['packages'] = $this->PackagesModel->getIdPair();
+		$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
+		$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
+		$vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
+		$vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
+		$vars['features'] =$this->FeaturesModel->getElementPair('fid','feature_title','sort_order','asc',array('language'=>$this->default_language));
+		$vars['form'] = $this->load->view(admin_url_string('requests/edit_form'),$vars, true);
+		$content = $this->load->view(admin_url_string('requests/edit'),$vars, true);
+		$results = array('content' => $content);
+		$json=json_encode($results);
+		exit($json);
+	}
+
+	public function editsubmit(){
+		$language = $this->default_language;
+		   $rId = $this->input->post('id',TRUE);
+		   $request = $this->RequestsModel->getRowCond(array('id'=>$rId));
+		   $this->form_validation->set_rules('first_name', 'First Name', 'required');
+		   $this->form_validation->set_rules('last_name', 'Last Name', 'required');
+		   $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+		   $this->form_validation->set_rules('phone', 'Phone', 'required');
+		   $this->form_validation->set_rules('home_name', 'Home Name', 'required');
+		   $this->form_validation->set_rules('home_address', 'Home Address', 'required');
+		   $this->form_validation->set_rules('home_postalcode', 'Home Postal Code', 'required');
+		   $this->form_validation->set_rules('home_contact_name', 'Contact Name', 'required');
+		   $this->form_validation->set_rules('home_email', 'Home Email', 'required|valid_email');
+		   $this->form_validation->set_rules('home_phone', 'Home Phone', 'required');
+		   $this->form_validation->set_rules('home_fax', 'Home Fax', '');
+		   $this->form_validation->set_rules('package_id', 'Package', 'required');
+		   $this->form_validation->set_rules('max_beds_count', 'Maximum Licensed Beds', 'required|callback_package_count_check');
+		   $this->form_validation->set_rules('home_language', 'Language', 'required');
+		   $this->form_validation->set_rules('home_level', 'Level', 'required');
+		   $this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
+		   $this->form_validation->set_rules('facilities[]', 'Facilities', 'required');
+		   $this->form_validation->set_rules('region_id', 'Region', 'required');
+		   $this->form_validation->set_rules('description', 'Description', '');
+		   $this->form_validation->set_rules('virtual_tour', 'Virtual Tour', '');
+		   $this->form_validation->set_rules('comments', 'Comments', '');
+		   $this->form_validation->set_rules('facebook', 'Facebook', '');
+		   $this->form_validation->set_rules('instagram', 'Instagram', '');
+		   $this->form_validation->set_rules('twitter', 'Twitter', '');
+		   $this->form_validation->set_rules('youtube', 'Youtube', '');
+		   $this->form_validation->set_rules('linkedin', 'Linkedin', '');
+		   $this->form_validation->set_rules('website', 'website', '');
+		   $this->form_validation->set_rules('features', 'Features', '');
+		   $this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+		   if($this->form_validation->run() == FALSE)
+		   {
+				$vars['request'] = $request;
+				$vars['packages'] = $this->PackagesModel->getIdPair();
+				$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
+				$vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
+				$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
+				$vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
+				$vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
+				$vars['features'] =$this->FeaturesModel->getElementPair('fid','feature_title','sort_order','asc',array('language'=>$this->default_language));
+				$form = $this->load->view(admin_url_string('requests/edit_form'),$vars, true);
+			 	$results = array('status' => '0', 'data' => $form );
+		   } else {
+			$facilities = $this->input->post('facilities');
+			if(is_array($facilities)){
+				$facilities = implode(',',$facilities);
+			}
+			$features = $this->input->post('features');
+			if(is_array($features)){
+				$features = serialize($features);
+			}
+			$packageId = secureInput($this->input->post('package_id'));
+		   	$packageInfo = $this->PackagesModel->load($packageId);
+			$requestData = array(
+				'first_name' => $this->input->post('first_name'),
+				'last_name' => $this->input->post('last_name'),
+				'email' => $this->input->post('email'),
+				'phone' => $this->input->post('phone'),
+				'home_name' => $this->input->post('home_name'),
+				'home_address' => $this->input->post('home_address'),
+				'home_postalcode' => $this->input->post('home_postalcode'),
+				'home_contact_name' => $this->input->post('home_contact_name'),
+				'home_email' => $this->input->post('home_email'),
+				'home_phone' => $this->input->post('home_phone'),
+				'home_fax' => $this->input->post('home_fax'),
+				'package_id' => $this->input->post('package_id'),
+				'max_beds_count' => $this->input->post('max_beds_count'),
+				'home_language' => $this->input->post('home_language'),
+				'home_level' => $this->input->post('home_level'),
+				'pharmacy_name' => $this->input->post('pharmacy_name'),
+				'region_id' => $this->input->post('region_id'),
+				'facilities' => $facilities,
+				'features' => $features,
+				'virtual_tour' => $this->input->post('virtual_tour'),
+				'facebook' => $this->input->post('facebook'),
+				'instagram' => $this->input->post('instagram'),
+				'twitter' => $this->input->post('twitter'),
+				'youtube' => $this->input->post('youtube'),
+				'linkedin' => $this->input->post('linkedin'),
+				'website' => $this->input->post('website'),
+				'amount' => $packageInfo->price
+			);
+			$imageConfig['encrypt_name'] = TRUE;
+			$imageConfig['upload_path'] = 'public/uploads/requests/images';
+			$imageConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+			$this->load->library('upload', $imageConfig);
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('mainimage'))
+			{
+				$mainimageData=$this->upload->data();
+				$requestData['mainimage']=$mainimageData['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image2'))
+			{
+				$image2Data=$this->upload->data();
+				$requestData['image2']=$image2Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image3'))
+			{
+				$image3Data=$this->upload->data();
+				$requestData['image3']=$image3Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image4'))
+			{
+				$image4Data=$this->upload->data();
+				$requestData['image4']=$image4Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image5'))
+			{
+				$image5Data=$this->upload->data();
+				$requestData['image5']=$image5Data['file_name'];
+			}
+			$this->upload->initialize($imageConfig);
+			if($this->upload->do_upload('image6'))
+			{
+				$image6Data=$this->upload->data();
+				$requestData['image6']=$image6Data['file_name'];
+			}
+
+			$this->RequestsModel->updateCond($requestData,array('id'=>$rId));
+		   	$results = array('status' => '1', 'data' => 'Request Details Updated Successfully');
+		   }
+		   $json=json_encode($results);
+		   exit($json);
+	}
+
+	function package_count_check($maxbadscount) {
+	   $packageId = secureInput($this->input->post('package_id'));
+	   if($packageId!=''){
+		   $packageInfo = $this->PackagesModel->load($packageId);
+		   if($packageInfo->bed_count>0 && $maxbadscount>$packageInfo->bed_count) {
+			   $this->form_validation->set_message('package_count_check', 'Licensed bed cannot exceed package limit.');
+			   return FALSE;
+		   } else {
+			   return TRUE;
+		   }
+	   } else {
+		   return TRUE;
+	   }
+   }
 }

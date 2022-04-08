@@ -25,19 +25,26 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="max_beds_count">Maximum Licensed Bed<span>*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('max_beds_count'); ?>
+                        <input type="text" id="max_beds_count" name="max_beds_count" value="<?php echo set_value('max_beds_count'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
 
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align">Payment Method<span>*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                        <?php echo form_error('payment_method'); ?>
-                        <div class="radios">
-                            <input type="radio" id="etransfer" name="payment_method" <?php echo set_radio("payment_method", "eTransfer"); ?> value="eTransfer">
-                            <label for="etransfer">E-Transfer</label><br>
-                            <input type="radio" id="check" name="payment_method" <?php echo set_radio("payment_method", "Cheque"); ?> value="Cheque">
-                            <label for="check">Cheque</label><br>
-                            <input type="radio" id="cash" name="payment_method" <?php echo set_radio("payment_method", "Cash"); ?> value="Cash">
-                            <label for="cash">Cash</label>
-                        </div>
+                    <?php echo form_error('payment_method'); ?>
+                    <select id="payment_method" name="payment_method" class="form-control">
+                        <option value=""> -- Select -- </option>
+                        <?php foreach($paymentMethods as $paymentMethod): ?>
+                        <option value="<?php echo $paymentMethod['name']; ?>" <?php echo set_select('payment_method',$paymentMethod['name']); ?> data-message="<?php echo $paymentMethod['message']; ?>"><?php echo $paymentMethod['name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                     </div>
                     <div class="clearfix"></div>
                 </div>

@@ -15,6 +15,7 @@ class Register extends FrontController {
 		$this->load->model('RegionsModel');
 		$this->load->model('FeaturesModel');
 		$this->load->model('HomeLanguagesModel');
+		$this->load->model('PaymentMethodsModel');
 	}
 
 	public function index()
@@ -33,6 +34,7 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('home_phone', 'Home Phone', 'required');
 		$this->form_validation->set_rules('home_fax', 'Home Fax', '');
 		$this->form_validation->set_rules('package_id', 'Beds', 'required');
+		$this->form_validation->set_rules('max_beds_count', 'Licensed Beds', 'required|callback_package_count_check');
 		$this->form_validation->set_rules('home_language', 'Languages', 'required');
 		$this->form_validation->set_rules('home_level', 'Level', 'required');
 		$this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
@@ -49,6 +51,7 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('linkedin', 'Linkedin', '');
 		$this->form_validation->set_rules('website', 'website', '');
 		$this->form_validation->set_rules('features', 'Features', '');
+		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 		$this->form_validation->set_rules('token', 'reCaptcha', 'required|callback_recaptcha_check');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
@@ -65,6 +68,7 @@ class Register extends FrontController {
 			$this->processPage();
 			$this->mainvars['banner']=$this->widgethelper->bannerWidget();
 			$vars = array();
+			$vars['paymentMethods'] = $this->PaymentMethodsModel->getMethods();
 			$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
 			$vars['packages'] = $this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
 			$vars['levels'] = $this->CarelevelsModel->getArrayCond(array('status'=>'1','language'=>$this->site_language),'','sort_order','ASC');
@@ -153,6 +157,7 @@ class Register extends FrontController {
 				'home_phone' => secureInput($this->input->post('home_phone')),
 				'home_fax' => secureInput($this->input->post('home_fax')),
 				'package_id' => $packageInfo->pid,
+				'max_beds_count' => secureInput($this->input->post('max_beds_count')),
 				'home_language' => secureInput($this->input->post('home_language')),
 				'home_level' => secureInput($this->input->post('home_level')),
 				'pharmacy_name' => secureInput($this->input->post('pharmacy_name')),
@@ -196,6 +201,21 @@ class Register extends FrontController {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'<strong>Error!</strong> Cannot register now. Try again later'));
 			}
 			redirect(site_url('register'));
+		}
+	}
+
+	function package_count_check($maxbadscount) {
+		$packageId = secureInput($this->input->post('package_id'));
+		if($packageId!=''){
+			$packageInfo = $this->PackagesModel->load($packageId);
+			if($packageInfo->bed_count>0 && $maxbadscount>$packageInfo->bed_count) {
+				$this->form_validation->set_message('package_count_check', 'Licensed bed cannot exceed package limit.');
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return TRUE;
 		}
 	}
 

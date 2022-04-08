@@ -82,7 +82,16 @@ class Residences extends ConsoleController {
 		 function actions()
 	 	{
 	 		$actionStatus=false;
-	 		$ids=$this->input->post('id');
+			 $ids=$this->input->post('id');
+			 if(isset($_POST['enable']) && $this->input->post('enable')=='Enable'){ $status='1';}
+			 if(isset($_POST['disable']) && $this->input->post('disable')=='Disable'){ $status='0';}
+			 if(isset($status) && isset($_POST['id'])){
+				 foreach($ids as $id):
+					 $data=array('status'=>$status);
+					 $cond=array('id'=>$id);
+					 $actionStatus=$this->ResidencesModel->updateCond($data,$cond);
+				 endforeach;
+			 }
 
 	 		if(isset($_POST['sort_field']) && $this->input->post('sort_field')!=''){
 	 					$sortField = $this->input->post('sort_field');
@@ -149,6 +158,7 @@ class Residences extends ConsoleController {
 					$this->form_validation->set_rules('email', 'Home Email', 'required|valid_email');
 					$this->form_validation->set_rules('phone', 'Home Phone', 'required');
 					$this->form_validation->set_rules('fax', 'Home Fax', '');
+					$this->form_validation->set_rules('max_beds_count', 'Maximum Licensed Beds', 'required|callback_package_count_check');
 					$this->form_validation->set_rules('language_id', 'Language', 'required');
 					$this->form_validation->set_rules('level_id', 'Level', 'required');
 					$this->form_validation->set_rules('pharmacy_name', 'Pharmacy Name', 'required');
@@ -191,6 +201,7 @@ class Residences extends ConsoleController {
 							'email' => $this->input->post('email'),
 							'phone' => $this->input->post('phone'),
 							'fax' => $this->input->post('fax'),
+							'max_beds_count' => $this->input->post('max_beds_count'),
 							'language_id' => $this->input->post('language_id'),
 							'level_id' => $this->input->post('level_id'),
 							'pharmacy_name' => $this->input->post('pharmacy_name'),
@@ -260,6 +271,24 @@ class Residences extends ConsoleController {
 					exit($json);
 			 }
 
+			 function package_count_check($maxbadscount) {
+				$residenceId = secureInput($this->input->post('id'));
+				$residenceInfo = $this->ResidencesModel->load($residenceId);
+				$packageId = $residenceInfo->package_id;
+				if($packageId!=''){
+					$packageInfo = $this->PackagesModel->load($packageId);
+					if($packageInfo->bed_count>0 && $maxbadscount>$packageInfo->bed_count) {
+						$this->form_validation->set_message('package_count_check', 'Licensed bed cannot exceed package limit.');
+						return FALSE;
+					} else {
+						return TRUE;
+					}
+				} else {
+					return TRUE;
+				}
+			}
+		
+
 		public function updatevacancy($rId){
 				 $this->output->set_content_type('application/json');
 				 $language = $this->default_language;
@@ -275,7 +304,7 @@ class Residences extends ConsoleController {
 				 $language = $this->default_language;
 					$rId = $this->input->post('id',TRUE);
 					$residence = $this->ResidencesModel->getRowCond(array('id'=>$rId,'language'=>$language));
-					$this->form_validation->set_rules('vacancy','New Vacancy','required|numeric|greater_than[0]|less_than_equal_to['.abs($residence->beds_count).']');
+					$this->form_validation->set_rules('vacancy','New Vacancy','required|numeric|less_than_equal_to['.abs($residence->max_beds_count).']');
 					if($this->form_validation->run() == FALSE)
 					{
 					  $results = array('status' => '0', 'data' => validation_errors('<span class="error">', '</span>'));

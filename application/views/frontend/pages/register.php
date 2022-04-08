@@ -99,7 +99,7 @@
                                         <div class="error"><?php echo form_error('home_phone'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Fax Number" name="home_fax" id="home_fax" onchange="" value="<?php echo set_value('set_value'); ?>">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Special Care Home Fax Number" name="home_fax" id="home_fax" onchange="" value="<?php echo set_value('home_fax'); ?>">
                                         <div class="error"><?php echo form_error('home_fax'); ?></div>
                                     </div>
                                 <div class="spchclass form-group col-lg-4 ">
@@ -110,6 +110,10 @@
                                       <?php endforeach; ?>
                                     </select>
                                     <div class="error"><?php echo form_error('package_id'); ?></div>
+                                  </div>
+                                  <div class="spchclass form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Maximum Licensed Beds" name="max_beds_count" id="max_beds_count" onchange="" value="<?php echo set_value('max_beds_count'); ?>">
+                                    <div class="error"><?php echo form_error('max_beds_count'); ?></div>
                                   </div>
                                   <div class="spchclass form-group col-lg-4 ">
                                     <select class="form-control rounded-0 border-0 line-height-1" name="home_level" id="home_level" required="">
@@ -141,7 +145,7 @@
                                     <div class="error"><?php echo form_error('facilities[]'); ?></div>
                                 </div>
 
-                                <div class="spchclass form-group col-lg-4 ">
+                                <div class="spchclass form-group col-lg-12 ">
                                   <select class="form-control rounded-0 border-0 line-height-1" name="region_id" id="region_id" required="">
                                     <option value="">--Select Region*--</option>
                                     <?php foreach($regions as $region): ?>
@@ -223,13 +227,15 @@
                                 </div>
                                 <div class="form-group col-lg-12 payment-option">
                                     <h4>Please chose your Preferred payment option:</h4>
+                                    <div class="form-group ">
+                                    <select class="form-control rounded-0 border-0 line-height-1" name="payment_method" id="payment_method" required="">
+                                        <option value="">--Select*--</option>
+                                        <?php foreach($paymentMethods as $paymentMethod): ?>
+                                        <option value="<?php echo $paymentMethod['name']; ?>" <?php echo set_select('payment_method',$paymentMethod['name']); ?> data-message="<?php echo $paymentMethod['message']; ?>"><?php echo $paymentMethod['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                     <div class="error"><?php echo form_error('payment_method'); ?></div>
-                                    <input type="radio" id="etransfer" name="payment_method" <?php echo set_radio("payment_method", "eTransfer"); ?> value="eTransfer" class="paymentmethods" data-message="<?php echo $this->settings['ETRANSFER_MESSAGE']; ?>">
-                                    <label for="etransfer">E-Transfer</label><br>
-                                    <input type="radio" id="check" name="payment_method" <?php echo set_radio("payment_method", "Cheque"); ?> value="Cheque" class="paymentmethods" data-message="<?php echo $this->settings['CASH_CHEQUE_MESSAGE']; ?>">
-                                    <label for="check">Cheque</label><br>
-                                    <input type="radio" id="cash" name="payment_method" <?php echo set_radio("payment_method", "Cash"); ?> value="Cash" class="paymentmethods" data-message="<?php echo $this->settings['CASH_CHEQUE_MESSAGE']; ?>">
-                                    <label for="cash">Cash</label>
+                                    </div>
                                     <div id="payment_message" style="display:none;"></div>
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="Payment Info" name="payment_info" id="payment_info" aria-label="Payment Info" value="<?php echo set_value('payment_info'); ?>">
                                     <div id="payment_info_error" class="error"><?php echo form_error('payment_info'); ?></div>
@@ -242,10 +248,6 @@
                         </form>
                     </div>
                 </div>
-
-
-
-
 
             </div>
 

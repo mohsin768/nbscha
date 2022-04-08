@@ -2202,7 +2202,7 @@ var THEMEMASCOT = {};
         search: true,
         selectAll: true
     });
-    $(".payment-option input[type='radio']").on('change',function(){
+    $("#payment_method").on('change',function(){
       updatePaymentInfo();
     });
     $("#package_id").on('change',function(){
@@ -2210,16 +2210,8 @@ var THEMEMASCOT = {};
     });
 
     function updatePaymentInfo(){
-        var paymentMethod = $('.payment-option input[type=radio]:checked').val();
-        var paymentMessage = $('.payment-option input[type=radio]:checked').attr('data-message');
-        if(paymentMethod == 'eTransfer' || paymentMethod == 'Cheque'){
-            $('#payment_info').show();
-        } else {
-            $('#payment_info').hide();
-            $('#payment_info').val('');
-            $('#payment_info_error').html('');
-            
-        }
+        var paymentMethod = $('#payment_method:selected').val();
+        var paymentMessage = $('#payment_method:selected').attr('data-message');
         if(paymentMessage!= undefined && paymentMessage!=''){
             $('#payment_message').html(paymentMessage);
             $('#payment_message').show();

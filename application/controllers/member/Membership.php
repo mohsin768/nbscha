@@ -9,6 +9,7 @@ class Membership extends MemberController {
 		$this->load->model('PackagesModel');
 		$this->load->model('ResidencesModel');
 		$this->load->model('RenewalsModel');
+		$this->load->model('PaymentMethodsModel');
 	}
 
 	public function index()
@@ -58,11 +59,13 @@ class Membership extends MemberController {
 			redirect(member_url('membership'));
 		}
 		$this->form_validation->set_rules('package_id', 'Number of beds', 'required');
+		$this->form_validation->set_rules('max_beds_count', 'Maximum Licensed Beds', 'required|callback_package_count_check');
 		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
+			$vars['paymentMethods'] = $this->PaymentMethodsModel->getMethods();
 			$vars['packages'] =$this->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->default_language));
 			$this->mainvars['content']=$this->load->view(member_views_path('membership/renew'),$vars,true);
 			$this->mainvars['page_scripts'] = $this->load->view(member_views_path('membership/script'),'',true);
@@ -76,6 +79,7 @@ class Membership extends MemberController {
 				'previous_issue_date'=>$memberShip->issue_date,
 				'previous_expiry_date'=>$memberShip->expiry_date,
 				'new_package_id'=>$packageId,
+				'new_max_beds_count'=>$this->input->post('max_beds_count'),
 				'amount'=>$package->price,
 				'payment_method'=>$this->input->post('payment_method'),
 				'payment_comments'=>$this->input->post('comments'),
@@ -91,6 +95,21 @@ class Membership extends MemberController {
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 				redirect(member_url_string('membership'));
+			}
+		}
+
+		function package_count_check($maxbadscount) {
+			$packageId = secureInput($this->input->post('package_id'));
+			if($packageId!=''){
+				$packageInfo = $this->PackagesModel->load($packageId);
+				if($packageInfo->bed_count>0 && $maxbadscount>$packageInfo->bed_count) {
+					$this->form_validation->set_message('package_count_check', 'Licensed bed cannot exceed package limit.');
+					return FALSE;
+				} else {
+					return TRUE;
+				}
+			} else {
+				return TRUE;
 			}
 		}
 	}

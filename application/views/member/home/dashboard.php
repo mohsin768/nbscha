@@ -24,7 +24,7 @@
     <div class="tile-stats alert-danger">
       <div class="icon"><i class="fa fa-link"></i></div>
       <div class="count"><?php echo $links_count;?></div>
-      <h3 style="color:#fff">Resourse Links</h3>
+      <h3 style="color:#fff">Resource Links</h3>
     </div>
   </div>
 </div>

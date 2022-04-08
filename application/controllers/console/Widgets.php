@@ -200,23 +200,25 @@ class Widgets extends ConsoleController {
 					mkdir($widgetGalleryUploadPath, 0777, TRUE);
 				}
 				$gallery = array();
-				$count = count($_FILES['gallery']['name']);
-				for($i=0;$i<$count;$i++){
-					if(!empty($_FILES['gallery']['name'][$i])){
-						$_FILES['galleryitem']['name'] = $_FILES['gallery']['name'][$i];
-						$_FILES['galleryitem']['type'] = $_FILES['gallery']['type'][$i];
-						$_FILES['galleryitem']['tmp_name'] = $_FILES['gallery']['tmp_name'][$i];
-						$_FILES['galleryitem']['error'] = $_FILES['gallery']['error'][$i];
-						$_FILES['galleryitem']['size'] = $_FILES['gallery']['size'][$i];
-						$imageConfig['upload_path'] = $widgetGalleryUploadPath;
-						$imageConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
-						$imageConfig['file_name'] = $_FILES['gallery']['name'][$i];
-						$this->load->library('upload', $imageConfig);
-						$this->upload->initialize($imageConfig);
-						if($this->upload->do_upload('galleryitem'))
-						{
-								$imageData=$this->upload->data();
-								$gallery[] = $imageData['file_name'];
+				if(isset($_FILES['gallery']['name'])){
+					$count = count($_FILES['gallery']['name']);
+					for($i=0;$i<$count;$i++){
+						if(!empty($_FILES['gallery']['name'][$i])){
+							$_FILES['galleryitem']['name'] = $_FILES['gallery']['name'][$i];
+							$_FILES['galleryitem']['type'] = $_FILES['gallery']['type'][$i];
+							$_FILES['galleryitem']['tmp_name'] = $_FILES['gallery']['tmp_name'][$i];
+							$_FILES['galleryitem']['error'] = $_FILES['gallery']['error'][$i];
+							$_FILES['galleryitem']['size'] = $_FILES['gallery']['size'][$i];
+							$imageConfig['upload_path'] = $widgetGalleryUploadPath;
+							$imageConfig['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+							$imageConfig['file_name'] = $_FILES['gallery']['name'][$i];
+							$this->load->library('upload', $imageConfig);
+							$this->upload->initialize($imageConfig);
+							if($this->upload->do_upload('galleryitem'))
+							{
+									$imageData=$this->upload->data();
+									$gallery[] = $imageData['file_name'];
+							}
 						}
 					}
 				}

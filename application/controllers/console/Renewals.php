@@ -76,7 +76,7 @@ class Renewals extends ConsoleController {
 			$membershipId = $membershipRow->id;
 			$this->MembershipsModel->updateCond($data,array('id'=>$membershipId));
 			$residenceRow = $this->ResidencesModel->getRowCond(array('id'=>$membershipRow->residence_id));
-			$residenceData = array('package_id'=>$packageRow->pid,'beds_count'=>$packageRow->bed_count);
+			$residenceData = array('package_id'=>$packageRow->pid,'beds_count'=>$packageRow->bed_count,'max_beds_count'=>$requestRow->new_max_beds_count);
 			if($residenceRow->vacancy>$packageRow->bed_count){
 				$residenceData['vacancy'] = $packageRow->bed_count;
 			}
