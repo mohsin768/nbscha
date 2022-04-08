@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer id="footer" class="footer bg-black-222" data-bg-img="images/footer-bg.png">
+<footer id="footer" class="footer bg-black-222" data-bg-img="<?php echo frontend_assets_url('images/footer-bg.png'); ?>">
 <div class="container pt-70 pb-40">
     <div class="row">
     <div class="col-sm-6 col-md-3">
