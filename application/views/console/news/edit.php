@@ -64,16 +64,16 @@
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Summary <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
                     </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-12">
                         <?php echo form_error('summary'); ?>
-                          <?php echo $this->ckeditor->editor("summary",html_entity_decode($news->summary)); ?>
+                        <textarea class="form-control" rows="3" name="summary"><?php echo $news->summary; ?></textarea>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Body <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
                     </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-12">
                         <?php echo form_error('body'); ?>
                           <?php echo $this->ckeditor->editor("body",html_entity_decode($news->body)); ?>
                     </div>

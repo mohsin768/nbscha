@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <p class="mt-10">
-                            <?php echo $newsitem['summary']; ?><a href="<?php echo news_url($newsitem['slug']); ?>" class="text-theme-colored font-15 pl-20"> Read More →</a>
+                            <?php echo strip_tags($newsitem['summary']); ?><a href="<?php echo news_url($newsitem['slug']); ?>" class="text-theme-colored font-15 pl-20"> Read More →</a>
                         </p>
                         <div class="clearfix"></div>
                     </div>
