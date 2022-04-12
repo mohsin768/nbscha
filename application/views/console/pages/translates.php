@@ -36,7 +36,7 @@
 																	<?php if(isset($translates[$code])) { ?>
 																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('pages/edit/'.$translates[$code]['id'].'/'.$code); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
 																<?php } else{ ?>
-																	<a class="btn btn-success btn-xs" href="<?php echo admin_url('pages/edit/'.$feature_id.'/'.$code.'/translate'); ?>"title="add"><i class="fa fa-plus"></i> Add</a>
+																	<a class="btn btn-success btn-xs" href="<?php echo admin_url('pages/edit/'.$page_id.'/'.$code.'/translate'); ?>"title="add"><i class="fa fa-plus"></i> Add</a>
 																<?php } ?>
                                 </td>
                             </tr>

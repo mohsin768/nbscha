@@ -5,6 +5,10 @@ class ConsoleController extends GlobalController {
 
 	function __construct() {
 		parent::__construct();
+		$settings=$this->SettingsModel->getArrayCond(array('language'=>$this->site_language));
+		foreach($settings as $setting):
+			$this->settings[$setting['settingkey']]=$setting['settingvalue'];
+		endforeach;
 		if (!$this->session->userdata('admin_user_logged_in')) {
 			redirect(admin_url_string('login'));
 		}

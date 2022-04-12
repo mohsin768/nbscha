@@ -16,6 +16,14 @@
                 <div class="widget no-border m-0">
                     <div class="pull-right flip sm-pull-none sm-text-center">
                     <ul class="list-inline text-right sm-text-center">
+                    <?php $i=0; foreach($this->languages_pair as $code => $name): if( $code!= $this->site_language){ $i++;?>
+                    <li>
+                        <a href="<?php echo language_url($code); ?>" class="text-white"><b style="color: #ff0000"><?php echo $name; ?></b></a>
+                    </li>
+                    <?php if($i !='1'){ ?>
+                    <li class="text-white" style="color: #ff0000">|</li>
+                    <?php }} ?>
+                    <?php endforeach; ?>
                     <?php $i=0; foreach($top_menu as $menuItem): $i++;?>
                     <li>
                         <a href="<?php echo $menuItem['url']; ?>" class="text-white"><b style="color: #ff0000"><?php echo $menuItem['name']; ?></b></a>

@@ -12,6 +12,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 // ------------------------------------------------------------------------
+if ( ! function_exists('site_url'))
+{
+	function site_url($uri = '', $protocol = NULL)
+	{
+		$langUri= '';
+		$defaultLanguage = get_instance()->default_language; 
+		$siteLanguage = get_instance()->site_language;
+		if($siteLanguage!=$defaultLanguage){
+			$langUri = $siteLanguage;
+		}
+		if (substr($uri, 0, 1) != '/') {
+			$uri = '/'.$uri;
+		}
+		$uri = $langUri . $uri;
+		return get_instance()->config->site_url($uri, $protocol);
+	}
+}
+
+if ( ! function_exists('language_url'))
+{
+	function language_url($langUri='', $protocol = NULL)
+	{
+		$currentLangUri = get_instance()->uri->segment(1);
+		$uri = uri_string();
+		if(isset(get_instance()->languages_pair[$currentLangUri])){
+			$uri = str_replace($currentLangUri,'',$uri);
+		}
+		$defaultLanguage = get_instance()->default_language; 
+		$siteLanguage = get_instance()->site_language;
+		if (substr($uri, 0, 1) != '/') {
+			$uri = '/'.$uri;
+		}
+		if($langUri == $defaultLanguage){
+			$langUri = '';
+		}
+		$uri = $langUri . $uri;
+		return get_instance()->config->site_url($uri, $protocol);
+	}
+}
 
 if ( ! function_exists('common_assets_url'))
 {

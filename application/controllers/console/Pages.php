@@ -91,7 +91,7 @@ class Pages extends ConsoleController {
 		}
 	}
 
-  	public function edit($id)
+  	public function edit($id, $lang, $translate='')
 	{
 		$pageRow = $this->PagesModel->load($id);
 		if(!$pageRow){
@@ -103,15 +103,19 @@ class Pages extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$edit['page']= $this->PagesModel->load($id);
+			$langCond = $lang;
+			if($translate=='translate'){
+				$langCond = $this->default_language;
+			}
+			$edit['language'] = $lang;
+			$edit['translate'] = $translate;
+			$edit['page']= $this->PagesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('pages/edit'), $edit,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
 			$data=array(
-				'status'=>$this->input->post('status'),
-				'title'=>$this->input->post('title'),
-				'subtitle'=>$this->input->post('subtitle')
+				'status'=>$this->input->post('status')
 			);
 			if($this->input->post('remove_banner_image') && $this->input->post('remove_banner_image')=='1'){
 				$data['banner_image']='';
@@ -149,7 +153,18 @@ class Pages extends ConsoleController {
 				}
 			}
 			$cond = array('id' => $id);
-      		$actionStatus=$this->PagesModel->updateCond($data,$cond);
+			$descData = array(
+				'title'=>$this->input->post('title'),
+				'subtitle'=>$this->input->post('subtitle'),
+				'language' => $this->input->post('language')
+			);
+			if($translate=='translate'){
+				$descData['page_id']= $id;
+				$actionStatus = $this->PagesModel->addTranslate($data,$cond,$descData);
+			}else{
+				$actionStatus=$this->PagesModel->updateCond($data,$cond,$descData);
+			}
+      		
 			if($actionStatus){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
 				redirect(admin_url_string('pages/overview'));

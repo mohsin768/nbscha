@@ -9,8 +9,9 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'page-edit');
-                echo form_open_multipart(admin_url_string('pages/edit/'.$page->id),$attributes);?>
+                echo form_open_multipart(admin_url_string('pages/edit/'.$page->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $page->id; ?>" />
+                <input type="hidden" name="language" value="<?php echo $language; ?>" />
                 
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title<span class="required">*</span>

@@ -5,6 +5,10 @@ class MemberController extends GlobalController {
 
 	function __construct() {
 		parent::__construct();
+		$settings=$this->SettingsModel->getArrayCond(array('language'=>$this->site_language));
+		foreach($settings as $setting):
+			$this->settings[$setting['settingkey']]=$setting['settingvalue'];
+		endforeach;
 		if (!$this->session->userdata('member_user_logged_in')) {
 			redirect(member_url_string('login'));
 		}
