@@ -18,8 +18,13 @@ class FrontController extends GlobalController {
 		foreach($settings as $setting):
 			$this->settings[$setting['settingkey']]=$setting['settingvalue'];
 		endforeach;
+        $localizations=$this->LocalizationModel->getArrayCond(array('language'=>$this->site_language));
+		foreach($localizations as $localization):
+			$this->localizations[$localization['lang_key']]=$localization['lang_value'];
+		endforeach;
         $this->load->library('widgethelper');
         $this->load->library('menuhelper');
+        $this->load->helper('translate');
         $this->load->helper('text');
         $this->mainvars = array();
         $this->mainvars['site_name']=$this->settings['SITE_NAME'];

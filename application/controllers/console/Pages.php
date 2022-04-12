@@ -15,14 +15,21 @@ class Pages extends ConsoleController {
 		redirect(admin_url_string('pages/overview'));
 	}
 	
-	public function overview()
+	public function overview($language='')
 	{
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('language'=>$language);
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-        $config['base_url'] = admin_url('pages/overview');
-        $config['total_rows'] = $this->PagesModel->getPaginationCount();
+        $config['base_url'] = admin_url('pages/overview/'.$language);
+		$config['uri_segment'] = '5';
+        $config['total_rows'] = $this->PagesModel->getPaginationCount($cond);
         $this->pagination->initialize($config);
-		$vars['pages'] = $this->PagesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']));
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
+		$vars['pages'] = $this->PagesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond);
 		$this->mainvars['content']=$this->load->view(admin_url_string('pages/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}

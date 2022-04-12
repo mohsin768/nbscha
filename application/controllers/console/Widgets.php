@@ -14,16 +14,22 @@ class Widgets extends ConsoleController {
 		redirect(admin_url_string('widgets/overview'));
 	}
 	
-	public function overview()
+	public function overview($language='')
 	{
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('language'=>$language);
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
         $config['base_url'] = admin_url('widgets/overview');
 		$config['per_page'] = 30;
-        $config['total_rows'] = $this->WidgetsModel->getPaginationCount();
+        $config['total_rows'] = $this->WidgetsModel->getPaginationCount($cond);
         $this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['widgetTypes'] = $this->WidgetsModel->getWidgetTypes();
-		$vars['widgets'] = $this->WidgetsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']));
+		$vars['widgets'] = $this->WidgetsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond);
 		$this->mainvars['content']=$this->load->view(admin_url_string('widgets/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}

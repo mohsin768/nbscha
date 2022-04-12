@@ -10,7 +10,7 @@
     </div>
     <div class="col-sm-6 col-md-3">
         <div class="widget dark">
-        <h5 class="widget-title line-bottom">Latest News</h5>
+        <h5 class="widget-title line-bottom"><?php echo translate('LATEST_NEWS','Latest News');?></h5>
         <div class="latest-posts">
             <?php if(is_array($news) && count($news)>0){ ?>
             <?php $i=0; foreach($news as $newsitem): $i++; ?>

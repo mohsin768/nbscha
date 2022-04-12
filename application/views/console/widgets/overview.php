@@ -24,6 +24,18 @@ $status = array('0' => 'Not Published','1' => 'Published');
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                <div class="lang-col" style="float:right; width:50%">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <?php foreach($languages as $languageRow): ?>
+                        <li>
+                            <span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('widgets/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
                 <div class="table-responsive">
                     <table class="table table-striped jambo_table">
                         <thead>

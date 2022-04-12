@@ -7,7 +7,7 @@
                 <div class="col-md-7">
                 <div class="widget no-border m-0">
                     <ul class="list-inline sm-text-center mt-5">
-                    <li> <i class="fa fa-phone text-theme-colored"></i> Call Us at <a href="tel:+<?php echo preg_replace("/[^0-9]/", "", $this->settings['CONTACT_PHONE']); ?>"><?php echo $this->settings['CONTACT_PHONE']; ?></a> </li>
+                    <li> <i class="fa fa-phone text-theme-colored"></i> <?php echo translate('HEADER_CALLUS','Call Us at');?> <a href="tel:+<?php echo preg_replace("/[^0-9]/", "", $this->settings['CONTACT_PHONE']); ?>"><?php echo $this->settings['CONTACT_PHONE']; ?></a> </li>
                     <li> <i class="fa fa-envelope-o text-theme-colored"></i> <a href="mailto:<?php echo $this->settings['CONTACT_EMAIL']; ?>"><?php echo $this->settings['CONTACT_EMAIL']; ?></a> </li>
                     </ul>
                 </div>
@@ -18,12 +18,13 @@
                     <ul class="list-inline text-right sm-text-center">
                     <?php $i=0; foreach($this->languages_pair as $code => $name): if( $code!= $this->site_language){ $i++;?>
                     <li>
-                        <a href="<?php echo language_url($code); ?>" class="text-white"><b style="color: #ff0000"><?php echo $name; ?></b></a>
+                        <a href="<?php echo language_url($code); ?>" class=""><b><?php echo $name; ?></b></a>
                     </li>
                     <?php if($i !='1'){ ?>
-                    <li class="text-white" style="color: #ff0000">|</li>
+                    <li class="">|</li>
                     <?php }} ?>
                     <?php endforeach; ?>
+                    <li class="">|</li>
                     <?php $i=0; foreach($top_menu as $menuItem): $i++;?>
                     <li>
                         <a href="<?php echo $menuItem['url']; ?>" class="text-white"><b style="color: #ff0000"><?php echo $menuItem['name']; ?></b></a>
