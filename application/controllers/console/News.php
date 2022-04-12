@@ -22,9 +22,12 @@ class News extends ConsoleController {
 		redirect(admin_url_string('news/overview'));
 	}
 
-	public function overview()
+	public function overview($language='')
 	{
-		$cond = array();
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('language'=>$language);
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -53,12 +56,15 @@ class News extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('news/overview');
-    $config['total_rows'] = $this->NewsModel->getPaginationCount();
-    $this->pagination->initialize($config);
+		$config['uri_segment'] = '5';
+		$config['base_url'] = admin_url('news/overview/'.$language);
+		$config['total_rows'] = $this->NewsModel->getPaginationCount($cond,$like);
+		$this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['news'] = $this->NewsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$vars['resourse_types'] = $this->ResourceTypesModel->getResourceTypes();
 		$vars['categories'] = $this->NewsCategoriesModel->getElementPair('id','name');
 		$this->mainvars['content']=$this->load->view(admin_url_string('news/overview'),$vars,true);
@@ -351,9 +357,12 @@ class News extends ConsoleController {
 		}
 	}
 
-	public function categories()
+	public function categories($language='')
 	{
-		$cond = array();
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('language'=>$language);
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -377,12 +386,15 @@ class News extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('news/categories');
-    $config['total_rows'] = $this->NewsCategoriesModel->getPaginationCount();
-    $this->pagination->initialize($config);
+		$config['uri_segment'] = '5';
+		$config['base_url'] = admin_url('news/categories/'.$language);
+		$config['total_rows'] = $this->NewsCategoriesModel->getPaginationCount($cond,$like);
+		$this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['categories'] = $this->NewsCategoriesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$this->mainvars['content']=$this->load->view(admin_url_string('news/categories'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}

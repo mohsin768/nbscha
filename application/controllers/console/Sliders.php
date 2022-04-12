@@ -19,9 +19,12 @@ class Sliders extends ConsoleController {
 		redirect(admin_url_string('sliders/overview'));
 	}
 
-	public function overview()
+	public function overview($language='')
 	{
-		$cond = array();
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('language'=>$language);
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -45,12 +48,15 @@ class Sliders extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('sliders/overview');
-    $config['total_rows'] = $this->SlidersModel->getPaginationCount();
-    $this->pagination->initialize($config);
+		$config['uri_segment'] = '5';
+		$config['base_url'] = admin_url('sliders/overview/'.$language);
+		$config['total_rows'] = $this->SlidersModel->getPaginationCount($cond,$like);
+		$this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['sliders'] = $this->SlidersModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$this->mainvars['content']=$this->load->view(admin_url_string('sliders/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
