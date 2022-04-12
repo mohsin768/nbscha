@@ -19,9 +19,12 @@ class Certificatetemplates extends ConsoleController {
 		redirect(admin_url_string('certificatetemplates/overview'));
 	}
 
-	public function overview()
+	public function overview($language='')
 	{
-		$cond = array('delete_status'=>'0');
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('delete_status'=>'0','language'=>$language);
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -45,12 +48,15 @@ class Certificatetemplates extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('certificatetemplates/overview');
-    $config['total_rows'] = $this->CertificatetemplatesModel->getPaginationCount();
-    $this->pagination->initialize($config);
+		$config['uri_segment'] = '5';
+		$config['base_url'] = admin_url('certificatetemplates/overview/'.$language);
+		$config['total_rows'] = $this->CertificatetemplatesModel->getPaginationCount($cond,$like);
+		$this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['certificatetemplates'] = $this->CertificatetemplatesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$this->mainvars['content']=$this->load->view(admin_url_string('certificatetemplates/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
@@ -154,10 +160,10 @@ class Certificatetemplates extends ConsoleController {
 
 		} else {
 			$maindata = array('title' => $this->input->post('title'),
-																		'c_key' => $this->input->post('c_key'),
-																	'status' => $this->input->post('status'));
+							'c_key' => $this->input->post('c_key'),
+						'status' => $this->input->post('status'));
 
-		$descdata = array('template_id' => $id,
+											$descdata = array('template_id' => $id,
 											'template' => $this->input->post('template'),
 											'wallet_template' => $this->input->post('wallet_template'),
 											'signatory' => $this->input->post('signatory'),

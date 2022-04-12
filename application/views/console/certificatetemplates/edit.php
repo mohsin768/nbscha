@@ -12,7 +12,7 @@
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'template-edit');
                 echo form_open_multipart(admin_url_string('certificatetemplates/edit/'.$template->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $template->id; ?>" />
-                <input type="hidden" name="language" value="<?php echo $this->default_language;?>" />
+                <input type="hidden" name="language" value="<?php echo $language;?>" />
 
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title<span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>

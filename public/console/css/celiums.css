@@ -328,7 +328,6 @@ text-transform: uppercase;
 }
 .lang-col {
   display: inline-block;
-  padding-right: 20px;
   text-align: right;
 }
 .action-content{

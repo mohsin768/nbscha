@@ -19,9 +19,12 @@ class Facilities extends ConsoleController {
 		redirect(admin_url_string('facilities/overview'));
 	}
 
-	public function overview()
+	public function overview($language='')
 	{
-		$cond = array('delete_status'=>'0');
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('delete_status'=>'0','language'=>$language);
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -45,12 +48,15 @@ class Facilities extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('facilities/overview');
-    $config['total_rows'] = $this->FacilitiesModel->getPaginationCount();
-    $this->pagination->initialize($config);
+		$config['uri_segment'] = '5';
+		$config['base_url'] = admin_url('facilities/overview/'.$language);
+    	$config['total_rows'] = $this->FacilitiesModel->getPaginationCount($cond,$like);
+    	$this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['facilities'] = $this->FacilitiesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$this->mainvars['content']=$this->load->view(admin_url_string('facilities/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
