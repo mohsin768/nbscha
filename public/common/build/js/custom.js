@@ -118,10 +118,20 @@ function init_sidebar() {
     });
 
     // check active menu
-    $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
+    //$SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
 
     $SIDEBAR_MENU.find('a').filter(function () {
-        return this.href == CURRENT_URL;
+        var currentItem = false;
+        var currentHref = this.href;
+        var currentUrl = CURRENT_URL
+        const currentHrefArray = currentHref.split("/");
+        const currentUrlArray = currentUrl.split("/");
+        let currentHrefController = currentHrefArray[4];
+        let currentUrlController = currentUrlArray[4];
+        if(currentHrefController==currentUrlController){
+            currentItem = true;
+        }
+        return currentItem;
     }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
         setContentHeight();
     }).parent().addClass('active');

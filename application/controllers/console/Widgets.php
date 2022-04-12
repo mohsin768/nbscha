@@ -22,7 +22,8 @@ class Widgets extends ConsoleController {
 		$cond = array('language'=>$language);
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-        $config['base_url'] = admin_url('widgets/overview');
+        $config['base_url'] = admin_url('widgets/overview/'.$language);
+		$config['uri_segment'] = '5';
 		$config['per_page'] = 30;
         $config['total_rows'] = $this->WidgetsModel->getPaginationCount($cond);
         $this->pagination->initialize($config);

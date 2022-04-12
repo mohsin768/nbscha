@@ -161,7 +161,7 @@
 	<script type="text/javascript" src="<?php echo common_assets_url('vendors/fancybox/jquery.fancybox-1.3.4.js'); ?>"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="<?php echo common_assets_url('build/js/custom.min.js'); ?>"></script>
+    <script src="<?php echo common_assets_url('build/js/custom.js'); ?>"></script>
     <script src="<?php echo admin_assets_url('js/celiums.js'); ?>"></script>
     <?php echo $page_scripts; ?>
   </body>
