@@ -20,9 +20,12 @@ class Packages extends ConsoleController {
 		redirect(admin_url_string('packages/overview'));
 	}
 
-	public function overview()
+	public function overview($language='')
 	{
-		$cond = array('delete_status'=>'0');
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('delete_status'=>'0','language'=>$language);
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -46,12 +49,15 @@ class Packages extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('packages/overview');
-    $config['total_rows'] = $this->PackagesModel->getPaginationCount();
-    $this->pagination->initialize($config);
+		$config['uri_segment'] = '5';
+		$config['base_url'] = admin_url('packages/overview/'.$language);
+		$config['total_rows'] = $this->PackagesModel->getPaginationCount($cond,$like);
+		$this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['packages'] = $this->PackagesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$this->mainvars['content']=$this->load->view(admin_url_string('packages/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}

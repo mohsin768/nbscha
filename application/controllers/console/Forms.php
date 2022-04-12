@@ -21,9 +21,13 @@ class Forms extends ConsoleController {
 		redirect(admin_url_string('forms/overview'));
 	}
 
-	public function overview()
+	public function overview($language='')
 	{
-		$cond = $like = array();
+		if($language ==''){
+			$language = 'en';
+		}
+		$cond = array('language'=>$language);
+		$like = array();
 		$sort_direction =	$sort_field =  '';
 
 		if($this->session->userdata('form_status_filter')!=''){
@@ -46,12 +50,15 @@ class Forms extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('forms/overview');
-    $config['total_rows'] = $this->FormsModel->getPaginationCount();
-    $this->pagination->initialize($config);
+		$config['uri_segment'] = '5';
+		$config['base_url'] = admin_url('forms/overview/'.$language);
+		$config['total_rows'] = $this->FormsModel->getPaginationCount($cond,$like);
+		$this->pagination->initialize($config);
+		$vars['language'] = $language;
+		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['forms'] = $this->FormsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$vars['resourse_types'] = $this->ResourceTypesModel->getResourceTypes();
 		$this->mainvars['content']=$this->load->view(admin_url_string('forms/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
@@ -125,7 +132,7 @@ class Forms extends ConsoleController {
 
 		} else {
 			$publish_date = date('Y-m-d',strtotime($this->input->post('publish_date')));
-			$maindata = array('attachment' => $attachment,
+			$maindata = array(
 			'type' => $this->input->post('type'),
 			'publish_date' => $publish_date,
 			'status' => $this->input->post('status'));

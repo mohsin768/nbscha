@@ -1,9 +1,9 @@
 <?php
 $status = array('0' => 'Disabled','1' => 'Enabled');
-if($this->uri->segment(4)==""){
+if($this->uri->segment(5)==""){
 	$i=0;
 }else{
-	$i=$this->uri->segment(4);
+	$i=$this->uri->segment(5);
 }
 ?>
 <div class="row">
@@ -74,6 +74,16 @@ if($this->uri->segment(4)==""){
 	                    <input class="btn btn-secondary btn-sm" type="submit" name="enable" value="Enable" />
 	                    <input class="btn btn-secondary btn-sm" type="submit" name="disable" value="Disable"  />
 	                </div>
+					<div class="lang-col" style="float:right; width:50%">
+						<ul class="nav navbar-right panel_toolbox">
+							<?php foreach($languages as $languageRow): ?>
+							<li>
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('forms/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+							</li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
 	            </div>
 
             <div class="x_content">
