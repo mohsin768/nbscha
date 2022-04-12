@@ -174,10 +174,10 @@ class Pages extends ConsoleController {
       		
 			if($actionStatus){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('pages/overview'));
+				redirect(admin_url_string('pages/overview/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('pages/overview'));
+				redirect(admin_url_string('pages/overview/'.$lang));
 			}
 		}
 	}

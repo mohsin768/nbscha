@@ -125,10 +125,10 @@ class Facilities extends ConsoleController {
 
 			if($updaterow){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('facilities/overview'));
+				redirect(admin_url_string('facilities/overview/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('facilities/overview'));
+				redirect(admin_url_string('facilities/overview/'.$lang));
 			}
 		}
 	}

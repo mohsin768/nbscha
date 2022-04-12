@@ -131,10 +131,10 @@ class Faqs extends ConsoleController {
 
 			if($updaterow){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('faqs/overview'));
+				redirect(admin_url_string('faqs/overview/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('faqs/overview'));
+				redirect(admin_url_string('faqs/overview/'.$lang));
 			}
 		}
 	}

@@ -154,10 +154,10 @@ class Packages extends ConsoleController {
 
 			if($updaterow){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('packages/overview'));
+				redirect(admin_url_string('packages/overview/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('packages/overview'));
+				redirect(admin_url_string('packages/overview/'.$lang));
 			}
 		}
 	}

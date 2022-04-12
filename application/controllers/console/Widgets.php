@@ -309,10 +309,10 @@ class Widgets extends ConsoleController {
 			}
 			if($actionStatus){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('widgets/overview'));
+				redirect(admin_url_string('widgets/overview/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('widgets/overview'));
+				redirect(admin_url_string('widgets/overview/'.$lang));
 			}
 		}
 	}
