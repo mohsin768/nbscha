@@ -10,10 +10,11 @@ class PaymentMethodsModel extends CMS_Model {
 
     function getMethods(){
       $results = array(
-        '1' => array('name'=>'eTransfer','message'=>$this->settings['ETRANSFER_MESSAGE']),
-        '2' => array('name'=>'Cheque','message'=>$this->settings['CASH_CHEQUE_MESSAGE']),
-        '3' => array('name'=>'Cash','message'=>$this->settings['CASH_CHEQUE_MESSAGE']),
-        '4' => array('name'=>'Auto Renewal','message'=>'')
+        '1' => array('name'=>'Credit Card','message'=>$this->settings['ETRANSFER_MESSAGE'],'show_admin'=>'0'),
+        '2' => array('name'=>'eTransfer','message'=>$this->settings['ETRANSFER_MESSAGE'],'show_admin'=>'1'),
+        '3' => array('name'=>'Cheque','message'=>$this->settings['CASH_CHEQUE_MESSAGE'],'show_admin'=>'1'),
+        '4' => array('name'=>'Cash','message'=>$this->settings['CASH_CHEQUE_MESSAGE'],'show_admin'=>'1'),
+        '5' => array('name'=>'Auto Renewal','message'=>'','show_admin'=>'1')
       );
       return $results;
   }

@@ -142,6 +142,7 @@ class Register extends FrontController {
 				$image6Data=$this->upload->data();
 				$image6=$image6Data['file_name'];
 			}
+			$paymentMethod = secureInput($this->input->post('payment_method'));
 			$data = array(
 				'first_name' => secureInput($this->input->post('first_name')),
 				'last_name' => secureInput($this->input->post('last_name')),
@@ -180,28 +181,47 @@ class Register extends FrontController {
 				'linkedin' => secureInput($this->input->post('linkedin')),
 				'website' => secureInput($this->input->post('website')),
 				'amount'=>$packageInfo->price,
-				'payment_method' => secureInput($this->input->post('payment_method')),
+				'payment_method' => $paymentMethod,
 				'payment_info' => secureInput($this->input->post('payment_info')),
 				'payment_status' => '0',
 				'created' => date('Y-m-d H:i:s'),
 				'status' => 'pending'
 			);
 			$insertId = $this->RequestsModel->insert($data);
-			$identifier = date('ym').sprintf('%04d', $insertId);
+			$identifier = date('ymdhi').sprintf('%04d', $insertId);
 			$this->RequestsModel->updateCond(array('identifier'=>$identifier),array('id'=>$insertId));
 			if($insertId){
-				$adminMailData = $data;
-				$adminMailData['mail_to'] = $this->settings['ADMIN_EMAIL'];
-				$this->mailhelper->sendNotification('register_admin_notification',$adminMailData);
-				$userMailData = $data;
-				$userMailData['mail_to'] = $data['email'];
-				$this->mailhelper->sendNotification('register_user_notification',$userMailData);
-				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'<strong>Well done!</strong> You have successfully registered. We will get back to you.'));
+				if($paymentMethod=='Credit Card'){
+					redirect(site_url('helcim/paynow/'.$identifier));
+				} else {
+					redirect(site_url('register/process/'.$identifier));
+				}
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'<strong>Error!</strong> Cannot register now. Try again later'));
+				redirect(site_url('register'));
 			}
-			redirect(site_url('register'));
+
 		}
+	}
+
+	function process($identifier){
+		$order = $this->RequestsModel->getRowCond(array('identifier'=>$identifier));
+        if(!$order){
+    		redirect('/');
+    	}
+        $data = (array) $order;
+		$adminMailData = $data;
+		$adminMailData['mail_to'] = $this->settings['ADMIN_EMAIL'];
+		$this->mailhelper->sendNotification('register_admin_notification',$adminMailData);
+		$userMailData = $data;
+		$userMailData['mail_to'] = $data['email'];
+		$this->mailhelper->sendNotification('register_user_notification',$userMailData);
+		if($order->payment_method=='Credit Card' && $order->payment_status=='0'){
+			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'You have successfully registered. But your payment has failed. You can try again or contact NBSCHA Team.<a href="'.site_url('helcim/paynow/'.$identifier).'">Try Again</a>'));
+		} else {
+			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'<strong>Well done!</strong> You have successfully registered. We will get back to you.'));
+		}
+		redirect(site_url('register'));
 	}
 
 	function package_count_check($maxbadscount) {

@@ -307,8 +307,10 @@ class Members extends ConsoleController {
 				'created_date'=>date('Y-m-d H:i:s'),
 				'status'=>'pending'
 			);
-      		$actionStatus=$this->RenewalsModel->insert($data);
-			if($actionStatus){
+			$renewId=$this->RenewalsModel->insert($data);
+			$identifier = date('ymdhi').sprintf('%04d', $renewId);
+			$this->RenewalsModel->updateCond(array('identifier'=>$identifier),array('id'=>$renewId));
+			if($renewId){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Renewal Requested Successfully.'));
 				redirect(admin_url_string('members/membership/'.$id));
 			} else {

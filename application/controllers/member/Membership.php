@@ -73,6 +73,7 @@ class Membership extends MemberController {
 		} else {
 			$packageId = $this->input->post('package_id');
 			$package = $this->PackagesModel->getRowCond(array('pid'=>$packageId,'language'=>$language));
+			$paymentMethod = $this->input->post('payment_method');
 			$data=array(
 				'member_id' => $this->session->userdata('member_user_id'),
 				'previous_package_id'=>$memberShip->package_id,
@@ -81,17 +82,23 @@ class Membership extends MemberController {
 				'new_package_id'=>$packageId,
 				'new_max_beds_count'=>$this->input->post('max_beds_count'),
 				'amount'=>$package->price,
-				'payment_method'=>$this->input->post('payment_method'),
+				'payment_method'=>$paymentMethod,
 				'payment_comments'=>$this->input->post('comments'),
 				'payment_info'=>$this->input->post('payment_info'),
 				'created_by'=>'member',
 				'created_date'=>date('Y-m-d H:i:s'),
 				'status'=>'pending'
 			);
-      		$actionStatus=$this->RenewalsModel->insert($data);
-			if($actionStatus){
-			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Renewal Requested Successfully.'));
-				redirect(member_url_string('membership'));
+      		$renewId=$this->RenewalsModel->insert($data);
+			$identifier = date('ymdhi').sprintf('%04d', $renewId);
+			$this->RenewalsModel->updateCond(array('identifier'=>$identifier),array('id'=>$renewId));
+			if($renewId){
+				if($paymentMethod=='Credit Card'){
+					redirect(member_url_string('helcim/paynow/'.$identifier));
+				} else {
+					$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Renewal Requested Successfully.'));
+					redirect(member_url_string('membership'));
+				}
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 				redirect(member_url_string('membership'));
