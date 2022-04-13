@@ -28,7 +28,7 @@
 	         </div>
 	         <div class="row mt-30">
 	           <div class="col-md-4">
-	             <h4 class="line-bottom">About Me:</h4>
+	             <h4 class="line-bottom"><?php echo translate('ABOUT_ME','About Me');?>:</h4>
 	             <div class="volunteer-address">
 	               <ul>
 				   <?php if($boardMember->location!=''){ ?>	 
@@ -38,7 +38,7 @@
 	                       <i class="fa fa-wrench text-theme-colored font-24 mt-5"></i>
 	                     </div>
 	                     <div class="media-body">
-	                       <h5 class="mt-0 mb-0">Location:</h5>
+	                       <h5 class="mt-0 mb-0"><?php echo translate('LOCATION','Location');?>:</h5>
 	                       <p><?php echo $boardMember->location; ?></p>
 	                     </div>
 	                   </div>
@@ -50,13 +50,13 @@
 	                       <i class="fa fa-phone text-theme-colored font-24 mt-5"></i>
 	                     </div>
 	                     <div class="media-body">
-	                       <h5 class="mt-0 mb-0">Contact:</h5>
+	                       <h5 class="mt-0 mb-0"><?php echo translate('CONTACT','Contact');?>:</h5>
 	                       <p>
 						   	<?php if($boardMember->phone!=''){ ?>	   
-							<span>Phone:</span><?php echo $boardMember->phone; ?><br> 
+							<span><?php echo translate('PHONE','Phone');?>:</span><?php echo $boardMember->phone; ?><br> 
 							<?php } ?>
 							<?php if($boardMember->email!=''){ ?>	 
-							<span>Email:</span>
+							<span><?php echo translate('EMAIL','Email');?>:</span>
 						    <a href="mailto:<?php echo $boardMember->email; ?>"><?php echo $boardMember->email; ?></a>
 							<?php } ?>
 							</p>
@@ -69,7 +69,7 @@
 
 	           <div class="col-md-8">
 	             <div class="clearfix">
-	               <h4 class="line-bottom">Quick Contact:</h4>
+	               <h4 class="line-bottom"><?php echo translate('QUICK_CONTACT','Quick Contact');?>:</h4>
 	             </div>
 	             <form id="board_form" class="contact-form-transparent" action="<?php echo site_url('ajax/forms/enquiries');?>" method="post" novalidate="novalidate">
 					<input type="hidden" name="form_type" value="board_member" />     
@@ -79,26 +79,26 @@
 	             	<div class="row">
 	                 <div class="col-sm-12">
 	                   <div class="form-group">
-	                     <input type="text" placeholder="Enter Name" id="form_name" name="form_name" required="" class="form-control">
+	                     <input type="text" placeholder="<?php echo translate('ENTER_NAME','Enter Name');?>" id="form_name" name="form_name" required="" class="form-control">
 	                   </div>
 	                 </div>
 	                 <div class="col-sm-6">
 	                   <div class="form-group">
-	                     <input type="text" placeholder="Enter Email" id="form_email" name="form_email" class="form-control" required="">
+	                     <input type="text" placeholder="<?php echo translate('ENTER_EMAIL','Enter Email');?>" id="form_email" name="form_email" class="form-control" required="">
 	                   </div>
 	                 </div>
 	                 <div class="col-sm-6">
 	                   <div class="form-group">
-	                     <input type="text" placeholder="Enter Subject" id="form_subject" name="form_subject" class="form-control" required="">
+	                     <input type="text" placeholder="<?php echo translate('ENTER_SUBJECT','Enter Subject');?>" id="form_subject" name="form_subject" class="form-control" required="">
 	                   </div>
 	                 </div>
 	               </div>
 	               <div class="form-group">
-	                 <textarea rows="5" placeholder="Enter Message" id="form_message" name="form_message" required class="form-control"></textarea>
+	                 <textarea rows="5" placeholder="<?php echo translate('ENTER_MESSAGE','Enter Message');?>" id="form_message" name="form_message" required class="form-control"></textarea>
 	               </div>
 	               <div class="g-recaptcha" data-sitekey="6LeFWxEbAAAAAO6srig3VEXTzIuLJXF6CkC7L1SC"></div>
 	               <div class="form-group">
-	                 <button data-loading-text="Please wait..." class="btn btn-flat btn-dark btn-theme-colored mt-5" type="submit">Send your message</button>
+	                 <button data-loading-text="<?php echo translate('PLEASE_WAIT','Please wait...');?>" class="btn btn-flat btn-dark btn-theme-colored mt-5" type="submit"><?php echo translate('SEND_YOUR_MESSAGE','Send your message');?></button>
 	               </div>
 	             </form>
 	           </div>

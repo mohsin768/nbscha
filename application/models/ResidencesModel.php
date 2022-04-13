@@ -15,6 +15,26 @@ class ResidencesModel extends CMS_Model {
     }
 
 
+
+    function insert($maindata,$descdata=array())
+    {
+          $prime = false;
+          $this->db->insert($this->table_name,$maindata);
+          $prime=$this->db->insert_id();
+          if($this->multilingual && is_array($descdata) && count($descdata)>0){
+              $query = $this->db->get($this->lang_table_name);
+              foreach($query->result_array() as $row):
+                  $rowdata=$descdata;
+                  $rowdata[$this->foreign_key]=$prime;
+                  $rowdata['language']=$row['code'];
+                  $this->db->insert($this->desc_table_name,$rowdata);
+                  unset($rowdata);
+              endforeach;	
+          }
+          return $prime;
+    }
+
+
     function getConsolePaginationCount($cond = '', $like='') {
       $this->db->select("*,members.email as member_email,members.phone as member_phone,$this->table_name.created as created ");
       if (is_array($cond) && count($cond) > 0) {

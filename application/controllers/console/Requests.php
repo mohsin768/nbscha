@@ -196,8 +196,7 @@ class Requests extends ConsoleController {
 			'status' => '1');
 			$residenceDescData = array('name' => $requestRow->home_name,
 			'description' => $requestRow->description,
-			'meta_title'=>$metaTitle,
-			'language' => $this->default_language);
+			'meta_title'=>$metaTitle);
 			$residenceId = $this->ResidencesModel->insert($residencepData,$residenceDescData);
 		}
 /////Insert Membership//////
