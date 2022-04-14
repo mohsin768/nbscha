@@ -24,7 +24,7 @@
          <div class="card-errors">
             <?php if(isset($helcim_response['responseMessage'])){ echo $helcim_response['responseMessage']; } ?>
          </div>
-        <!--SCRIPT--><script type="text/javascript" src="https://life-start-training-inc.myhelcim.com/js/version2.js"></script>
+        <!--SCRIPT--><script type="text/javascript" src="https://new-brunswick-special-care-home-association.myhelcim.com/js/version2.js"></script>
         <script type='text/javascript'src="https://www.google.com/recaptcha/api.js?render=6LdixK0UAAAAABmBXVo_jyFJSkQ5Doj9kloLyxGG"></script>
         <script>
             grecaptcha.ready(function() {

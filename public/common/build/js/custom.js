@@ -128,7 +128,12 @@ function init_sidebar() {
         const currentUrlArray = currentUrl.split("/");
         let currentHrefController = currentHrefArray[4];
         let currentUrlController = currentUrlArray[4];
-        if(currentHrefController==currentUrlController){
+        let currentHrefFunction = currentHrefArray[5];
+        let currentUrlFunction = currentUrlArray[5];
+        console.log(currentHrefFunction);
+        if(currentHrefController==currentUrlController && currentHrefFunction==currentUrlFunction){
+            currentItem = true;
+        } else if(currentHrefController==currentUrlController && currentHrefFunction === undefined){
             currentItem = true;
         }
         return currentItem;
