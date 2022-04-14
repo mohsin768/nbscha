@@ -28,36 +28,36 @@
             <h3 class="heading-2 text-theme-colored">Details</h3>
             <ul>
                 <?php if($residence->contact_name!=''){ ?>
-                <li><b>Contact Name</b><br><?php echo $residence->contact_name; ?></li>
+                <li><b><?php echo translate('C_NAME','Contact Name');?></b><br><?php echo $residence->contact_name; ?></li>
                 <?php } if($residence->email!=''){ ?>
-                <li><b>Email</b><br><?php echo $residence->email; ?></li>
+                <li><b><?php echo translate('C_EMAIL','Email');?></b><br><?php echo $residence->email; ?></li>
                 <?php } if($residence->phone!=''){ ?>
-                <li><b>Phone</b><br><?php echo $residence->phone; ?></li>
+                <li><b><?php echo translate('C_PHONE','Phone');?></b><br><?php echo $residence->phone; ?></li>
                 <?php } if($residence->fax!=''){ ?>
-                <li><b>Fax</b><br><?php echo $residence->fax; ?></li>
+                <li><b><?php echo translate('C_FAX','Fax');?></b><br><?php echo $residence->fax; ?></li>
                 <?php } if($residence->language_id!='' && isset($homeLanguages[$residence->language_id])){ ?>
-                <li><b>Language(s)</b><br><?php echo $homeLanguages[$residence->language_id]; ?></li>
+                <li><b><?php echo translate('C_LANGUAGE','Language(s)');?></b><br><?php echo $homeLanguages[$residence->language_id]; ?></li>
                 <?php } if($residence->region_id!='' && isset($regions[$residence->region_id])){ ?>
-                <li><b>Region</b><br><?php echo $regions[$residence->region_id]; ?></li>
+                <li><b><?php echo translate('C_REGION','Region');?></b><br><?php echo $regions[$residence->region_id]; ?></li>
                 <?php } if($residence->postalcode!=''){ ?>
-                <li><b>Postal Code</b><br><?php echo $residence->pharmacy_name; ?></li>
+                <li><b><?php echo translate('C_POST','Postal Code');?></b><br><?php echo $residence->pharmacy_name; ?></li>
                 <?php } if($residence->level_id!='' && isset($levels[$residence->level_id])){ ?>
-                <li><b>Level of Care</b><br><?php echo $levels[$residence->level_id]; ?></li>
+                <li><b><?php echo translate('C_LEVEL','Level of Care');?></b><br><?php echo $levels[$residence->level_id]; ?></li>
                 <?php } if($residence->package_id!='' && isset($packages[$residence->package_id])){ ?>
-                <li><b>Bed</b><br><?php echo $packages[$residence->package_id]; ?></li>
+                <li><b><?php echo translate('C_BED','Bed');?></b><br><?php echo $packages[$residence->package_id]; ?></li>
                 <?php } if($residence->pharmacy_name!=''){ ?>
-                <li><b>Pharmacy</b><br><?php echo $residence->pharmacy_name; ?></li>
+                <li><b><?php echo translate('C_PHARMACY','Pharmacy');?></b><br><?php echo $residence->pharmacy_name; ?></li>
                 <?php } ?>
 
             </ul>
             <ul>
-                <li style="width: 100%"><b>Facility</b><br><?php echo $facilities; ?></li>
+                <li style="width: 100%"><b><?php echo translate('C_FACILITY','Facility');?></b><br><?php echo $facilities; ?></li>
             </ul>
         </div>
 
         <div class="row">
             <div class="properties-summary ft-sr mb-40">
-            <h3 class="heading-2 text-theme-colored">Features of Services </h3>
+            <h3 class="heading-2 text-theme-colored"><?php echo translate('C_FEATURES','Features of Services');?> </h3>
             <div class="row chk-b">
                 <?php foreach($features as $id => $feature): ?>
                 <div class="col-md-6" style="margin: 5px 0 5px 0px;"><?php if(isset($residenceFeatures[$id]) && $residenceFeatures[$id]=='1'){ ?> (<b class="cheked-mark">&#10004;</b>)<?php } else { ?> <b style="text-transform: none;">(x)</b><?php } ?><?php echo $feature ?></b></div>
@@ -73,24 +73,24 @@
         <div class="sidebar sidebar-left mt-sm-30 ml-40">
         <?php if($youtubeId!=''){ ?>
         <div class="widget">
-            <h4 class="widget-title line-bottom">Virtual Tour</h4>
+            <h4 class="widget-title line-bottom"><?php echo translate('C_VTOUR','Virtual Tour');?></h4>
             <div class="services-list">
             <iframe width="560" height="315" src="//www.youtube.com/embed/<?php echo $youtubeId; ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
         <?php } ?>
         <div class="widget">
-            <h4 class="widget-title line-bottom">Capacity</h4>
+            <h4 class="widget-title line-bottom"><?php echo translate('C_CAPACITY','Capacity');?></h4>
             <div class="services-list">
             <ul class="list list-border angle-double-right">
-                <p class="vc-pc"><b>Licensed Beds: <?php echo $residence->max_beds_count; ?></b></p>
-                <p class="vc-pc"><b>Current Vacancy: <?php echo $residence->vacancy; ?></b></p>
+                <p class="vc-pc"><b><?php echo translate('C_LICBED','Licensed Beds');?>: <?php echo $residence->max_beds_count; ?></b></p>
+                <p class="vc-pc"><b><?php echo translate('C_VACANCY','Current Vacancy');?>: <?php echo $residence->vacancy; ?></b></p>
             </ul>
             </div>
         </div>
         <div class="widget">
             <div class="contact-div">
-                    <h4 class="widget-title line-bottom">Ask a question?</h4>
+                    <h4 class="widget-title line-bottom"><?php echo translate('C_ASK','Ask a question?');?></h4>
 
                         <!-- Contact Form -->
                 <form id="residence_form" name="contact_form" class="" action="<?php echo site_url('ajax/forms/enquiries');?>" method="post" novalidate="novalidate">
@@ -103,13 +103,13 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Name <small>*</small></label>
-                                <input name="form_name" class="form-control" type="text" placeholder="Enter Name" required="" aria-required="true">
+                                <input name="form_name" class="form-control" type="text" placeholder="<?php echo translate('ENTER_NAME','Enter Name');?>" required="" aria-required="true">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Email <small>*</small></label>
-                                <input name="form_email" class="form-control required email" type="email" placeholder="Enter Email" aria-required="true">
+                                <input name="form_email" class="form-control required email" type="email" placeholder="<?php echo translate('ENTER_EMAIL','Enter Email');?>" aria-required="true">
                             </div>
                         </div>
                     </div>
@@ -118,24 +118,24 @@
                         <div class="col-sm-12">
                         <div class="form-group">
                             <label>Subject <small>*</small></label>
-                            <input name="form_subject" class="form-control required" type="text" placeholder="Enter Subject" aria-required="true">
+                            <input name="form_subject" class="form-control required" type="text" placeholder="<?php echo translate('ENTER_SUBJECT','Enter Subject');?>" aria-required="true">
                         </div>
                         </div>
                         <div class="col-sm-12">
                         <div class="form-group">
                             <label>Phone</label>
-                            <input name="form_phone" class="form-control" type="text" placeholder="Enter Phone">
+                            <input name="form_phone" class="form-control" type="text" placeholder="<?php echo translate('ENTER_PHONE','Enter Phone');?>">
                         </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Message</label>
-                        <textarea name="form_message" class="form-control required" rows="5" placeholder="Enter Message" aria-required="true"></textarea>
+                        <textarea name="form_message" class="form-control required" rows="5" placeholder="<?php echo translate('ENTER_MESSAGE','Enter Message');?>" aria-required="true"></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-dark btn-theme-colored btn-flat mr-5" data-loading-text="Please wait...">Send your message</button>
-                        <button type="reset" class="btn btn-default btn-flat btn-theme-colored">Reset</button>
+                        <button type="submit" class="btn btn-dark btn-theme-colored btn-flat mr-5" data-loading-text="Please wait..."><?php echo translate('SEND_MESSAGE','Send your message');?></button>
+                        <button type="reset" class="btn btn-default btn-flat btn-theme-colored"><?php echo translate('RESET','Reset');?></button>
                     </div>
                 </form>
 
@@ -176,7 +176,7 @@
         </div>
             <div class="widget">
             <div class="social-cl">
-                <h3 class="widget-title line-bottom">Social Network</h3>
+                <h3 class="widget-title line-bottom"><?php echo translate('SOCIAL_NETWORK','Social Network');?></h3>
                 <div class="row">
                 <div class="col-md-12">
                     <ul class="styled-icons icon-dark icon-theme-colored mt-20">
