@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Forms extends GlobalController {
+class Forms extends FrontController {
 
 	function __construct() {
 		parent::__construct();

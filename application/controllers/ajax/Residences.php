@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Residences extends GlobalController {
+class Residences extends FrontController {
 
 	function __construct() {
 		parent::__construct();
