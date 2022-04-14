@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Forms extends FrontController {
+
+class Forms extends AjaxController {
 
 	function __construct() {
 		parent::__construct();

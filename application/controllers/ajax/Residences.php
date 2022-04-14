@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Residences extends FrontController {
+class Residences extends AjaxController {
 
 	function __construct() {
 		parent::__construct();

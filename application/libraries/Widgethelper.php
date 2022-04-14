@@ -76,16 +76,12 @@ class Widgethelper {
         $this->CI->load->model('WidgetsModel');
         $pageContent = '';
         if(isset($this->CI->landingPageObject)){
-            $pageId = $this->CI->landingPageObject->id;
+            $pageId = $this->CI->pageContent->id;
         } else {
             $pageId = $this->CI->pageId;         
         }
         if(isset($pageId) && $pageId !=''){
-            if($this->CI->pageType=="packages"){
-                $pageBlocks = $this->CI->WidgetsModel->getPackageWidgets($pageId);
-            } else {
-                $pageBlocks = $this->CI->WidgetsModel->getPageWidgets($pageId,$this->CI->site_language);
-            }
+            $pageBlocks = $this->CI->WidgetsModel->getPageWidgets($pageId,$this->CI->site_language);
             foreach($pageBlocks as $pageBlock):
                 $pageContent .= $this->processPageBlock($pageBlock);
             endforeach;
