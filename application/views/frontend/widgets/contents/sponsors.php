@@ -1,5 +1,5 @@
 <?php if(count($sponsors)>0){ ?>
-<section id="upcoming-events" class="divider parallax layer-overlay overlay-white-8" data-bg-img="">
+<section id="upcoming-events" class="divider parallax layer-overlay overlay-white-8">
     <div class="container pb-50 pt-80">
     <div class="section-content">
         <div class="row">

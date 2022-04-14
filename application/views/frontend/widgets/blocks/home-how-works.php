@@ -1,4 +1,4 @@
-<section class="divider parallax layer-overlay pt-10 pb-20 overlay-theme-colored-9" data-bg-img="" data-parallax-ratio="0.7">
+<section class="divider parallax layer-overlay pt-10 pb-20 overlay-theme-colored-9" data-parallax-ratio="0.7">
     <div class="container pt-60 pb-50">
     <!-- Section Content -->
         <div class="section-content">

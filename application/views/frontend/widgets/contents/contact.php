@@ -1,4 +1,4 @@
-<section class="divider layer-overlay overlay-white-9" data-bg-img="images/bg/bg15.jpg">
+<section class="divider layer-overlay overlay-white-9">
 <div class="container">
     <div class="row pt-30">
     <div class="col-md-6">
