@@ -180,37 +180,21 @@ if ( ! function_exists('member_url'))
         return site_url($url,$protocol);
     }
 }
-if ( ! function_exists('frontend_instrument_url'))
-{
-	function frontend_instrument_url($uri = '', $protocol = NULL)
-	{
-		$uri = 'instruments/'.$uri;
-		return get_instance()->config->site_url($uri, $protocol);
-	}
-}
-
-if ( ! function_exists('frontend_blog_url'))
-{
-	function frontend_blog_url($uri = '', $protocol = NULL)
-	{
-		$uri = 'blogs/'.$uri;
-		return get_instance()->config->site_url($uri, $protocol);
-	}
-}
-
-if ( ! function_exists('frontend_artist_url'))
-{
-	function frontend_artist_url($uri = '', $protocol = NULL)
-	{
-		$uri = 'staff/'.$uri;
-		return get_instance()->config->site_url($uri, $protocol);
-	}
-}
 if ( ! function_exists('news_url'))
 {
 	function news_url($slug, $protocol = NULL)
 	{
 		$uri = 'news/category/'.$slug;
+		$langUri= '';
+		$defaultLanguage = get_instance()->default_language; 
+		$siteLanguage = get_instance()->site_language;
+		if($siteLanguage!=$defaultLanguage){
+			$langUri = $siteLanguage;
+		}
+		if (substr($uri, 0, 1) != '/') {
+			$uri = '/'.$uri;
+		}
+		$uri = $langUri . $uri;
 		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
@@ -219,6 +203,16 @@ if ( ! function_exists('news_category_url'))
 	function news_category_url($slug, $protocol = NULL)
 	{
 		$uri = 'news/'.$slug;
+		$langUri= '';
+		$defaultLanguage = get_instance()->default_language; 
+		$siteLanguage = get_instance()->site_language;
+		if($siteLanguage!=$defaultLanguage){
+			$langUri = $siteLanguage;
+		}
+		if (substr($uri, 0, 1) != '/') {
+			$uri = '/'.$uri;
+		}
+		$uri = $langUri . $uri;
 		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
@@ -227,6 +221,16 @@ if ( ! function_exists('board_url'))
 	function board_url($slug, $protocol = NULL)
 	{
 		$uri = 'board/'.$slug;
+		$langUri= '';
+		$defaultLanguage = get_instance()->default_language; 
+		$siteLanguage = get_instance()->site_language;
+		if($siteLanguage!=$defaultLanguage){
+			$langUri = $siteLanguage;
+		}
+		if (substr($uri, 0, 1) != '/') {
+			$uri = '/'.$uri;
+		}
+		$uri = $langUri . $uri;
 		return get_instance()->config->site_url($uri, $protocol);
 	}
 }
@@ -235,6 +239,16 @@ if ( ! function_exists('residences_url'))
 	function residences_url($slug, $protocol = NULL)
 	{
 		$uri = 'residences/'.$slug;
+		$langUri= '';
+		$defaultLanguage = get_instance()->default_language; 
+		$siteLanguage = get_instance()->site_language;
+		if($siteLanguage!=$defaultLanguage){
+			$langUri = $siteLanguage;
+		}
+		if (substr($uri, 0, 1) != '/') {
+			$uri = '/'.$uri;
+		}
+		$uri = $langUri . $uri;
 		return get_instance()->config->site_url($uri, $protocol);
 	}
 }

@@ -27,6 +27,9 @@ class Board extends FrontController {
 		$bodyClass = 'board-member';
 		$landingPageId = $this->settings['BOARD_PAGE_ID'];
 		$landingPageObject =  $this->PagesModel->getRowCond(array('id'=>$landingPageId,'language'=>$this->site_language));
+		if(!$landingPageObject){
+			redirect('pagenotfound');
+		}
 		if($landingPageObject){
 			$this->landingPageObject = $landingPageObject;
 			if($landingPageObject->class!=''){
