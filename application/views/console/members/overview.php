@@ -53,6 +53,9 @@ if($this->uri->segment(4)==""){
 	                    <input class="btn btn-secondary btn-sm" type="submit" name="enable" value="Enable" />
 	                    <input class="btn btn-secondary btn-sm" type="submit" name="disable" value="Disable"  />
 	                </div>
+									<div style="float:right; width:50%;text-align:right">
+	                    <a class="btn btn-warning btn-sm"  href="<?php echo admin_url('members/exporttoexcel');?>" download ><i class="fa fa-download" aria-hidden="true"></i> Export to Excel</a>
+	                </div>
 	            </div>
 
             <div class="x_content">
@@ -89,14 +92,14 @@ if($this->uri->segment(4)==""){
                                 <td class=" "><a href="tel:<?php echo $member['phone'];?>"><?php echo $member['phone'];?></a></td>
                                 <td class="center-align"><?php echo $status[$member['status']];?></td>
                                 <td class=" last">
-									<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/edit/'.$member['mid']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-									<a class="btn btn-info btn-xs" href="<?php echo admin_url('members/changepwd/'.$member['mid']); ?>"><i class="fa fa-lock"></i> Change Password</a>
-									<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('members/delete/'.$member['mid']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
-									<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/membership/'.$member['mid']); ?>"title="Membership"><i class="fa fa-eye"></i> Membership</a>
+																	<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/edit/'.$member['mid']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('members/changepwd/'.$member['mid']); ?>"><i class="fa fa-lock"></i> Change Password</a>
+																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('members/delete/'.$member['mid']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+																	<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/membership/'.$member['mid']); ?>"title="Membership"><i class="fa fa-eye"></i> Membership</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>
-														<tr><td colspan="7"><p>No results Found</p></td></tr>
+														<tr><td colspan="8"><p>No results Found</p></td></tr>
 													 <?php }?>
                         </tbody>
                     </table>

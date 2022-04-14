@@ -58,6 +58,9 @@ if($this->uri->segment(4)==""){
 	                    <input class="btn btn-secondary btn-sm" type="submit" name="enable" value="Enable" />
 	                    <input class="btn btn-secondary btn-sm" type="submit" name="disable" value="Disable"  />
 	                </div>
+									<div style="float:right; width:50%;text-align:right">
+	                    <a class="btn btn-warning btn-sm"  href="<?php echo admin_url('residences/exporttoexcel');?>" download ><i class="fa fa-download" aria-hidden="true"></i> Export to Excel</a>
+	                </div>
 	            </div>
 
 
