@@ -52,7 +52,7 @@ class Menuitems extends ConsoleController {
 		if ($this->form_validation->run() == FALSE)
 		{
 			$add['menu_detail'] = $menuRow;
-			$add['pages'] = $this->PagesModel->getArrayCond(array('status'=>'1'));	
+			$add['pages'] = $this->PagesModel->getArrayCond(array('status'=>'1','language'=>$this->default_language));	
 			$add['targettypes'] = $this->MenuItemsModel->getTargetTypes();
 			$add['linktypes'] = $this->MenuItemsModel->getLinkTypes();
 			$add['menus'] = $this->MenuItemsModel->getMenuTree($menuId);
@@ -123,7 +123,7 @@ class Menuitems extends ConsoleController {
 			$edit['lang'] = $lang;
 			$edit['menu_detail'] = $menuRow;
 			$edit['menu_item'] = $menuItemRow;
-			$edit['pages'] = $this->PagesModel->getArrayCond(array('status'=>'1'));	
+			$edit['pages'] = $this->PagesModel->getArrayCond(array('status'=>'1','language'=>$this->default_language));	
 			$edit['targettypes'] = $this->MenuItemsModel->getTargetTypes();
 			$edit['linktypes'] = $this->MenuItemsModel->getLinkTypes();
 			$edit['menus'] = $this->MenuItemsModel->getMenuTree($menuId);
