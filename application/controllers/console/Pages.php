@@ -191,7 +191,7 @@ class Pages extends ConsoleController {
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
-	public function seo($id)
+	public function seo($id,$lang)
 	{
 		$pageRow = $this->PagesModel->load($id);
 		if(!$pageRow){
@@ -202,25 +202,29 @@ class Pages extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$seo['page']= $this->PagesModel->load($id);
+			$langCond = $lang;
+			$seo['language'] = $lang;
+			$seo['page']= $this->PagesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('pages/seo'), $seo,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
-			$data=array(
-				'slug'=>$this->input->post('slug'),
+			$mainData=array(
+				'slug'=>$this->input->post('slug'));
+			$desData = array(	
 				'meta_title'=>$this->input->post('meta_title'),
 				'meta_desc'=>$this->input->post('meta_desc'),
-				'meta_keywords'=>$this->input->post('meta_keywords')
+				'meta_keywords'=>$this->input->post('meta_keywords'),
+				'language' => $this->input->post('language')
 			);
 			$cond = array('id' => $id);
-      		$actionStatus=$this->PagesModel->updateCond($data,$cond);
+      		$actionStatus=$this->PagesModel->updateCond($mainData,$cond,$desData);
 			if($actionStatus){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('pages/overview'));
+				redirect(admin_url_string('pages/overview/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('pages/overview'));
+				redirect(admin_url_string('pages/overview/'.$lang));
 			}
 		}
 	}

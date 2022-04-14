@@ -14,9 +14,9 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'page-seo');
-                echo form_open_multipart(admin_url_string('pages/seo/'.$page->id),$attributes);?>
+                echo form_open_multipart(admin_url_string('pages/seo/'.$page->id.'/'.$language),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $page->id; ?>" />
-                
+                <input type="hidden" name="language" value="<?php echo $language; ?>" />
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="slug">URL Slug<span class="required">*</span>
                     </label>

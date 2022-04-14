@@ -119,7 +119,7 @@ function init_sidebar() {
 
     // check active menu
     //$SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
-
+    var selectedMenu = false;
     $SIDEBAR_MENU.find('a').filter(function () {
         var currentItem = false;
         var currentHref = this.href;
@@ -130,11 +130,15 @@ function init_sidebar() {
         let currentUrlController = currentUrlArray[4];
         let currentHrefFunction = currentHrefArray[5];
         let currentUrlFunction = currentUrlArray[5];
-        console.log(currentHrefFunction);
-        if(currentHrefController==currentUrlController && currentHrefFunction==currentUrlFunction){
+        if(currentHrefController==currentUrlController && currentHrefFunction==currentUrlFunction && selectedMenu ==false){
             currentItem = true;
-        } else if(currentHrefController==currentUrlController && currentHrefFunction === undefined){
+            selectedMenu = true;
+        } else if(currentHrefController==currentUrlController && currentHrefFunction === undefined && selectedMenu ==false){
             currentItem = true;
+            selectedMenu = true;
+        } else if(currentHrefController==currentUrlController && currentHrefFunction == 'overview' && selectedMenu ==false){
+            currentItem = true;
+            selectedMenu = true;
         }
         return currentItem;
     }).parent('li').addClass('current-page').parents('ul').slideDown(function () {

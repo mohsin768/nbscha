@@ -25,7 +25,7 @@ class Residences extends ConsoleController {
 	}
 
 	public function overview(){
-		$cond = array();
+		$cond = array('residences_desc.language'=>$this->default_language);
 		$like = array();
 
 		$sort_direction = 'desc';
@@ -321,7 +321,7 @@ class Residences extends ConsoleController {
 			 }
 
 			 public function exporttoexcel(){
-				 $cond = array();
+				$cond = array('residences_desc.language'=>$this->default_language);
  				$like = array();
 				$packages =$this->PackagesModel->getElementPair('pid','title','','',array('language'=>$this->default_language));
 				$regions=$this->RegionsModel->getElementPair('rid','region_name','','',array('language'=>$this->default_language));
