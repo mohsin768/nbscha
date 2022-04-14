@@ -1,29 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Members extends ConsoleController {
-
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/member_gmide/general/urls.html
-	 */
 
 	function __construct() {
 		parent::__construct();
 		$this->load->model('MembersModel');
 		$this->load->model('ResidencesModel');
-		
+
 	}
 
 	public function index()
@@ -41,7 +26,7 @@ class Members extends ConsoleController {
 		$sort_field =  'created';
 
 		if($this->session->userdata('member_status_filter')!=''){
-			$cond['status']= $this->session->userdata('member_status_filter');
+			$cond['members.status']= $this->session->userdata('member_status_filter');
 		}
 
 		if($this->session->userdata('member_search_key_filter')!=''){
@@ -58,7 +43,7 @@ class Members extends ConsoleController {
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
     $config['base_url'] = admin_url('members/overview');
-    $config['total_rows'] = $this->MembersModel->getPaginationCount();
+    $config['total_rows'] = $this->MembersModel->getPaginationCount($cond,$like);
     $this->pagination->initialize($config);
 	$vars['residences'] = $this->ResidencesModel->getElementPair('member_id','name');
 		$vars['members'] = $this->MembersModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
@@ -412,4 +397,59 @@ class Members extends ConsoleController {
 
 	}
 
+	public function exporttoexcel(){
+		$cond = array('members.delete_status'=>'0','residences_desc.language'=>'en');
+		$like = array();
+
+		$sort_direction = 'asc';
+		$sort_field =  'members.created';
+
+		if($this->session->userdata('member_status_filter')!=''){
+			$cond['members.status']= $this->session->userdata('member_status_filter');
+		}
+
+		if($this->session->userdata('member_search_key_filter')!=''){
+			$like[] = array('field'=>'first_name', 'value' => $this->session->userdata('member_search_key_filter'),'location' => 'both');
+			$like[] = array('field'=>'last_name', 'value' => $this->session->userdata('member_search_key_filter'),'location' => 'both');
+			$like[] = array('field'=>'email', 'value' => $this->session->userdata('member_search_key_filter'),'location' => 'both');
+			$like[] = array('field'=>'phone', 'value' => $this->session->userdata('member_search_key_filter'),'location' => 'both');
+		}
+
+		if($this->session->userdata('member_sort_field_filter')!=''){
+			$sort_field = $this->session->userdata('member_sort_field_filter');
+			$sort_direction = $this->session->userdata('member_sort_order_filter');
+		}
+		$members = $this->MembersModel->getDetailArrayCond($cond,$like,$sort_field,$sort_direction);
+
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$sheet->setCellValue('A1', 'SL No.');
+    $sheet->setCellValue('B1', 'FIRST NAME');
+    $sheet->setCellValue('C1', 'LAST NAME');
+    $sheet->setCellValue('D1', 'EMAIL');
+		$sheet->setCellValue('E1', 'PHONE');
+		$sheet->setCellValue('F1', 'RESIDENCE');
+    $sheet->setCellValue('G1', 'STATUS');
+		$sheet->setCellValue('H1', 'CREATED');
+		$rows = 2;
+		$i=0;
+		$status = array('0' => 'Disabled','1' => 'Enabled');
+    foreach ($members as $val){
+        $sheet->setCellValue('A' . $rows, ++$i);
+        $sheet->setCellValue('B' . $rows, $val['first_name']);
+        $sheet->setCellValue('C' . $rows, $val['last_name']);
+        $sheet->setCellValue('D' . $rows, $val['email']);
+  			$sheet->setCellValue('E' . $rows, $val['phone']);
+				$sheet->setCellValue('F' . $rows, $val['name']);
+        $sheet->setCellValue('G' . $rows, $status[$val['status']]);
+				$sheet->setCellValue('H' . $rows, date('M j, Y', strtotime($val['created'])));
+        $rows++;
+    }
+		$writer = new Xlsx($spreadsheet);
+		$filename = 'nbscha-members';
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"');
+		header('Cache-Control: max-age=0');
+		$writer->save('php://output'); // download file
+	}
 }
