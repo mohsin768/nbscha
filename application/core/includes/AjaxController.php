@@ -14,6 +14,14 @@ class AjaxController extends GlobalController {
 			redirect($newUriString);
 		}
 	}
+	$settings=$this->SettingsModel->getArrayCond(array('language'=>$this->site_language));
+	foreach($settings as $setting):
+		$this->settings[$setting['settingkey']]=$setting['settingvalue'];
+	endforeach;
+	$localizations=$this->LocalizationModel->getArrayCond(array('language'=>$this->site_language));
+	foreach($localizations as $localization):
+		$this->localizations[$localization['lang_key']]=$localization['lang_value'];
+	endforeach;
   }
 
 }
