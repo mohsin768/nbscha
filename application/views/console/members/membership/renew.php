@@ -41,9 +41,9 @@
                     <?php echo form_error('payment_method'); ?>
                     <select id="payment_method" name="payment_method" class="form-control">
                         <option value=""> -- Select -- </option>
-                        <?php foreach($paymentMethods as $paymentMethod): ?>
+                        <?php foreach($paymentMethods as $paymentMethod): if($paymentMethod['show_admin']=='1'){ ?>
                         <option value="<?php echo $paymentMethod['name']; ?>" <?php echo set_select('payment_method',$paymentMethod['name']); ?> data-message="<?php echo $paymentMethod['message']; ?>"><?php echo $paymentMethod['name']; ?></option>
-                        <?php endforeach; ?>
+                        <?php } endforeach; ?>
                     </select>
                     </div>
                     <div class="clearfix"></div>

@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Residences extends ConsoleController {
 
 	function __construct() {
@@ -51,7 +52,7 @@ class Residences extends ConsoleController {
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
     $config['base_url'] = admin_url('residences/overview');
-    $config['total_rows'] = $this->ResidencesModel->getConsolePaginationCount();
+    $config['total_rows'] = $this->ResidencesModel->getConsolePaginationCount($cond, $like);
     $this->pagination->initialize($config);
 		$vars['residences'] = $this->ResidencesModel->getConsolePagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
@@ -287,7 +288,7 @@ class Residences extends ConsoleController {
 					return TRUE;
 				}
 			}
-		
+
 
 		public function updatevacancy($rId){
 				 $this->output->set_content_type('application/json');
@@ -319,4 +320,99 @@ class Residences extends ConsoleController {
 					exit($json);
 			 }
 
+			 public function exporttoexcel(){
+				 $cond = array();
+ 				$like = array();
+				$packages =$this->PackagesModel->getElementPair('pid','title','','',array('language'=>$this->default_language));
+				$regions=$this->RegionsModel->getElementPair('rid','region_name','','',array('language'=>$this->default_language));
+				$carelevels =$this->CarelevelsModel->getElementPair('cid','carelevel_title','','',array('language'=>$this->default_language));
+				$facilities =$this->FacilitiesModel->getElementPair('fid','facility_title','','',array('language'=>$this->default_language));
+ 				$sort_direction = 'desc';
+ 				$sort_field =  'residences.created';
+
+ 				if($this->session->userdata('residence_package_filter')!=''){
+ 					$cond['residences.package_id']= $this->session->userdata('residence_package_filter');
+ 				}
+ 				if($this->session->userdata('residence_region_filter')!=''){
+ 					$cond['residences.region_id']= $this->session->userdata('residence_region_filter');
+ 				}
+
+
+ 				if($this->session->userdata('residence_search_key_filter')!=''){
+ 					$like[] = array('field'=>'first_name', 'value' => $this->session->userdata('residence_search_key_filter'),'location' => 'both');
+ 					$like[] = array('field'=>'last_name', 'value' => $this->session->userdata('residence_search_key_filter'),'location' => 'both');
+ 					$like[] = array('field'=>'name', 'value' => $this->session->userdata('residence_search_key_filter'),'location' => 'both');
+ 				}
+
+ 				if($this->session->userdata('residence_sort_field_filter')!=''){
+ 					$sort_field = $this->session->userdata('residence_sort_field_filter');
+ 					$sort_direction = $this->session->userdata('residence_sort_order_filter');
+ 				}
+			 	$residences = $this->ResidencesModel->getDetailArrayCond($cond,$like,$sort_field,$sort_direction);
+
+			 	$spreadsheet = new Spreadsheet();
+			 	$sheet = $spreadsheet->getActiveSheet();
+			 	$sheet->setCellValue('A1', 'SL No.');
+			 	$sheet->setCellValue('B1', 'RESIDENCE NAME');
+			 	$sheet->setCellValue('C1', 'ADDRESS');
+				$sheet->setCellValue('D1', 'REGION');
+				$sheet->setCellValue('E1', 'CONTACT PERSON');
+			 	$sheet->setCellValue('F1', 'RESIDENCE EMAIL');
+			 	$sheet->setCellValue('G1', 'RESIDENCE PHONE');
+			 	$sheet->setCellValue('H1', 'MEMBER NAME');
+				$sheet->setCellValue('I1', 'MEMBER PHONE');
+				$sheet->setCellValue('J1', 'MEMBER EMAIL');
+				$sheet->setCellValue('K1', 'MEMBERHIP ID');
+				$sheet->setCellValue('L1', 'ISSUED DATE');
+				$sheet->setCellValue('M1', 'EXPIRY DATE');
+				$sheet->setCellValue('N1', 'LEVEL OF CARE');
+				$sheet->setCellValue('O1', 'FARMACY NAME');
+				$sheet->setCellValue('P1', 'FACILITIES');
+				$sheet->setCellValue('Q1', 'PACKAGE(BEDS)');
+				$sheet->setCellValue('R1', 'VACANCY');
+			 	$sheet->setCellValue('S1', 'STATUS');
+			 	$sheet->setCellValue('T1', 'CREATED');
+			 	$rows = 2;
+			 	$i=0;
+			 	$status = array('0' => 'Disabled','1' => 'Enabled');
+			 	foreach ($residences as $val){
+						$facilityArr = (explode(",",$val['facilities']));
+						$facility ='';
+						 $j=0; foreach ($facilityArr as $key => $value):
+
+								if(isset($facilities[$value])){
+									if($j!=0) $facility .= ', ';
+									$facility .=  $facilities[$value];
+								}
+								$j++;
+						endforeach;
+			 			$sheet->setCellValue('A' . $rows, ++$i);
+			 			$sheet->setCellValue('B' . $rows, $val['name']);
+			 			$sheet->setCellValue('C' . $rows, $val['address'].', Postal Code:'.$val['postalcode']);
+			 			$sheet->setCellValue('D' . $rows, $regions[$val['region_id']]);
+			 			$sheet->setCellValue('E' . $rows, $val['contact_name']);
+			 			$sheet->setCellValue('F' . $rows, $val['email']);
+						$sheet->setCellValue('G' . $rows, $val['residence_phone']);
+			 			$sheet->setCellValue('H' . $rows, $val['first_name'].' '.$val['last_name']);
+			 			$sheet->setCellValue('I' . $rows, $val['member_phone']);
+			 			$sheet->setCellValue('J' . $rows, $val['member_email']);
+			 			$sheet->setCellValue('K' . $rows, $val['member_identifier']);
+						$sheet->setCellValue('L' . $rows, date('M j, Y', strtotime($val['issue_date'])));
+			 			$sheet->setCellValue('M' . $rows, date('M j, Y', strtotime($val['expiry_date'])));
+			 			$sheet->setCellValue('N' . $rows, $carelevels[$val['level_id']]);
+						$sheet->setCellValue('O' . $rows, $val['pharmacy_name']);
+			 			$sheet->setCellValue('P' . $rows, $facility);
+			 			$sheet->setCellValue('Q' . $rows, $packages[$val['package_id']]);
+			 			$sheet->setCellValue('R' . $rows, $val['vacancy']);
+			 			$sheet->setCellValue('S' . $rows, $status[$val['status']]);
+						$sheet->setCellValue('T' . $rows, date('M j, Y', strtotime($val['created'])));
+			 			$rows++;
+			 	}
+			 	$writer = new Xlsx($spreadsheet);
+			 	$filename = 'nbscha-residences';
+			 	header('Content-Type: application/vnd.ms-excel');
+			 	header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"');
+			 	header('Cache-Control: max-age=0');
+			 	$writer->save('php://output'); // download file
+			 }
 }

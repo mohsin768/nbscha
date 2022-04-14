@@ -29,7 +29,7 @@ class ResidencesModel extends CMS_Model {
                   $rowdata['language']=$row['code'];
                   $this->db->insert($this->desc_table_name,$rowdata);
                   unset($rowdata);
-              endforeach;	
+              endforeach;
           }
           return $prime;
     }
@@ -144,5 +144,31 @@ class ResidencesModel extends CMS_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+  function getDetailArrayCond($cond='',$like='',$orderField='',$orderDirection=''){
+    $this->db->select("$this->table_name.*,$this->desc_table_name.*,members.first_name,members.last_name,members.email as member_email,
+    members.phone as member_phone,residences.phone as residence_phone,memberships.identifier as member_identifier,
+    memberships.issue_date,memberships.expiry_date ");
+    if (is_array($cond) && count($cond) > 0) {
+      $this->db->where($cond);
+    }
+      if (is_array($like) && count($like) > 0) {
+            $this->db->group_start();
+            foreach($like as $row):
+            $this->db->or_like($row['field'],$row['value'],$row['location']);
+            endforeach;
+            $this->db->group_end();
+          }
+    if ($orderField!='' && $orderDirection!='') {
+      $this->db->order_by($orderField, $orderDirection);
+    }
+    $this->db->from($this->table_name);
+    $this->db->join('members', "members.mid = $this->table_name.member_id");
+    $this->db->join('memberships', "memberships.residence_id = $this->table_name.$this->primary_key");
+    if($this->multilingual){
+      $this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+    }
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 
 }
