@@ -76,7 +76,7 @@ class Widgethelper {
         $this->CI->load->model('WidgetsModel');
         $pageContent = '';
         if(isset($this->CI->landingPageObject)){
-            $pageId = $this->CI->pageContent->id;
+            $pageId = $this->CI->landingPageObject->id;
         } else {
             $pageId = $this->CI->pageId;         
         }
