@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>SEO - Board Member <small><?php echo $news->title; ?></small></h2>
+                <h2>SEO - News <small><?php echo $news->title; ?></small></h2>
                 <?php if($news->language!=$language){?>
                   <ul class="nav navbar-right panel_toolbox">
                       <li>

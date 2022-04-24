@@ -100,7 +100,7 @@
                                         <div class="error"><?php echo form_error('home_phone'); ?></div>
                                     </div>
                                     <div class="spchclass form-group col-lg-4 ">
-                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('HOME_CONTACT_FAX','First Name');?>" name="home_fax" id="home_fax" onchange="" value="<?php echo set_value('home_fax'); ?>">
+                                        <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('HOME_CONTACT_FAX','Special Care Home Fax');?>" name="home_fax" id="home_fax" onchange="" value="<?php echo set_value('home_fax'); ?>">
                                         <div class="error"><?php echo form_error('home_fax'); ?></div>
                                     </div>
                                 <div class="spchclass form-group col-lg-4 ">
@@ -244,6 +244,7 @@
                                 </div>
                             <div class="form-group col-lg-12 text-center">
                                 <input id="token" name="token" type="hidden" value="">
+                                <div class="error"><?php echo form_error('token'); ?></div>
                                 <input id="register-submit" type="submit" value="<?php echo translate('FINISHED_SUBMIT','Finished/Submit');?>" class="btnsubmit btn btn-quaternary btn-v-3 font-weight-semibold justify-content-center w-100 h-100 rounded-0">
                             </div>
                             </div>

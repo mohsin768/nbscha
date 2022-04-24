@@ -120,6 +120,7 @@ class News extends ConsoleController {
 			}
 			$descdata = array(
 				'title' => $this->input->post('title'),
+				'meta_title' => $this->input->post('title'),
 				'summary' => $this->input->post('summary'),
 				'body' => $this->input->post('body'),
 				'video' => $video,
@@ -322,13 +323,13 @@ class News extends ConsoleController {
 			 $this->load->view(admin_url_string('main'), $this->mainvars);
 
 		 } else {
-			 $maindata = array('slug' => $this->input->post('slug'),);
+			 $maindata = array('slug' => $this->input->post('slug'));
 
 			 $descdata = array('news_id' => $id,
-													'meta_title' => $this->input->post('meta_title'),
-													'meta_desc' => $this->input->post('meta_desc'),
-													'meta_keywords' => $this->input->post('meta_keywords'),
-													'language' => $this->input->post('language'));
+						'meta_title' => $this->input->post('meta_title'),
+						'meta_desc' => $this->input->post('meta_desc'),
+						'meta_keywords' => $this->input->post('meta_keywords'),
+						'language' => $this->input->post('language'));
 
 				 $cond = array('id'=>$id);
 				 $updaterow = $this->NewsModel->updateCond($maindata,$cond,$descdata);
