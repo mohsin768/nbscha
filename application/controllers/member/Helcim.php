@@ -19,11 +19,11 @@ class Helcim extends MemberController{
             $transactionId = isset($response['transactionId'])?$response['transactionId']:'';
             $approvalCode = isset($response['approvalCode'])?$response['approvalCode']:'';
             if($this->input->post('responseMessage')=='APPROVAL' || $this->input->post('responseMessage')=='APPROVED'){
-                $this->RequestsModel->updateCond(array('payment_response'=>$responseStr,'transaction_id' => $transactionId,'payment_status' => '1'),array('id'=>$order->id));
+                $this->RenewalsModel->updateCond(array('payment_response'=>$responseStr,'transaction_id' => $transactionId,'payment_status' => '1'),array('id'=>$order->id));
                 $this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Renewal Requested Successfully.'));
 				redirect(member_url_string('membership'));
             } else {
-                $this->RequestsModel->updateCond(array('payment_response'=>$responseStr,'transaction_id' => $transactionId),array('id'=>$order->id));
+                $this->RenewalsModel->updateCond(array('payment_response'=>$responseStr,'transaction_id' => $transactionId),array('id'=>$order->id));
                 $this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Renewal Requested Successfully. But payment has failed. You can try again or contact NBSCHA Team.<a href="'.member_url('helcim/paynow/'.$identifier).'">Try Again</a>'));
 				redirect(member_url_string('membership'));
             }

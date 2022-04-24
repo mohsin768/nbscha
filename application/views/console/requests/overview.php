@@ -15,9 +15,7 @@ if($this->uri->segment(4)==""){
 						<?php
 							$attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'action_filter');
 							echo form_open(admin_url('requests/actions'),$attributes); ?>
-
 							<div class="x_content">
-
 											<div class="action-content ">
 												<div class="filter-col">
 													Search :
@@ -62,6 +60,7 @@ if($this->uri->segment(4)==""){
 																	<?php $phone_direction = ''; if($sort_field=='phone'){ $phone_direction = $sort_direction; } ?>
 																	<a href="#0" class="request-sort sort-list-link <?php echo $phone_direction; ?>" data-sort-field="phone" data-sort-direction="<?php echo $phone_direction; ?>">Phone</a></th>
 																	<th style="width:250px;" class="column-title center-align">Info</th>
+																	<th class="column-title fix-100 center-align">Payment Method</th>
 																	<th class="column-title fix-100 center-align">Processed</th>
                                 <th class="column-title fix-100 center-align">Status</th>
                                 <th class="column-title no-link last"><span class="nobr">Action</span>
@@ -76,30 +75,32 @@ if($this->uri->segment(4)==""){
                                 <td class=" "><?php echo $request['first_name'].' '.$request['last_name'];?></td>
                                 <td class=" "><?php echo $request['email'];?></td>
                                 <td class=" "><?php echo $request['phone'];?></td>
-																<td class="">
-																<b>Identifier:</b><br/> <?php echo $request['identifier'];?><br/>
-																<b>Package:</b><br/> <?php echo $packages[$request['package_id']];?><br/>
-																<b>Region:</b><br/> <?php echo $regions[$request['region_id']];?><br/>
-																<b>Created:</b><br/> <?php echo date('M j, Y h:i A', strtotime($request['created'])); ?></td>
-																<td ><?php if($request['processed_date']!='') echo date('M j, Y h:i A', strtotime($request['processed_date'])); ?></td>
+								<td class="">
+									<b>Identifier:</b><br/> <?php echo $request['identifier'];?><br/>
+									<b>Package:</b><br/> <?php echo $packages[$request['package_id']];?><br/>
+									<b>Region:</b><br/> <?php echo $regions[$request['region_id']];?><br/>
+									<b>Created:</b><br/> <?php echo date('M j, Y h:i A', strtotime($request['created'])); ?>
+								</td>
+								<td class=" "><?php echo $request['payment_method'];?></td>
+								<td ><?php if($request['processed_date']!='') echo date('M j, Y h:i A', strtotime($request['processed_date'])); ?></td>
                                 <td class="center-align" style="color:<?php if($request['status'] =='approved'){ echo 'green';} elseif($request['status'] =='rejected'){ echo 'red'; } ?>"><?php echo ucwords($request['status']);?></td>
                                 <td class=" last">
-																	<?php if($request['status'] =='pending'){ ?>
-																		<?php $approvalBodyText = 'Are you sure you want to APPROVE the request #'.$request['identifier'].'?';?>
-																		<?php $rejectionBodyText = 'Are you sure you want to REJECT the request #'.$request['identifier'].'?';?>
-
-                                      <a class=" btn btn-success btn-xs confirmAction" data-body-text="<?php echo $approvalBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/approve/'.$request['id']); ?>" title="Approve"><i class="fa fa-check"></i> Approve</a>
-																			<a class=" btn btn-danger btn-xs confirmAction" data-body-text="<?php echo $rejectionBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/reject/'.$request['id']); ?>" title="Reject"><i class="fa fa-ban"></i> Reject</a>
-                                      <?php } ?>
-																	<a class="btn btn-primary btn-xs" href="<?php echo admin_url('requests/view/'.$request['id']); ?>"title="View"><i class="fa fa-eye"></i> Details</a>
-																	<?php if($request['status'] =='pending'){ ?>
-																	<a class="btn btn-primary btn-xs"  id="update-requests-btn"  href="#" data-rid="<?php echo $request['id'];?>"  title="edit"><i class="fa fa-edit"></i> Edit</a>
-																	<?php } ?>
+								<?php if($request['status'] =='pending'){ ?>
+									<?php $approvalBodyText = 'Are you sure you want to APPROVE the request #'.$request['identifier'].'?';?>
+									<?php $rejectionBodyText = 'Are you sure you want to REJECT the request #'.$request['identifier'].'?';?>
+									<a class=" btn btn-success btn-xs confirmAction" data-body-text="<?php echo $approvalBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/approve/'.$request['id']); ?>" title="Approve"><i class="fa fa-check"></i> Approve</a>
+									<a class=" btn btn-danger btn-xs confirmAction" data-body-text="<?php echo $rejectionBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/reject/'.$request['id']); ?>" title="Reject"><i class="fa fa-ban"></i> Reject</a>
+								<?php } ?>
+								<a class="btn btn-primary btn-xs" href="<?php echo admin_url('requests/view/'.$request['id']); ?>"title="View"><i class="fa fa-eye"></i> Details</a>
+								<?php if($request['status'] =='pending'){ ?>
+								<a class="btn btn-primary btn-xs"  id="update-requests-btn"  href="#" data-rid="<?php echo $request['id'];?>"  title="edit"><i class="fa fa-edit"></i> Edit</a>
+								<a class="btn btn-primary btn-xs"  id="update-requests-payment-btn"  href="#" data-rid="<?php echo $request['id'];?>"  title="edit"><i class="fa fa-edit"></i> Edit Payment Method</a>
+								<?php } ?>
                                 </td>
                             </tr>
-													<?php endforeach; }  else {?>
-														<tr><td colspan="8"><p>No results Found</p></td></tr>
-													 <?php }?>
+							<?php endforeach; }  else {?>
+								<tr><td colspan="9"><p>No results Found</p></td></tr>
+							<?php }?>
                         </tbody>
                     </table>
                 </div>

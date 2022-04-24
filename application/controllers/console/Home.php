@@ -21,10 +21,11 @@ class Home extends ConsoleController {
 	{
 		$language = $this->default_language;
 		$vars = array();
+		$langCond =  array('language'=>$language);
 		$vars['enquiries'] = $this->EnquiriesModel->getArrayLimit('5','created','DESC');
 		$vars['enquiries_count'] = $this->EnquiriesModel->getCountCond();
-		$vars['residences'] = $this->ResidencesModel->getArrayLimit('5','created','DESC');
-		$vars['active_residences_count'] = $this->ResidencesModel->getCountCond(array('status'=>'1'));
+		$vars['residences'] = $this->ResidencesModel->getArrayLimitCond($langCond,'5','created','DESC');
+		$vars['active_residences_count'] = $this->ResidencesModel->getCountCond(array('status'=>'1','language'=>$language));
 
 		$vars['pending_requests'] = $this->RequestsModel->getArrayLimitCond('5',array('status'=>'pending'),'created','DESC');
 		$vars['pending_requests_count'] = $this->RequestsModel->getCountCond(array('status'=>'pending'));
@@ -290,7 +291,8 @@ class Home extends ConsoleController {
 		$this->load->model('LanguagesModel');
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-        $config['base_url'] = admin_url('home/localization');
+		$config['uri_segment'] = '5';
+        $config['base_url'] = admin_url('home/localization/'.$lang);
         $config['total_rows'] = $this->LocalizationModel->getPaginationCount($cond,$like);
         $this->pagination->initialize($config);
 		$vars['language'] = $lang;

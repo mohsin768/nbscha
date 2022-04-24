@@ -366,12 +366,13 @@ class Residences extends ConsoleController {
 				$sheet->setCellValue('L1', 'ISSUED DATE');
 				$sheet->setCellValue('M1', 'EXPIRY DATE');
 				$sheet->setCellValue('N1', 'LEVEL OF CARE');
-				$sheet->setCellValue('O1', 'FARMACY NAME');
+				$sheet->setCellValue('O1', 'PHARMACY NAME');
 				$sheet->setCellValue('P1', 'FACILITIES');
 				$sheet->setCellValue('Q1', 'PACKAGE(BEDS)');
-				$sheet->setCellValue('R1', 'VACANCY');
-			 	$sheet->setCellValue('S1', 'STATUS');
-			 	$sheet->setCellValue('T1', 'CREATED');
+				$sheet->setCellValue('R1', 'LICENSED(BEDS)');
+				$sheet->setCellValue('S1', 'VACANCY');
+			 	$sheet->setCellValue('T1', 'STATUS');
+			 	$sheet->setCellValue('U1', 'CREATED');
 			 	$rows = 2;
 			 	$i=0;
 			 	$status = array('0' => 'Disabled','1' => 'Enabled');
@@ -403,9 +404,10 @@ class Residences extends ConsoleController {
 						$sheet->setCellValue('O' . $rows, $val['pharmacy_name']);
 			 			$sheet->setCellValue('P' . $rows, $facility);
 			 			$sheet->setCellValue('Q' . $rows, $packages[$val['package_id']]);
-			 			$sheet->setCellValue('R' . $rows, $val['vacancy']);
-			 			$sheet->setCellValue('S' . $rows, $status[$val['status']]);
-						$sheet->setCellValue('T' . $rows, date('M j, Y', strtotime($val['created'])));
+						$sheet->setCellValue('R' . $rows, $val['max_beds_count']);
+			 			$sheet->setCellValue('S' . $rows, $val['vacancy']);
+			 			$sheet->setCellValue('T' . $rows, $status[$val['status']]);
+						$sheet->setCellValue('U' . $rows, date('M j, Y', strtotime($val['created'])));
 			 			$rows++;
 			 	}
 			 	$writer = new Xlsx($spreadsheet);

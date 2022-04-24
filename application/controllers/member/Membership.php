@@ -104,20 +104,29 @@ class Membership extends MemberController {
 				redirect(member_url_string('membership'));
 			}
 		}
+	}
 
-		function package_count_check($maxbadscount) {
-			$packageId = secureInput($this->input->post('package_id'));
-			if($packageId!=''){
-				$packageInfo = $this->PackagesModel->load($packageId);
-				if($packageInfo->bed_count>0 && $maxbadscount>$packageInfo->bed_count) {
-					$this->form_validation->set_message('package_count_check', 'Licensed bed cannot exceed package limit.');
-					return FALSE;
-				} else {
-					return TRUE;
-				}
+	function renewcancel($identifier){
+		$order = $this->RenewalsModel->getRowCond(array('identifier'=>$identifier,'payment_method'=>'Credit Card','payment_status'=>'0'));
+        if(!$order){
+    		redirect('/');
+    	}
+		$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Renewal Requested Successfully. But payment has failed. You can try again or contact NBSCHA Team.<a href="'.member_url('helcim/paynow/'.$identifier).'">Try Again</a>'));
+		redirect(member_url_string('membership'));
+	}
+
+	function package_count_check($maxbadscount) {
+		$packageId = secureInput($this->input->post('package_id'));
+		if($packageId!=''){
+			$packageInfo = $this->PackagesModel->load($packageId);
+			if($packageInfo->bed_count>0 && $maxbadscount>$packageInfo->bed_count) {
+				$this->form_validation->set_message('package_count_check', 'Licensed bed cannot exceed package limit.');
+				return FALSE;
 			} else {
 				return TRUE;
 			}
+		} else {
+			return TRUE;
 		}
 	}
 

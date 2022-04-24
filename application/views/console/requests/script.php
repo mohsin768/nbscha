@@ -56,6 +56,52 @@ $(document).ready(function() {
 			          });
 			      });
 			    });
+				$(document).on("click", "a#update-requests-payment-btn", function(e) {
+			        e.preventDefault();
+							var rid = $(this).attr('data-rid');
+			        $.ajax({
+			            url: '<?php echo admin_url('requests/editpayment');?>'+'/'+rid,
+			            type:'GET',
+			            data:'',
+			            dataType: "json",
+			            success: function(data){
+			                $('#modal-wrap').html(data.content);
+			                $('#updateRequestsPaymentModal').modal({'backdrop':'static'});
+
+			            }
+			        });
+			    });
+
+			    $("#modal-wrap").on("click", "button#submit-update-requests-payment-btn", function(e) {
+						e.preventDefault();
+
+			        var FormElement =  document.querySelector("#update-requests-payment")
+			        var submitFormData = new FormData(FormElement);
+			        $('#confirm-box')
+			      .modal({ backdrop: 'static', keyboard: false })
+			      .one('click', '#confirm-button', function (e) {
+							$('#submit-update-requests-payment-btn').text('Submitting...');
+							$('#submit-update-requests-payment-btn').prop('disabled',true);
+			          $.ajax({
+			              url: '<?php echo admin_url('requests/editpaymentsubmit');?>',
+			              type:'POST',
+			              data:submitFormData,
+			              contentType: false,
+			              processData: false,
+			              success: function(response){
+			                var response = JSON.parse(response);
+			                if(response.status=="1"){
+			                    $('#updateRequestsPaymentModal').modal('hide');
+			                   window.location.reload();
+			                } else {
+												$('#edit-payment-form-wrap').html(response.data);
+												$('#submit-update-requests-payment-btn').text('Submit');
+												$('#submit-update-requests-payment-btn').prop('disabled',false);
+			                }
+			              }
+			          });
+			      });
+			    });
     });
 
 </script>

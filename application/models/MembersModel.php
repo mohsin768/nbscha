@@ -69,7 +69,7 @@ class MembersModel extends CMS_Model {
   function getDetailArrayCond($cond='',$like='',$orderField='',$orderDirection='') {
     $this->db->select("$this->table_name.*,residences_desc.name");
 		$this->db->from($this->table_name);
-    $this->db->join('residences', "residences.member_id = $this->table_name.$this->primary_key","left");
+        $this->db->join('residences', "residences.member_id = $this->table_name.$this->primary_key","left");
 		$this->db->join('residences_desc', "residences_desc.residence_id = residences.id","left");
 
 		if (is_array($cond) && count($cond) > 0) {
@@ -85,6 +85,50 @@ class MembersModel extends CMS_Model {
    		if ($orderField!='' && $orderDirection!='') {
 			$this->db->order_by($orderField, $orderDirection);
 		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+    function getConsolePaginationCount($cond = '', $like='') {
+		$this->db->select('*');
+		if (is_array($cond) && count($cond) > 0) {
+			$this->db->where($cond);
+		}
+    	if (is_array($like) && count($like) > 0) {
+      			$this->db->group_start();
+      			foreach($like as $row):
+      			$this->db->or_like($row['field'],$row['value'],$row['location']);
+      			endforeach;
+      			$this->db->group_end();
+      		}
+		$this->db->from($this->table_name);
+        if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
+		return $this->db->count_all_results();
+	}
+
+	function getConsolePagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='') {
+		$this->db->select("$this->table_name.*,expiry_date");
+		if (is_array($cond) && count($cond) > 0) {
+		  $this->db->where($cond);
+		}
+	    if (is_array($like) && count($like) > 0) {
+      			$this->db->group_start();
+      			foreach($like as $row):
+      			$this->db->or_like($row['field'],$row['value'],$row['location']);
+      			endforeach;
+      			$this->db->group_end();
+      		}
+		if ($orderField!='' && $orderDirection!='') {
+			$this->db->order_by($orderField, $orderDirection);
+		}
+		$this->db->from($this->table_name);
+        $this->db->join('memberships', "memberships.member_id = $this->table_name.$this->primary_key","left");
+        if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
+		$this->db->limit($num, $offset);
 		$query = $this->db->get();
 		return $query->result_array();
 	}

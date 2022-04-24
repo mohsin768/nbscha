@@ -33,6 +33,7 @@ class Requests extends ConsoleController {
 		$this->load->model('HomeLanguagesModel');
 		$this->load->model('CertificatetemplatesModel');
 		$this->load->library('certificatehelper');
+		$this->load->model('PaymentMethodsModel');
 	}
 
 	public function index()
@@ -415,4 +416,40 @@ class Requests extends ConsoleController {
 		   return TRUE;
 	   }
    }
+
+   public function editpayment($rId){
+		$this->output->set_content_type('application/json');
+		$language = $this->default_language;
+		$request = $this->RequestsModel->getRowCond(array('id'=>$rId));
+		$vars['request'] = $request;
+		$vars['paymentMethods'] = $this->PaymentMethodsModel->getMethods();
+		$vars['form'] = $this->load->view(admin_url_string('requests/edit_payment_form'),$vars, true);
+		$content = $this->load->view(admin_url_string('requests/editpayment'),$vars, true);
+		$results = array('content' => $content);
+		$json=json_encode($results);
+		exit($json);
+	}
+
+	public function editpaymentsubmit(){
+		$language = $this->default_language;
+		$rId = $this->input->post('id',TRUE);
+		$request = $this->RequestsModel->getRowCond(array('id'=>$rId));
+		$this->form_validation->set_rules('payment_method', 'Payment', 'required');
+		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+		if($this->form_validation->run() == FALSE)
+		{
+				$vars['request'] = $request;
+				$vars['paymentMethods'] = $this->PaymentMethodsModel->getMethods();
+				$form = $this->load->view(admin_url_string('requests/edit_payment_form'),$vars, true);
+				$results = array('status' => '0', 'data' => $form );
+		} else {
+			$requestData = array(
+				'payment_method' => $this->input->post('payment_method')
+			);
+			$this->RequestsModel->updateCond($requestData,array('id'=>$rId));
+			$results = array('status' => '1', 'data' => 'Request Details Updated Successfully');
+		}
+		$json=json_encode($results);
+		exit($json);
+	}
 }

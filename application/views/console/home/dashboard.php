@@ -1,35 +1,43 @@
 <div class="row top_tiles">
   <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 ">
-    <div class="tile-stats alert-success">
-      <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-      <div class="count"><?php echo $pending_requests_count;?></div>
-      <h3 style="color:#fff">Requests</h3>
-      <p> Pending Membership Requests</p>
-    </div>
+    <a href="<?php echo admin_url('requests/overview');?>">
+      <div class="tile-stats alert-success">
+        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+        <div class="count"><?php echo $pending_requests_count;?></div>
+        <h3 style="color:#fff">Requests</h3>
+        <p> Pending Membership Requests</p>
+      </div>
+    </a>
   </div>
   <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-    <div class="tile-stats alert-info">
-      <div class="icon"><i class="fa fa-home"></i></div>
-      <div class="count"><?php echo $active_residences_count;?></div>
-      <h3 style="color:#fff">Residences</h3>
-      <p> Total Active Residences</p>
-    </div>
+    <a href="<?php echo admin_url('residences/overview');?>">
+      <div class="tile-stats alert-info">
+        <div class="icon"><i class="fa fa-home"></i></div>
+        <div class="count"><?php echo $active_residences_count;?></div>
+        <h3 style="color:#fff">Residences</h3>
+        <p> Total Active Residences</p>
+      </div>
+    </a>  
   </div>
   <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-    <div class="tile-stats alert-warning">
-      <div class="icon"><i class="fa fa-users"></i></div>
-      <div class="count"><?php echo $members_count;?></div>
-      <h3 style="color:#fff">Members</h3>
-      <p> Total Members</p>
-    </div>
+    <a href="<?php echo admin_url('members/overview');?>">
+      <div class="tile-stats alert-warning">
+        <div class="icon"><i class="fa fa-users"></i></div>
+        <div class="count"><?php echo $members_count;?></div>
+        <h3 style="color:#fff">Members</h3>
+        <p> Total Members</p>
+      </div>
+    </a>
   </div>
   <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-    <div class="tile-stats alert-danger">
-      <div class="icon"><i class="fa fa-comments-o"></i></div>
-      <div class="count"><?php echo $enquiries_count;?></div>
-      <h3 style="color:#fff">Enquiries</h3>
-      <p>All type of enquiries</p>
-    </div>
+    <a href="<?php echo admin_url('enquiries/overview');?>">
+      <div class="tile-stats alert-danger">
+        <div class="icon"><i class="fa fa-comments-o"></i></div>
+        <div class="count"><?php echo $enquiries_count;?></div>
+        <h3 style="color:#fff">Enquiries</h3>
+        <p>All type of enquiries</p>
+      </div>
+    </a>
   </div>
 </div>
 

@@ -88,7 +88,7 @@
         </form>
     </div>
     <div class="cancel-payment">
-        <a href="<?php echo site_url('orders/failed/'.$order_identifier); ?>">Cancel and go back to <?php echo $site_name; ?></a>
+        <a href="<?php echo member_url('membership/renewcancel/'.$order_identifier); ?>">Cancel and go back to <?php echo $site_name; ?></a>
     </div>
 </div>
 </body>
