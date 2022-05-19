@@ -988,3 +988,27 @@ footer.bg-deep {
     clear: left;
   }
 }
+.home .header-nav-wrapper.bg-white
+{
+  background: rgba(255,255,255,0.7) !important;
+}
+.home header
+{
+  position: absolute;
+top: 0;
+left: 0;
+z-index: 3;
+width: 100%;
+}
+.home .menuzord
+{
+  background: transparent
+}
+.home .bg-white-f1
+{
+  background: rgba(241, 241, 241, 0.7) !important;
+}
+.home .header-nav .header-nav-wrapper.scroll-to-fixed-fixed.scroll-to-fixed-fixed
+{
+  background: rgba(255,255,255,0.95) !important;
+}
