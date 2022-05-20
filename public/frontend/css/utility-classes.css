@@ -990,7 +990,7 @@ footer.bg-deep {
 }
 .home .header-nav-wrapper.bg-white
 {
-  background: rgba(255,255,255,0.7) !important;
+  background: rgba(0,0,0,0.6) !important;
 }
 .home header
 {
@@ -1000,15 +1000,61 @@ left: 0;
 z-index: 3;
 width: 100%;
 }
+
 .home .menuzord
 {
   background: transparent
 }
 .home .bg-white-f1
 {
-  background: rgba(241, 241, 241, 0.7) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
 }
 .home .header-nav .header-nav-wrapper.scroll-to-fixed-fixed.scroll-to-fixed-fixed
 {
-  background: rgba(255,255,255,0.95) !important;
+  background: rgba(0,0,0,0.9) !important;
+}
+
+header .header-top
+{
+  border-bottom: 1px solid rgba(255,255,255,0.7);
+  padding: 0 !important;
+  line-height: 2.5;
+}
+header .header-top ul
+{
+  margin-top: 0 !important;
+}
+.home header .header-top
+{
+  border-bottom: 1px solid rgba(255,255,255,0.7);
+}
+header .header-top .text-theme-colored, header .header-top, header .header-top a
+{
+  color: #fff !important
+}
+header .bg-white-f1
+{
+  background: #000 !important
+}
+.home header .header-top .widget.no-border ul li
+{
+  border-right: 1px solid rgba(255,255,255,0.7);
+  padding: 0 8px;
+}
+header .menuzord-menu > li > a.covid-button
+{
+  display: block;
+  color: #fff;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #ff0000;
+  border-radius: 0;
+  margin-left: 10px;
+}
+header .menuzord-menu > li > a.covid-button:hover
+{
+  background: #ff0000;
+  opacity: 0.95;
 }
