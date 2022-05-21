@@ -5,6 +5,7 @@ class FrontController extends GlobalController {
 
     function __construct() {
         parent::__construct();
+        $this->languages_pair = $this->LanguagesModel->getElementPair('code','name','default_language','desc',array('status'=>'1'));
         $langUri = $this->uri->segment(1);
         if(isset($this->languages_pair[$langUri])){
             $this->site_language = $langUri;
