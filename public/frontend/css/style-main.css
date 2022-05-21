@@ -35,7 +35,7 @@ This file contains the common styles of this theme.
 		* Services.less
 		* Shop.less
 		* Blog.less
-		* Shortcode.less 
+		* Shortcode.less
 			* Alerts.less
 			* Buttons.less
 			* Blockquote.less
@@ -750,8 +750,8 @@ section > .container-fluid {
   color: #eee;
   font-size: 64px;
 }
-/*  
- * Extra.less 
+/*
+ * Extra.less
  * -----------------------------------------------
 */
 /* -------- Heading Style ---------- */
@@ -1004,13 +1004,23 @@ section > .container-fluid {
   top: 83px;
 }
 .menuzord-menu > li > a {
-  font-size: 13px;
+  font-size: 16px;
   color: #333333;
+}
+.home .menuzord-menu > li > a {
+  font-size: 16px;
+  color: #fff;
 }
 .menuzord .menuzord-menu > li.active > a i,
 .menuzord .menuzord-menu > li:hover > a i,
 .menuzord .menuzord-menu ul.dropdown li:hover > a i {
   color: #fff;
+}
+
+.menuzord .menuzord-menu > li.active > a,
+.menuzord .menuzord-menu > li:hover > a,
+.menuzord .menuzord-menu ul.dropdown li:hover > a {
+  color: #ff0000;
 }
 .menuzord-menu ul.dropdown {
   border: 1px solid #eee;
@@ -3411,7 +3421,7 @@ table.no-border td {
   padding: 0 8px 0 3px;
 }
 /*
- * blog.less 
+ * blog.less
  * -----------------------------------------------
 */
 .post {
@@ -6824,8 +6834,8 @@ blockquote p {
 .working-process.theme-colored li a {
   color: #fff;
 }
-/*  
- * home-boxes.less 
+/*
+ * home-boxes.less
  * -----------------------------------------------
 */
 .home-boxes .each-box {

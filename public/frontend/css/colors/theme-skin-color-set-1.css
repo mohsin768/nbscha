@@ -3,9 +3,9 @@
 @URL: http://themeforest.net/user/ThemeMascot
 
 Default COLOR :  Color Set 1
-COLOR : Green 
-COLOR CODE: #1F386B 
-COLOR CODE2: #E41937 
+COLOR : Green
+COLOR CODE: #1F386B
+COLOR CODE2: #E41937
 ----------------------------------------- */
 /*Theme Colored Red Text-color*/
 .text-theme-color-2,
@@ -359,8 +359,8 @@ ul.list.theme-colored.check li:before,
 .menuzord .menuzord-menu > li.active > a,
 .menuzord .menuzord-menu > li:hover > a,
 .menuzord .menuzord-menu ul.dropdown li:hover > a {
-  background: #1F386B none repeat scroll 0 0;
-  color: #fff;
+  background: transparent;
+  /*color: #fff;*/
 }
 .menuzord .menuzord-menu > li.active > a i,
 .menuzord .menuzord-menu > li:hover > a i,

@@ -8,7 +8,10 @@ theme. But don't modify style-main.css file.
 */
 
 /* Your custom css codes start here: */
-
+.menuzord-menu > li > a
+{
+	font-size: 16px
+}
 .d-none {
 	display: none;
 }
