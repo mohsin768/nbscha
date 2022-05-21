@@ -958,7 +958,7 @@ section > .container-fluid {
   }
 }
 .menuzord-brand img {
-  max-height: 58px;
+  max-height: 55px;
 }
 /* -------- Custom theme style ---------- */
 .header-nav .header-nav-wrapper .menuzord {
@@ -1307,7 +1307,7 @@ section > .container-fluid {
     padding: 0;
   }
   .vertical-nav .menuzord-brand img {
-    max-height: 65px;
+    max-height: 55px;
     padding: 10px;
   }
   .vertical-nav .header-nav-wrapper {
@@ -7207,4 +7207,18 @@ blockquote p {
   border: medium none;
   height: 42px;
   margin-right: 10px;
+}
+.home .menuzord .showhide em
+{
+      background: #fff;
+}
+@media only screen and (max-width: 479px) {
+.home header .header-top .widget.no-border ul li
+{
+  border: none;
+}
+.menuzord-brand img
+{
+  max-height: 42px;
+}
 }

@@ -40,7 +40,8 @@
             <div class="container">
                 <nav id="menuzord-right" class="menuzord default">
                 <a class="menuzord-brand pull-left flip" href="<?php echo site_url('/'); ?>">
-                    <img src="<?php echo frontend_assets_url('images/care_logo.png'); ?>" alt="">
+                    <img class="homelogo" src="<?php echo frontend_assets_url('images/care-white-logo.png'); ?>" alt="">
+                    <img class="insidelogo" src="<?php echo frontend_assets_url('images/care_logo.png'); ?>" alt="">
                 </a>
                 <ul class="menuzord-menu">
                     <?php foreach($main_menu as $menuItem):?>
