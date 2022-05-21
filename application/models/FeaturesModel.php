@@ -16,6 +16,7 @@ class FeaturesModel extends CMS_Model {
             $lang = $this->default_language;
         }
         $cond = array('status'=>'1','language' => $lang);
+        $this->db->order_by('sort_order', 'ASC');
         $results =$this->getArrayCond($cond);
         foreach($results as $result):
         $reqcats[$result['fid']] = $result['feature_title'];

@@ -9,5 +9,6 @@ class RequestsModel extends CMS_Model {
         parent::__construct();
         $this->table_name = 'membership_requests';
         $this->primary_key = 'id';
+        $this->multilingual = FALSE;
     }
 }
