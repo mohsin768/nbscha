@@ -19,7 +19,7 @@
                       <li> <i class="fa fa-phone text-theme-colored"></i> <?php echo translate('HEADER_CALLUS','Call Us at');?> <a href="tel:+<?php echo preg_replace("/[^0-9]/", "", $this->settings['CONTACT_PHONE']); ?>"><?php echo $this->settings['CONTACT_PHONE']; ?></a> </li>
                       <li> <i class="fa fa-envelope-o text-theme-colored"></i> <a href="mailto:<?php echo $this->settings['CONTACT_EMAIL']; ?>"><?php echo $this->settings['CONTACT_EMAIL']; ?></a> </li>
                     <?php $i=0; foreach($this->languages_pair as $code => $name): if( $code!= $this->site_language){ $i++;?>
-                    <li>
+                    <li style="display: none;">
                         <a href="<?php echo language_url($code); ?>" class=""><b><?php echo $name; ?></b></a>
                     </li>
                     <?php if($i !='1'){ ?>
@@ -40,7 +40,8 @@
             <div class="container">
                 <nav id="menuzord-right" class="menuzord default">
                 <a class="menuzord-brand pull-left flip" href="<?php echo site_url('/'); ?>">
-                    <img src="<?php echo frontend_assets_url('images/care_logo.png'); ?>" alt="">
+                    <img class="homelogo" src="<?php echo frontend_assets_url('images/care-white-logo.png'); ?>" alt="">
+                    <img class="insidelogo" src="<?php echo frontend_assets_url('images/care_logo.png'); ?>" alt="">
                 </a>
                 <ul class="menuzord-menu">
                     <?php foreach($main_menu as $menuItem):?>

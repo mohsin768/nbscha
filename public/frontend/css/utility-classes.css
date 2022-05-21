@@ -1058,3 +1058,19 @@ header .menuzord-menu > li > a.covid-button:hover
   background: #ff0000;
   opacity: 0.95;
 }
+body:not(home) .menuzord-brand img.homelogo
+{
+  display: none;
+}
+body:not(home) .menuzord-brand img.insidelogo
+{
+  display: block;
+}
+.home .menuzord-brand img.homelogo
+{
+  display: block;
+}
+.home .menuzord-brand img.insidelogo
+{
+  display: none;
+}
