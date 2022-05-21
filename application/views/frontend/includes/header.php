@@ -19,7 +19,7 @@
                       <li> <i class="fa fa-phone text-theme-colored"></i> <?php echo translate('HEADER_CALLUS','Call Us at');?> <a href="tel:+<?php echo preg_replace("/[^0-9]/", "", $this->settings['CONTACT_PHONE']); ?>"><?php echo $this->settings['CONTACT_PHONE']; ?></a> </li>
                       <li> <i class="fa fa-envelope-o text-theme-colored"></i> <a href="mailto:<?php echo $this->settings['CONTACT_EMAIL']; ?>"><?php echo $this->settings['CONTACT_EMAIL']; ?></a> </li>
                     <?php $i=0; foreach($this->languages_pair as $code => $name): if( $code!= $this->site_language){ $i++;?>
-                    <li>
+                    <li style="display: none;">
                         <a href="<?php echo language_url($code); ?>" class=""><b><?php echo $name; ?></b></a>
                     </li>
                     <?php if($i !='1'){ ?>
