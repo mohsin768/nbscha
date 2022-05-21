@@ -1074,3 +1074,12 @@ body:not(home) .menuzord-brand img.insidelogo
 {
   display: none;
 }
+div.loading
+{
+  background: url(../images/loading-png.gif) center center no-repeat;
+height: 150px;
+background-size: contain;
+width: 100%;
+text-align: center;
+
+}
