@@ -11,6 +11,7 @@ class ResidencesModel extends CMS_Model {
         $this->primary_key = 'id';
         $this->desc_table_name = 'residences_desc';
     		$this->foreign_key = 'residence_id';
+        $this->lang_table_name = 'languages';
     		$this->multilingual = TRUE;
     }
 

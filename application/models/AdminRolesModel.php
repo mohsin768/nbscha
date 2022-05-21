@@ -22,4 +22,20 @@ class AdminRolesModel extends CMS_Model {
         endforeach;
         return $reqcats;
     }
+
+    function getMenu($rid){
+        $this->db->where('role_id', $rid);
+        $query = $this->db->get('admin_menu_permission');
+        $results = $query->result_array();
+        $menus = array();
+        foreach($results as $result):
+            $menus[] = $result['menu_id'];
+        endforeach;
+        return $menus;
+    }
+
+    function updateMenu($data,$rid){
+        $this->db->delete('admin_menu_permission', array('role_id'=>$rid));
+        return $this->db->insert_batch('admin_menu_permission', $data);
+    }
 }

@@ -162,4 +162,95 @@ class Users extends ConsoleController {
 			redirect(admin_url_string('users/overview'));
 		}
 	}
+
+	public function roles(){
+		$this->load->library('pagination');
+		$config = $this->paginationConfig();
+		$config['base_url'] = admin_url('users/roles');
+		$config['total_rows'] = $this->AdminRolesModel->getPaginationCount();
+		$this->pagination->initialize($config);
+		$vars['roles'] = $this->AdminRolesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']));
+		$this->mainvars['content']=$this->load->view(admin_url_string('users/roles'),$vars,true);
+		$this->load->view(admin_url_string('main'),$this->mainvars);
+	}
+	public function editrole($rid){
+		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('status', 'Status', 'required');
+		$this->form_validation->set_message('required', 'required');
+		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE) {
+			$vars['role'] =$this->AdminRolesModel->load($rid);
+			$this->mainvars['content'] = $this->load->view(admin_url_string('users/editrole'), $vars, true);
+			$this->load->view(admin_url_string('main'), $this->mainvars);
+		} else {
+			$data = array(
+				'name' => $this->input->post('name'),
+				'status' => $this->input->post('status'));
+			$insertrow = $this->AdminRolesModel->update($rid,$data);
+			if ($insertrow) {
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Role updated successfully.'));
+				redirect(admin_url_string('users/roles'));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				redirect(admin_url_string('users/roles'));
+			}
+		}
+	}
+	function addrole() {
+		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('status', 'Status', 'required');
+		$this->form_validation->set_message('required', 'required');
+		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE) {
+			$this->mainvars['content'] = $this->load->view(admin_url_string('users/addrole'), '', true);
+			$this->load->view(admin_url_string('main'), $this->mainvars);
+		} else {
+			$data = array(
+				'name' => $this->input->post('name'),
+				'status' => $this->input->post('status'));
+			$insertrow = $this->AdminRolesModel->insert($data);
+			if ($insertrow) {
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Role added successfully.'));
+				redirect(admin_url_string('users/roles'));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				redirect(admin_url_string('users/roles'));
+			}
+		}
+	}
+
+	public function menupermission($rid){
+		$this->form_validation->set_rules('menus[]', 'Menu', 'required');
+		$this->form_validation->set_message('required', 'required');
+		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->model('AdminMenuModel');
+			$vars['role'] =$this->AdminRolesModel->load($rid);
+            $vars['menus'] = $this->AdminMenuModel->getFullMenu();
+            $vars['menupermission'] = $this->AdminRolesModel->getMenu($rid);
+			$this->mainvars['content'] = $this->load->view(admin_url_string('users/menupermission'), $vars, true);
+			$this->load->view(admin_url_string('main'), $this->mainvars);
+		} else {
+			$data = array();
+			foreach($this->input->post('menus') as $menu => $val):
+				if($val!=0){
+					$data[] = array(
+						'role_id' => $rid,
+						'menu_id' => $menu);
+				}
+			endforeach;
+			if(count($data)>0){
+				$insertrow = $this->AdminRolesModel->updateMenu($data,$rid);
+			}else{
+				$insertrow = TRUE;
+			}
+			if ($insertrow) {
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Menu permission updated successfully.'));
+				redirect(admin_url_string('users/menupermission/'.$rid));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				redirect(admin_url_string('users/menupermission/'.$rid));
+			}
+		}
+    }
 }

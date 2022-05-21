@@ -3,6 +3,12 @@
         <div class="title">
             <h4 ><i class="fa fa-file-text"></i> Membership Request  <b style="color:#40C2A6;">#<?php echo  $request->identifier; ?></b> | <small><?php echo  date('M j, Y H:i:s',strtotime($request->created)); ?></small>
             <ul class="nav navbar-right panel_toolbox">
+            <?php if($request->status =='pending'){ ?>
+									<?php $approvalBodyText = 'Are you sure you want to APPROVE the request #'.$request->identifier.'?';?>
+									<?php $rejectionBodyText = 'Are you sure you want to REJECT the request #'.$request->identifier.'?';?>
+									<li><a class=" btn btn-success btn-xs confirmAction" data-body-text="<?php echo $approvalBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/approve/'.$request->id); ?>" title="Approve"><i class="fa fa-check"></i> Approve</a></li>
+									<li><a class=" btn btn-danger btn-xs confirmAction" data-body-text="<?php echo $rejectionBodyText; ?>" data-button-text="Yes" href="<?php echo admin_url('requests/reject/'.$request->id); ?>" title="Reject"><i class="fa fa-ban"></i> Reject</a></li>
+								<?php } ?>  
             <li><a class="btn btn-default btn-xs" href="<?php echo admin_url('requests/overview'); ?>" ><i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;BACK </a> </li>
             </ul></h4>
         </div>

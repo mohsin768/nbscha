@@ -120,7 +120,7 @@ function init_sidebar() {
     // check active menu
     //$SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
     var selectedMenu = false;
-    $SIDEBAR_MENU.find('a').filter(function () {
+    $SIDEBAR_MENU.find('a').each(function () {
         var currentItem = false;
         var currentHref = this.href;
         var currentUrl = CURRENT_URL
@@ -140,10 +140,17 @@ function init_sidebar() {
             currentItem = true;
             selectedMenu = true;
         }
-        return currentItem;
-    }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
-        setContentHeight();
-    }).parent().addClass('active');
+        if(currentHrefController==currentUrlController && currentHrefFunction==currentUrlFunction && selectedMenu ==true){
+            $('.side-menu li').removeClass('current-page');
+            currentItem = true;
+            selectedMenu = true;
+        }
+        if(currentItem){
+            $(this).parent('li').addClass('current-page').parents('ul').slideDown(function () {
+                setContentHeight();
+            }).parent().addClass('active');
+        }
+    });
 
     // recompute content when resizing
     $(window).smartresize(function () {

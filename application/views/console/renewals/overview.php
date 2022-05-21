@@ -48,8 +48,8 @@ if($this->uri->segment(4)==""){
                             <tr class="headings">
                                 <th class="column-title">#</th>
                                 <th class="column-title  ">Member</th>
-                                <th class="column-title  ">New Pacakge</th>
-                                <th class="column-title  ">Current Pacakge</th>
+                                <th class="column-title  ">New Package</th>
+                                <th class="column-title  ">Current Package</th>
                                 <th class="column-title  ">Current Expiry Date</th>
                                 <th class="column-title  ">Created</th>
 								<th class="column-title  ">Processed</th>
