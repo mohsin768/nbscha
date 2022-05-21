@@ -94,13 +94,11 @@ class Import extends ConsoleController {
 						$regionId = (isset($regions[$regionName]))?$regions[$regionName]:'';
 						$slug = $this->ResidencesModel->createSlug($memberHome->spch_name);
 						$metaTitle = $memberHome->spch_name;
-						$vacancy = $memberHome->num_open_beds;
+						$allowedBeds = $memberHome->num_open_beds;
+						$vacancy = $memberHome->free_vacancy;
 						$bedsCount = '0';
 						$package =$this->PackagesModel->load($packageId);
 						if($package)$bedsCount = $package->bed_count;
-						if($bedsCount>0 && $vacancy>$bedsCount){
-							$vacancy = $bedsCount;
-						}
 						$residencepData = array('slug' => $slug,
 						'member_id' => $memberId,
 						'address' => $memberHome->spch_address,
@@ -128,6 +126,7 @@ class Import extends ConsoleController {
 						'website' => $memberHome->website_url,
 						'features' => serialize($features),
 						'beds_count' => $bedsCount,
+						'max_beds_count' => $allowedBeds,
 						'vacancy' => $vacancy,
 						'created' => date('Y-m-d H:i:s',strtotime($memberHome->created_at)),
 						'status' => $memberHome->status);
@@ -138,7 +137,7 @@ class Import extends ConsoleController {
 						$residenceId = $this->ResidencesModel->insert($residencepData,$residenceDescData);
 					}
 					if($memberId && $residenceId){
-						$expiryDate = date('Y-m-d', strtotime('31 March 2022'));
+						$expiryDate = date('Y-m-d', strtotime('31 March 2023'));
 						$membershipData = array('member_id' => $memberId,
 						'residence_id' => $residenceId,
 						'package_id' => $packageId,

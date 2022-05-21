@@ -19,11 +19,12 @@
         <!--End Slider-->
         <h3 class="text-theme-colored"><?php echo $residence->name; ?></h3>
         <h5><em><span class="text-theme-color-2"><i class="fa fa-map-marker"></i></span><?php echo $residence->address; ?></em></h5>
-
+        <?php if($residence->description!='') { ?>
         <div class="properties-description mb-40">
             <h3 class="heading-2 text-theme-colored">Description</h3>
             <?php echo $residence->description; ?>
         </div>
+        <?php } ?>
         <div class="properties-summary mb-40">
             <h3 class="heading-2 text-theme-colored">Details</h3>
             <ul>

@@ -12,6 +12,7 @@ class MembersModel extends CMS_Model {
     }
 
     function getIdPair(){
+		$reqcats = array();
         $results =$this->getArray();
         foreach($results as $result):
             $reqcats[$result['mid']] = $result['first_name'].' '.$result['last_name'];

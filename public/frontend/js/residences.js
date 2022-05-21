@@ -80,6 +80,7 @@
                     }
                     $('#residences-list').append(output);
                     $('#residences-list').removeClass('loading');
+                    $('#residences-load-more').addClass('loading');
                     if(result.pager.current_page<(result.pager.pages)){
                         $('#residences-load-more').show();
                     } else {
