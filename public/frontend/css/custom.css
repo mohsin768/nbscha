@@ -688,3 +688,4 @@ a#residences-load-more
 .residences .project .project-details{
   position: relative;
 }
+.upcoming-events .event-count li{display: inline-block;}
