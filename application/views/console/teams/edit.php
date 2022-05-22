@@ -102,6 +102,16 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="location">Location <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('location'); ?>
+                        <input type="text" id="location"  name="location"  value="<?php echo $team->location; ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Bio <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
