@@ -54,7 +54,7 @@ class Residences extends AjaxController {
 		
 		$totalCount = $this->ResidencesModel->getActivePaginationCount($residenceCond,$residenceLike,$residenceFindIn);
 		$totalPages = ceil($totalCount/$perPage);
-		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'name','ASC',$residenceLike,$residenceFindIn);
+		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'id','RANDOM',$residenceLike,$residenceFindIn);
 		$residencesinfo = array();
 		foreach($residences as $residence):
 			if($residence['mainimage']!=''){
