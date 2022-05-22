@@ -4,8 +4,8 @@
             <div class="row">
                 <div class="col-md-8 col-sm-12">
                     <?php echo $content; ?>
-                    <?php if($gallery!=''){ 
-                        $gimages = explode(',',$gallery); 
+                    <?php if($gallery!=''){
+                        $gimages = explode(',',$gallery);
                         if(is_array($gimages) && count($gimages)>0){
                     ?>
                     <div class="row mt-30">
@@ -29,7 +29,7 @@
                                         <?php if($link['image']!=''){ $linkImage = frontend_uploads_url('links/images/'.$link['image']); ?>
                                             <img src="<?php echo $linkImage; ?>" style="width: 50px; height: 50px; padding-top: 15px;">
                                         <?php } else { ?>
-                                            <i class="fa fa-stethoscope text-white font-48"></i>
+                                            <i class="fa fa-hospital-o text-white font-48"></i>
                                         <?php } ?>
                                         </a>
                                         <div class="ml-80">
@@ -43,7 +43,7 @@
                         <?php endforeach; ?>
                     </div>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
 </section>
