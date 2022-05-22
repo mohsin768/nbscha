@@ -16,16 +16,16 @@
                         <div class="col-sm-8 pl-0 pl-sm-15">
                             <div class="event-details p-15 mt-20">
                                 <h4 class="media-heading text-uppercase font-weight-500"><b><?php echo $newsitem['title']; ?></b></h4>
+                                <div class="event-count pb-10">
+                                    <ul>
+                                        <li class="pr-15"><i class="fa fa-calendar"></i> <?php echo date('d F Y',strtotime($newsitem['publish_date'])); ?></li>
+                                        <?php if($newsitem['author']!=''){ ?>
+                                        <li><i class="fa fa-user"></i> posted by <a href="#"><?php echo $newsitem['author']; ?></a> </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
                                 <p><?php echo $newsitem['summary']; ?></p>
                                 <a href="<?php echo news_url($newsitem['slug']); ?>" class="btn btn-flat btn-dark btn-theme-colored btn-sm">Read More <i class="fa fa-angle-double-right"></i></a>
-                            </div>
-                            <div class="event-count p-15">
-                                <ul>
-                                <li class="pr-15"><i class="fa fa-calendar"></i> <?php echo date('d F Y',strtotime($newsitem['publish_date'])); ?></li>
-                                <?php if($newsitem['author']!=''){ ?>
-                                <li><i class="fa fa-user"></i> posted by <a href="#"><?php echo $newsitem['author']; ?></a> </li>
-                                <?php } ?>
-                                </ul>
                             </div>
                         </div>
                         
