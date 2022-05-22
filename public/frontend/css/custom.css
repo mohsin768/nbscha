@@ -12,7 +12,7 @@ section.inner-header.divider.parallax.layer-overlay.overlay-dark-5 {
   background-image: url('/public/frontend/images/header-bar-img.jpg') !important;
 }
 .home .post .entry-content {
-  height: 180px;
+  height: 285px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

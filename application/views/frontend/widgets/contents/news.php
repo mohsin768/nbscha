@@ -23,8 +23,10 @@
                         <div class="col-sm-4">
                             <div class="event-count p-15 mt-15">
                                 <ul>
-                                <li><i class="fa fa-calendar"></i> <?php echo date('d F',strtotime($newsitem['publish_date'])); ?></li>
+                                <li><i class="fa fa-calendar"></i> <?php echo date('d F Y',strtotime($newsitem['publish_date'])); ?></li>
+                                <?php if($newsitem['author']!=''){ ?>
                                 <li><i class="fa fa-user"></i> posted by <a href="#"><?php echo $newsitem['author']; ?></a> </li>
+                                <?php } ?>
                                 </ul>
                             </div>
                         </div>

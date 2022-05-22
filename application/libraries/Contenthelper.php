@@ -24,7 +24,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('TeamsModel');
     $boardMembersCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['boardMembers'] = $this->CI->TeamsModel->getArrayCond($boardMembersCond);
+    $vars['boardMembers'] = $this->CI->TeamsModel->getArrayCond($boardMembersCond,'sort_order','ASC');
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
     $vars['content'] = isset($pageBlock['content'])?$pageBlock['content']:'';
@@ -35,7 +35,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('FaqsModel');
     $faqsCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['faqs'] = $this->CI->FaqsModel->getArrayCond($faqsCond);
+    $vars['faqs'] = $this->CI->FaqsModel->getArrayCond($faqsCond,'sort_order','ASC');
     return $this->CI->load->view(frontend_views_path('widgets/contents/faqs'),$vars,TRUE);
   }
 
@@ -43,7 +43,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('NewsModel');
     $newsCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
-    $vars['news'] = $this->CI->NewsModel->getArrayLimitCond('3',$newsCond);
+    $vars['news'] = $this->CI->NewsModel->getArrayLimitCond('3',$newsCond,'publish_date','DESC');
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
     $vars['content'] = isset($pageBlock['content'])?$pageBlock['content']:'';
@@ -61,13 +61,13 @@ class Contenthelper {
     $categories = $this->CI->NewsCategoriesModel->getArrayCond($catCond);
     $categoryCount = array();
     foreach($categories as $category):
-      $catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->CI->site_language);
+      $catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->CI->site_language,'type'=>'public');
       $categoryCount[$category['id']] = $this->CI->NewsModel->getCountCond($catCountCond);
     endforeach;
     $vars['categories'] = $categories;
     $vars['categoryCount'] = $categoryCount;
     $newsCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
-    $vars['news'] = $this->CI->NewsModel->getArrayCond($newsCond);
+    $vars['news'] = $this->CI->NewsModel->getArrayCond($newsCond,'publish_date','DESC');
     return $this->CI->load->view(frontend_views_path('widgets/contents/news'),$vars,TRUE);
   }
 
@@ -92,7 +92,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('SponsorsModel');
     $sponsorsCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['sponsors'] = $this->CI->SponsorsModel->getArrayCond($sponsorsCond);
+    $vars['sponsors'] = $this->CI->SponsorsModel->getArrayCond($sponsorsCond,'sort_order','ASC');
     return $this->CI->load->view(frontend_views_path('widgets/contents/sponsors'),$vars,TRUE);
   }
 
@@ -100,7 +100,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('StatisticsModel');
     $factsCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['facts'] = $this->CI->StatisticsModel->getArrayLimitCond('4',$factsCond);
+    $vars['facts'] = $this->CI->StatisticsModel->getArrayLimitCond('4',$factsCond,'sort_order','ASC');
     $vars['background'] = isset($pageBlock['background'])?frontend_uploads_url('widgets/background/'.$pageBlock['background']):'';
     return $this->CI->load->view(frontend_views_path('widgets/contents/statistics'),$vars,TRUE);
   }
@@ -109,7 +109,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('TestimonialsModel');
     $newsCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['testimonials'] = $this->CI->TestimonialsModel->getArrayLimitCond('5',$newsCond);
+    $vars['testimonials'] = $this->CI->TestimonialsModel->getArrayLimitCond('5',$newsCond,'date','DESC');
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
     $vars['content'] = isset($pageBlock['content'])?$pageBlock['content']:'';
