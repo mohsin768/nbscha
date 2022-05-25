@@ -77,7 +77,7 @@ class News extends FrontController {
 		$categories = $this->NewsCategoriesModel->getArrayCond($catCond);
 		$categoryCount = array();
 		foreach($categories as $category):
-			$catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->site_language);
+			$catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->site_language,'type'=>'public');
 			$categoryCount[$category['id']] = $this->NewsModel->getCountCond($catCountCond);
 		endforeach;
 		$vars['categories'] = $categories;
