@@ -1,9 +1,14 @@
     // Tabs
     (function ($) {
-        var residencesParams = {page:'1','language_id':'','region_id':'','package_id':'','level_id':'','facilities':'','vacancy':'','residence_name':''};
+        var residencesParams = {page:'1','language_id':'','region_id':'','package_id':'','level_id':'','facilities':'','vacancy':'','residence_name':'','features':''};
         if($('#residences-list').length){
             loadResidences(residencesParams);
         }
+        $('#residence-advanced-search').click( function(e){
+            e.preventDefault();
+            $('#features-filter').show();
+            $('#residence-advanced-search-wrap').hide();
+        });
         $('#residences-load-more').click( function(){
             $('#residences-load-more').addClass('loading');
             residencesParams.page = parseInt(residencesParams.page)+parseInt("1");
@@ -20,6 +25,13 @@
             if (facilities !== null){
                 facilitiesStr = facilities.join(",");
             }
+            var features = $("#features-filter input:checkbox:checked").map(function(){
+                return $(this).val();
+              }).get();
+            var featuresStr = '';
+            if (features !== null){
+                featuresStr = features.join(",");
+            }
             residencesParams.language_id = $('#residence-language-id').val();
             residencesParams.region_id = $('#residence-region').val();
             residencesParams.package_id = $('#residence-package').val();
@@ -27,6 +39,7 @@
             residencesParams.facilities = facilitiesStr;
             residencesParams.vacancy = $('#residence-vacancy').val();
             residencesParams.residence_name = $('#residence-name').val();
+            residencesParams.features = featuresStr;
             $('.residence-item').remove();
             loadResidences(residencesParams);
         });
@@ -42,12 +55,14 @@
             $('#residence-facilities').val('');
             $('#residence-vacancy').val('');
             $('#residence-name').val('');
+            $('.features-checkbox').prop('checked', false);
             residencesParams.region_id = '';
             residencesParams.package_id = '';
             residencesParams.level_id = '';
             residencesParams.facilities = '';
             residencesParams.vacancy = '';
             residencesParams.residence_name = '';
+            residencesParams.features = '';
             $('.residence-item').remove();
             loadResidences(residencesParams);
         });

@@ -73,8 +73,8 @@
                                             <label class="col-md-12" for="Features">Features</label>
                                             <?php foreach($features as $feature): ?>
                                                 <div class="form-group col-md-6 ">
-                                                    <input type="checkbox" class="features-checkbox mr-3 rounded-0 border-0 line-height-1" <?php echo set_checkbox("features[".$feature['fid']."]", "1"); ?> name="features[<?php echo $feature['fid']; ?>]" id="feature-<?php echo $feature['fid']; ?>" value="1">
-                                                    <?php echo $feature['feature_title']; ?>
+                                                    <input type="checkbox" class="features-checkbox mr-3 rounded-0 border-0 line-height-1" <?php echo set_checkbox("features[".$feature['fid']."]", $feature['fid']); ?> name="features[<?php echo $feature['fid']; ?>]" id="feature-<?php echo $feature['fid']; ?>" value="<?php echo $feature['fid']; ?>">
+                                                    <label for="feature-<?php echo $feature['fid']; ?>"><?php echo $feature['feature_title']; ?></label>
                                                 </div>
                                             <?php endforeach; ?>
                                         </div>
@@ -84,9 +84,9 @@
                                                     <label></label>
                                                     <button id="residence-search" type="submit" class="btn btn-primary form-control new-btn"><span>SEARCH</span></button>
                                                 </div>
-                                                <div class="col-md-4" style="display:none;">
+                                                <div class="col-md-4" id="residence-advanced-search-wrap">
                                                     <label></label>
-                                                    <button  id="residence-advanced-search" type="submit" class="btn btn-danger form-control new-btn"><span>ADVANCED SEARCH</span></button>
+                                                    <button id="residence-advanced-search" type="submit" class="btn btn-danger form-control new-btn"><span>ADVANCED SEARCH</span></button>
                                                 </div>
                                                 <div class="col-md-4">
                                                 <label></label>
@@ -111,7 +111,7 @@
         <div class="row">
             <div class="col-sm-12" >
                 <div class="load-more-wrap btn-box">
-                    <a id="residences-load-more" class="btn btn-primary" href="#0">Load More</a>
+                    <a style="display:none;" id="residences-load-more" class="btn btn-primary" href="#0">Load More</a>
                 </div>
             </div>
         </div>
