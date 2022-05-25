@@ -67,7 +67,7 @@ class Widgethelper {
         $vars = array();
         $this->CI->load->model('SlidersModel');
         $sliders = array();
-        $sliders = $this->CI->SlidersModel->getArrayLimitCond('10',array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');
+        $sliders = $this->CI->SlidersModel->getArrayLimitCond('10',array('status'=>'1','language'=>$this->CI->site_language),'sort_order','ASC');
         $vars['sliders'] = $sliders;
         return $this->CI->load->view(frontend_views_path('widgets/banners/home_banner'),$vars,TRUE);
     }
