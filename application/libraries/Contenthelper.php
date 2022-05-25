@@ -24,7 +24,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('TeamsModel');
     $boardMembersCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['boardMembers'] = $this->CI->TeamsModel->getArrayCond($boardMembersCond,'sort_order','ASC');
+    $vars['boardMembers'] = $this->CI->TeamsModel->getArrayCond($boardMembersCond,'','sort_order','ASC');
     $vars['title'] = isset($pageBlock['title'])?$pageBlock['title']:'';
     $vars['subtitle'] = isset($pageBlock['subtitle'])?$pageBlock['subtitle']:'';
     $vars['content'] = isset($pageBlock['content'])?$pageBlock['content']:'';
@@ -35,7 +35,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('FaqsModel');
     $faqsCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['faqs'] = $this->CI->FaqsModel->getArrayCond($faqsCond,'sort_order','ASC');
+    $vars['faqs'] = $this->CI->FaqsModel->getArrayCond($faqsCond,'','sort_order','ASC');
     return $this->CI->load->view(frontend_views_path('widgets/contents/faqs'),$vars,TRUE);
   }
 
@@ -56,9 +56,9 @@ class Contenthelper {
     $this->CI->load->model('NewsModel');
     $this->CI->load->model('NewsCategoriesModel');
     $linksCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
-    $vars['links'] = $this->CI->LinksModel->getArrayCond($linksCond);
+    $vars['links'] = $this->CI->LinksModel->getArrayCond($linksCond,'','sort_order','ASC');
     $catCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $categories = $this->CI->NewsCategoriesModel->getArrayCond($catCond);
+    $categories = $this->CI->NewsCategoriesModel->getArrayCond($catCond,'','sort_order','ASC');
     $categoryCount = array();
     foreach($categories as $category):
       $catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->CI->site_language,'type'=>'public');
@@ -67,7 +67,7 @@ class Contenthelper {
     $vars['categories'] = $categories;
     $vars['categoryCount'] = $categoryCount;
     $newsCond = array('status'=>'1','type'=>'public','language'=>$this->CI->site_language);
-    $vars['news'] = $this->CI->NewsModel->getArrayCond($newsCond,'publish_date','DESC');
+    $vars['news'] = $this->CI->NewsModel->getArrayCond($newsCond,'','publish_date','DESC');
     return $this->CI->load->view(frontend_views_path('widgets/contents/news'),$vars,TRUE);
   }
 
@@ -94,7 +94,7 @@ class Contenthelper {
     $vars = array();
     $this->CI->load->model('SponsorsModel');
     $sponsorsCond = array('status'=>'1','language'=>$this->CI->site_language);
-    $vars['sponsors'] = $this->CI->SponsorsModel->getArrayCond($sponsorsCond,'sort_order','ASC');
+    $vars['sponsors'] = $this->CI->SponsorsModel->getArrayCond($sponsorsCond,'','sort_order','ASC');
     return $this->CI->load->view(frontend_views_path('widgets/contents/sponsors'),$vars,TRUE);
   }
 

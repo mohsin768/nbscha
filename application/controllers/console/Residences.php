@@ -216,7 +216,8 @@ class Residences extends ConsoleController {
 							'twitter' => $this->input->post('twitter'),
 							'youtube' => $this->input->post('youtube'),
 							'linkedin' => $this->input->post('linkedin'),
-							'website' => $this->input->post('website'));
+							'website' => $this->input->post('website'),
+							'slug' => $this->input->post('slug'));
 
 							$imageConfig['encrypt_name'] = TRUE;
 							$imageConfig['upload_path'] = 'public/uploads/requests/images';

@@ -28,7 +28,13 @@
                 <input type="text" class="form-control" name="postalcode"  value="<?php echo $residence->postalcode;?>"></div>
               <div class="clearfix"></div>
           </div>
-
+          <div class="form-group col-md-12">
+              <label class="control-label col-md-12 no-padd" for="label">URL Slug<span>*</span></label>
+              <div class="col-md-12 no-padd">
+                <?php echo form_error('slug'); ?>
+                <input type="text" class="form-control" name="slug"  value="<?php echo $residence->slug;?>"></div>
+              <div class="clearfix"></div>
+          </div>
           <div class="form-group col-md-4">
               <label class="control-label col-md-12 no-padd" for="label">Contact Name<span>*</span></label>
 
