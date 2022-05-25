@@ -59,9 +59,9 @@
                                         
                                         <div class="form-group col-md-4">
                                         <label for="idss">Vacancy</label>
-                                        <select class="form-control sl-op" name="vacancy" id="residence-vacancy">
+                                        <select class="form-control sl-op" name="residence-vacancy" id="residence-vacancy">
                                             <option value="">--Select-Vacancy--</option>
-                                            <option value="is_free_vocancy">Open Vacancy</option>
+                                            <option value="is_free_vacancy">Open Vacancy</option>
                                             <option value="all_homes">All Homes</option>
                                         </select>
                                         </div>

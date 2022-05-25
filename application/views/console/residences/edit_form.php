@@ -1,5 +1,5 @@
 
-        <?php echo validation_errors();
+        <?php 
           $attributes = array('class' => 'form-vertical', 'id' => 'update-residence');
           echo form_open_multipart('',$attributes);
           ?>

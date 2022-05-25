@@ -191,6 +191,8 @@
                         <li><a href="<?php echo $residence->twitter; ?>"><i class="fa fa-twitter"></i></a></li>
                         <?php } if($residence->linkedin!=''){ ?>
                         <li><a href="<?php echo $residence->linkedin; ?>"><i class="fa fa-linkedin"></i></a></li>
+                        <?php } if($residence->website!=''){ ?>
+                        <li><a href="<?php echo $residence->website; ?>"><i class="fa fa-globe"></i></a></li>
                         <?php } ?>
 				    </ul>
                 </div>

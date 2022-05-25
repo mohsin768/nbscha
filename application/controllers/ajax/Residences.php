@@ -35,9 +35,9 @@ class Residences extends AjaxController {
 			$facilities = explode(',',$facilities);
 			$residenceFindIn = $facilities;
 		}
-        $vaccancy = secureInput($this->input->get('vaccancy'));
-		if($vaccancy!=''){
-			if($vaccancy=='is_free_vocancy'){
+        $vacancy = secureInput($this->input->get('vacancy'));
+		if($vacancy!=''){
+			if($vacancy=='is_free_vacancy'){
 				$residenceCond['vacancy >'] = '0'; 
 			}
 		}

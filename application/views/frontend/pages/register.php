@@ -193,24 +193,31 @@
                                     <input type="file" class="form-control rounded-0 border-0 line-height-1"  name="image6" id="image6"></div>
                                 <div class="spchclass form-group col-lg-12 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('VIRTUAL_TOUR','Virtual Tour (Youtube Link)');?>" name="virtual_tour" id="virtual_tour" onchange="" value="<?php echo set_value('virtual_tour'); ?>">
+                                    <div class="error"><?php echo form_error('virtual_tour'); ?></div>
                                 </div>
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('FB_LINK','Facebook link');?>" name="facebook" id="facebook" onchange="" value="<?php echo set_value('facebook'); ?>">
+                                    <div class="error"><?php echo form_error('facebook'); ?></div>
                                 </div>
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('INSTA_LINK','Instagram link');?>" name="instagram" id="instagram" onchange="" value="<?php echo set_value('instagram'); ?>">
+                                    <div class="error"><?php echo form_error('instagram'); ?></div>
                                 </div>
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('TW_LINK','Twitter link');?>" name="twitter" id="twitter" onchange="" value="<?php echo set_value('twitter'); ?>">
+                                    <div class="error"><?php echo form_error('twitter'); ?></div>
                                 </div>
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('YT_LINK','YouTube link');?>" name="youtube" id="youtube" onchange="" value="<?php echo set_value('youtube'); ?>">
+                                    <div class="error"><?php echo form_error('youtube'); ?></div>
                                 </div>
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('LI_LINK','LinkedIn link');?>" name="linkedin" id="linkedin" onchange="" value="<?php echo set_value('linkedin'); ?>">
+                                    <div class="error"><?php echo form_error('linkedin'); ?></div>
                                 </div>
                                 <div class="spchclass form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('WEB_LINK','Website link');?>" name="website" id="website" onchange="" value="<?php echo set_value('website'); ?>">
+                                    <div class="error"><?php echo form_error('website'); ?></div>
                                 </div>
                                 <div class="form-group col-lg-12 t-wh">
                                   <?php echo translate('BOXES_INSTRUCTION','<h4>Please check the boxes if you answer <b><u>YES</u></b> to any of the following questions:</h4>');?>

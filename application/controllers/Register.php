@@ -43,13 +43,13 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('description', 'Description', '');
 		$this->form_validation->set_rules('comments', 'Comments', '');
 		if (empty($_FILES['mainimage']['name'])){$this->form_validation->set_rules('mainimage', 'Main Image', 'required');}
-		$this->form_validation->set_rules('virtual_tour', 'Virtual Tour', '');
-		$this->form_validation->set_rules('facebook', 'Facebook', '');
-		$this->form_validation->set_rules('instagram', 'Instagram', '');
-		$this->form_validation->set_rules('twitter', 'Twitter', '');
-		$this->form_validation->set_rules('youtube', 'Youtube', '');
-		$this->form_validation->set_rules('linkedin', 'Linkedin', '');
-		$this->form_validation->set_rules('website', 'website', '');
+		$this->form_validation->set_rules('virtual_tour', 'Virtual Tour', 'callback_valid_url_check');
+		$this->form_validation->set_rules('facebook', 'Facebook', 'callback_valid_url_check');
+		$this->form_validation->set_rules('instagram', 'Instagram', 'callback_valid_url_check');
+		$this->form_validation->set_rules('twitter', 'Twitter', 'callback_valid_url_check');
+		$this->form_validation->set_rules('youtube', 'Youtube', 'callback_valid_url_check');
+		$this->form_validation->set_rules('linkedin', 'Linkedin', 'callback_valid_url_check');
+		$this->form_validation->set_rules('website', 'website', 'callback_valid_url_check');
 		$this->form_validation->set_rules('features', 'Features', '');
 		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 		$this->form_validation->set_rules('token', 'reCaptcha', 'required|callback_recaptcha_check');
@@ -259,6 +259,24 @@ class Register extends FrontController {
 			return TRUE;
 		}
 	}
+
+	function valid_url_check($url){
+		$error = false;
+		if($url!=''){
+			$path = parse_url($url, PHP_URL_PATH);
+			$encoded_path = array_map('urlencode', explode('/', $path));
+			$url = str_replace($path, implode('/', $encoded_path), $url);
+			if(!filter_var($url, FILTER_VALIDATE_URL)){
+				$error = true;
+			}
+		}
+		if($error){
+			$this->form_validation->set_message('valid_url_check', 'Invalid URL');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	 }
 
 	function verifyReCaptcha($token,$action){
         $secretKey = $this->settings['RECAPTCHA_SECRET_KEY'];

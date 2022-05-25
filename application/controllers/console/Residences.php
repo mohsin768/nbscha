@@ -166,14 +166,14 @@ class Residences extends ConsoleController {
 					$this->form_validation->set_rules('facilities[]', 'Facilities', 'required');
 					$this->form_validation->set_rules('region_id', 'Region', 'required');
 					$this->form_validation->set_rules('description', 'Description', '');
-					$this->form_validation->set_rules('virtual_tour', 'Virtual Tour', '');
+					$this->form_validation->set_rules('virtual_tour', 'Virtual Tour', 'callback_valid_url_check');
 					$this->form_validation->set_rules('comments', 'Comments', '');
-					$this->form_validation->set_rules('facebook', 'Facebook', '');
-					$this->form_validation->set_rules('instagram', 'Instagram', '');
-					$this->form_validation->set_rules('twitter', 'Twitter', '');
-					$this->form_validation->set_rules('youtube', 'Youtube', '');
-					$this->form_validation->set_rules('linkedin', 'Linkedin', '');
-					$this->form_validation->set_rules('website', 'website', '');
+					$this->form_validation->set_rules('facebook', 'Facebook', 'callback_valid_url_check');
+					$this->form_validation->set_rules('instagram', 'Instagram', 'callback_valid_url_check');
+					$this->form_validation->set_rules('twitter', 'Twitter', 'callback_valid_url_check');
+					$this->form_validation->set_rules('youtube', 'Youtube', 'callback_valid_url_check');
+					$this->form_validation->set_rules('linkedin', 'Linkedin', 'callback_valid_url_check');
+					$this->form_validation->set_rules('website', 'website', 'callback_valid_url_check');
 					$this->form_validation->set_rules('features', 'Features', '');
 					$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 					if($this->form_validation->run() == FALSE)
@@ -270,6 +270,24 @@ class Residences extends ConsoleController {
 					}
 					$json=json_encode($results);
 					exit($json);
+			 }
+
+			 function valid_url_check($url){
+				$error = false;
+				if($url!=''){
+					$path = parse_url($url, PHP_URL_PATH);
+					$encoded_path = array_map('urlencode', explode('/', $path));
+					$url = str_replace($path, implode('/', $encoded_path), $url);
+					if(!filter_var($url, FILTER_VALIDATE_URL)){
+						$error = true;
+					}
+				}
+				if($error){
+					$this->form_validation->set_message('valid_url_check', 'Invalid URL');
+					return FALSE;
+				} else {
+					return TRUE;
+				}
 			 }
 
 			 function package_count_check($maxbadscount) {

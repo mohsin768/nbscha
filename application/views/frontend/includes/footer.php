@@ -17,7 +17,7 @@
             <article class="post media-post clearfix pb-0 mb-10">
             <div class="post-right">
                 <h5 class="post-title mt-0 mb-5"><a href="<?php echo news_url($newsitem['slug']); ?>"><?php echo $newsitem['title']; ?></a></h5>
-                <p class="post-date mb-0 font-12"><?php echo date('d F',strtotime($newsitem['publish_date'])); ?></p>
+                <p class="post-date mb-0 font-12"><?php echo date('d F Y',strtotime($newsitem['publish_date'])); ?></p>
             </div>
             </article>
             <?php endforeach; } ?>
