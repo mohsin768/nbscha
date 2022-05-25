@@ -1070,6 +1070,10 @@ section > .container-fluid {
   .menuzord-menu {
     background: #fff;
   }
+  .home .menuzord-menu > li > a
+  {
+    color: #000;
+  }
 }
 /* -------- Scrolltofixed ---------- */
 .header-nav .header-nav-wrapper.scroll-to-fixed-fixed.scroll-to-fixed-fixed {
