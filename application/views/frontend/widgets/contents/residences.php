@@ -22,8 +22,8 @@
                                             <label for="inputPassword4">Beds</label>
                                             <select class="form-control sl-op" name="spch_num_bed" id="residence-package">
                                                 <option value="">--Select-Bed--</option>
-                                                <?php foreach($packages as $package): ?>
-                                                <option value="<?php echo $package['pid']; ?>"><?php echo $package['title']; ?></option>
+                                                <?php foreach($bedCounts as $bedCount): ?>
+                                                <option value="<?php echo $bedCount['id']; ?>"><?php echo $bedCount['title']; ?></option>
                                                 <?php endforeach; ?>
 
                                             </select>

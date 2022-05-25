@@ -77,8 +77,10 @@ class Contenthelper {
     $this->CI->load->model('CarelevelsModel');
     $this->CI->load->model('RegionsModel');
     $this->CI->load->model('FeaturesModel');
+    $this->CI->load->model('FiltersModel');
     $this->CI->load->model('FacilitiesModel');
     $this->CI->load->model('HomeLanguagesModel');
+    $vars['bedCounts'] = $this->CI->FiltersModel->getBedsCount();
     $vars['homeLanguages'] = $this->CI->HomeLanguagesModel->getIdPair();
     $vars['packages'] = $this->CI->PackagesModel->getArrayCond(array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');
 		$vars['levels'] = $this->CI->CarelevelsModel->getArrayCond(array('status'=>'1','language'=>$this->CI->site_language),'','sort_order','ASC');

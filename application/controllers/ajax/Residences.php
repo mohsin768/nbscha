@@ -10,6 +10,8 @@ class Residences extends AjaxController {
 
 	public function index()
 	{
+		$this->load->model('FiltersModel');
+		$bedCounts = $this->FiltersModel->getBedsCount();
 		$residenceCond = array('residences.status'=>'1','language'=>$this->site_language);
 		$residenceLike = array();
 		$residenceFindIn = array();
@@ -27,8 +29,14 @@ class Residences extends AjaxController {
 			$residenceCond['level_id'] = $level_id; 
 		}
         $package_id = secureInput($this->input->get('package_id'));
-		if($package_id!=''){
-			$residenceCond['residences.package_id'] = $package_id; 
+		if($package_id!='' && isset($bedCounts[$package_id])){
+			$bedCount = $bedCounts[$package_id];
+			if($bedCount['min']!=''){
+				$residenceCond['residences.max_beds_count >'] = $bedCount['min']; 
+			}
+			if($bedCount['max']!=''){
+				$residenceCond['residences.max_beds_count <='] = $bedCount['max']; 
+			}
 		}
         $facilities = secureInput($this->input->get('facilities'));
 		if($facilities!=''){

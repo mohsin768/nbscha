@@ -153,6 +153,7 @@ class Residences extends ConsoleController {
 					$residence = $this->ResidencesModel->getRowCond(array('id'=>$rId,'language'=>$language));
 
 					$this->form_validation->set_rules('name', 'Home Name', 'required');
+					$this->form_validation->set_rules('slug', 'URL Slug', 'required');
 					$this->form_validation->set_rules('address', 'Home Address', 'required');
 					$this->form_validation->set_rules('postalcode', 'Home Postal Code', 'required');
 					$this->form_validation->set_rules('contact_name', 'Contact Name', 'required');

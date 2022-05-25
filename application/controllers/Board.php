@@ -17,6 +17,7 @@ class Board extends FrontController {
 		if($slug==''){
 			redirect('/');
 		}
+		$slug = urldecode($slug);
 		$boardObject = $this->TeamsModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
 		$this->pageType = 'board';
 		if(!$boardObject){

@@ -19,6 +19,7 @@ class News extends FrontController {
 		if($slug==''){
 			redirect('/');
 		}
+		$slug = urldecode($slug);
 		$newsObject = $this->NewsModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
 		$this->pageType = 'news';
 		if(!$newsObject){
@@ -52,6 +53,7 @@ class News extends FrontController {
 
 	public function category($slug='')
 	{
+		$slug = urldecode($slug);
 		$pageId = $this->settings['NEWS_PAGE_ID'];
 		$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 		$this->pageType = 'register';
