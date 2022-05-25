@@ -8,6 +8,7 @@
             e.preventDefault();
             $('#features-filter').show();
             $('#residence-advanced-search-wrap').hide();
+            $('.search-labels').hide();
         });
         $('#residences-load-more').click( function(){
             $('#residences-load-more').addClass('loading');

@@ -81,7 +81,7 @@
                                         <div class="form-group col-md-6">
                                             <div class="row btn-row" style="padding-top: 5px; ">
                                                 <div class="col-md-4">
-                                                    <label></label>
+                                                    <label class="search-labels"></label>
                                                     <button id="residence-search" type="submit" class="btn btn-primary form-control new-btn"><span>SEARCH</span></button>
                                                 </div>
                                                 <div class="col-md-4" id="residence-advanced-search-wrap">
@@ -89,7 +89,7 @@
                                                     <button id="residence-advanced-search" type="submit" class="btn btn-danger form-control new-btn"><span>ADVANCED SEARCH</span></button>
                                                 </div>
                                                 <div class="col-md-4">
-                                                <label></label>
+                                                <label class="search-labels"></label>
                                                 <button id="residence-reset" type="reset" class="btn btn-primary form-control new-btn"><span>RESET</span></button>
                                                 </div>
                                             </div>
