@@ -86,6 +86,7 @@ class News extends FrontController {
 		$vars['news'] = $this->NewsModel->getArrayCond($newsCond);
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/news_category'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
+		$this->mainvars['bodyClass']='news';
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}
