@@ -182,17 +182,17 @@
                 <div class="col-md-12">
                     <ul class="styled-icons icon-dark icon-theme-colored mt-20">
                         <?php if($residence->facebook!=''){ ?>
-                        <li><a href="<?php echo $residence->facebook; ?>"><i class="fa fa-facebook"></i></a></li>
+                        <li><a target="_blank" href="<?php echo $residence->facebook; ?>"><i class="fa fa-facebook"></i></a></li>
                         <?php } if($residence->instagram!=''){ ?>
-                        <li><a href="<?php echo $residence->instagram; ?>"><i class="fa fa-instagram"></i></a></li>
+                        <li><a target="_blank" href="<?php echo $residence->instagram; ?>"><i class="fa fa-instagram"></i></a></li>
                         <?php } if($residence->youtube!=''){ ?>
-                        <li><a href="<?php echo $residence->youtube; ?>"><i class="fa fa-youtube"></i></a></li>
+                        <li><a target="_blank" href="<?php echo $residence->youtube; ?>"><i class="fa fa-youtube"></i></a></li>
                         <?php } if($residence->twitter!=''){ ?>
-                        <li><a href="<?php echo $residence->twitter; ?>"><i class="fa fa-twitter"></i></a></li>
+                        <li><a target="_blank" href="<?php echo $residence->twitter; ?>"><i class="fa fa-twitter"></i></a></li>
                         <?php } if($residence->linkedin!=''){ ?>
-                        <li><a href="<?php echo $residence->linkedin; ?>"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a target="_blank" href="<?php echo $residence->linkedin; ?>"><i class="fa fa-linkedin"></i></a></li>
                         <?php } if($residence->website!=''){ ?>
-                        <li><a href="<?php echo $residence->website; ?>"><i class="fa fa-globe"></i></a></li>
+                        <li><a target="_blank" href="<?php echo $residence->website; ?>"><i class="fa fa-globe"></i></a></li>
                         <?php } ?>
 				    </ul>
                 </div>
