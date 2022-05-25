@@ -66,15 +66,27 @@
                                         </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                        <label for="Name ">Home Name</label>
+                                        <label for="Name">Home Name</label>
                                         <input type="text" name="spch_name" id="residence-name" placeholder="Search Home By Name" class="form-control">
                                         </div>
+                                        <div id="features-filter" class="form-group col-md-12 features-filter p-0" style="display:none;">
+                                            <label class="col-md-12" for="Features">Features</label>
+                                            <?php foreach($features as $feature): ?>
+                                                <div class="form-group col-md-6 ">
+                                                    <input type="checkbox" class="features-checkbox mr-3 rounded-0 border-0 line-height-1" <?php echo set_checkbox("features[".$feature['fid']."]", "1"); ?> name="features[<?php echo $feature['fid']; ?>]" id="feature-<?php echo $feature['fid']; ?>" value="1">
+                                                    <?php echo $feature['feature_title']; ?>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
                                         <div class="form-group col-md-6">
-
                                             <div class="row btn-row" style="padding-top: 5px; ">
                                                 <div class="col-md-4">
                                                     <label></label>
                                                     <button id="residence-search" type="submit" class="btn btn-primary form-control new-btn"><span>SEARCH</span></button>
+                                                </div>
+                                                <div class="col-md-4" style="display:none;">
+                                                    <label></label>
+                                                    <button  id="residence-advanced-search" type="submit" class="btn btn-danger form-control new-btn"><span>ADVANCED SEARCH</span></button>
                                                 </div>
                                                 <div class="col-md-4">
                                                 <label></label>
