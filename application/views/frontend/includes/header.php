@@ -7,7 +7,7 @@
                 <div class="col-md-7">
                 <div class="widget no-border m-0">
                     <ul class="list-inline sm-text-center mt-5">
-                      <li><?php echo $this->settings['WORKING_HOURS']; ?></li>
+                      <li><i class="fa fa-clock-o text-theme-colored"></i> <?php echo $this->settings['WORKING_HOURS']; ?></li>
                     </ul>
                 </div>
                 </div>
