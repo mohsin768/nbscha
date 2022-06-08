@@ -18,6 +18,7 @@ class Import extends ConsoleController {
 	
 	public function members()
 	{
+		/*
 		$featuresMaster = array('charge_above_government'=> '28',
 		'provide_transport' => '18',
 		'allow_pet' =>'1',
@@ -158,6 +159,7 @@ class Import extends ConsoleController {
 				}
 			}
 		endforeach;
+		*/
 		$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Imported Successfully'));
 		redirect(admin_url_string('home/dashboard'));
 	}
