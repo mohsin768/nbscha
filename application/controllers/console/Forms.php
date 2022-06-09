@@ -80,7 +80,11 @@ class Forms extends ConsoleController {
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$attachment='';
-			$config['upload_path'] = 'public/uploads/forms';
+			$formUploadPath = 'public/uploads/forms';
+			if(!is_dir($formUploadPath)){
+				mkdir($formUploadPath, 0777, TRUE);
+			}
+			$config['upload_path'] = $formUploadPath;
 			$config['allowed_types'] = 'pdf|png|jpeg|jpg|doc|docx|xlsx|csv|xls';
 			$this->load->library('upload', $config);
 			if($this->upload->do_upload('attachment'))
@@ -141,10 +145,13 @@ class Forms extends ConsoleController {
 				'form_id' => $id,
 				'name' => $this->input->post('name'),
 				'language' => $this->input->post('language'));
-
-				$config['upload_path'] = 'public/uploads/forms';
-								$config['allowed_types'] = 'pdf|png|jpeg|jpg|doc|docx|xlsx|csv|xls';
-								$this->load->library('upload', $config);
+				$formUploadPath = 'public/uploads/forms';
+				if(!is_dir($formUploadPath)){
+					mkdir($formUploadPath, 0777, TRUE);
+				}
+				$config['upload_path'] = $formUploadPath;
+				$config['allowed_types'] = 'pdf|png|jpeg|jpg|doc|docx|xlsx|csv|xls';
+				$this->load->library('upload', $config);
 
 					if($this->input->post('remove_attachment') && $this->input->post('remove_attachment')=='1'){
 						$maindata['attachment']='';
