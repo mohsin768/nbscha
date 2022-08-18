@@ -263,7 +263,6 @@ class Residences extends ConsoleController {
 							$residenceDescData = array('name' => $this->input->post('name'),
 							'description' => $this->input->post('description'),
 							'language' => $this->default_language);
-							$this->ResidencesModel->insert($residencepData,$residenceDescData);
 
 					 $this->ResidencesModel->updateCond($residencepData,array('id'=>$rId),$residenceDescData);
 
