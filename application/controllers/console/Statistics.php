@@ -76,7 +76,11 @@ class Statistics extends ConsoleController {
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$image='';
-			$config['upload_path'] = 'public/uploads/statistics';
+			$uploadPath = 'public/uploads/statistics';
+			if(!is_dir($uploadPath)){
+				mkdir($uploadPath, 0777, TRUE);
+			}
+			$config['upload_path'] = $uploadPath;
 			$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
 			$this->load->library('upload', $config);
 			if($this->upload->do_upload('image'))
@@ -128,7 +132,7 @@ class Statistics extends ConsoleController {
 		} else {
 			$maindata = array(
 				'icon_class' => $this->input->post('icon_class'),
-				'number' => $this->input->post('number'), 
+				'number' => $this->input->post('number'),
 				'status' => $this->input->post('status'));
 
 			$descdata = array(
@@ -136,9 +140,13 @@ class Statistics extends ConsoleController {
 				'name' => $this->input->post('name'),
 				'language' => $this->input->post('language'));
 
-				$config['upload_path'] = 'public/uploads/statistics';
-								$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
-								$this->load->library('upload', $config);
+					$uploadPath = 'public/uploads/statistics';
+					if(!is_dir($uploadPath)){
+						mkdir($uploadPath, 0777, TRUE);
+					}
+					$config['upload_path'] = $uploadPath;
+					$config['allowed_types'] = 'jpg|jpeg|png|gif|bmp';
+					$this->load->library('upload', $config);
 
 					if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
 						$maindata['icon']='';
