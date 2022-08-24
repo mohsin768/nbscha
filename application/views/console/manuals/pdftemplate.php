@@ -34,6 +34,7 @@
             footer .page-number:after { content: counter(page); }
             .page-break-after { page-break-after: always; }
         </style>
+        <?php echo $customcss; ?>
     </head>
     <body>
         <div class="page-break-after">

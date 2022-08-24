@@ -14,6 +14,10 @@ class Manuals extends ConsoleController {
 	public function download(){
 		$dompdf = new Dompdf();
 		$vars = array();
+		$customcss = '';
+		$customcss .= $this->load->view(admin_url_string('manuals/customcss-abhijith'),'',true);
+		$customcss .= $this->load->view(admin_url_string('manuals/customcss-malini'),'',true);
+		$vars['customcss'] = $customcss;
 		$vars['policies'] = $this->PoliciesModel->getArrayCond(array('language'=>'en','status'=>'1'),'','sort_order','ASC');
 		$html = $this->load->view(admin_url_string('manuals/pdftemplate'),$vars,true);
 		$dompdf->loadHtml($html);
