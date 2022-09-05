@@ -3,25 +3,35 @@
         <style>
             /** Define the margins of your page **/
             @page {
-                margin: 80px 50px;
+                margin: 90px 50px 60px 50px;
             }
-
+            @page :first {
+                margin: 0px;
+            }
             header {
                 position: fixed;
-                top: -60px;
+                top: -65px;
                 left: 0px;
                 right: 0px;
-                height: 50px;
+                height: 60px;
 
                 /** Extra personal styles **/
                 color: #000000;
                 text-align: center;
-                line-height: 25px;
+            }
+            header h3{
+                margin:0px 0px 5px 0px;
+                padding:0px;
+                color: #843C0B;
+            }
+            header h5{
+                margin:0px;
+                padding:0px;
             }
 
             footer {
                 position: fixed; 
-                bottom: -60px; 
+                bottom: -30px; 
                 left: 0px; 
                 right: 0px;
                 height: 30px; 
@@ -29,20 +39,33 @@
                 /** Extra personal styles **/
                 color: #000000;
                 text-align: center;
-                line-height: 25px;
             }
             footer .page-number:after { content: counter(page); }
             .page-break-after { page-break-after: always; }
+            .cover-table{
+                width:100%;
+                margin:0px;
+                padding:0px;
+                border:0px; 
+            }
+            .cover-table img{
+                width:100%;
+            }
         </style>
         <?php echo $customcss; ?>
     </head>
     <body>
         <div class="page-break-after">
-           Cover Page
+            <table cellspacing="0" cellpadding="0" class="cover-table">
+                <tr><td><img src="<?php echo $cover_header; ?>" /></td></tr>
+                <tr><td><img src="<?php echo $cover_title; ?>" /></td></tr>
+                <tr><td><img src="<?php echo $cover_footer; ?>" /></td></tr>
+            </table>
         </div>
         <!-- Define header and footer blocks before your content -->
         <header>
-            Your Organization
+            <h3><?php echo $header_title; ?></h3>
+            <h5><?php echo $header_subtitle; ?></h5>
         </header>
 
         <footer>
