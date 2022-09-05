@@ -41,7 +41,7 @@ class Sectioncategories extends ConsoleController {
 		}
 
 		if($this->session->userdata('sectioncategory_search_key_filter')!=''){
-			$like[] = array('field'=>'question', 'value' => $this->session->userdata('sectioncategory_search_key_filter'),'location' => 'both');
+			$like[] = array('field'=>'title', 'value' => $this->session->userdata('sectioncategory_search_key_filter'),'location' => 'both');
 		}
 
 		if($this->session->userdata('sectioncategory_sort_field_filter')!=''){
@@ -64,43 +64,47 @@ class Sectioncategories extends ConsoleController {
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
-	function add()
+	function add($manualId,$language='')
 	{
-		$this->ckeditorCall();
-		$this->form_validation->set_rules('question', 'Question', 'required');
-		$this->form_validation->set_rules('answer', 'Answer', 'required');
+		if($language ==''){
+			$language = 'en';
+		}
+		$this->form_validation->set_rules('title', 'Title', 'required');
+		$this->form_validation->set_rules('category_type', 'Category Type', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {
 			$vars = array();
+			$vars['language'] = $language;
+			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('sectioncategories/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
-			$maindata = array('status' => $this->input->post('status'));
+			$maindata = array('status' => $this->input->post('status'),
+			'category_type' => $this->input->post('category_type'),
+			'manual_id'=>$manualId);
 
 			$descdata = array(
-				'question' => $this->input->post('question'),
-				'answer' => $this->input->post('answer'),
+				'title' => $this->input->post('title'),
 				'language' => $this->input->post('language'));
 
 			$insertrow = $this->SectionCategoriesModel->insert($maindata,$descdata);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Faq added successfully.'));
-				redirect(admin_url_string('sectioncategories/overview'));
+				redirect(admin_url_string('sectioncategories/overview/'.$manualId.'/'.$language));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-        redirect(admin_url_string('sectioncategories/overview'));
+        		redirect(admin_url_string('sectioncategories/overview/'.$manualId.'/'.$language));
 			}
 		}
 	}
 
- public function edit($id, $lang, $translate='')
+ public function edit($manualId,$id, $lang, $translate='')
 	{
-		$this->ckeditorCall();
-		$this->form_validation->set_rules('question', 'Question', 'required');
-		$this->form_validation->set_rules('answer', 'Answer', 'required');
+		$this->form_validation->set_rules('title', 'Title', 'required');
+		$this->form_validation->set_rules('category_type', 'Category Type', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
@@ -112,17 +116,17 @@ class Sectioncategories extends ConsoleController {
 			}
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
+			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$langCond));
 			$vars['sectioncategory']= $this->SectionCategoriesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('sectioncategories/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
-			$maindata = array('status' => $this->input->post('status'));
+			$maindata = array('category_type' => $this->input->post('category_type'),'status' => $this->input->post('status'));
 
 			$descdata = array(
-				'sectioncategory_id' => $id,
-				'question' => $this->input->post('question'),
-				'answer' => $this->input->post('answer'),
+				'section_category_id' => $id,
+				'title' => $this->input->post('title'),
 				'language' => $this->input->post('language'));
 
 				$cond = array('id'=>$id);
@@ -134,37 +138,38 @@ class Sectioncategories extends ConsoleController {
 
 			if($updaterow){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('sectioncategories/overview/'.$lang));
+				redirect(admin_url_string('sectioncategories/overview/'.$manualId.'/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('sectioncategories/overview/'.$lang));
+				redirect(admin_url_string('sectioncategories/overview/'.$manualId.'/'.$lang));
 			}
 		}
 	}
 
 
-	public function translates($id)
+	public function translates($manualId,$id)
 	{
 		$cond = array('id'=>$id);
 		$vars['translates'] = $this->SectionCategoriesModel->getTranslates($cond);
 		$vars['sectioncategory_id'] = $id;
+		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>'en'));
 		$this->mainvars['content']=$this->load->view(admin_url_string('sectioncategories/translates'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
-	function delete($id) {
+	function delete($manualId,$id) {
 		$cond = array('id'=>$id);
 		$updaterow = $this->SectionCategoriesModel->deleteCond($cond);
 		if ($updaterow) {
-			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'sectioncategory deleted successfully.'));
-			redirect(admin_url_string('sectioncategories/overview'));
+			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Section Category deleted successfully.'));
+			redirect(admin_url_string('sectioncategories/overview/'.$manualId));
 		} else {
 			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-			redirect(admin_url_string('sectioncategories/overview'));
+			redirect(admin_url_string('sectioncategories/overview/'.$manualId));
 		}
 	}
 
-	function actions()
+	function actions($manualId,$language)
 	{
 		$actionStatus=false;
 		$ids=$this->input->post('id');
@@ -227,7 +232,7 @@ class Sectioncategories extends ConsoleController {
 				}
 		}
 
-		redirect(admin_url_string('sectioncategories/overview'));
+		redirect(admin_url_string('sectioncategories/overview/'.$manualId.'/'.$language));
 	}
 
 

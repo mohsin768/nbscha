@@ -10,10 +10,10 @@ if($this->uri->segment(7)==""){
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><?php echo $manual->title; ?> - Version:<?php echo $manual->version; ?>  <br/> Section: <?php echo $section->title; ?> - Policies</h2>
+                <h2><?php echo $manual->title; ?> - Version:<?php echo $manual->version; ?>  <br/> Section: <?php echo $section->title; ?> - Contents</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policies/add/'.$manual->id.'/'.$section->id.'/'.$language); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('contents/add/'.$manual->id.'/'.$section->id.'/'.$language); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
 					<li>
                         <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('sections/overview/'.$manual->id.'/'.$language); ?>" ><i class="fa fa-back" aria-hidden="true"></i> &nbsp;Back</a></span>
@@ -23,22 +23,22 @@ if($this->uri->segment(7)==""){
             </div>
 						<?php
 							$attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'action_filter');
-							echo form_open(admin_url('policies/actions'),$attributes); ?>
+							echo form_open(admin_url('contents/actions'),$attributes); ?>
 
 							<div class="x_content">
 
 											<div class="action-content ">
 												<div class="filter-col">
 													Search :
-													<input type="text"  class="form-control filter" placeholder="Search key ..." name="policy_search_key" value="<?php echo $this->session->userdata('policy_search_key_filter'); ?>" />
+													<input type="text"  class="form-control filter" placeholder="Search key ..." name="manual_content_search_key" value="<?php echo $this->session->userdata('manual_content_search_key_filter'); ?>" />
 												</div>
 
 												<div class="filter-col">
 													Status:
-													<select name="policy_status" class="form-control filter">
+													<select name="manual_content_status" class="form-control filter">
 															<option value="">Select</option>
-															<option value="1" <?php if($this->session->userdata('policy_status_filter')=='1'){ echo 'selected="selected"'; }?>>Enable</option>
-															<option value="0" <?php if($this->session->userdata('policy_status_filter')=='0'){ echo 'selected="selected"'; }?>>Disabled</option>
+															<option value="1" <?php if($this->session->userdata('manual_content_status_filter')=='1'){ echo 'selected="selected"'; }?>>Enable</option>
+															<option value="0" <?php if($this->session->userdata('manual_content_status_filter')=='0'){ echo 'selected="selected"'; }?>>Disabled</option>
 													</select>
 												</div>
 												<input type="hidden" value="" name="sort_field" id="sort_field" />
@@ -60,7 +60,7 @@ if($this->uri->segment(7)==""){
 						<ul class="nav navbar-right panel_toolbox">
 							<?php foreach($languages as $languageRow): ?>
 							<li>
-								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('policies/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('contents/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
 							</li>
 							<?php endforeach; ?>
 						</ul>
@@ -91,19 +91,19 @@ if($this->uri->segment(7)==""){
                         </thead>
 
                         <tbody>
-                            <?php if(count($policies)>0){ foreach($policies as $policy):?>
+                            <?php if(count($contents)>0){ foreach($contents as $content):?>
                             <tr class="even pointer">
-																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $policy['id']; ?>" /></td>
+																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $content['id']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
-                                <td class=" "><?php echo $policy['title'];?></td>
+                                <td class=" "><?php echo $content['title'];?></td>
 
-																<td class=" "><?php echo $this->languages_pair[$policy['language']];?></td>
-																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($policy['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $policy['id'];?>]" value="<?php echo $policy['sort_order'];?>" /> </td>
-                                <td class="center-align"><?php echo $status[$policy['status']];?></td>
+																<td class=" "><?php echo $this->languages_pair[$content['language']];?></td>
+																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($content['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $content['id'];?>]" value="<?php echo $content['sort_order'];?>" /> </td>
+                                <td class="center-align"><?php echo $status[$content['status']];?></td>
                                 <td class=" last">
-																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policies/translates/'.$policy['id']); ?>"><i class="fa fa-language"></i> Translates</a>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/edit/'.$policy['id'].'/'.$policy['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policies/delete/'.$policy['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('contents/translates/'.$content['id']); ?>"><i class="fa fa-language"></i> Translates</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('contents/edit/'.$content['id'].'/'.$content['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('contents/delete/'.$content['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

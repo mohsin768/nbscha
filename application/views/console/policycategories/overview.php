@@ -1,9 +1,9 @@
 <?php
 $status = array('0' => 'Disabled','1' => 'Enabled');
-if($this->uri->segment(5)==""){
+if($this->uri->segment(6)==""){
 	$i=0;
 }else{
-	$i=$this->uri->segment(5);
+	$i=$this->uri->segment(6);
 }
 ?>
 <div class="row">
@@ -13,14 +13,14 @@ if($this->uri->segment(5)==""){
                 <h2><?php echo $manual->title; ?> - Version:<?php echo $manual->version; ?> - Policy Categories</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policycategories/add'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policycategories/add/'.$manual->id.'/'.$language); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 						<?php
 							$attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'action_filter');
-							echo form_open(admin_url('policycategories/actions'),$attributes); ?>
+							echo form_open(admin_url('policycategories/actions/'.$manual->id.'/'.$language),$attributes); ?>
 
 							<div class="x_content">
 
@@ -57,7 +57,7 @@ if($this->uri->segment(5)==""){
 						<ul class="nav navbar-right panel_toolbox">
 							<?php foreach($languages as $languageRow): ?>
 							<li>
-								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('policycategories/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('policycategories/overview/'.$manual->id.'/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
 							</li>
 							<?php endforeach; ?>
 						</ul>
@@ -73,8 +73,8 @@ if($this->uri->segment(5)==""){
 															<th style="width: 20px;"><input type="checkbox" class="select_all" name="ids" id="ids" /></th>
 															<th class="column-title" style="width: 20px;">#</th>
 															<th class="column-title">
-																<?php $title_direction = ''; if($sort_field=='question'){ $title_direction = $sort_direction; } ?>
-																<a href="#0" class="policycategory-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="question" data-sort-direction="<?php echo $title_direction; ?>">Question</a></th>
+																<?php $title_direction = ''; if($sort_field=='title'){ $title_direction = $sort_direction; } ?>
+																<a href="#0" class="policycategory-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
 
 															<th class="column-title">
 																<?php $language_direction = ''; if($sort_field=='language'){ $language_direction = $sort_direction; } ?>
@@ -92,15 +92,15 @@ if($this->uri->segment(5)==""){
                             <tr class="even pointer">
 																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $policycategory['id']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
-                                <td class=" "><?php echo $policycategory['question'];?></td>
+                                <td class=" "><?php echo $policycategory['title'];?></td>
 
 																<td class=" "><?php echo $this->languages_pair[$policycategory['language']];?></td>
 																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($policycategory['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $policycategory['id'];?>]" value="<?php echo $policycategory['sort_order'];?>" /> </td>
                                 <td class="center-align"><?php echo $status[$policycategory['status']];?></td>
                                 <td class=" last">
-																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policycategories/translates/'.$policycategory['id']); ?>"><i class="fa fa-language"></i> Translates</a>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policycategories/edit/'.$policycategory['id'].'/'.$policycategory['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policycategories/delete/'.$policycategory['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policycategories/translates/'.$manual->id.'/'.$policycategory['id']); ?>"><i class="fa fa-language"></i> Translates</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policycategories/edit/'.$manual->id.'/'.$policycategory['id'].'/'.$policycategory['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policycategories/delete/'.$manual->id.'/'.$policycategory['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>
