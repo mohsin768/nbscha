@@ -15,6 +15,9 @@ if($this->uri->segment(6)==""){
                     <li>
                         <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('sectioncategories/add/'.$manual->id.'/'.$language); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
+					<li>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('manuals/overview'); ?>" ><i class="fa fa-back" aria-hidden="true"></i> &nbsp;Back</a></span>
+                    </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
