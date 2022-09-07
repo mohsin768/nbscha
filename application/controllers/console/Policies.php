@@ -66,9 +66,12 @@ class Policies extends ConsoleController {
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
-	function add()
+	function add($manualId,$sectionId,$language='')
 	{
 		$this->ckeditorCall();
+		if($language ==''){
+			$language = 'en';
+		}
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('content', 'Content', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
@@ -77,11 +80,13 @@ class Policies extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {
 			$vars = array();
+			$vars['language'] = $language;
+			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
+			$vars['section']= $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$language));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('policies/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
-			$maindata = array('status' => $this->input->post('status'));
-
+			$maindata = array('status' => $this->input->post('status'),'manual_id'=>$manualId,'section'=>$sectionId,'category'=>'3');
 			$descdata = array(
 				'title' => $this->input->post('title'),
 				'content' => $this->input->post('content'),
@@ -98,7 +103,7 @@ class Policies extends ConsoleController {
 		}
 	}
 
- public function edit($id, $lang, $translate='')
+ public function edit($manualId,$sectionId,$id, $lang, $translate='')
 	{
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
@@ -114,13 +119,14 @@ class Policies extends ConsoleController {
 			}
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
+			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$langCond));
+			$vars['section']= $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$langCond));
 			$vars['policy']= $this->PoliciesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('policies/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
 			$maindata = array('status' => $this->input->post('status'));
-
 			$descdata = array(
 				'manual_policies_id' => $id,
 				'title' => $this->input->post('title'),
@@ -145,16 +151,20 @@ class Policies extends ConsoleController {
 	}
 
 
-	public function translates($id)
+	public function translates($manualId,$sectionId,$id)
 	{
+		$language = 'en';
 		$cond = array('id'=>$id);
 		$vars['translates'] = $this->PoliciesModel->getTranslates($cond);
 		$vars['manual_policies_id'] = $id;
+		$vars['language']=  $language;
+		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
+		$vars['section']= $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('policies/translates'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
-	function delete($id) {
+	function delete($manualId,$sectionId,$id) {
 		$cond = array('id'=>$id);
 		$updaterow = $this->PoliciesModel->deleteCond($cond);
 		if ($updaterow) {
@@ -166,7 +176,7 @@ class Policies extends ConsoleController {
 		}
 	}
 
-	function actions()
+	function actions($manualId,$sectionId,$language)
 	{
 		$actionStatus=false;
 		$ids=$this->input->post('id');
@@ -229,7 +239,7 @@ class Policies extends ConsoleController {
 				}
 		}
 
-		redirect(admin_url_string('policies/overview'));
+		redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId.'/'.$language));
 	}
 
 

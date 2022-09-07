@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 offset-md-3">
                         <button type="submit" class="btn btn-success">Submit</button>
-                        <a class="btn btn-primary" href="<?php echo admin_url('policies/overview'); ?>">Cancel</a>
+                        <a class="btn btn-primary" href="<?php echo admin_url('policies/overview/'.$manual->id.'/'.$section->id.'/'.$language); ?>">Cancel</a>
                     </div>
                 </div>
                 <?php echo form_close(); ?>

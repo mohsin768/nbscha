@@ -23,7 +23,7 @@ if($this->uri->segment(7)==""){
             </div>
 						<?php
 							$attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'action_filter');
-							echo form_open(admin_url('policies/actions'),$attributes); ?>
+							echo form_open(admin_url('policies/actions/'.$manual->id.'/'.$section->id.'/'.$language),$attributes); ?>
 
 							<div class="x_content">
 
@@ -101,9 +101,9 @@ if($this->uri->segment(7)==""){
 																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($policy['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $policy['id'];?>]" value="<?php echo $policy['sort_order'];?>" /> </td>
                                 <td class="center-align"><?php echo $status[$policy['status']];?></td>
                                 <td class=" last">
-																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policies/translates/'.$policy['id']); ?>"><i class="fa fa-language"></i> Translates</a>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/edit/'.$policy['id'].'/'.$policy['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policies/delete/'.$policy['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policies/translates/'.$manual->id.'/'.$section->id.'/'.$policy['id']); ?>"><i class="fa fa-language"></i> Translates</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/edit/'.$manual->id.'/'.$section->id.'/'.$policy['id'].'/'.$policy['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policies/delete/'.$manual->id.'/'.$section->id.'/'.$policy['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

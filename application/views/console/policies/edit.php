@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-12">
                         <?php echo form_error('title'); ?>
                         <input type="text" id="title" name="title" required="required" value="<?php echo $policy->title; ?>" class="form-control">
                     </div>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Content <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-12">
                         <?php echo form_error('content'); ?>
                         <?php echo $this->ckeditor->editor("content",html_entity_decode($policy->content)); ?>
                     </div>
@@ -61,7 +61,7 @@
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 offset-md-3">
                         <button type="submit" class="btn btn-success">Submit</button>
-                        <a class="btn btn-primary" href="<?php echo admin_url('policies/overview'); ?>">Cancel</a>
+                        <a class="btn btn-primary" href="<?php echo admin_url('policies/overview/'.$manual->id.'/'.$section->id.'/'.$language); ?>">Cancel</a>
                     </div>
                 </div>
                 <?php echo form_close(); ?>
