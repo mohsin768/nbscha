@@ -86,6 +86,8 @@ if($this->uri->segment(6)==""){
                                 <td class=" "><?php echo ++$i; ?></td>
 																<td class=" "><?php echo $variable['title'];?></td>
                                 <td class=" "><?php echo $variable['variable_key'];?></td>
+																<td  style="max-width:250px"><input type="text" style="width:150px;float: left;padding:3px 5px;" value="<?php echo '{{'.$variable['variable_key'].'}}';?>" id="<?php echo 'variable_'.$variable['id'];?>"/>
+																	<button style="float: left" class="copyButton" target="<?php echo 'variable_'.$variable['id'];?>"><i class="fa fa-copy"></i></button></td>
 																<td class=" "><?php echo $this->variableTypes[$variable['variable_type']];?></td>
 
 																<td class=" "><?php echo $this->languages_pair[$variable['language']];?></td>
@@ -110,3 +112,14 @@ if($this->uri->segment(6)==""){
 <div class="pagination_wrap">
     <ul class="pagination"><?php echo $this->pagination->create_links(); ?></ul>
 </div>
+<script>
+
+$("button.copyButton").click(function(){
+  copyToClipboard($(this).attr('target'));
+});
+function copyToClipboard(element) {
+  var copyText = document.getElementById(element);
+  copyText.select();
+  document.execCommand("copy");
+}
+</script>
