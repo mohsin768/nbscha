@@ -60,7 +60,7 @@ if($this->uri->segment(7)==""){
 						<ul class="nav navbar-right panel_toolbox">
 							<?php foreach($languages as $languageRow): ?>
 							<li>
-								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('policies/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('policies/overview/'.$manual->id.'/'.$section->id.'/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
 							</li>
 							<?php endforeach; ?>
 						</ul>

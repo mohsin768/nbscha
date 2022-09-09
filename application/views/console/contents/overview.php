@@ -60,7 +60,7 @@ if($this->uri->segment(7)==""){
 						<ul class="nav navbar-right panel_toolbox">
 							<?php foreach($languages as $languageRow): ?>
 							<li>
-								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('contents/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('contents/overview/'.$manual->id.'/'.$section->id.'/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
 							</li>
 							<?php endforeach; ?>
 						</ul>
@@ -73,42 +73,42 @@ if($this->uri->segment(7)==""){
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr class="headings">
-															<th style="width: 20px;"><input type="checkbox" class="select_all" name="ids" id="ids" /></th>
-															<th class="column-title" style="width: 20px;">#</th>
-															<th class="column-title">
-																<?php $title_direction = ''; if($sort_field=='title'){ $title_direction = $sort_direction; } ?>
-																<a href="#0" class="policy-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
+								<th style="width: 20px;"><input type="checkbox" class="select_all" name="ids" id="ids" /></th>
+								<th class="column-title" style="width: 20px;">#</th>
+								<th class="column-title">
+									<?php $title_direction = ''; if($sort_field=='title'){ $title_direction = $sort_direction; } ?>
+									<a href="#0" class="policy-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
 
-															<th class="column-title">
-																<?php $language_direction = ''; if($sort_field=='language'){ $language_direction = $sort_direction; } ?>
-																<a href="#0" class="policy-sort sort-list-link <?php echo $language_direction; ?>" data-sort-field="language" data-sort-direction="<?php echo $language_direction; ?>">Language</a>
-															</th>
-															<th style="width: 150px;"><?php $order_direction = ''; if($sort_field=='sort_order'){ $order_direction = $sort_direction; } ?>
-															<a href="#0" style="display:inline" class="policy-sort sort-list-link <?php echo $order_direction; ?>" data-sort-field="sort_order" data-sort-direction="<?php echo $order_direction; ?>">Sort Order </a> <input style="padding:1px;" type="submit" name="sortsave" value="Save" /></th>
-															<th class="column-title fix-100 center-align">Status</th>
-															<th class="column-title no-link last"><span class="nobr">Action</span></th>
+								<th class="column-title">
+									<?php $language_direction = ''; if($sort_field=='language'){ $language_direction = $sort_direction; } ?>
+									<a href="#0" class="policy-sort sort-list-link <?php echo $language_direction; ?>" data-sort-field="language" data-sort-direction="<?php echo $language_direction; ?>">Language</a>
+								</th>
+								<th style="width: 150px;"><?php $order_direction = ''; if($sort_field=='sort_order'){ $order_direction = $sort_direction; } ?>
+								<a href="#0" style="display:inline" class="policy-sort sort-list-link <?php echo $order_direction; ?>" data-sort-field="sort_order" data-sort-direction="<?php echo $order_direction; ?>">Sort Order </a> <input style="padding:1px;" type="submit" name="sortsave" value="Save" /></th>
+								<th class="column-title fix-100 center-align">Status</th>
+								<th class="column-title no-link last"><span class="nobr">Action</span></th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <?php if(count($contents)>0){ foreach($contents as $content):?>
                             <tr class="even pointer">
-																<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $content['id']; ?>" /></td>
+								<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $content['id']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
                                 <td class=" "><?php echo $content['title'];?></td>
-
-																<td class=" "><?php echo $this->languages_pair[$content['language']];?></td>
-																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($content['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $content['id'];?>]" value="<?php echo $content['sort_order'];?>" /> </td>
+								<td class=" "><?php echo $this->languages_pair[$content['language']];?></td>
+								<td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($content['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $content['id'];?>]" value="<?php echo $content['sort_order'];?>" /> </td>
                                 <td class="center-align"><?php echo $status[$content['status']];?></td>
                                 <td class=" last">
-																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('contents/translates/'.$content['id']); ?>"><i class="fa fa-language"></i> Translates</a>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('contents/edit/'.$content['id'].'/'.$content['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('contents/delete/'.$content['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+									<a class="btn btn-dark btn-xs" href="<?php echo admin_url('contents/translates/'.$manual->id.'/'.$section->id.'/'.$content['id']); ?>"><i class="fa fa-language"></i> Translates</a>
+									<a class="btn btn-info btn-xs" href="<?php echo admin_url('contents/edit/'.$manual->id.'/'.$section->id.'/'.$content['id'].'/'.$content['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+									<a class="btn btn-info btn-xs" href="<?php echo admin_url('contents/move/'.$manual->id.'/'.$section->id.'/'.$content['id'].'/'.$content['language']); ?>"title="Move"><i class="fa fa-edit"></i> Change Section</a>
+									<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('contents/delete/'.$manual->id.'/'.$section->id.'/'.$content['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>
-													<?php endforeach; }  else {?>
-														<tr><td colspan="8"><p>No results Found</p></td></tr>
-													 <?php }?>
+							<?php endforeach; }  else {?>
+							<tr><td colspan="8"><p>No results Found</p></td></tr>
+							<?php }?>
                         </tbody>
                     </table>
                 </div>
