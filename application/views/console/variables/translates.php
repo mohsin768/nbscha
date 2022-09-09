@@ -18,7 +18,7 @@
                         <thead>
                             <tr class="headings">
 															<th class="column-title" style="width: 20px;">#</th>
-															<th class="column-title">Variable Value</th>
+                              <th class="column-title">Title</th>
 															<th class="column-title">Language</th>
 															<th class="column-title no-link last"><span class="nobr">Action</span></th>
                             </tr>
@@ -29,7 +29,7 @@
 
                             <tr class="even pointer">
                                 <td class=" "><?php echo ++$i; ?></td>
-                                <td class=" "><strong><?php if(isset($translates[$code])) { echo $translates[$code]['variable_value'];} else { echo '--';}?> </strong>
+                                <td class=" "><strong><?php if(isset($translates[$code])) { echo $translates[$code]['title'];} else { echo '--';}?> </strong>
 																<?php if($this->default_language==$code) {?> <span class="lang_label">(Original Language)</span> <?php }?></td>
                                 <td class=" "><?php echo $name;?></td>
                                 <td class=" last">

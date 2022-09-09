@@ -62,6 +62,7 @@ class Variables extends MemberController {
 	}
 	public function edit($manualId,$varDescId){
 				$this->output->set_content_type('application/json');
+				$this->ckeditorCall();
 				$variableRow=$this->ManualVariablesModel->getMemberRowCond(array('desc_id'=>$varDescId),$this->session->userdata('member_user_id'));
 				$language = $variableRow->language;
 				$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
@@ -73,29 +74,67 @@ class Variables extends MemberController {
 			}
 	public function update(){
 				$this->output->set_content_type('application/json');
-				$this->form_validation->set_rules('course_custom_fees', 'Custom Fees', 'numeric');
-				$this->form_validation->set_rules('member_course_status', 'Status', 'required');
-				if($this->form_validation->run() == FALSE)
-				{
-					$results = array('status' => '0', 'content' => validation_errors('<span class="error">', '</span>'));
-
-				}else{
-
-					$relid = $this->input->post('relation_id',TRUE);
-					if($this->input->post('course_original_fees') && $this->input->post('course_original_fees')=='1'){
-						$course_original_fees='1';
+					$varDescId = $this->input->post('desc_id',TRUE);
+					$varId = $this->input->post('var_id',TRUE);
+					$memberValue =  $this->input->post('member_value',TRUE);
+					$variableRow=$this->ManualVariablesModel->getMemberRowCond(array('desc_id'=>$varDescId,'member_id'=>$this->session->userdata('member_user_id')),$this->session->userdata('member_user_id'));
+					if($variableRow){
+						$varData = array('member_value' => $memberValue);
+						$updaterow = $this->ManualVariablesModel->updateMemberVariable($varData,array('member_value_id'=>$variableRow->member_value_id));
 					}else{
-						$course_original_fees='0';
+						$varData = array('variable_id'=>$varId,
+						'variable_desc_id'=>$varDescId,
+						'member_id'=>$this->session->userdata('member_user_id'),
+						'member_value' => $memberValue);
+						$updaterow = $this->ManualVariablesModel->insertMemberVariable($varData);
 					}
-					$relData = array(
-						'course_custom_fees' => $this->input->post('course_custom_fees',TRUE),
-						'course_original_fees' => $course_original_fees,
-						'member_course_status' => $this->input->post('member_course_status',TRUE));
-					$updaterow = $this->FranchiseCoursesModel->updateRelation($relData,array('memberes_course_relation.id'=>$relid));
-					$results = array('status'=>'1','content' =>'');
-				}
+
+				$results = array('status'=>'1','content' =>'');
 				$json=json_encode($results);
 				exit($json);
 			}
+			function actions($manualId,$language)
+			{
+				$actionStatus=false;
+				$ids=$this->input->post('id');
 
+
+
+				if(isset($_POST['sort_field']) && $this->input->post('sort_field')!=''){
+							$sortField = $this->input->post('sort_field');
+							$newdata = array('variable_sort_field_filter'  => $sortField);
+
+							if($this->session->userdata('variable_sort_order_filter')=='asc'){
+								$newdata['variable_sort_order_filter'] = 'desc';
+							} else{
+								$newdata['variable_sort_order_filter'] = 'asc';
+							}
+							$this->session->set_userdata($newdata);
+						}else{
+							$newdata = array('variable_sort_order_filter','variable_sort_field_filter');
+							$this->session->unset_userdata($newdata);
+						}
+
+				if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
+						$newdata = array('variable_sort_field_filter','variable_sort_order_filter',
+						'variable_search_key_filter','variable_language_filter');
+						$this->session->unset_userdata($newdata);
+				}
+
+				if(isset($_POST['search']) && $this->input->post('search')=='Search'){
+						if($this->input->post('variable_search_key')!=''||
+						$this->input->post('variable_language')!=''){
+								$newdata = array(
+										'variable_search_key_filter'  => $this->input->post('variable_search_key'),
+										'variable_language_filter'  => $this->input->post('variable_language'));
+								$this->session->set_userdata($newdata);
+
+						} else {
+							$newdata = array('variable_search_key_filter','variable_language_filter');
+							$this->session->unset_userdata($newdata);
+						}
+				}
+
+				redirect(member_url_string('variables/overview/'.$manualId.'/'.$language));
+			}
 }

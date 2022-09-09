@@ -37,7 +37,7 @@ class Variables extends ConsoleController {
 		}
 
 		if($this->session->userdata('variable_search_key_filter')!=''){
-			$like[] = array('field'=>'variable_value', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
+			$like[] = array('field'=>'title', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
 		}
 
 		if($this->session->userdata('variable_sort_field_filter')!=''){
@@ -65,6 +65,7 @@ class Variables extends ConsoleController {
 		if($language ==''){
 			$language = 'en';
 		}
+		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
 		$this->form_validation->set_rules('variable_key', 'Key', 'required');
 		$this->form_validation->set_rules('variable_type', 'Type', 'required');
@@ -81,7 +82,7 @@ class Variables extends ConsoleController {
 			$maindata = array('variable_type' => $this->input->post('variable_type'),
 			'variable_key' => $this->input->post('variable_key'),
 			'manual_id'=>$manualId);
-			$descdata = array(
+			$descdata = array('title' => $this->input->post('title'),
 				'variable_value' => $this->input->post('variable_value'),
 				'language' => $this->input->post('language'));
 
@@ -98,6 +99,7 @@ class Variables extends ConsoleController {
 
  public function edit($manualId,$id, $lang, $translate='')
 	{
+		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
 		$this->form_validation->set_rules('variable_key', 'Key', 'required');
 		$this->form_validation->set_rules('variable_type', 'Type', 'required');
@@ -123,6 +125,7 @@ class Variables extends ConsoleController {
 			$descdata = array(
 				'manual_variable_id	' => $id,
 				'variable_value' => $this->input->post('variable_value'),
+				'title' => $this->input->post('title'),
 				'language' => $this->input->post('language'));
 
 				$cond = array('id'=>$id);

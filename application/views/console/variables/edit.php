@@ -21,6 +21,15 @@
                 <input type="hidden" name="id" value="<?php echo $variable->id; ?>" />
                 <input type="hidden" name="language" value="<?php echo $language; ?>" />
                 <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <?php echo form_error('title'); ?>
+                        <input type="text" id="title" name="title" required="required" value="<?php echo $variable->title; ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Variable Key<span class="required">*</span>
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
