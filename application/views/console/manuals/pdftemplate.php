@@ -54,10 +54,12 @@
             .policy-table{
                 width:100%;
                 border:1px solid #000000;
+                border-collapse: collapse;
             }
             .policy-table td{
                 padding: 5px;
                 border:1px solid #000000;
+                border-collapse: collapse;
                 font-weight:bold;
             }
         </style>

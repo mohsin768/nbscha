@@ -85,7 +85,7 @@ if($this->uri->segment(6)==""){
 
                                 <td class=" "><?php echo ++$i; ?></td>
 																<td class=" "><?php echo $variable['title'];?></td>
-																<td  style="max-width:300px"><input type="text" style="min-width:150px;float: left;padding:3px 5px;" value="<?php echo '{{'.$variable['variable_key'].'}}';?>" id="<?php echo 'variable_'.$variable['id'];?>"/>
+																<td  style="max-width:300px"><input type="text" style="min-width:150px;float: left;padding:3px 5px; border:0px none;" value="<?php echo '{'.$variable['variable_key'].'}';?>" id="<?php echo 'variable_'.$variable['id'];?>"/>
 																	<button style="float: left" class="copyButton" target="<?php echo 'variable_'.$variable['id'];?>"><i class="fa fa-copy"></i></button></td>
 																<td class=" "><?php echo $this->variableTypes[$variable['variable_type']];?></td>
 
