@@ -51,6 +51,17 @@
             .cover-table img{
                 width:100%;
             }
+            .policy-table{
+                width:100%;
+                border:1px solid #000000;
+                border-collapse: collapse;
+            }
+            .policy-table td{
+                padding: 5px;
+                border:1px solid #000000;
+                border-collapse: collapse;
+                font-weight:bold;
+            }
         </style>
         <?php echo $customcss; ?>
     </head>
@@ -128,7 +139,6 @@
                     <?php } ?>
                     <?php if($sectionCategory['category_type']=='contents'){ ?>
                         <?php foreach($sectionCategory['contents'] as $sectionCategoryContent):?>
-                        <h3><?php echo $sectionCategoryContent['title']; ?></h3>
                         <?php echo $sectionCategoryContent['content']; ?>
                         <?php endforeach; ?>
                     <?php } ?>
@@ -159,7 +169,7 @@
                     <?php foreach($section['categories'] as $sectionCategory): ?>
                     <?php if($sectionCategory['category_type']=='policylist'){ ?>
                         <?php $policyCount=0; foreach($sectionCategory['policies'] as $sectionCategoryPolicy): $policyCount++; ?>
-                        <table>
+                        <table class="policy-table">
                             <tr>
                                 <td>Category: <?php if(isset($policyCategories[$sectionCategoryPolicy['policy_category']])){ echo $policyCategories[$sectionCategoryPolicy['policy_category']]; }?></td>
                                 <td>Policy Number: <?php echo $sectionCount; ?>.<?php echo sprintf('%02d', $policyCount);?> </td>
