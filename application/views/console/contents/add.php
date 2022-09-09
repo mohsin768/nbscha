@@ -13,6 +13,8 @@
                 echo form_open_multipart(admin_url_string('contents/add/'.$manual->id.'/'.$section->id.'/'.$language),$attributes);
                 ?>
                 <input type="hidden" name="language" value="<?php echo $language;?>" />
+                <input type="hidden" name="section_type" value="<?php echo $section->section_type;?>" />
+                <?php if($section->section_type=='categorized'){ ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="category">Category</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
@@ -25,7 +27,10 @@
                         </select>
                     </div>
                     <div class="clearfix"></div>
-                </div>    
+                </div>  
+                <?php } else { ?>  
+                <input type="hidden" name="category" value="0" />
+                <?php } ?>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title<span class="required">*</span>
                     </label>

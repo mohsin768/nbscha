@@ -76,7 +76,7 @@ class Contents extends ConsoleController {
 		if($language ==''){
 			$language = 'en';
 		}
-		$this->form_validation->set_rules('category', 'Category', 'required');
+		$this->form_validation->set_rules('category', 'Category', 'callback_category_check');
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('content', 'Content', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
@@ -117,7 +117,7 @@ class Contents extends ConsoleController {
  	public function edit($manualId,$sectionId,$id, $language, $translate='')
 	{
 		$this->ckeditorCall();
-		$this->form_validation->set_rules('category', 'Category', 'required');
+		$this->form_validation->set_rules('category', 'Category', 'callback_category_check');
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('content', 'Content', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
@@ -172,6 +172,20 @@ class Contents extends ConsoleController {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 				redirect(admin_url_string('contents/overview/'.$manualId.'/'.$sectionId.'/'.$language));
 			}
+		}
+	}
+
+	function category_check($val) {
+		$sectionType = $this->input->post('section_type');
+		if($sectionType=='categorized'){
+			if($this->input->post('category')==''){
+				$this->form_validation->set_message('category_check', 'required');
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return TRUE;
 		}
 	}
 

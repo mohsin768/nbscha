@@ -61,9 +61,32 @@ class ManualVariablesModel extends CMS_Model {
 		$this->db->from($this->table_name);
     if($this->multilingual){
 			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
-      $this->db->join($this->member_table_name, "$this->member_table_name.$this->member_key = $this->desc_table_name.desc_id AND $this->member_table_name.member_id=$memberId","left");;
+      $this->db->join($this->member_table_name, "$this->member_table_name.$this->member_key = $this->desc_table_name.desc_id AND $this->member_table_name.member_id=$memberId","left");
 		}
 		$query = $this->db->get();
 		return $query->row();
+	}
+
+  function getMemberArrayCond($cond='',$like='',$orderField='',$orderDirection='',$memberId='0') {
+		$this->db->from($this->table_name);
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+      $this->db->join($this->member_table_name, "$this->member_table_name.$this->member_key = $this->desc_table_name.desc_id AND $this->member_table_name.member_id=$memberId","left");
+		}
+		if (is_array($cond) && count($cond) > 0) {
+			$this->db->where($cond);
+		}
+		if (is_array($like) && count($like) > 0) {
+			$this->db->group_start();
+			foreach($like as $row):
+				$this->db->or_like($row['field'],$row['value'],$row['location']);
+			endforeach;
+			$this->db->group_end();
+		}
+   		if ($orderField!='' && $orderDirection!='') {
+			$this->db->order_by($orderField, $orderDirection);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 }

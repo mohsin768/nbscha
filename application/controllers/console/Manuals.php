@@ -13,6 +13,7 @@ class Manuals extends ConsoleController {
 		$this->load->model('SectionCategoriesModel');
 		$this->load->model('PolicyCategoriesModel');
 		$this->load->model('ManualContentsModel');
+		$this->load->model('ManualVariablesModel');
 	}
 
 	public function index()
@@ -390,6 +391,13 @@ class Manuals extends ConsoleController {
 		$policyCond = array('manual_id'=>$id,'language'=>$lang,'status'=>'1');
 		$vars['policyCategories'] = $this->PolicyCategoriesModel->getElementPair('id','title','sort_order','asc',$policyCond);
 		$html = $this->load->view(admin_url_string('manuals/pdftemplate'),$vars,true);
+		$processedVariables = array();
+		$variableCond = array('manual_id'=>$id,'language'=>$lang);
+		$variables = $this->ManualVariablesModel->getArrayCond($variableCond);
+		foreach($variables as $variable):
+			$processedVariables['{'.$variable['variable_key'].'}'] = $variable['variable_value'];
+		endforeach;
+		$html = strtr($html,$processedVariables);
 		$dompdf->loadHtml($html);
 		$dompdf->setPaper('A4', 'portrait');
 		$dompdf->render();

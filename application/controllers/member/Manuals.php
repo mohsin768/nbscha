@@ -13,6 +13,7 @@ class Manuals extends MemberController {
 		$this->load->model('SectionCategoriesModel');
 		$this->load->model('PolicyCategoriesModel');
 		$this->load->model('ManualContentsModel');
+		$this->load->model('ManualVariablesModel');
 	}
 
 	public function index()
@@ -168,6 +169,18 @@ class Manuals extends MemberController {
 		$policyCond = array('manual_id'=>$id,'language'=>$lang,'status'=>'1');
 		$vars['policyCategories'] = $this->PolicyCategoriesModel->getElementPair('id','title','sort_order','asc',$policyCond);
 		$html = $this->load->view(admin_url_string('manuals/pdftemplate'),$vars,true);
+		$processedVariables = array();
+		$memberId = $this->session->userdata('member_user_id');
+		$variableCond = array('manual_id'=>$id,'language'=>$lang);
+		$variables = $this->ManualVariablesModel->getMemberArrayCond($variableCond,'','','',$memberId);
+		foreach($variables as $variable):
+			$variableValue = $variable['variable_value'];
+			if(isset($variable['member_value']) && $variable['member_value']!=''){
+				$variableValue = $variable['member_value'];
+			}
+			$processedVariables['{'.$variable['variable_key'].'}'] = $variableValue;
+		endforeach;
+		$html = strtr($html,$processedVariables);
 		$dompdf->loadHtml($html);
 		$dompdf->setPaper('A4', 'portrait');
 		$dompdf->render();

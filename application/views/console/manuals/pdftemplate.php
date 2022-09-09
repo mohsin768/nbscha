@@ -199,6 +199,7 @@
                         <?php echo $sectionContent['title']; ?>
                     </a></h3>
                     <?php echo $sectionContent['content']; ?>
+                    <div class="page-break-after"></div>
                 <?php endforeach; ?>
                 <?php } ?>
             <?php endforeach; ?>
