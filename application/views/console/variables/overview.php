@@ -15,7 +15,7 @@ if($this->uri->segment(6)==""){
                         <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('variables/add/'.$manual->id.'/'.$language); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
 										<li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('variables/overview'); ?>" ><i class="fa fa-back" aria-hidden="true"></i> &nbsp;Back</a></span>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('manuals/overview'); ?>" ><i class="fa fa-back" aria-hidden="true"></i> &nbsp;Back</a></span>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -31,16 +31,7 @@ if($this->uri->segment(6)==""){
 													Search :
 													<input type="text"  class="form-control filter" placeholder="Search key ..." name="variable_search_key" value="<?php echo $this->session->userdata('variable_search_key_filter'); ?>" />
 												</div>
-												<div class="filter-col">
-													Language:
-													<select id="variable_language" name="variable_language" class="form-control filter">
-	                            <option value=""> All </option>
-	                            <?php foreach($this->languages_pair as $code => $name): ?>
-	                                <option value="<?php echo $code; ?>" <?php if($this->session->userdata('variable_language_filter')==$code){ echo 'selected'; }?>><?php echo $name; ?></option>
-	                            <?php endforeach; ?>
-	                        </select>
 
-												</div>
 												<input type="hidden" value="" name="sort_field" id="sort_field" />
 												<div class="filter-col">
 													<button class="btn btn-success btn-xs filter" type="submit" value="Search" name="search" ><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
@@ -57,7 +48,7 @@ if($this->uri->segment(6)==""){
 						<ul class="nav navbar-right panel_toolbox">
 							<?php foreach($languages as $languageRow): ?>
 							<li>
-								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('variables/overview/'.$manual->id.'/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('variables/overview/'.$manual->id.'/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span>
 							</li>
 							<?php endforeach; ?>
 						</ul>
@@ -72,11 +63,12 @@ if($this->uri->segment(6)==""){
                             <tr class="headings">
 
 															<th class="column-title" style="width: 20px;">#</th>
+															<th class="column-title">
+																<?php $title_direction = ''; if($sort_field=='title'){ $title_direction = $sort_direction; } ?>
+																<a href="#0" class="variable-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
 															<th class="column-title">Variable Key</th>
 															<th class="column-title">Type</th>
-															<th class="column-title">
-																<?php $title_direction = ''; if($sort_field=='variable_value'){ $title_direction = $sort_direction; } ?>
-																<a href="#0" class="variable-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="variable_value" data-sort-direction="<?php echo $title_direction; ?>">Value</a></th>
+
 
 															<th class="column-title">
 																<?php $language_direction = ''; if($sort_field=='language'){ $language_direction = $sort_direction; } ?>
@@ -92,9 +84,10 @@ if($this->uri->segment(6)==""){
                             <tr class="even pointer">
 
                                 <td class=" "><?php echo ++$i; ?></td>
+																<td class=" "><?php echo $variable['title'];?></td>
                                 <td class=" "><?php echo $variable['variable_key'];?></td>
 																<td class=" "><?php echo $this->variableTypes[$variable['variable_type']];?></td>
-																<td class=" "><?php echo $variable['variable_value'];?></td>
+
 																<td class=" "><?php echo $this->languages_pair[$variable['language']];?></td>
 
                                 <td class=" last">

@@ -2,50 +2,41 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
+
+        <h4 class="modal-title" id="statusLabel">Update - Variable  <small >Manual: <?php echo $manual->title;?></small></h4>
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title" id="statusLabel">Update - Course <small style="float:right;margin-top:8px"># <?php echo $variable->variable_title;?></small></h4>
       </div>
       <div class="modal-body">
 
 <div class="validation-errors red"></div>
             <?php
-              $attributes = array('class' => 'form-vertical', 'id' => 'franchise-variable-update');
+              $attributes = array('class' => 'form-vertical', 'id' => 'member-variable-update');
               echo form_open('',$attributes);
               ?>
-              <input type="hidden" name="relation_id" value="<?php echo $variable->relation_id;?>" />
+              <input type="hidden" name="desc_id" value="<?php echo $variable->desc_id;?>" />
+              <input type="hidden" name="var_id" value="<?php echo $variable->id;?>" />
+              <input type="hidden" name="variable_type" value="<?php echo $variable->variable_type;?>" />
 
               <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
-                      Use Original Price ( <?php echo $variable->variable_fees. 'CAD'; ?>)
-
-                  </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input id="original-price" name="variable_original_fees" <?php echo ($variable->variable_original_fees=='1')?'checked':''; ?> type="checkbox"  value="1" />
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title"> Original Value</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                         <?php echo $variable->variable_value; ?>
                     </div>
                   <div class="clearfix"></div>
               </div>
               <div class="form-group" id="custom-price">
                   <label class="control-label col-md-3 col-sm-3 col-xs-12" for="title">
-                      Franchise Price
+                      Custom Value
                   </label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="number" step="0.1" id="variable_fees" name="variable_custom_fees"  value="<?php echo $variable->variable_custom_fees; ?>" class="form-control col-md-12 col-xs-12">
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <?php if($variable->variable_type=='text'){?>
+                        <input type="text"  id="member_value" name="member_value"  value="<?php echo $variable->member_value; ?>" class="form-control col-md-12 col-xs-12">
+                      <?php } elseif($variable->variable_type=='textarea'){?>
+                        <textarea id="member_value" name="member_value"  class="form-control col-md-12 col-xs-12" ><?php echo $variable->member_value; ?></textarea>
+                      <?php } elseif($variable->variable_type=='editor'){?>
+                        <?php echo $this->ckeditor->editor("member_value",html_entity_decode($variable->member_value)); ?>
+                      <?php } ?>
                     </div>
-                  <div class="clearfix"></div>
-              </div>
-              <div class="form-group">
-                  <label class="control-label col-md-3 col-sm-3 col-xs-12">Status <span class="required">*</span></label>
-                  <div class="col-md-6 col-sm-6 col-xs-12">
-                      <?php echo form_error('status'); ?>
-                      <div id="status" class="btn-group" data-toggle="buttons">
-                          <label class="btn btn-default <?php if($variable->franchise_variable_status=='1') { echo 'active'; } ?>">
-                              <input type="radio" required="required" name="franchise_variable_status" value="1" <?php if($variable->franchise_variable_status=='1') { echo 'checked="checked"'; } ?> /> &nbsp; Active &nbsp;
-                          </label>
-                          <label class="btn btn-default <?php if($variable->franchise_variable_status=='0') { echo 'active'; } ?>">
-                              <input type="radio" required="required" name="franchise_variable_status" value="0" <?php if($variable->franchise_variable_status=='0') { echo 'checked="checked"'; } ?> /> Inactive
-                          </label>
-                      </div>
-                  </div>
                   <div class="clearfix"></div>
               </div>
 

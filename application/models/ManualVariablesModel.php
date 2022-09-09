@@ -66,7 +66,6 @@ class ManualVariablesModel extends CMS_Model {
 		$query = $this->db->get();
 		return $query->row();
 	}
-
   function getMemberArrayCond($cond='',$like='',$orderField='',$orderDirection='',$memberId='0') {
 		$this->db->from($this->table_name);
     if($this->multilingual){
@@ -88,5 +87,27 @@ class ManualVariablesModel extends CMS_Model {
 		}
 		$query = $this->db->get();
 		return $query->result_array();
+  }
+  function insertMemberVariable($data)
+	{
+		$prime = false;
+		$this->db->insert($this->member_table_name,$data);
+		$prime=$this->db->insert_id();
+  	return $prime;
+	}
+
+	function updateMemberVariable($data=array(),$cond)
+	{
+			$updateid = $this->db->update($this->member_table_name,$data,$cond);
+			return $updateid;
+	}
+  function deleteCond($cond) {
+    if($this->multilingual && isset($cond[$this->primary_key])){
+      $memCond=array('variable_id'=>$cond[$this->primary_key]);
+			$this->db->delete($this->member_table_name,$memCond);
+			$desccond=array($this->foreign_key=>$cond[$this->primary_key]);
+			$this->db->delete($this->desc_table_name,$desccond);
+		}
+		return $this->db->delete($this->table_name,$cond);
 	}
 }
