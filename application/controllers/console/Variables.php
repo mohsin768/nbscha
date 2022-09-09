@@ -67,7 +67,7 @@ class Variables extends ConsoleController {
 		}
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
-		$this->form_validation->set_rules('variable_key', 'Key', 'required');
+		$this->form_validation->set_rules('variable_key', 'Key', 'required|callback_variablekey_exists');
 		$this->form_validation->set_rules('variable_type', 'Type', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_message('required', 'required');
@@ -101,7 +101,7 @@ class Variables extends ConsoleController {
 	{
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
-		$this->form_validation->set_rules('variable_key', 'Key', 'required');
+		$this->form_validation->set_rules('variable_key', 'Key', 'required|callback_variablekey_exists');
 		$this->form_validation->set_rules('variable_type', 'Type', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
@@ -145,7 +145,19 @@ class Variables extends ConsoleController {
 		}
 	}
 
-
+	function variablekey_exists($val) {
+		if($this->input->post('id')){
+			$cond = array('id !=' => $this->input->post('id'), 'variable_key' => $val);
+		} else {
+			$cond = array('variable_key' => $val);
+		}
+		if($this->ManualVariablesModel->rowExists($cond)) {
+			$this->form_validation->set_message('variablekey_exists', 'Variable Key - '. $val .' - already exists!!');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
 	public function translates($manualId,$id)
 		{
 			$cond = array('id'=>$id);
