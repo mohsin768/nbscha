@@ -74,18 +74,132 @@
         <div class="page-break-after">
            <h2>Table of Contents</h2>
            <ul>
-           <?php foreach($policies as $policy): ?>
-            <li><a href="#policy-<?php echo $policy['id']; ?>"><?php echo $policy['title']; ?></a></li>
+           <?php $sectionCount = 0; foreach($sections as $section): if($section['numbered']=='1'){ $sectionCount++; }?>
+            <li><a href="#section-<?php echo $section['id']; ?>">
+            <?php if( $section['numbered']=='1'){ ?>
+                Section <?php echo $sectionCount; ?>: 
+            <?php } ?>
+            <?php echo $section['title']; ?>
+            </a></li>
+            <?php endforeach; ?>
+           </ul>
+           <h3>Each section contains the following categories:</h3>
+           <ul>
+            <?php foreach($sectionCategories as $sectionCategory): ?>
+            <li><?php echo $sectionCategory['title']; ?></li>
             <?php endforeach; ?>
            </ul>
         </div>
         <!-- Wrap the content of your PDF inside a main tag -->
         <main>
-            <?php $count = count($policies); $loop = 0; foreach($policies as $policy): $loop++; ?>
-                <h2><a name="policy-<?php echo $policy['id']; ?>"><?php echo $policy['title']; ?></a></h2>
-                <?php echo $policy['content']; ?>
+            <?php $sectionCount = 0; $count = count($sections); $loop = 0; foreach($sections as $section): $loop++; if($section['numbered']=='1'){ $sectionCount++; }?>
+                <h2><a name="section-<?php echo $section['id']; ?>">
+                <?php if( $section['numbered']=='1'){ ?>
+                    Section <?php echo $sectionCount; ?>: 
+                <?php } ?>
+                <?php echo $section['title']; ?>
+                </a></h2>
+                <?php if($section['section_type']=='categorized'){ ?>
+                    <?php foreach($section['categories'] as $sectionCategory): $showCategory = false; if(count($sectionCategory['contents'])>0 || count($sectionCategory['policies'])>0){$showCategory = true; }?>
+                    <?php if($showCategory){ ?>
+                    <h4><?php echo $sectionCategory['title']; ?></h4>
+                    <?php } ?>
+                    <?php if($sectionCategory['category_type']=='policylist'){ ?>
+                        <ul>
+                        <?php $policyCount = 0; foreach($sectionCategory['policies'] as $sectionCategoryPolicy): $policyCount++; ?>
+                        <li>
+                        <a href="#section-category-policy-<?php echo $sectionCategoryPolicy['id']; ?>">
+                        <?php echo $policyCount; ?>. <?php echo $sectionCategoryPolicy['title']; ?>
+                        </a>
+                        </li>
+                        <?php endforeach; ?>
+                        </ul>
+                    <?php } ?>
+                    <?php if($sectionCategory['category_type']=='contentlist'){ ?>
+                        <ul>
+                        <?php foreach($sectionCategory['contents'] as $sectionCategoryContent):?>
+                        <li>
+                        <a href="#section-category-content-<?php echo $sectionCategoryContent['id']; ?>">
+                        <?php echo $sectionCategoryContent['title']; ?>
+                        </a>
+                        </li>
+                        <?php endforeach; ?>
+                        </ul>
+                    <?php } ?>
+                    <?php if($sectionCategory['category_type']=='contents'){ ?>
+                        <?php foreach($sectionCategory['contents'] as $sectionCategoryContent):?>
+                        <h3><?php echo $sectionCategoryContent['title']; ?></h3>
+                        <?php echo $sectionCategoryContent['content']; ?>
+                        <?php endforeach; ?>
+                    <?php } ?>
+                    <?php endforeach; ?>
+                <?php } ?>    
+                <?php if($section['section_type']=='contentlist'){ ?>
+                    <?php foreach($section['contents'] as $sectionContent):?>
+                    <h3>
+                        <a href="#section-content-<?php echo $sectionContent['id']; ?>">
+                        <?php echo $sectionContent['title']; ?>
+                        </a>
+                    </h3>
+                <?php endforeach; ?>
+                <?php } ?>
+                <?php if($section['section_type']=='contents'){ ?>
+                <?php foreach($section['contents'] as $sectionContent):?>
+                    <h3><?php echo $sectionContent['title']; ?></h3>
+                    <?php echo $sectionContent['content']; ?>
+                <?php endforeach; ?>
+                <?php } ?>
                 <?php if($loop<$count){ ?>
                 <div class="page-break-after"></div>
+                <?php } ?>
+            <?php endforeach; ?>
+            <div class="page-break-after"></div>
+            <?php $sectionCount = 0; foreach($sections as $section): if($section['numbered']=='1'){ $sectionCount++; } ?>
+                <?php if($section['section_type']=='categorized'){ ?>
+                    <?php foreach($section['categories'] as $sectionCategory): ?>
+                    <?php if($sectionCategory['category_type']=='policylist'){ ?>
+                        <?php $policyCount=0; foreach($sectionCategory['policies'] as $sectionCategoryPolicy): $policyCount++; ?>
+                        <table>
+                            <tr>
+                                <td>Category: <?php if(isset($policyCategories[$sectionCategoryPolicy['policy_category']])){ echo $policyCategories[$sectionCategoryPolicy['policy_category']]; }?></td>
+                                <td>Policy Number: <?php echo $sectionCount; ?>.<?php echo sprintf('%02d', $policyCount);?> </td>
+                            </tr>
+                            <tr>
+                                <td>Policy Title: <a name="section-category-policy-<?php echo $sectionCategoryPolicy['id']; ?>">
+                                    <?php echo $sectionCategoryPolicy['title']; ?>
+                                    </a>
+                                </td>
+                                <td>
+                                First Created: <?php if($sectionCategoryPolicy['policy_issue_date']!=''){  echo date('F d, Y',strtotime($sectionCategoryPolicy['policy_issue_date']));  }?>
+                                <br/>
+                                Last Revision: <?php if($sectionCategoryPolicy['policy_update_date']!=''){  echo date('F d, Y',strtotime($sectionCategoryPolicy['policy_update_date'])); }?>
+                                </td>
+                            </tr>
+                        </table>    
+                        <?php echo $sectionCategoryPolicy['content']; ?>
+                        <div class="page-break-after"></div>
+                        <?php endforeach; ?>
+                    <?php } ?>
+                    <?php if($sectionCategory['category_type']=='contentlist'){ ?>
+                        <?php foreach($sectionCategory['contents'] as $sectionCategoryContent):?>
+                        <h3>
+                        <a name="section-category-content-<?php echo $sectionCategoryContent['id']; ?>">
+                        <?php echo $sectionCategoryContent['title']; ?>
+                        </a>
+                        </h3>
+                        <?php echo $sectionCategoryContent['content']; ?>
+                        <div class="page-break-after"></div>
+                        <?php endforeach; ?>
+                    <?php } ?>
+                    <?php endforeach; ?>
+                <?php } ?>
+                <?php if($section['section_type']=='contentlist'){ ?>
+                    <?php foreach($section['contents'] as $sectionContent):?>
+                    <h3><a name="section-content-<?php echo $sectionContent['id']; ?>">
+                        <?php echo $sectionContent['title']; ?>
+                    </a></h3>
+                    <?php echo $sectionContent['content']; ?>
+                <?php endforeach; ?>
                 <?php } ?>
             <?php endforeach; ?>
         </main>
