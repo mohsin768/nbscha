@@ -111,10 +111,11 @@ if($this->uri->segment(5)==""){
 									<a class="btn btn-success btn-xs" href="<?php echo admin_url('manuals/download/'.$manual['id'].'/'.$manual['language']); ?>"title="Edit"><i class="fa fa-save"></i> Download</a>
 									<?php if($manual['published']!='1'){ ?>
 									<?php $publishButtonText = 'Publish'; if($manual['published']=='1'){ $publishButtonText = 'Unpublish'; }?>
-									<a class="btn btn-success btn-xs" href="<?php echo admin_url('manuals/issue/'.$manual['id'].'/'.$manual['language'].'/'.$manual['published']); ?>"title="<?php echo $publishButtonText; ?>"><i class="fa fa-square-check"></i> <?php echo $publishButtonText; ?></a>
+									<a class="btn btn-success btn-xs confirmAction" href="<?php echo admin_url('manuals/issue/'.$manual['id'].'/'.$manual['language'].'/'.$manual['published']); ?>"title="<?php echo $publishButtonText; ?>"><i class="fa fa-square-check"></i> <?php echo $publishButtonText; ?></a>
 									<a class="btn btn-secondary btn-xs" href="<?php echo admin_url('sections/overview/'.$manual['id'].'/'.$manual['language']); ?>"title="Sections"><i class="fa fa-file"></i> Sections</a>
 									<a class="btn btn-secondary btn-xs" href="<?php echo admin_url('sectioncategories/overview/'.$manual['id'].'/'.$manual['language']); ?>"title="Section Categories"><i class="fa fa-file"></i> Section Categories</a>
 									<a class="btn btn-secondary btn-xs" href="<?php echo admin_url('policycategories/overview/'.$manual['id'].'/'.$manual['language']); ?>"title="Policy Categories"><i class="fa fa-file"></i> Policy Categories</a>
+									<a class="btn btn-secondary btn-xs" href="<?php echo admin_url('variables/overview/'.$manual['id'].'/'.$manual['language']); ?>"title="Variables"><i class="fa fa-cog"></i> Variables</a>
 									<?php } ?>
                                 </td>
                             </tr>
