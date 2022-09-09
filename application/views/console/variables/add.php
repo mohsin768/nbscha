@@ -49,7 +49,7 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('variable_value'); ?>
-                        <input type="text" id="variable_value" required name="variable_value" value="<?php echo set_value('question'); ?>" class="form-control">
+                        <textarea id="variable_value" required name="variable_value" class="form-control" ><?php echo set_value('variable_value'); ?> </textarea>
                     </div>
                     <div class="clearfix"></div>
                 </div>

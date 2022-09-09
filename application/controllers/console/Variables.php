@@ -65,6 +65,7 @@ class Variables extends ConsoleController {
 		if($language ==''){
 			$language = 'en';
 		}
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
 		$this->form_validation->set_rules('variable_key', 'Key', 'required|callback_variablekey_exists');
@@ -99,6 +100,7 @@ class Variables extends ConsoleController {
 
  public function edit($manualId,$id, $lang, $translate='')
 	{
+		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
 		$this->form_validation->set_rules('variable_key', 'Key', 'required|callback_variablekey_exists');

@@ -56,7 +56,14 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('variable_value'); ?>
-                        <input type="text" id="variable_value" required name="variable_value" value="<?php echo $variable->variable_value; ?>" class="form-control">
+                        <?php if($variable->variable_type=='text'){?>
+                            <input type="text"  id="variable_value" name="variable_value"  value="<?php echo $variable->variable_value; ?>" class="form-control col-md-12 col-xs-12">
+                          <?php } elseif($variable->variable_type=='textarea'){?>
+                            <textarea id="variable_value" name="variable_value"  class="form-control col-md-12 col-xs-12" ><?php echo $variable->variable_value; ?></textarea>
+                          <?php } elseif($variable->variable_type=='editor'){?>
+                            <?php echo $this->ckeditor->editor("variable_value",html_entity_decode($variable->variable_value)); ?>
+                          <?php } ?>
+
                     </div>
                     <div class="clearfix"></div>
                 </div>
