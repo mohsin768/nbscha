@@ -9,6 +9,10 @@ class Manuals extends ConsoleController {
 		parent::__construct();
 		$this->load->model('ManualsModel');
 		$this->load->model('PoliciesModel');
+		$this->load->model('SectionsModel');
+		$this->load->model('SectionCategoriesModel');
+		$this->load->model('PolicyCategoriesModel');
+		$this->load->model('ManualContentsModel');
 	}
 
 	public function index()
@@ -325,6 +329,7 @@ class Manuals extends ConsoleController {
 	}
 
 	public function download($id='',$lang='en'){
+		set_time_limit(0);
 		$vars = array();
 		$coverHeader = base_url('public/defaults/cover-header-default.jpg');
 		$coverTitle = base_url('public/defaults/cover-title-default.jpg');
@@ -351,7 +356,39 @@ class Manuals extends ConsoleController {
 		$customcss .= $this->load->view(admin_url_string('manuals/customcss-abhijith'),'',true);
 		$customcss .= $this->load->view(admin_url_string('manuals/customcss-malini'),'',true);
 		$vars['customcss'] = $customcss;
-		$vars['policies'] = $this->PoliciesModel->getArrayCond(array('language'=>$lang,'status'=>'1'),'','sort_order','ASC');
+		$sections = $this->SectionsModel->getArrayCond(array('manual_id'=>$id,'language'=>$lang,'status'=>'1'),'','sort_order','ASC');
+		$sectionCategories = $this->SectionCategoriesModel->getArrayCond(array('manual_id'=>$id,'language'=>$lang,'status'=>'1'),'','sort_order','ASC');
+		$sectionData = array();
+		foreach($sections as $section):
+			$sectionRow = array();
+			$sectionRow = $section;
+			$categoriesData = $contents = array();
+			if($section['section_type']=='categorized'){
+				$categoriesData = array();
+				foreach($sectionCategories as $sectionCategory):
+					$categoriesRow = array();
+					$categoriesRow = $sectionCategory;
+					$policies = $categoryContents = array();
+					if($sectionCategory['category_type']=='policylist'){
+						$policies = $this->PoliciesModel->getArrayCond(array('manual_id'=>$id,'section'=>$section['id'],'category'=>$sectionCategory['id'],'language'=>$lang,'status'=>'1'),'','sort_order','ASC');
+					} else {
+						$categoryContents = $this->ManualContentsModel->getArrayCond(array('manual_id'=>$id,'section'=>$section['id'],'category'=>$sectionCategory['id'],'language'=>$lang,'status'=>'1'),'','sort_order','ASC');
+					}
+					$categoriesRow['policies'] = $policies;
+					$categoriesRow['contents'] = $categoryContents;
+					$categoriesData[] = $categoriesRow;
+				endforeach;
+			} else {
+				$contents = $this->ManualContentsModel->getArrayCond(array('manual_id'=>$id,'section'=>$section['id'],'language'=>$lang,'status'=>'1'),'','sort_order','ASC');
+			}
+			$sectionRow['contents'] = $contents;
+			$sectionRow['categories'] = $categoriesData;
+			$sectionData[] = $sectionRow;
+		endforeach;
+		$vars['sections'] = $sectionData;
+		$vars['sectionCategories'] = $sectionCategories;
+		$policyCond = array('manual_id'=>$id,'language'=>$lang,'status'=>'1');
+		$vars['policyCategories'] = $this->PolicyCategoriesModel->getElementPair('id','title','sort_order','asc',$policyCond);
 		$html = $this->load->view(admin_url_string('manuals/pdftemplate'),$vars,true);
 		$dompdf->loadHtml($html);
 		$dompdf->setPaper('A4', 'portrait');
