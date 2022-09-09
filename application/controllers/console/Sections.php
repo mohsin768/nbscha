@@ -6,6 +6,7 @@ class Sections extends ConsoleController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('SectionsModel');
+		$this->load->model('SectionCategoriesModel');
 		$this->load->model('ManualsModel');
 		$this->sectionTypes = array('categorized'=>'Categorized','contentlist'=>'Content List','contents'=>'Contents');
 	}
@@ -55,6 +56,7 @@ class Sections extends ConsoleController {
 		$config['total_rows'] = $this->SectionsModel->getPaginationCount($cond,$like);
 		$this->pagination->initialize($config);
 		$vars['language'] = $language;
+		$vars['sectionPolicyCategory'] = $this->SectionCategoriesModel->getRowCond(array('id'=>$manualId,'category_type'=>'policylist','status'=>'1'));
 		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['sections'] = $this->SectionsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);

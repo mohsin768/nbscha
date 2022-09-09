@@ -7,7 +7,7 @@ class Sectioncategories extends ConsoleController {
 		parent::__construct();
 		$this->load->model('SectionCategoriesModel');
 		$this->load->model('ManualsModel');
-		$this->categoryTypes = array('policylist'=>'Policy List','formlist'=>'Form List','contentlist'=>'Content List','contents'=>'Contents');
+		$this->categoryTypes = array('policylist'=>'Policy List','contentlist'=>'Content List','contents'=>'Contents');
 	}
 
 	public function index()

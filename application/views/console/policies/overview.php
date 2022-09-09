@@ -103,6 +103,7 @@ if($this->uri->segment(7)==""){
                                 <td class=" last">
 																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policies/translates/'.$manual->id.'/'.$section->id.'/'.$policy['id']); ?>"><i class="fa fa-language"></i> Translates</a>
 																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/edit/'.$manual->id.'/'.$section->id.'/'.$policy['id'].'/'.$policy['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/move/'.$manual->id.'/'.$section->id.'/'.$policy['id'].'/'.$policy['language']); ?>"title="Move"><i class="fa fa-edit"></i> Change Section</a>
 																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policies/delete/'.$manual->id.'/'.$section->id.'/'.$policy['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>

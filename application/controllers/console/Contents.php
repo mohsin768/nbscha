@@ -15,8 +15,7 @@ class Contents extends ConsoleController {
 		$newdata = array('manual_content_sort_field_filter',
 		'manual_content_sort_order_filter',
 		'manual_content_search_key_filter',
-		'manual_content_status_filter',
-		'manual_content_language_filter');
+		'manual_content_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('contents/overview'));
 	}
@@ -34,10 +33,6 @@ class Contents extends ConsoleController {
 
 		if($this->session->userdata('manual_content_status_filter')!=''){
 			$cond['status']= $this->session->userdata('manual_content_status_filter');
-		}
-
-		if($this->session->userdata('manual_content_language_filter')!=''){
-			$cond['language']= $this->session->userdata('manual_content_language_filter');
 		}
 
 		if($this->session->userdata('manual_content_search_key_filter')!=''){
@@ -76,7 +71,7 @@ class Contents extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {
 			$vars = array();
-			$this->mainvars['content'] = $this->load->view(admin_url_string('policies/add'), $vars, true);
+			$this->mainvars['content'] = $this->load->view(admin_url_string('contents/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$maindata = array('status' => $this->input->post('status'));
@@ -89,10 +84,10 @@ class Contents extends ConsoleController {
 			$insertrow = $this->ManualContentsModel->insert($maindata,$descdata);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Policy added successfully.'));
-				redirect(admin_url_string('policies/overview'));
+				redirect(admin_url_string('contents/overview'));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-        redirect(admin_url_string('policies/overview'));
+        redirect(admin_url_string('contents/overview'));
 			}
 		}
 	}
@@ -114,14 +109,14 @@ class Contents extends ConsoleController {
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
 			$vars['policy']= $this->ManualContentsModel->getRowCond(array('id'=>$id,'language'=>$langCond));
-			$this->mainvars['content'] = $this->load->view(admin_url_string('policies/edit'), $vars,true);
+			$this->mainvars['content'] = $this->load->view(admin_url_string('contents/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
 			$maindata = array('status' => $this->input->post('status'));
 
 			$descdata = array(
-				'manual_policies_id' => $id,
+				'manual_contents_id' => $id,
 				'title' => $this->input->post('title'),
 				'content' => $this->input->post('content'),
 				'language' => $this->input->post('language'));
@@ -135,10 +130,10 @@ class Contents extends ConsoleController {
 
 			if($updaterow){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('policies/overview/'.$lang));
+				redirect(admin_url_string('contents/overview/'.$lang));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('policies/overview/'.$lang));
+				redirect(admin_url_string('contents/overview/'.$lang));
 			}
 		}
 	}
@@ -148,8 +143,8 @@ class Contents extends ConsoleController {
 	{
 		$cond = array('id'=>$id);
 		$vars['translates'] = $this->ManualContentsModel->getTranslates($cond);
-		$vars['manual_policies_id'] = $id;
-		$this->mainvars['content']=$this->load->view(admin_url_string('policies/translates'),$vars,true);
+		$vars['manual_contents_id'] = $id;
+		$this->mainvars['content']=$this->load->view(admin_url_string('contents/translates'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
@@ -158,14 +153,14 @@ class Contents extends ConsoleController {
 		$updaterow = $this->ManualContentsModel->deleteCond($cond);
 		if ($updaterow) {
 			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Policy deleted successfully.'));
-			redirect(admin_url_string('policies/overview'));
+			redirect(admin_url_string('contents/overview'));
 		} else {
 			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-			redirect(admin_url_string('policies/overview'));
+			redirect(admin_url_string('contents/overview'));
 		}
 	}
 
-	function actions()
+	function actions($manualId,$sectionId,$language)
 	{
 		$actionStatus=false;
 		$ids=$this->input->post('id');
@@ -192,23 +187,23 @@ class Contents extends ConsoleController {
 		}
 
 		if(isset($_POST['sort_field']) && $this->input->post('sort_field')!=''){
-					$sortField = $this->input->post('sort_field');
-					$newdata = array('manual_content_sort_field_filter'  => $sortField);
+			$sortField = $this->input->post('sort_field');
+			$newdata = array('manual_content_sort_field_filter'  => $sortField);
 
-					if($this->session->userdata('manual_content_sort_order_filter')=='asc'){
-						$newdata['manual_content_sort_order_filter'] = 'desc';
-					} else{
-						$newdata['manual_content_sort_order_filter'] = 'asc';
-					}
-					$this->session->set_userdata($newdata);
-				}else{
-					$newdata = array('manual_content_sort_order_filter','manual_content_sort_field_filter');
-					$this->session->unset_userdata($newdata);
-				}
+			if($this->session->userdata('manual_content_sort_order_filter')=='asc'){
+				$newdata['manual_content_sort_order_filter'] = 'desc';
+			} else{
+				$newdata['manual_content_sort_order_filter'] = 'asc';
+			}
+			$this->session->set_userdata($newdata);
+		}else{
+			$newdata = array('manual_content_sort_order_filter','manual_content_sort_field_filter');
+			$this->session->unset_userdata($newdata);
+		}
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('manual_content_sort_field_filter','manual_content_sort_order_filter',
-				'manual_content_search_key_filter','manual_content_status_filter','manual_content_language_filter');
+				'manual_content_search_key_filter','manual_content_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -218,17 +213,16 @@ class Contents extends ConsoleController {
 					 $this->input->post('manual_content_status')!=''){
 						$newdata = array(
 								'manual_content_search_key_filter'  => $this->input->post('manual_content_search_key'),
-								'manual_content_language_filter'  => $this->input->post('manual_content_language'),
 								'manual_content_status_filter'  => $this->input->post('manual_content_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('manual_content_search_key_filter','manual_content_status_filter','manual_content_language_filter');
+					$newdata = array('manual_content_search_key_filter','manual_content_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
 
-		redirect(admin_url_string('policies/overview'));
+		redirect(admin_url_string('contents/overview/'.$manualId.'/'.$sectionId.'/'.$language));
 	}
 
 

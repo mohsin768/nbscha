@@ -6,8 +6,10 @@ class Policies extends ConsoleController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('PoliciesModel');
+		$this->load->model('PolicyCategoriesModel');
 		$this->load->model('ManualsModel');
 		$this->load->model('SectionsModel');
+		$this->load->model('SectionCategoriesModel');
 	}
 
 	public function index()
@@ -73,6 +75,7 @@ class Policies extends ConsoleController {
 			$language = 'en';
 		}
 		$this->form_validation->set_rules('title', 'Title', 'required');
+		$this->form_validation->set_rules('policy_category', 'Category', 'required');
 		$this->form_validation->set_rules('content', 'Content', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
@@ -81,12 +84,26 @@ class Policies extends ConsoleController {
 		if ($this->form_validation->run() == FALSE) {
 			$vars = array();
 			$vars['language'] = $language;
+			$vars['policyCategories']= $this->PolicyCategoriesModel->getArrayCond(array('manual_id'=>$manualId,'language'=>$language));
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 			$vars['section']= $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$language));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('policies/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
-			$maindata = array('status' => $this->input->post('status'),'manual_id'=>$manualId,'section'=>$sectionId,'category'=>'3');
+			$sectionPolicyCategory = $this->SectionCategoriesModel->getRowCond(array('id'=>$manualId,'category_type'=>'policylist','status'=>'1'));
+			$maindata = array(
+				'status' => $this->input->post('status'),
+				'manual_id'=>$manualId,
+				'section'=>$sectionId,
+				'category'=>$sectionPolicyCategory->id,
+				'policy_category' => $this->input->post('policy_category')
+			);
+			if($this->input->post('policy_issue_date')!=''){
+				$maindata['policy_issue_date'] = date('Y-m-d 12:00:00',strtotime($this->input->post('policy_issue_date')));
+			}
+			if($this->input->post('policy_update_date')!=''){
+				$maindata['policy_update_date'] = date('Y-m-d 12:00:00',strtotime($this->input->post('policy_update_date')));
+			}
 			$descdata = array(
 				'title' => $this->input->post('title'),
 				'content' => $this->input->post('content'),
@@ -150,6 +167,34 @@ class Policies extends ConsoleController {
 		}
 	}
 
+	public function move($manualId,$sectionId,$id, $language)
+	{
+		$this->form_validation->set_rules('section', 'Section', 'required');
+		$this->form_validation->set_message('required', 'required');
+		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE)
+		{
+			$vars['language'] = $language;
+			$vars['sections']= $this->SectionsModel->getArrayCond(array('manual_id'=>$manualId,'language'=>$language));
+			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
+			$vars['section']= $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$language));
+			$vars['policy']= $this->PoliciesModel->getRowCond(array('id'=>$id,'language'=>$language));
+			$this->mainvars['content'] = $this->load->view(admin_url_string('policies/move'), $vars,true);
+			$this->load->view(admin_url_string('main'), $this->mainvars);
+		} else {
+			$maindata = array('section' => $this->input->post('section'));
+			$descdata = array();
+			$cond = array('id'=>$id);
+			$updaterow = $this->PoliciesModel->updateCond($maindata,$cond,$descdata);
+			if($updaterow){
+			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
+				redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId.'/'.$language));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+				redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId.'/'.$language));
+			}
+		}
+	}
 
 	public function translates($manualId,$sectionId,$id)
 	{

@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><?php if($policy->language==$language) echo 'Edit Policy'; else echo 'Policy - Add '.$this->languages_pair[$language].' Translate';?></h2>
+                <h2><?php echo $manual->title; ?> - Version:<?php echo $manual->version; ?>  <br/> Section: <?php echo $section->title; ?> - <?php if($policy->language==$language) echo 'Edit Policy'; else echo 'Policy - Add '.$this->languages_pair[$language].' Translate';?></h2>
                 <?php if($policy->language!=$language){?>
                   <ul class="nav navbar-right panel_toolbox">
                       <li>
@@ -20,7 +20,19 @@
                 echo form_open_multipart(admin_url_string('policies/edit/'.$policy->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $policy->id; ?>" />
                 <input type="hidden" name="language" value="<?php echo $language; ?>" />
-
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_category">Category</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy_category'); ?>
+                        <select id="policy_category" name="policy_category" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($policyCategories as $policyCategory): $default = false; if($policy->policy_category == $policyCategory['id']){ $default = true; } ?>
+                                <option value="<?php echo $policyCategory['id']; ?>" <?php echo set_select('policy_category',$policyCategory['id'],$default); ?>><?php echo $policyCategory['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>    
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>

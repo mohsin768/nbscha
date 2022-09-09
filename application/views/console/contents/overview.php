@@ -23,7 +23,7 @@ if($this->uri->segment(7)==""){
             </div>
 						<?php
 							$attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'action_filter');
-							echo form_open(admin_url('contents/actions'),$attributes); ?>
+							echo form_open(admin_url('contents/actions/'.$manual->id.'/'.$section->id.'/'.$language),$attributes); ?>
 
 							<div class="x_content">
 
