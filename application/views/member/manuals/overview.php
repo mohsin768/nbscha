@@ -49,7 +49,7 @@ if($this->uri->segment(5)==""){
 						<ul class="nav navbar-right panel_toolbox">
 							<?php foreach($languages as $languageRow): ?>
 							<li>
-								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo member_url('manuals/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo member_url('manuals/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span>
 							</li>
 							<?php endforeach; ?>
 						</ul>
@@ -93,6 +93,7 @@ if($this->uri->segment(5)==""){
 								<td class="center-align"><?php echo $publish[$manual['published']];?></td>
                                 <td class=" last">
 									<a class="btn btn-success btn-xs" href="<?php echo member_url('manuals/download/'.$manual['id'].'/'.$manual['language']); ?>"title="Edit"><i class="fa fa-save"></i> Download</a>
+									<a class="btn btn-secondary btn-xs" href="<?php echo member_url('variables/overview/'.$manual['id'].'/'.$manual['language']); ?>"title="Variables"><i class="fa fa-cog"></i> Variables</a>
                                 </td>
                             </tr>
 							<?php endforeach; }  else {?>
