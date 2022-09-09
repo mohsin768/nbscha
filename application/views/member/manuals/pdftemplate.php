@@ -137,7 +137,6 @@
                     <?php } ?>
                     <?php if($sectionCategory['category_type']=='contents'){ ?>
                         <?php foreach($sectionCategory['contents'] as $sectionCategoryContent):?>
-                        <h3><?php echo $sectionCategoryContent['title']; ?></h3>
                         <?php echo $sectionCategoryContent['content']; ?>
                         <?php endforeach; ?>
                     <?php } ?>
