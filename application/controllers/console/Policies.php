@@ -58,8 +58,16 @@ class Policies extends ConsoleController {
 		$config['total_rows'] = $this->PoliciesModel->getPaginationCount($cond,$like);
 		$this->pagination->initialize($config);
 		$vars['language'] = $language;
-		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
-		$vars['section']= $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$language));
+		$manualRow = $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
+		if(!$manualRow){
+			redirect(admin_url_string('manuals/overview'));
+		}
+		$vars['manual'] = $manualRow;
+		$sectionRow = $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$language));
+		if(!$sectionRow){
+			redirect(admin_url_string('manuals/overview'));
+		}
+		$vars['section']= $sectionRow;
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['policies'] = $this->PoliciesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
@@ -112,15 +120,15 @@ class Policies extends ConsoleController {
 			$insertrow = $this->PoliciesModel->insert($maindata,$descdata);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Policy added successfully.'));
-				redirect(admin_url_string('policies/overview'));
+				redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId.'/'.$language));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-        redirect(admin_url_string('policies/overview'));
+        		redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId.'/'.$language));
 			}
 		}
 	}
 
- public function edit($manualId,$sectionId,$id, $lang, $translate='')
+ 	public function edit($manualId,$sectionId,$id, $language, $translate='')
 	{
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
@@ -130,26 +138,43 @@ class Policies extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
-			$langCond = $lang;
+			$langCond = $language;
 			if($translate=='translate'){
 				$langCond = $this->default_language;
 			}
-			$vars['language'] = $lang;
+			$vars['language'] = $language;
 			$vars['translate'] = $translate;
-			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$langCond));
-			$vars['section']= $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$langCond));
+			$vars['policyCategories']= $this->PolicyCategoriesModel->getArrayCond(array('manual_id'=>$manualId,'language'=>$language));
+			$manualRow = $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
+			if(!$manualRow){
+				redirect(admin_url_string('manuals/overview'));
+			}
+			$vars['manual'] = $manualRow;
+			$sectionRow = $this->SectionsModel->getRowCond(array('id'=>$sectionId,'language'=>$language));
+			if(!$sectionRow){
+				redirect(admin_url_string('manuals/overview'));
+			}
+			$vars['section']= $sectionRow;
 			$vars['policy']= $this->PoliciesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('policies/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
-			$maindata = array('status' => $this->input->post('status'));
+			$maindata = array(
+				'status' => $this->input->post('status'),
+				'policy_category' => $this->input->post('policy_category')
+			);
+			if($this->input->post('policy_issue_date')!=''){
+				$maindata['policy_issue_date'] = date('Y-m-d 12:00:00',strtotime($this->input->post('policy_issue_date')));
+			}
+			if($this->input->post('policy_update_date')!=''){
+				$maindata['policy_update_date'] = date('Y-m-d 12:00:00',strtotime($this->input->post('policy_update_date')));
+			}
 			$descdata = array(
 				'manual_policies_id' => $id,
 				'title' => $this->input->post('title'),
 				'content' => $this->input->post('content'),
 				'language' => $this->input->post('language'));
-
 				$cond = array('id'=>$id);
 				if($translate=='translate'){
 					$updaterow = $this->PoliciesModel->addTranslate($maindata,$cond,$descdata);
@@ -159,10 +184,10 @@ class Policies extends ConsoleController {
 
 			if($updaterow){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('policies/overview/'.$lang));
+				redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId.'/'.$language));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-				redirect(admin_url_string('policies/overview/'.$lang));
+				redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId.'/'.$language));
 			}
 		}
 	}
@@ -214,10 +239,10 @@ class Policies extends ConsoleController {
 		$updaterow = $this->PoliciesModel->deleteCond($cond);
 		if ($updaterow) {
 			$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Policy deleted successfully.'));
-			redirect(admin_url_string('policies/overview'));
+			redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId));
 		} else {
 			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
-			redirect(admin_url_string('policies/overview'));
+			redirect(admin_url_string('policies/overview/'.$manualId.'/'.$sectionId));
 		}
 	}
 

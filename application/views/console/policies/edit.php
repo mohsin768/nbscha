@@ -6,7 +6,7 @@
                 <?php if($policy->language!=$language){?>
                   <ul class="nav navbar-right panel_toolbox">
                       <li>
-                          <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policies/translates/'.$policy->id); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
+                          <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policies/translates/'.$manual->id.'/'.$section->id.'/'.$policy->id); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
                       </li>
                   </ul>
                 <?php } ?>
@@ -17,11 +17,11 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'location-add');
-                echo form_open_multipart(admin_url_string('policies/edit/'.$policy->id.'/'.$language.'/'.$translate),$attributes);?>
+                echo form_open_multipart(admin_url_string('policies/edit/'.$manual->id.'/'.$section->id.'/'.$policy->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $policy->id; ?>" />
                 <input type="hidden" name="language" value="<?php echo $language; ?>" />
                 <div class="form-group">
-                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_category">Category</label>
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_category">Category<span class="lang_label">(All Languages)</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('policy_category'); ?>
                         <select id="policy_category" name="policy_category" class="form-control">
@@ -54,6 +54,26 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_issue_date">Issue Date<span class="lang_label">(All Languages)</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy_issue_date'); ?>
+                        <input type="text" id="policy_issue_date"  name="policy_issue_date"  value="<?php if($policy->policy_issue_date!=''){ echo date('d-m-Y',strtotime($policy->policy_issue_date)); }?>" class="form-control date-picker">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_update_date">Update Date<span class="lang_label">(All Languages)</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy_update_date'); ?>
+                        <input type="text" id="policy_update_date"  name="policy_update_date"  value="<?php if($policy->policy_update_date!=''){ echo date('d-m-Y',strtotime($policy->policy_update_date)); }?>" class="form-control date-picker">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="lang_label">(All Languages)</span><span class="required">*</span></label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('status'); ?>
@@ -81,3 +101,25 @@
         </div>
     </div>
 </div>
+<script>
+	$(document).ready(function() {
+		$("#policy_issue_date").daterangepicker({
+		timePicker: false,
+			singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
+			locale: {format: "DD-MM-YYYY",cancelLabel: "Clear"},
+			calender_style: "picker_4"
+		}, function(start_date, end_date) {
+				this.element.val(start_date.format("DD-MM-YYYY"));
+		});
+
+        $("#policy_update_date").daterangepicker({
+		timePicker: false,
+			singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
+			locale: {format: "DD-MM-YYYY",cancelLabel: "Clear"},
+			calender_style: "picker_4"
+		}, function(start_date, end_date) {
+				this.element.val(start_date.format("DD-MM-YYYY"));
+		});
+
+	});
+</script>
