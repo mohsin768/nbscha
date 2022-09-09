@@ -182,11 +182,6 @@
                     <?php } ?>
                     <?php if($sectionCategory['category_type']=='contentlist'){ ?>
                         <?php foreach($sectionCategory['contents'] as $sectionCategoryContent):?>
-                        <h3>
-                        <a name="section-category-content-<?php echo $sectionCategoryContent['id']; ?>">
-                        <?php echo $sectionCategoryContent['title']; ?>
-                        </a>
-                        </h3>
                         <?php echo $sectionCategoryContent['content']; ?>
                         <div class="page-break-after"></div>
                         <?php endforeach; ?>
