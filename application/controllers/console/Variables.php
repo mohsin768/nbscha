@@ -139,10 +139,10 @@ class Variables extends ConsoleController {
 
 			if($updaterow){
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Variable updated successfully.'));
- 				redirect(admin_url_string('variables/overview/'.$manualId.'/'.$language));
+ 				redirect(admin_url_string('variables/overview/'.$manualId.'/'.$lang));
  			} else {
  				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
- 						redirect(admin_url_string('variables/overview/'.$manualId.'/'.$language));
+ 						redirect(admin_url_string('variables/overview/'.$manualId.'/'.$lang));
  			}
 		}
 	}
