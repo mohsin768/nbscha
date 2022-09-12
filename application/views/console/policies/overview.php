@@ -1,26 +1,29 @@
 <?php
 $status = array('0' => 'Disabled','1' => 'Enabled');
-if($this->uri->segment(5)==""){
+if($this->uri->segment(7)==""){
 	$i=0;
 }else{
-	$i=$this->uri->segment(5);
+	$i=$this->uri->segment(7);
 }
 ?>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Policies</h2>
+                <h2><?php echo $manual->title; ?> - Version:<?php echo $manual->version; ?>  <br/> Section: <?php echo $section->title; ?> - Policies</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
-                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policies/add'); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policies/add/'.$manual->id.'/'.$section->id.'/'.$language); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
+                    </li>
+					<li>
+                        <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('sections/overview/'.$manual->id.'/'.$language); ?>" ><i class="fa fa-back" aria-hidden="true"></i> &nbsp;Back</a></span>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 						<?php
 							$attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'action_filter');
-							echo form_open(admin_url('policies/actions'),$attributes); ?>
+							echo form_open(admin_url('policies/actions/'.$manual->id.'/'.$section->id.'/'.$language),$attributes); ?>
 
 							<div class="x_content">
 
@@ -57,7 +60,7 @@ if($this->uri->segment(5)==""){
 						<ul class="nav navbar-right panel_toolbox">
 							<?php foreach($languages as $languageRow): ?>
 							<li>
-								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('policies/overview/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
+								<span><a class="btn btn-sm <?php if($languageRow['code']==$language){ ?>btn-primary<?php } else { ?>btn-secondary<?php }?>" href="<?php echo admin_url('policies/overview/'.$manual->id.'/'.$section->id.'/'.$languageRow['code']); ?>" ><?php echo $languageRow['name']; ?></a></span> 
 							</li>
 							<?php endforeach; ?>
 						</ul>
@@ -98,9 +101,10 @@ if($this->uri->segment(5)==""){
 																 <td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($policy['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $policy['id'];?>]" value="<?php echo $policy['sort_order'];?>" /> </td>
                                 <td class="center-align"><?php echo $status[$policy['status']];?></td>
                                 <td class=" last">
-																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policies/translates/'.$policy['id']); ?>"><i class="fa fa-language"></i> Translates</a>
-																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/edit/'.$policy['id'].'/'.$policy['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policies/delete/'.$policy['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
+																	<a class="btn btn-dark btn-xs" href="<?php echo admin_url('policies/translates/'.$manual->id.'/'.$section->id.'/'.$policy['id']); ?>"><i class="fa fa-language"></i> Translates</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/edit/'.$manual->id.'/'.$section->id.'/'.$policy['id'].'/'.$policy['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('policies/move/'.$manual->id.'/'.$section->id.'/'.$policy['id'].'/'.$policy['language']); ?>"title="Move"><i class="fa fa-edit"></i> Change Section</a>
+																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('policies/delete/'.$manual->id.'/'.$section->id.'/'.$policy['id']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

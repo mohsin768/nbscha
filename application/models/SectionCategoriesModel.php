@@ -1,0 +1,13 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class SectionCategoriesModel extends CMS_Model {
+
+  function __construct() {
+      parent::__construct();
+      $this->table_name = 'manual_section_categories';
+      $this->primary_key = 'id';
+      $this->desc_table_name = 'manual_section_categories_desc';
+      $this->foreign_key = 'section_category_id';
+      $this->multilingual = TRUE;
+  }
+}
