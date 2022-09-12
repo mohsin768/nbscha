@@ -2,11 +2,11 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><?php if($policy->language==$language) echo 'Edit Policy'; else echo 'Policy - Add '.$this->languages_pair[$language].' Translate';?></h2>
+                <h2><?php echo $manual->title; ?> - Version:<?php echo $manual->version; ?>  <br/> Section: <?php echo $section->title; ?> - <?php if($policy->language==$language) echo 'Edit Policy'; else echo 'Policy - Add '.$this->languages_pair[$language].' Translate';?></h2>
                 <?php if($policy->language!=$language){?>
                   <ul class="nav navbar-right panel_toolbox">
                       <li>
-                          <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policies/translates/'.$policy->id); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
+                          <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('policies/translates/'.$manual->id.'/'.$section->id.'/'.$policy->id); ?>" ><i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp;Back</a></span>
                       </li>
                   </ul>
                 <?php } ?>
@@ -17,14 +17,26 @@
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'location-add');
-                echo form_open_multipart(admin_url_string('policies/edit/'.$policy->id.'/'.$language.'/'.$translate),$attributes);?>
+                echo form_open_multipart(admin_url_string('policies/edit/'.$manual->id.'/'.$section->id.'/'.$policy->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $policy->id; ?>" />
                 <input type="hidden" name="language" value="<?php echo $language; ?>" />
-
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_category">Category<span class="lang_label">(All Languages)</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy_category'); ?>
+                        <select id="policy_category" name="policy_category" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($policyCategories as $policyCategory): $default = false; if($policy->policy_category == $policyCategory['id']){ $default = true; } ?>
+                                <option value="<?php echo $policyCategory['id']; ?>" <?php echo set_select('policy_category',$policyCategory['id'],$default); ?>><?php echo $policyCategory['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>    
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Title <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-12">
                         <?php echo form_error('title'); ?>
                         <input type="text" id="title" name="title" required="required" value="<?php echo $policy->title; ?>" class="form-control">
                     </div>
@@ -34,9 +46,29 @@
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="fullname">Content <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-md-9 col-sm-9 col-xs-12">
                         <?php echo form_error('content'); ?>
                         <?php echo $this->ckeditor->editor("content",html_entity_decode($policy->content)); ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_issue_date">Issue Date<span class="lang_label">(All Languages)</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy_issue_date'); ?>
+                        <input type="text" id="policy_issue_date"  name="policy_issue_date"  value="<?php if($policy->policy_issue_date!=''){ echo date('d-m-Y',strtotime($policy->policy_issue_date)); }?>" class="form-control date-picker">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy_update_date">Update Date<span class="lang_label">(All Languages)</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy_update_date'); ?>
+                        <input type="text" id="policy_update_date"  name="policy_update_date"  value="<?php if($policy->policy_update_date!=''){ echo date('d-m-Y',strtotime($policy->policy_update_date)); }?>" class="form-control date-picker">
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -61,7 +93,7 @@
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 offset-md-3">
                         <button type="submit" class="btn btn-success">Submit</button>
-                        <a class="btn btn-primary" href="<?php echo admin_url('policies/overview'); ?>">Cancel</a>
+                        <a class="btn btn-primary" href="<?php echo admin_url('policies/overview/'.$manual->id.'/'.$section->id.'/'.$language); ?>">Cancel</a>
                     </div>
                 </div>
                 <?php echo form_close(); ?>
@@ -69,3 +101,25 @@
         </div>
     </div>
 </div>
+<script>
+	$(document).ready(function() {
+		$("#policy_issue_date").daterangepicker({
+		timePicker: false,
+			singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
+			locale: {format: "DD-MM-YYYY",cancelLabel: "Clear"},
+			calender_style: "picker_4"
+		}, function(start_date, end_date) {
+				this.element.val(start_date.format("DD-MM-YYYY"));
+		});
+
+        $("#policy_update_date").daterangepicker({
+		timePicker: false,
+			singleDatePicker: true,showDropdowns: true,autoUpdateInput: false,
+			locale: {format: "DD-MM-YYYY",cancelLabel: "Clear"},
+			calender_style: "picker_4"
+		}, function(start_date, end_date) {
+				this.element.val(start_date.format("DD-MM-YYYY"));
+		});
+
+	});
+</script>
