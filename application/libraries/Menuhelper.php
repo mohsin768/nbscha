@@ -30,12 +30,11 @@ class Menuhelper {
     return $menuRows;
   }
 
-  function getProcessedMenu($menu){
+  function getProcessedMenu($menu,$lang='en'){
     $processMenuItems = array();
     $menuRow = $this->CI->MenuModel->getRowCond(array('code'=>$menu));
     if($menuRow){
-      $menuItems = $this->CI->MenuItemsModel->getActiveMenuTree($menuRow->id);
-
+      $menuItems = $this->CI->MenuItemsModel->getActiveMenuTree($menuRow->id,0,$lang);
       $processMenuItems = $this->processMenuItems($menuItems);
     }
     return $processMenuItems;
