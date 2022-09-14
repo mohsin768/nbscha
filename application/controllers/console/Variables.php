@@ -26,7 +26,7 @@ class Variables extends ConsoleController {
 		if($language ==''){
 			$language = 'en';
 		}
-		$cond = array('language'=>$language);
+		$cond = array('manual_id'=>$manualId,'language'=>$language);
 		$like = array();
 
 		$sort_direction = '';
@@ -47,7 +47,7 @@ class Variables extends ConsoleController {
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
 		$config['uri_segment'] = '5';
-		$config['base_url'] = admin_url('variables/overview/'.$language);
+		$config['base_url'] = admin_url('variables/overview/'.$manualId.'/'.$language);
 		$config['total_rows'] = $this->ManualVariablesModel->getPaginationCount($cond,$like);
 		$this->pagination->initialize($config);
 		$vars['language'] = $language;
