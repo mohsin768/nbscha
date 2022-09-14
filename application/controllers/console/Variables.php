@@ -46,7 +46,7 @@ class Variables extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-		$config['uri_segment'] = '5';
+		$config['uri_segment'] = '6';
 		$config['base_url'] = admin_url('variables/overview/'.$manualId.'/'.$language);
 		$config['total_rows'] = $this->ManualVariablesModel->getPaginationCount($cond,$like);
 		$this->pagination->initialize($config);
