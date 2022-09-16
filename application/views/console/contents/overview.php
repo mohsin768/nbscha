@@ -12,9 +12,11 @@ if($this->uri->segment(7)==""){
             <div class="x_title">
                 <h2><?php echo $manual->title; ?> - Version:<?php echo $manual->version; ?>  <br/> Section: <?php echo $section->title; ?> - Contents</h2>
                 <ul class="nav navbar-right panel_toolbox">
+					<?php if($language==$this->default_language) { ?>
                     <li>
                         <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('contents/add/'.$manual->id.'/'.$section->id.'/'.$language); ?>" ><i class="fa fa-plus-square-o" aria-hidden="true"></i> &nbsp;Add New</a></span>
                     </li>
+					<?php } ?>
 					<li>
                         <span><a class="btn btn-primary btn-sm" href="<?php echo admin_url('sections/overview/'.$manual->id.'/'.$language); ?>" ><i class="fa fa-back" aria-hidden="true"></i> &nbsp;Back</a></span>
                     </li>
