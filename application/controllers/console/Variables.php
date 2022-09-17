@@ -26,7 +26,7 @@ class Variables extends ConsoleController {
 		if($language ==''){
 			$language = 'en';
 		}
-		$cond = array('language'=>$language);
+		$cond = array('manual_id'=>$manualId,'language'=>$language);
 		$like = array();
 
 		$sort_direction = '';
@@ -46,8 +46,8 @@ class Variables extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-		$config['uri_segment'] = '5';
-		$config['base_url'] = admin_url('variables/overview/'.$language);
+		$config['uri_segment'] = '6';
+		$config['base_url'] = admin_url('variables/overview/'.$manualId.'/'.$language);
 		$config['total_rows'] = $this->ManualVariablesModel->getPaginationCount($cond,$like);
 		$this->pagination->initialize($config);
 		$vars['language'] = $language;
@@ -139,10 +139,10 @@ class Variables extends ConsoleController {
 
 			if($updaterow){
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Variable updated successfully.'));
- 				redirect(admin_url_string('variables/overview/'.$manualId.'/'.$language));
+ 				redirect(admin_url_string('variables/overview/'.$manualId.'/'.$lang));
  			} else {
  				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
- 						redirect(admin_url_string('variables/overview/'.$manualId.'/'.$language));
+ 						redirect(admin_url_string('variables/overview/'.$manualId.'/'.$lang));
  			}
 		}
 	}
