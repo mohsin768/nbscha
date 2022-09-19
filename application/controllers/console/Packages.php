@@ -73,7 +73,8 @@ class Packages extends ConsoleController {
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {
-			$vars['certificates'] = $this->CertificatetemplatesModel->getElementPair('id','title');
+			$cond = array('delete_status'=>'0');
+			$vars['certificates'] = $this->CertificatetemplatesModel->getElementPair('id','title','','',$cond);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('packages/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
@@ -122,7 +123,8 @@ class Packages extends ConsoleController {
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
 			$vars['package']= $this->PackagesModel->getRowCond(array('pid'=>$id,'language'=>$langCond));
-			$vars['certificates'] = $this->CertificatetemplatesModel->getElementPair('id','title');
+			$cond = array('delete_status'=>'0');
+			$vars['certificates'] = $this->CertificatetemplatesModel->getElementPair('id','title','','',$cond);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('packages/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 

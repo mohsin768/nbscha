@@ -100,6 +100,7 @@ if($this->uri->segment(4)==""){
 																	<a class="btn btn-info btn-xs" href="<?php echo admin_url('members/changepwd/'.$member['mid']); ?>"><i class="fa fa-lock"></i> Change Password</a>
 																	<a class="btn btn-danger btn-xs confirmDelete" href="<?php echo admin_url('members/delete/'.$member['mid']); ?>" title="Delete"><i   class="fa fa-trash-o"></i> Delete</a>
 																	<a class="btn btn-primary btn-xs" href="<?php echo admin_url('members/membership/'.$member['mid']); ?>"title="Membership"><i class="fa fa-eye"></i> Membership</a>
+																	<a class="btn btn-success btn-xs" href="<?php echo admin_url('members/regeneratecertificate/'.$member['mid']); ?>"  title="Regenerate Certificate"><i class="fa fa-file-text-o"></i> Regenerate Certificate</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>
