@@ -522,6 +522,8 @@
     .adult-05 td,.adult-06 td,.adult-07 td
     {
         padding:10px;
+    }.table-sante td{
+        padding:10px;
     }
   
    
