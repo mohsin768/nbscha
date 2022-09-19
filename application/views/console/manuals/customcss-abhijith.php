@@ -516,7 +516,7 @@
         border-bottom:1px solid black;
         width:20px;  
     }
-    .table-adult td,.adult01 td,.adult-02,.adult-03 td,.adult-04 td,.table-adult1 td{
+    .table-adult td,.adult01 td,.adult-02 td,.adult-03 td,.adult-04 td,.table-adult1 td{
         padding:10px;
     }
     .adult-05 td,.adult-06 td,.adult-07 td
