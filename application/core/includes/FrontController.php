@@ -52,8 +52,8 @@ class FrontController extends GlobalController {
         $vars = array();
         $currentUrl = current_url();
         $vars['current_url'] = $currentUrl;
-        $vars['main_menu'] = $this->menuhelper->getProcessedMenu('main_menu');
-        $vars['top_menu'] = $this->menuhelper->getProcessedMenu('top_menu');
+        $vars['main_menu'] = $this->menuhelper->getProcessedMenu('main_menu',$this->site_language);
+        $vars['top_menu'] = $this->menuhelper->getProcessedMenu('top_menu',$this->site_language);
         $this->mainvars['header']= $this->load->view(frontend_views_path('includes/header'),$vars,TRUE);
     }
     function setFooter(){

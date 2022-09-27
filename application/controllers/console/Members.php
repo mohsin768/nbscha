@@ -7,8 +7,9 @@ class Members extends ConsoleController {
 	function __construct() {
 		parent::__construct();
 		$this->load->model('MembersModel');
+		$this->load->model('MembershipsModel');
 		$this->load->model('ResidencesModel');
-
+		$this->load->library('certificatehelper');
 	}
 
 	public function index()
@@ -225,6 +226,41 @@ class Members extends ConsoleController {
 		$this->mainvars['page_scripts'] = $this->load->view(admin_url_string('members/membership/script'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 
+	}
+
+	public function regeneratecertificate($id){
+		$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$id));
+		if(!$memberShip){
+			redirect(admin_url_string('members/overview'));
+		}
+		$membershipId = $memberShip->id;
+		$certificates = $this->certificatehelper->generateCertificates($membershipId);
+		$certificate = '';
+		if($certificates['main_certificate']) $certificate = serialize($certificates['main_certificate']);
+		$wallet_certificate = '';
+		if($certificates['wallet_certificate']) $wallet_certificate = serialize($certificates['wallet_certificate']);
+		$this->MembershipsModel->updateCond(array('certificate'=>$certificate,'wallet_certificate'=>$wallet_certificate),array('id'=>$membershipId));
+		$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Certificate has been regenerated.'));
+		redirect(admin_url_string('members/membership/'.$id));
+	}
+
+	public function regeneratecertificateall(){
+		$cond = array('status'=>'1');
+		$members = $this->MembersModel->getArrayCond($cond);
+		foreach($members as $member):
+			$memberShip  = $this->MembershipsModel->getRowCond(array('member_id'=>$member['mid']));
+			if($memberShip){
+				$membershipId = $memberShip->id;
+				$certificates = $this->certificatehelper->generateCertificates($membershipId);
+				$certificate = '';
+				if($certificates['main_certificate']) $certificate = serialize($certificates['main_certificate']);
+				$wallet_certificate = '';
+				if($certificates['wallet_certificate']) $wallet_certificate = serialize($certificates['wallet_certificate']);
+				$this->MembershipsModel->updateCond(array('certificate'=>$certificate,'wallet_certificate'=>$wallet_certificate),array('id'=>$membershipId));
+			}
+		endforeach;
+		$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Certificates has been regenerated.'));
+		redirect(admin_url_string('home/dashboard'));
 	}
 
 	public function renew($id)

@@ -18,7 +18,7 @@ class Resources extends MemberController {
 
 	public function news()
 	{
-		$cond = array('status'=>'1','type'=>'member');
+		$cond = array('status'=>'1','type'=>'member','language'=>$this->default_language);
 		$like = array();
 
 		$sort_direction = 'asc';
@@ -41,8 +41,8 @@ class Resources extends MemberController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = member_url_string('resources/news');
-    $config['total_rows'] = $this->NewsModel->getPaginationCount();
+    $config['base_url'] = member_url('resources/news');
+    $config['total_rows'] = $this->NewsModel->getPaginationCount($cond);
     $this->pagination->initialize($config);
 		$vars['news'] = $this->NewsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
@@ -128,8 +128,9 @@ class Resources extends MemberController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-		$config['base_url'] = member_url_string('resources/forms');
-		$config['total_rows'] = $this->FormsModel->getPaginationCount();
+
+		$config['base_url'] = member_url('resources/forms');
+		$config['total_rows'] = $this->FormsModel->getPaginationCount($cond);
 		$this->pagination->initialize($config);
 		$vars['forms'] = $this->FormsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
@@ -197,8 +198,8 @@ class Resources extends MemberController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = member_url_string('resources/links');
-    $config['total_rows'] = $this->LinksModel->getPaginationCount();
+    $config['base_url'] = member_url('resources/links');
+    $config['total_rows'] = $this->LinksModel->getPaginationCount($cond);
     $this->pagination->initialize($config);
 		$vars['links'] = $this->LinksModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
