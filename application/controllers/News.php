@@ -19,6 +19,7 @@ class News extends FrontController {
 		if($slug==''){
 			redirect('/');
 		}
+		$slug = urldecode($slug);
 		$newsObject = $this->NewsModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
 		$this->pageType = 'news';
 		if(!$newsObject){
@@ -52,6 +53,7 @@ class News extends FrontController {
 
 	public function category($slug='')
 	{
+		$slug = urldecode($slug);
 		$pageId = $this->settings['NEWS_PAGE_ID'];
 		$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 		$this->pageType = 'register';
@@ -75,7 +77,7 @@ class News extends FrontController {
 		$categories = $this->NewsCategoriesModel->getArrayCond($catCond);
 		$categoryCount = array();
 		foreach($categories as $category):
-			$catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->site_language);
+			$catCountCond = array('status'=>'1','category'=>$category['id'],'language'=>$this->site_language,'type'=>'public');
 			$categoryCount[$category['id']] = $this->NewsModel->getCountCond($catCountCond);
 		endforeach;
 		$vars['categories'] = $categories;
@@ -84,6 +86,7 @@ class News extends FrontController {
 		$vars['news'] = $this->NewsModel->getArrayCond($newsCond);
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/news_category'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
+		$this->mainvars['bodyClass']='news';
 		$this->load->view(frontend_views_path('main'),$this->mainvars);
 		
 	}

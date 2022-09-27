@@ -22,8 +22,8 @@
                                             <label for="inputPassword4">Beds</label>
                                             <select class="form-control sl-op" name="spch_num_bed" id="residence-package">
                                                 <option value="">--Select-Bed--</option>
-                                                <?php foreach($packages as $package): ?>
-                                                <option value="<?php echo $package['pid']; ?>"><?php echo $package['title']; ?></option>
+                                                <?php foreach($bedCounts as $bedCount): ?>
+                                                <option value="<?php echo $bedCount['id']; ?>"><?php echo $bedCount['title']; ?></option>
                                                 <?php endforeach; ?>
 
                                             </select>
@@ -59,25 +59,37 @@
                                         
                                         <div class="form-group col-md-4">
                                         <label for="idss">Vacancy</label>
-                                        <select class="form-control sl-op" name="vacancy" id="residence-vacancy">
+                                        <select class="form-control sl-op" name="residence-vacancy" id="residence-vacancy">
                                             <option value="">--Select-Vacancy--</option>
-                                            <option value="is_free_vocancy">Open Vacancy</option>
+                                            <option value="is_free_vacancy">Open Vacancy</option>
                                             <option value="all_homes">All Homes</option>
                                         </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                        <label for="Name ">Home Name</label>
+                                        <label for="Name">Home Name</label>
                                         <input type="text" name="spch_name" id="residence-name" placeholder="Search Home By Name" class="form-control">
                                         </div>
+                                        <div id="features-filter" class="form-group col-md-12 features-filter p-0" style="display:none;">
+                                            <label class="col-md-12" for="Features">Features</label>
+                                            <?php foreach($features as $feature): ?>
+                                                <div class="form-group col-md-6 ">
+                                                    <input type="checkbox" class="features-checkbox mr-3 rounded-0 border-0 line-height-1" <?php echo set_checkbox("features[".$feature['fid']."]", $feature['fid']); ?> name="features[<?php echo $feature['fid']; ?>]" id="feature-<?php echo $feature['fid']; ?>" value="<?php echo $feature['fid']; ?>">
+                                                    <label for="feature-<?php echo $feature['fid']; ?>"><?php echo $feature['feature_title']; ?></label>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
                                         <div class="form-group col-md-6">
-
                                             <div class="row btn-row" style="padding-top: 5px; ">
                                                 <div class="col-md-4">
-                                                    <label></label>
+                                                    <label class="search-labels"></label>
                                                     <button id="residence-search" type="submit" class="btn btn-primary form-control new-btn"><span>SEARCH</span></button>
                                                 </div>
+                                                <div class="col-md-4" id="residence-advanced-search-wrap">
+                                                    <label></label>
+                                                    <button id="residence-advanced-search" type="submit" class="btn btn-danger form-control new-btn"><span>ADVANCED SEARCH</span></button>
+                                                </div>
                                                 <div class="col-md-4">
-                                                <label></label>
+                                                <label class="search-labels"></label>
                                                 <button id="residence-reset" type="reset" class="btn btn-primary form-control new-btn"><span>RESET</span></button>
                                                 </div>
                                             </div>
@@ -99,7 +111,7 @@
         <div class="row">
             <div class="col-sm-12" >
                 <div class="load-more-wrap btn-box">
-                    <a id="residences-load-more" class="btn btn-primary" href="#0">Load More</a>
+                    <a style="display:none;" id="residences-load-more" class="btn btn-primary" href="#0">Load More</a>
                 </div>
             </div>
         </div>

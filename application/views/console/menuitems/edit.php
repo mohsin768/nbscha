@@ -112,10 +112,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <?php echo form_error('status'); ?>
                         <div id="status" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-primary <?php if($menu_item->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                            <label class="btn btn-default <?php if($menu_item->status=='1') { echo 'active'; } ?>" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
                                 <input type="radio"  required="required" name="status" value="1" <?php if($menu_item->status=='1') { echo 'checked="checked"'; } ?>> &nbsp; Enabled &nbsp;
                             </label>
-                            <label class="btn btn-secondary <?php if($menu_item->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
+                            <label class="btn btn-default <?php if($menu_item->status=='0') { echo 'active'; } ?>" data-toggle-class="btn-secondary" data-toggle-passive-class="btn-primary">
                                 <input type="radio"  required="required" name="status" value="0" <?php if($menu_item->status=='0') { echo 'checked="checked"'; } ?>> Disabled
                             </label>
                         </div>

@@ -60,10 +60,10 @@ class FrontController extends GlobalController {
         $vars = array();
         $this->load->model('NewsModel');
         $newsCond = array('status'=>'1','type'=>'public','language'=>$this->site_language);
-        $vars['news'] = $this->NewsModel->getArrayLimitCond('5',$newsCond);
+        $vars['news'] = $this->NewsModel->getArrayLimitCond('5',$newsCond,'publish_date','DESC');
         $this->load->model('LinksModel');
         $linksCond = array('status'=>'1','type'=>'public','language'=>$this->site_language);
-        $vars['links'] = $this->LinksModel->getArrayLimitCond('5',$linksCond);
+        $vars['links'] = $this->LinksModel->getArrayLimitCond('5',$linksCond,'sort_order','ASC');
         $this->mainvars['footer']= $this->load->view(frontend_views_path('includes/footer'),$vars,TRUE);
     }
 

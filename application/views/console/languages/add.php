@@ -53,10 +53,10 @@
                     <div class="col-md-6 col-sm-6 col-xs-12">
                     <?php echo form_error('status'); ?>
                       <div id="status" class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-primary <?php if(set_value('status')=='1') { echo 'active'; } ?>">
+                        <label class="btn btn-default <?php if(set_value('status')=='1') { echo 'active'; } ?>">
                           <input type="radio" required="required" name="status" value="1" <?php if(set_value('status')=='1') { echo 'checked="checked"'; } ?> /> &nbsp; Enabled &nbsp;
                         </label>
-                        <label class="btn btn-secondary <?php if(set_value('status')=='0') { echo 'active'; } ?>">
+                        <label class="btn btn-default <?php if(set_value('status')=='0') { echo 'active'; } ?>">
                           <input type="radio" required="required" name="status" value="0" <?php if(set_value('status')=='0') { echo 'checked="checked"'; } ?> /> Disabled
                         </label>
                       </div>

@@ -59,7 +59,7 @@ class Pagehelper {
       if($limit==0){
         $contents = $this->CI->BlocksModel->getArrayCond(array('category'=> $category),'','sort_order','ASC');
       } else {
-        $contents = $this->CI->BlocksModel->getArrayLimitCond($limit,array('category'=> $category),'','sort_order','ASC');
+        $contents = $this->CI->BlocksModel->getArrayLimitCond($limit,array('category'=> $category),'sort_order','ASC');
       }
     }
     $vars['contents'] = isset($category)?$contents:array();

@@ -37,7 +37,7 @@ class ResidencesModel extends CMS_Model {
 
 
     function getConsolePaginationCount($cond = '', $like='') {
-      $this->db->select("*,members.email as member_email,members.phone as member_phone,$this->table_name.created as created ");
+      $this->db->select("*,".$this->table_name.".id as id,members.email as member_email,members.phone as member_phone,$this->table_name.created as created ");
       if (is_array($cond) && count($cond) > 0) {
         $this->db->where($cond);
       }
@@ -58,7 +58,7 @@ class ResidencesModel extends CMS_Model {
     }
 
     function getConsolePagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='') {
-      $this->db->select("*,members.email as member_email,members.phone as member_phone,residences.phone as residence_phone,residences.status as residence_status,$this->table_name.created as created,memberships.identifier as member_identifier ");
+      $this->db->select("*,".$this->table_name.".id as id,members.email as member_email,members.phone as member_phone,residences.phone as residence_phone,residences.status as residence_status,$this->table_name.created as created,memberships.identifier as member_identifier ");
       if (is_array($cond) && count($cond) > 0) {
         $this->db->where($cond);
       }
@@ -83,7 +83,7 @@ class ResidencesModel extends CMS_Model {
       return $query->result_array();
     }
 
-    function getActivePaginationCount($cond = '', $like='',$findin='') {
+    function getActivePaginationCount($cond = '', $like='',$findin='',$likeAnd='') {
       $currentDate = date('Y-m-d');
 		$this->db->select('*');
 		if (is_array($cond) && count($cond) > 0) {
@@ -93,6 +93,13 @@ class ResidencesModel extends CMS_Model {
       			$this->db->group_start();
       			foreach($like as $row):
       			$this->db->or_like($row['field'],$row['value'],$row['location']);
+      			endforeach;
+      			$this->db->group_end();
+      		}
+          if (is_array($likeAnd) && count($likeAnd) > 0) {
+      			$this->db->group_start();
+      			foreach($likeAnd as $row):
+      			$this->db->like($row['field'],$row['value'],$row['location']);
       			endforeach;
       			$this->db->group_end();
       		}
@@ -112,7 +119,7 @@ class ResidencesModel extends CMS_Model {
 		return $this->db->count_all_results();
 	}
 
-	function getActivePagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='',$findin='') {
+	function getActivePagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='',$findin='',$likeAnd='') {
     $currentDate = date('Y-m-d');
 		$this->db->select('*');
 		if (is_array($cond) && count($cond) > 0) {
@@ -122,6 +129,13 @@ class ResidencesModel extends CMS_Model {
       			$this->db->group_start();
       			foreach($like as $row):
       			$this->db->or_like($row['field'],$row['value'],$row['location']);
+      			endforeach;
+      			$this->db->group_end();
+      		}
+          if (is_array($likeAnd) && count($likeAnd) > 0) {
+      			$this->db->group_start();
+      			foreach($likeAnd as $row):
+      			$this->db->like($row['field'],$row['value'],$row['location']);
       			endforeach;
       			$this->db->group_end();
       		}

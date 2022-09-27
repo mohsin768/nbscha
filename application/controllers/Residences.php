@@ -22,6 +22,7 @@ class Residences extends FrontController {
 		if($slug==''){
 			redirect('/');
 		}
+		$slug = urldecode($slug);
 		$residenceObject = $this->ResidencesModel->getRowCond(array('slug'=>$slug,'language'=>$this->site_language));
 		$this->pageType = 'residences';
 		if(!$residenceObject){

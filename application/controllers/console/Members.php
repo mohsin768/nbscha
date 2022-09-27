@@ -118,7 +118,7 @@ class Members extends ConsoleController {
 	public function changepwd($mid){
 		$member = $this->MembersModel->load($mid);
 		$this->form_validation->set_rules('password', 'Password', 'required|matches[confpassword]|min_length[6]');
-    $this->form_validation->set_rules('confpassword', 'Confirm Password', 'required');
+    	$this->form_validation->set_rules('confpassword', 'Confirm Password', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {

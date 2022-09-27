@@ -10,8 +10,11 @@ class Residences extends AjaxController {
 
 	public function index()
 	{
+		$this->load->model('FiltersModel');
+		$bedCounts = $this->FiltersModel->getBedsCount();
 		$residenceCond = array('residences.status'=>'1','language'=>$this->site_language);
-		$residenceLike = array();
+		$residenceLikeAnd = array();
+		$residenceLikeOr = array();
 		$residenceFindIn = array();
 		$page = secureInput($this->input->get('page'));
 		$language_id = secureInput($this->input->get('language_id'));
@@ -27,23 +30,37 @@ class Residences extends AjaxController {
 			$residenceCond['level_id'] = $level_id; 
 		}
         $package_id = secureInput($this->input->get('package_id'));
-		if($package_id!=''){
-			$residenceCond['residences.package_id'] = $package_id; 
+		if($package_id!='' && isset($bedCounts[$package_id])){
+			$bedCount = $bedCounts[$package_id];
+			if($bedCount['min']!=''){
+				$residenceCond['residences.max_beds_count >'] = $bedCount['min']; 
+			}
+			if($bedCount['max']!=''){
+				$residenceCond['residences.max_beds_count <='] = $bedCount['max']; 
+			}
 		}
         $facilities = secureInput($this->input->get('facilities'));
 		if($facilities!=''){
 			$facilities = explode(',',$facilities);
 			$residenceFindIn = $facilities;
 		}
-        $vaccancy = secureInput($this->input->get('vaccancy'));
-		if($vaccancy!=''){
-			if($vaccancy=='is_free_vocancy'){
+		$features = secureInput($this->input->get('features'));
+		if($features!=''){
+			$features = explode(',',$features);
+			foreach($features as $feature):
+				$serializedFeature = 'i:'.$feature.';s:1:"1"';
+				$residenceLikeAnd[] = array('field'=>'features','value'=>$serializedFeature,'location'=>'both');
+			endforeach;
+		}
+        $vacancy = secureInput($this->input->get('vacancy'));
+		if($vacancy!=''){
+			if($vacancy=='is_free_vacancy'){
 				$residenceCond['vacancy >'] = '0'; 
 			}
 		}
         $residence_name = secureInput($this->input->get('residence_name'));
 		if($residence_name!=''){
-			$residenceLike[] = array('field'=>'name','value'=>$residence_name,'location'=>'both'); 
+			$residenceLikeOr[] = array('field'=>'name','value'=>$residence_name,'location'=>'both'); 
 		}
 		$residencesData = array('status'=>'0','pager'=>array('current_page'=>'0','pages'=>'0'),'data'=>'');
 		$this->load->model('ResidencesModel');
@@ -52,9 +69,9 @@ class Residences extends AjaxController {
 		$perPage = 12;
 		$offset = $perPage*($page-1);
 		
-		$totalCount = $this->ResidencesModel->getActivePaginationCount($residenceCond,$residenceLike,$residenceFindIn);
+		$totalCount = $this->ResidencesModel->getActivePaginationCount($residenceCond,$residenceLikeOr,$residenceFindIn,$residenceLikeAnd);
 		$totalPages = ceil($totalCount/$perPage);
-		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'id','RANDOM',$residenceLike,$residenceFindIn);
+		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'id','RANDOM',$residenceLikeOr,$residenceFindIn,$residenceLikeAnd);
 		$residencesinfo = array();
 		foreach($residences as $residence):
 			if($residence['mainimage']!=''){

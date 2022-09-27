@@ -1417,6 +1417,7 @@ var THEMEMASCOT = {};
         /* ------------------------ Funfact Number Counter ---------------------- */
         /* ---------------------------------------------------------------------- */
         TM_funfact: function() {
+
             var $animate_number = $('.animate-number');
             if( $animate_number.length > 0 ) {
                 $animate_number.appear();
