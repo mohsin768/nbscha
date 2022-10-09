@@ -14,6 +14,7 @@ class Manuals extends ConsoleController {
 		$this->load->model('PolicyCategoriesModel');
 		$this->load->model('ManualContentsModel');
 		$this->load->model('ManualVariablesModel');
+		$this->load->library('manualclone');
 	}
 
 	public function index()
@@ -404,5 +405,41 @@ class Manuals extends ConsoleController {
 		$dompdf->stream();
 	}
 
+	public function clone($id){
+		$language = 'en';
+		$englishManualRow = $this->ManualsModel->getRowCond(array('id'=>$id,'language'=>$language,'status'=>'1','published'=>'1'));
+		$frenchManualRow = $this->ManualsModel->getRowCond(array('id'=>$id,'language'=>'fr','status'=>'1','published'=>'1'));
+		if(!$englishManualRow || !$frenchManualRow){
+			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Only Fully published manuals can be cloned...'));
+			redirect(admin_url_string('manuals/overview/'.$language));
+		}
+		$this->form_validation->set_rules('version', 'Version', 'required');
+		$this->form_validation->set_message('required', 'required');
+		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+		if ($this->form_validation->run() == FALSE)
+		{
+			$vars['language'] = $language;
+			$vars['manual']= $englishManualRow;
+			$this->mainvars['content'] = $this->load->view(admin_url_string('manuals/clone'), $vars,true);
+			$this->load->view(admin_url_string('main'), $this->mainvars);
+
+		} else {
+			$maindata = array('version' => $this->input->post('version'));
+			$descdata = array();
+			$insertId = $this->ManualsModel->insert($maindata,$descdata);
+			$this->manualclone->runClone($id,$insertId);
+			if ($insertId) {
+				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Manual cloned successfully.'));
+			} else {
+				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+			}
+			redirect(admin_url_string('manuals/overview'));
+		}
+	}
+
+/* 	public function deleteclone($id){
+		$this->manualclone->deleteManualData($id);
+		redirect(admin_url_string('manuals/overview'));
+	} */
 
 }
