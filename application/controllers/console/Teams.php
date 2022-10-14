@@ -13,8 +13,7 @@ class Teams extends ConsoleController {
 		$newdata = array('team_sort_field_filter',
 		'team_sort_order_filter',
 		'team_search_key_filter',
-		'team_status_filter',
-		'team_language_filter');
+		'team_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('teams/overview'));
 	}
@@ -32,10 +31,6 @@ class Teams extends ConsoleController {
 
 		if($this->session->userdata('team_status_filter')!=''){
 			$cond['status']= $this->session->userdata('team_status_filter');
-		}
-
-		if($this->session->userdata('team_language_filter')!=''){
-			$cond['language']= $this->session->userdata('team_language_filter');
 		}
 
 		if($this->session->userdata('team_search_key_filter')!=''){
@@ -278,7 +273,7 @@ class Teams extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('team_sort_field_filter','team_sort_order_filter',
-				'team_search_key_filter','team_status_filter','team_language_filter');
+				'team_search_key_filter','team_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -288,12 +283,11 @@ class Teams extends ConsoleController {
 					 $this->input->post('team_status')!=''){
 						$newdata = array(
 								'team_search_key_filter'  => $this->input->post('team_search_key'),
-								'team_language_filter'  => $this->input->post('team_language'),
 								'team_status_filter'  => $this->input->post('team_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('team_search_key_filter','team_status_filter','team_language_filter');
+					$newdata = array('team_search_key_filter','team_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

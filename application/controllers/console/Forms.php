@@ -15,8 +15,7 @@ class Forms extends ConsoleController {
 		'form_sort_order_filter',
 		'form_search_key_filter',
 		'form_status_filter',
-		'form_type_filter',
-		'form_language_filter');
+		'form_type_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('forms/overview'));
 	}
@@ -32,10 +31,6 @@ class Forms extends ConsoleController {
 
 		if($this->session->userdata('form_status_filter')!=''){
 			$cond['status']= $this->session->userdata('form_status_filter');
-		}
-
-		if($this->session->userdata('form_language_filter')!=''){
-			$cond['language']= $this->session->userdata('form_language_filter');
 		}
 		if($this->session->userdata('form_type_filter')!=''){
 			$cond['type']= $this->session->userdata('form_type_filter');
@@ -246,7 +241,7 @@ class Forms extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('form_sort_field_filter','form_sort_order_filter',
-				'form_search_key_filter','form_status_filter','form_type_filter','form_language_filter');
+				'form_search_key_filter','form_status_filter','form_type_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -257,13 +252,12 @@ class Forms extends ConsoleController {
 					 $this->input->post('form_status')!=''){
 						$newdata = array(
 								'form_search_key_filter'  => $this->input->post('form_search_key'),
-								'form_language_filter'  => $this->input->post('form_language'),
 								'form_type_filter'  => $this->input->post('form_type'),
 								'form_status_filter'  => $this->input->post('form_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('form_search_key_filter','form_status_filter','form_type_filter','form_language_filter');
+					$newdata = array('form_search_key_filter','form_status_filter','form_type_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

@@ -15,8 +15,7 @@ class Variables extends ConsoleController {
 		$newdata = array('variable_sort_field_filter',
 		'variable_sort_order_filter',
 		'variable_search_key_filter',
-		'variable_status_filter',
-		'variable_language_filter');
+		'variable_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('variables/overview'));
 	}
@@ -31,10 +30,6 @@ class Variables extends ConsoleController {
 
 		$sort_direction = '';
 		$sort_field =  '';
-
-		if($this->session->userdata('variable_language_filter')!=''){
-			$cond['language']= $this->session->userdata('variable_language_filter');
-		}
 
 		if($this->session->userdata('variable_search_key_filter')!=''){
 			$like[] = array('field'=>'title', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
@@ -206,7 +201,7 @@ class Variables extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('variable_sort_field_filter','variable_sort_order_filter',
-				'variable_search_key_filter','variable_language_filter');
+				'variable_search_key_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -214,12 +209,11 @@ class Variables extends ConsoleController {
 				if($this->input->post('variable_search_key')!=''||
 				$this->input->post('variable_language')!=''){
 						$newdata = array(
-								'variable_search_key_filter'  => $this->input->post('variable_search_key'),
-								'variable_language_filter'  => $this->input->post('variable_language'));
+								'variable_search_key_filter'  => $this->input->post('variable_search_key'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('variable_search_key_filter','variable_language_filter');
+					$newdata = array('variable_search_key_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

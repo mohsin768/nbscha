@@ -13,8 +13,7 @@ class Regions extends ConsoleController {
 		$newdata = array('region_sort_field_filter',
 		'region_sort_order_filter',
 		'region_search_key_filter',
-		'region_status_filter',
-		'region_language_filter');
+		'region_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('regions/overview'));
 	}
@@ -32,10 +31,6 @@ class Regions extends ConsoleController {
 
 		if($this->session->userdata('region_status_filter')!=''){
 			$cond['status']= $this->session->userdata('region_status_filter');
-		}
-
-		if($this->session->userdata('region_language_filter')!=''){
-			$cond['language']= $this->session->userdata('region_language_filter');
 		}
 
 		if($this->session->userdata('region_search_key_filter')!=''){
@@ -199,7 +194,7 @@ class Regions extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('region_sort_field_filter','region_sort_order_filter',
-				'region_search_key_filter','region_status_filter','region_language_filter');
+				'region_search_key_filter','region_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -209,12 +204,11 @@ class Regions extends ConsoleController {
 					 $this->input->post('region_status')!=''){
 						$newdata = array(
 								'region_search_key_filter'  => $this->input->post('region_search_key'),
-								'region_language_filter'  => $this->input->post('region_language'),
 								'region_status_filter'  => $this->input->post('region_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('region_search_key_filter','region_status_filter','region_language_filter');
+					$newdata = array('region_search_key_filter','region_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

@@ -15,8 +15,7 @@ class Blocks extends ConsoleController {
 		'block_sort_order_filter',
 		'block_search_key_filter',
 		'block_category_filter',
-		'block_status_filter',
-		'block_language_filter');
+		'block_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('blocks/overview'));
 	}
@@ -37,10 +36,6 @@ class Blocks extends ConsoleController {
 		}
 		if($this->session->userdata('block_category_filter')!=''){
 			$cond['category']= $this->session->userdata('block_category_filter');
-		}
-
-		if($this->session->userdata('block_language_filter')!=''){
-			$cond['language']= $this->session->userdata('block_language_filter');
 		}
 
 		if($this->session->userdata('block_search_key_filter')!=''){
@@ -273,7 +268,7 @@ class Blocks extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('block_sort_field_filter','block_sort_order_filter',
-				'block_search_key_filter','block_category_filter','block_status_filter','block_language_filter');
+				'block_search_key_filter','block_category_filter','block_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -285,12 +280,11 @@ class Blocks extends ConsoleController {
 						$newdata = array(
 								'block_search_key_filter'  => $this->input->post('block_search_key'),
 								'block_category_filter'  => $this->input->post('block_category'),
-								'block_language_filter'  => $this->input->post('block_language'),
 								'block_status_filter'  => $this->input->post('block_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('block_search_key_filter','block_status_filter','block_category_filter','block_language_filter');
+					$newdata = array('block_search_key_filter','block_status_filter','block_category_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

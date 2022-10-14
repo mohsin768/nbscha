@@ -17,8 +17,7 @@ class Policies extends ConsoleController {
 		$newdata = array('policy_sort_field_filter',
 		'policy_sort_order_filter',
 		'policy_search_key_filter',
-		'policy_status_filter',
-		'policy_language_filter');
+		'policy_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('policies/overview'));
 	}
@@ -36,10 +35,6 @@ class Policies extends ConsoleController {
 
 		if($this->session->userdata('policy_status_filter')!=''){
 			$cond['status']= $this->session->userdata('policy_status_filter');
-		}
-
-		if($this->session->userdata('policy_language_filter')!=''){
-			$cond['language']= $this->session->userdata('policy_language_filter');
 		}
 
 		if($this->session->userdata('policy_search_key_filter')!=''){
@@ -289,7 +284,7 @@ class Policies extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('policy_sort_field_filter','policy_sort_order_filter',
-				'policy_search_key_filter','policy_status_filter','policy_language_filter');
+				'policy_search_key_filter','policy_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -299,12 +294,11 @@ class Policies extends ConsoleController {
 					 $this->input->post('policy_status')!=''){
 						$newdata = array(
 								'policy_search_key_filter'  => $this->input->post('policy_search_key'),
-								'policy_language_filter'  => $this->input->post('policy_language'),
 								'policy_status_filter'  => $this->input->post('policy_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('policy_search_key_filter','policy_status_filter','policy_language_filter');
+					$newdata = array('policy_search_key_filter','policy_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

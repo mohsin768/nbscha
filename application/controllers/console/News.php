@@ -16,8 +16,7 @@ class News extends ConsoleController {
 		'news_sort_order_filter',
 		'news_search_key_filter',
 		'news_status_filter',
-		'news_type_filter',
-		'news_language_filter');
+		'news_type_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('news/overview'));
 	}
@@ -35,10 +34,6 @@ class News extends ConsoleController {
 
 		if($this->session->userdata('news_status_filter')!=''){
 			$cond['status']= $this->session->userdata('news_status_filter');
-		}
-
-		if($this->session->userdata('news_language_filter')!=''){
-			$cond['language']= $this->session->userdata('news_language_filter');
 		}
 		if($this->session->userdata('news_type_filter')!=''){
 			$cond['type']= $this->session->userdata('news_type_filter');
@@ -285,7 +280,7 @@ class News extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('news_sort_field_filter','news_sort_order_filter',
-				'news_search_key_filter','news_status_filter','news_type_filter','news_category_filter','news_language_filter');
+				'news_search_key_filter','news_status_filter','news_type_filter','news_category_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -296,14 +291,13 @@ class News extends ConsoleController {
 					 $this->input->post('news_status')!=''){
 						$newdata = array(
 								'news_search_key_filter'  => $this->input->post('news_search_key'),
-								'news_language_filter'  => $this->input->post('news_language'),
 								'news_type_filter'  => $this->input->post('news_type'),
 								'news_category_filter'  => $this->input->post('news_category'),
 								'news_status_filter'  => $this->input->post('news_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('news_search_key_filter','news_status_filter','news_type_filter','news_category_filter','news_language_filter');
+					$newdata = array('news_search_key_filter','news_status_filter','news_type_filter','news_category_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
@@ -371,10 +365,6 @@ class News extends ConsoleController {
 
 		if($this->session->userdata('newscategory_status_filter')!=''){
 			$cond['status']= $this->session->userdata('newscategory_status_filter');
-		}
-
-		if($this->session->userdata('newscategory_language_filter')!=''){
-			$cond['language']= $this->session->userdata('newscategory_language_filter');
 		}
 
 		if($this->session->userdata('newscategory_search_key_filter')!=''){
@@ -540,7 +530,7 @@ class News extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('newscategory_sort_field_filter','newscategory_sort_order_filter',
-				'newscategory_search_key_filter','newscategory_status_filter','newscategory_language_filter');
+				'newscategory_search_key_filter','newscategory_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -550,12 +540,11 @@ class News extends ConsoleController {
 					 $this->input->post('newscategory_status')!=''){
 						$newdata = array(
 								'newscategory_search_key_filter'  => $this->input->post('newscategory_search_key'),
-								'newscategory_language_filter'  => $this->input->post('newscategory_language'),
 								'newscategory_status_filter'  => $this->input->post('newscategory_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('newscategory_search_key_filter','newscategory_status_filter','newscategory_type_filter','newscategory_language_filter');
+					$newdata = array('newscategory_search_key_filter','newscategory_status_filter','newscategory_type_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

@@ -15,8 +15,7 @@ class Sectioncategories extends ConsoleController {
 		$newdata = array('sectioncategory_sort_field_filter',
 		'sectioncategory_sort_order_filter',
 		'sectioncategory_search_key_filter',
-		'sectioncategory_status_filter',
-		'sectioncategory_language_filter');
+		'sectioncategory_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('sectioncategories/overview'));
 	}
@@ -34,10 +33,6 @@ class Sectioncategories extends ConsoleController {
 
 		if($this->session->userdata('sectioncategory_status_filter')!=''){
 			$cond['status']= $this->session->userdata('sectioncategory_status_filter');
-		}
-
-		if($this->session->userdata('sectioncategory_language_filter')!=''){
-			$cond['language']= $this->session->userdata('sectioncategory_language_filter');
 		}
 
 		if($this->session->userdata('sectioncategory_search_key_filter')!=''){
@@ -212,7 +207,7 @@ class Sectioncategories extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('sectioncategory_sort_field_filter','sectioncategory_sort_order_filter',
-				'sectioncategory_search_key_filter','sectioncategory_status_filter','sectioncategory_language_filter');
+				'sectioncategory_search_key_filter','sectioncategory_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -222,12 +217,11 @@ class Sectioncategories extends ConsoleController {
 					 $this->input->post('sectioncategory_status')!=''){
 						$newdata = array(
 								'sectioncategory_search_key_filter'  => $this->input->post('sectioncategory_search_key'),
-								'sectioncategory_language_filter'  => $this->input->post('sectioncategory_language'),
 								'sectioncategory_status_filter'  => $this->input->post('sectioncategory_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('sectioncategory_search_key_filter','sectioncategory_status_filter','sectioncategory_language_filter');
+					$newdata = array('sectioncategory_search_key_filter','sectioncategory_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

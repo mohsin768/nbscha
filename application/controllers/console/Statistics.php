@@ -13,8 +13,7 @@ class Statistics extends ConsoleController {
 		$newdata = array('statistic_sort_field_filter',
 		'statistic_sort_order_filter',
 		'statistic_search_key_filter',
-		'statistic_status_filter',
-		'statistic_language_filter');
+		'statistic_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('statistics/overview'));
 	}
@@ -32,10 +31,6 @@ class Statistics extends ConsoleController {
 
 		if($this->session->userdata('statistic_status_filter')!=''){
 			$cond['status']= $this->session->userdata('statistic_status_filter');
-		}
-
-		if($this->session->userdata('statistic_language_filter')!=''){
-			$cond['language']= $this->session->userdata('statistic_language_filter');
 		}
 
 		if($this->session->userdata('statistic_search_key_filter')!=''){
@@ -241,7 +236,7 @@ class Statistics extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('statistic_sort_field_filter','statistic_sort_order_filter',
-				'statistic_search_key_filter','statistic_status_filter','statistic_language_filter');
+				'statistic_search_key_filter','statistic_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -251,12 +246,11 @@ class Statistics extends ConsoleController {
 					 $this->input->post('statistic_status')!=''){
 						$newdata = array(
 								'statistic_search_key_filter'  => $this->input->post('statistic_search_key'),
-								'statistic_language_filter'  => $this->input->post('statistic_language'),
 								'statistic_status_filter'  => $this->input->post('statistic_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('statistic_search_key_filter','statistic_status_filter','statistic_language_filter');
+					$newdata = array('statistic_search_key_filter','statistic_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

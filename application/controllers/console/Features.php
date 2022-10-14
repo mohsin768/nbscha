@@ -13,8 +13,7 @@ class Features extends ConsoleController {
 		$newdata = array('feature_sort_field_filter',
 		'feature_sort_order_filter',
 		'feature_search_key_filter',
-		'feature_status_filter',
-		'feature_language_filter');
+		'feature_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('features/overview'));
 	}
@@ -32,10 +31,6 @@ class Features extends ConsoleController {
 
 		if($this->session->userdata('feature_status_filter')!=''){
 			$cond['status']= $this->session->userdata('feature_status_filter');
-		}
-
-		if($this->session->userdata('feature_language_filter')!=''){
-			$cond['language']= $this->session->userdata('feature_language_filter');
 		}
 
 		if($this->session->userdata('feature_search_key_filter')!=''){
@@ -199,7 +194,7 @@ class Features extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('feature_sort_field_filter','feature_sort_order_filter',
-				'feature_search_key_filter','feature_status_filter','feature_language_filter');
+				'feature_search_key_filter','feature_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -209,12 +204,11 @@ class Features extends ConsoleController {
 					 $this->input->post('feature_status')!=''){
 						$newdata = array(
 								'feature_search_key_filter'  => $this->input->post('feature_search_key'),
-								'feature_language_filter'  => $this->input->post('feature_language'),
 								'feature_status_filter'  => $this->input->post('feature_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('feature_search_key_filter','feature_status_filter','feature_language_filter');
+					$newdata = array('feature_search_key_filter','feature_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

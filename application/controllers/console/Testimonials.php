@@ -13,8 +13,7 @@ class Testimonials extends ConsoleController {
 		$newdata = array('testimonial_sort_field_filter',
 		'testimonial_sort_order_filter',
 		'testimonial_search_key_filter',
-		'testimonial_status_filter',
-		'testimonial_language_filter');
+		'testimonial_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('testimonials/overview'));
 	}
@@ -31,10 +30,6 @@ class Testimonials extends ConsoleController {
 
 		if($this->session->userdata('testimonial_status_filter')!=''){
 			$cond['status']= $this->session->userdata('testimonial_status_filter');
-		}
-
-		if($this->session->userdata('testimonial_language_filter')!=''){
-			$cond['language']= $this->session->userdata('testimonial_language_filter');
 		}
 
 		if($this->session->userdata('testimonial_search_key_filter')!=''){
@@ -207,7 +202,7 @@ class Testimonials extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('testimonial_sort_field_filter','testimonial_sort_order_filter',
-				'testimonial_search_key_filter','testimonial_status_filter','testimonial_language_filter');
+				'testimonial_search_key_filter','testimonial_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -217,12 +212,11 @@ class Testimonials extends ConsoleController {
 					 $this->input->post('testimonial_status')!=''){
 						$newdata = array(
 								'testimonial_search_key_filter'  => $this->input->post('testimonial_search_key'),
-								'testimonial_language_filter'  => $this->input->post('testimonial_language'),
 								'testimonial_status_filter'  => $this->input->post('testimonial_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('testimonial_search_key_filter','testimonial_status_filter','testimonial_language_filter');
+					$newdata = array('testimonial_search_key_filter','testimonial_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
