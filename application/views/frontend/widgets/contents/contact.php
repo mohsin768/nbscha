@@ -2,24 +2,24 @@
 <div class="container">
     <div class="row pt-30">
     <div class="col-md-6">
-        <h3 class="line-bottom mt-0 mb-30">Interested in discussing?</h3>
+        <h3 class="line-bottom mt-0 mb-30"><?php echo translate('INTERESTED_DISCUSS','Interested in discussing?');?></h3>
 
         <!-- Contact Form -->
         <form id="contact_form" name="contact_form" class="" action="<?php echo site_url('ajax/forms/enquiries');?>" method="post" novalidate="novalidate">
-        <input type="hidden" name="form_type" value="contact" />     
-        <input type="hidden" name="form_token" id="form_token" value="" />  
-        <input type="hidden" name="form_action" id="form_action" value="" />  
+        <input type="hidden" name="form_type" value="contact" />
+        <input type="hidden" name="form_token" id="form_token" value="" />
+        <input type="hidden" name="form_action" id="form_action" value="" />
         <div class="row">
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Name <small>*</small></label>
-                <input name="form_name" class="form-control" type="text" placeholder="Enter Name" required="" aria-required="true">
+                <label><?php echo translate('ENTER_NAME','Name');?> <small>*</small></label>
+                <input name="form_name" class="form-control" type="text" placeholder="<?php echo translate('ENTER_NAME','Enter Name');?>" required="" aria-required="true">
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Email <small>*</small></label>
-                <input name="form_email" class="form-control required email" type="email" placeholder="Enter Email" aria-required="true">
+                <label><?php echo translate('EMAIL','Email');?> <small>*</small></label>
+                <input name="form_email" class="form-control required email" type="email" placeholder="<?php echo translate('ENTER_EMAIL','Enter Email');?>" aria-required="true">
             </div>
             </div>
         </div>
@@ -27,25 +27,25 @@
         <div class="row">
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Subject <small>*</small></label>
-                <input name="form_subject" class="form-control required" type="text" placeholder="Enter Subject" aria-required="true">
+                <label><?php echo translate('ENTER_SUBJECT','Subject');?> <small>*</small></label>
+                <input name="form_subject" class="form-control required" type="text" placeholder="<?php echo translate('ENTER_SUBJECT','Enter Subject');?>" aria-required="true">
             </div>
             </div>
             <div class="col-sm-6">
             <div class="form-group">
-                <label>Phone</label>
-                <input name="form_phone" class="form-control" type="text" placeholder="Enter Phone">
+                <label><?php echo translate('PHONE','Phone');?></label>
+                <input name="form_phone" class="form-control" type="text" placeholder="<?php echo translate('ENTER_PHONE','Enter Phone');?>">
             </div>
             </div>
         </div>
 
         <div class="form-group">
-            <label>Message</label>
-            <textarea name="form_message" class="form-control required" rows="5" placeholder="Enter Message" aria-required="true"></textarea>
+            <label><?php echo translate('ENTER_MESSAGE','Message');?></label>
+            <textarea name="form_message" class="form-control required" rows="5" placeholder="<?php echo translate('ENTER_MESSAGE','Enter Message');?>" aria-required="true"></textarea>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-dark btn-theme-colored btn-flat mr-5" data-loading-text="Please wait...">Send your message</button>
-            <button type="reset" class="btn btn-default btn-flat btn-theme-colored">Reset</button>
+            <button type="submit" class="btn btn-dark btn-theme-colored btn-flat mr-5" data-loading-text="<?php echo translate('PLEASE_WAIT','Please wait...');?>"><?php echo translate('SEND_MESSAGE','Send your message');?></button>
+            <button type="reset" class="btn btn-default btn-flat btn-theme-colored"><?php echo translate('RESET','Reset');?></button>
         </div>
         </form>
 
