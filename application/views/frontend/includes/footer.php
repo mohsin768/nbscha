@@ -47,7 +47,7 @@
         <form id="footer-mailchimp-subscription-form" class="newsletter-form mt-10">
             <input type="hidden" name="_token" value="E6wKJ3XoRj1fUT597IzVbKWI2aM0IySP2Q2xgERn">              <label class="display-block" for="mce-EMAIL"></label>
             <div class="input-group">
-            <input type="email" value="" name="email" placeholder="Your Email"  class="form-control" data-height="37px" id="mce-EMAIL">
+            <input type="email" value="" name="email" placeholder="<?php echo translate('YOUR_EMAIL','Your Email');?>"  class="form-control" data-height="37px" id="mce-EMAIL">
             <span class="input-group-btn">
                 <button type="submit" class="btn btn-colored btn-theme-colored m-0"><i class="fa fa-paper-plane-o text-white"></i></button>
             </span>
