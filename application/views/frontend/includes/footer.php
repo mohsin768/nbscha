@@ -86,10 +86,10 @@
 <div class="footer-bottom bg-black-333">
     <div class="container pt-20 pb-20">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
         <p class="font-11 text-black-777 m-0"><?php echo translate('COPYRIGHT','Copyright');?> &copy;<?php echo date('Y'); ?> <?php echo $this->settings['SITE_NAME']; ?>. <?php echo translate('RIGHTS_RESERVED','All Rights Reserved');?></p>
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-md-2 text-right">
         <div class="widget no-border m-0">
             <ul class="list-inline sm-text-center mt-5 font-12">
             <!-- <li>
