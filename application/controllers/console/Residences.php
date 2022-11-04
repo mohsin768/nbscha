@@ -80,6 +80,59 @@ class Residences extends ConsoleController {
 	 		 exit($json);
 	 	 }
 
+		  public function edittranslate($id, $lang, $translate='')
+		  {
+			$this->ckeditorCall();
+			  $this->form_validation->set_rules('name', 'Name', 'required');
+			  $this->form_validation->set_rules('description', 'Description', 'required');
+			  $this->form_validation->set_message('required', 'required');
+			  $this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
+			  if ($this->form_validation->run() == FALSE)
+			  {
+				  $langCond = $lang;
+				  if($translate=='translate'){
+					  $langCond = $this->default_language;
+				  }
+				  $vars['language'] = $lang;
+				  $vars['translate'] = $translate;
+				  $vars['residence']= $this->ResidencesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
+				  $this->mainvars['content'] = $this->load->view(admin_url_string('residences/edit-translate'), $vars,true);
+				  $this->load->view(admin_url_string('main'), $this->mainvars);
+	  
+			  } else {
+				  $maindata = array();
+				  $descdata = array(
+					  'residence_id' => $id,
+					  'name' => $this->input->post('name'),
+					  'description' => $this->input->post('description'),
+					  'language' => $this->input->post('language'));
+					  $cond = array('id'=>$id);
+					  if($translate=='translate'){
+						  $updaterow = $this->ResidencesModel->addTranslate($maindata,$cond,$descdata);
+					  }else{
+						  $updaterow = $this->ResidencesModel->updateCond($maindata,$cond,$descdata);
+					  }
+	  
+				  if($updaterow){
+					   $this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
+					  redirect(admin_url_string('residences/overview'));
+				  } else {
+					  $this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
+					  redirect(admin_url_string('residences/overview'));
+				  }
+			  }
+		  }
+	  
+	  
+		  public function translates($id)
+		  {
+			  $cond = array('id'=>$id);
+			  $vars['translates'] = $this->ResidencesModel->getTranslates($cond);
+			  $vars['residence_id'] = $id;
+			  $this->mainvars['content']=$this->load->view(admin_url_string('residences/translates'),$vars,true);
+			  $this->load->view(admin_url_string('main'),$this->mainvars);
+		  }
+
 		 function actions()
 	 	{
 	 		$actionStatus=false;
