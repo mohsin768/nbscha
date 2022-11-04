@@ -18,7 +18,7 @@
                     <?php } } ?>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-4 pl-40 pl-sm-20 mr-sm-20">
-                    <h3 class="text-uppercase line-bottom mt-sm-30 mt-0"> <span class="text-theme-colored">RESOURCE LINKS</span></h3>
+                    <h3 class="text-uppercase line-bottom mt-sm-30 mt-0"> <span class="text-theme-colored"><?php echo translate('RESOURCE_LINKS','RESOURCE LINKS');?></span></h3>
                     <div class="bxslider bx-nav-top p-0 m-0">
                         <?php foreach($links as $link): ?>
                         <div class="col-xs-12 pr-0 col-sm-6 col-md-6 mb-20">

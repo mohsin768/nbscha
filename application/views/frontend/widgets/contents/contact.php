@@ -84,25 +84,25 @@
         </script>
     </div>
     <div class="col-md-6">
-        <h3 class="line-bottom mt-0">Get in touch with us today!</h3>
+        <h3 class="line-bottom mt-0"><?php echo translate('GET_IN_TOUCH_US','Get in touch with us today!');?></h3>
         <p><?php echo $this->settings['CONTACT_GETINTOUCH']; ?></p>
 
 
         <div class="icon-box media mb-0 pb-0"> <a class="media-left pull-left flip mr-20" href="#"> <i class="pe-7s-map-2 text-theme-colored"></i></a>
         <div class="media-body">
-            <h5 class="mt-0">Our Mailing Address</h5>
+            <h5 class="mt-0"><?php echo translate('OUR_MAILING_LIST','Our Mailing Address');?></h5>
             <p><?php echo $this->settings['CONTACT_ADDRESS']; ?></p>
         </div>
         </div>
         <div class="icon-box media mb-0 pb-0 pt-0 mt-0"> <a class="media-left pull-left flip mr-15" href="#"> <i class="pe-7s-call text-theme-colored"></i></a>
         <div class="media-body">
-            <h5 class="mt-0">Contact Number</h5>
+            <h5 class="mt-0"><?php echo translate('CONTACT_PHONE','Contact Number');?></h5>
             <p><a href="tel:+<?php echo preg_replace("/[^0-9]/", "", $this->settings['CONTACT_PHONE']); ?>"><?php echo $this->settings['CONTACT_PHONE']; ?></a></p>
         </div>
         </div>
         <div class="icon-box media mb-0 pb-0 pt-0 mt-0"> <a class="media-left pull-left flip mr-15" href="#"> <i class="pe-7s-mail text-theme-colored"></i></a>
         <div class="media-body">
-            <h5 class="mt-0">Email Address</h5>
+            <h5 class="mt-0"><?php echo translate('EMAIL_ADDRESS','Email Address');?></h5>
             <p><a href="mailto:<?php echo $this->settings['CONTACT_EMAIL']; ?>"><?php echo $this->settings['CONTACT_EMAIL']; ?></a></p>
         </div>
         </div>
