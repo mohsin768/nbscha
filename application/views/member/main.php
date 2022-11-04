@@ -27,7 +27,7 @@
     <!-- Custom Theme Style -->
     <link href="<?php echo common_assets_url('build/css/custom.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo member_assets_url('css/celiums.css'); ?>" rel="stylesheet">
-    <script> var siteBaseUrl = '<?php echo member_url('/'); ?>'; </script>
+    <script> var siteBaseUrl = '<?php echo member_url(''); ?>'; </script>
   </head>
   <body class="nav-md footer_fixed">
     <div class="container body">
@@ -160,8 +160,8 @@
     <script type="text/javascript" src="<?php echo common_assets_url('vendors/fancybox/jquery.mousewheel-3.0.4.pack.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo common_assets_url('vendors/fancybox/jquery.fancybox-1.3.4.js'); ?>"></script>
     <!-- Custom Theme Scripts -->
-    <script src="<?php echo common_assets_url('build/js/custom.min.js'); ?>"></script>
-    <script src="<?php echo member_assets_url('js/celiums.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo common_assets_url('build/js/custom.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo member_assets_url('js/celiums.js'); ?>"></script>
     <?php echo $page_scripts; ?>
   </body>
 </html>

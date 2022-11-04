@@ -59,7 +59,7 @@
     <script src="<?php echo common_assets_url('vendors/jquery/dist/jquery.min.js'); ?>"></script>
     <script>
         $(document).ready(function(){
-            $('#language-switch').change(function(){
+            $('#language-switch').on('change',function(){
                 var languageCode = $(this).val();
                 var switchURL = '<?php echo member_url('language/switch/')?>'+languageCode;
                 window.location.href = switchURL;

@@ -13,8 +13,12 @@ function translate($key,$default='',$interface="site"){
     if(isset($localizations[$key])){
         $txt = $localizations[$key];
     } else if($default!='') {
-        $data = array('lang_key'=>$key,'lang_value'=>$default,'language' => $language);
-        $thisCI->LocalizationModel->insert($data);
+        $cond = array('lang_key'=>$key,'language' => $language);
+        $checkLocailization = $thisCI->LocalizationModel->getRowCond($cond);
+        if(!$checkLocailization){
+            $data = array('lang_key'=>$key,'lang_value'=>$default,'language' => $language);
+            $thisCI->LocalizationModel->insert($data);
+        }
     }
     return $txt;
 }
