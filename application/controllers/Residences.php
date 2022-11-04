@@ -74,7 +74,7 @@ class Residences extends FrontController {
 			$residenceImages[] = frontend_uploads_url('requests/images/'.$residenceObject->image6);
 		}
 		$vars['images'] = $residenceImages;
-		$facilities = $this->FacilitiesModel->getIdPair();
+		$facilities = $this->FacilitiesModel->getIdPair($this->site_language);
 		$residenceFacilitiesStr = '';
 		$residenceFacilitiesStrArray = array();
 		if($residenceObject->facilities!=''){
@@ -90,11 +90,11 @@ class Residences extends FrontController {
 		$residenceFeatures = unserialize($residenceFeatures);
 		$vars['residenceFeatures'] = $residenceFeatures;
 		$vars['facilities'] = $residenceFacilitiesStr;
-		$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair();
-		$vars['packages'] = $this->PackagesModel->getIdPair();
-		$vars['levels'] = $this->CarelevelsModel->getIdPair();
-		$vars['regions'] = $this->RegionsModel->getIdPair();
-		$vars['features'] = $this->FeaturesModel->getIdPair();
+		$vars['homeLanguages'] = $this->HomeLanguagesModel->getIdPair($this->site_language);
+		$vars['packages'] = $this->PackagesModel->getIdPair($this->site_language);
+		$vars['levels'] = $this->CarelevelsModel->getIdPair($this->site_language);
+		$vars['regions'] = $this->RegionsModel->getIdPair($this->site_language);
+		$vars['features'] = $this->FeaturesModel->getIdPair($this->site_language);
 		$this->mainvars['content_top']= $this->load->view(frontend_views_path('pages/residence'),$vars,TRUE);
 		$this->mainvars['content']=$this->widgethelper->pageContent();
 		$this->mainvars['bodyClass'] = $bodyClass;

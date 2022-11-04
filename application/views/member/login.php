@@ -48,7 +48,7 @@
                 <div class="separator">
                 </div>
                 <div class="login-footer">
-                    <p>&copy; <?php echo date('Y'); ?> All Rights Reserved. <br/><?php echo $this->config->item('site_name'); ?></p>
+                    <p>&copy; <?php echo date('Y'); ?> <?php echo translate('RIGHTS_RESERVED','All Rights Reserved','member');?>. <br/><?php echo $this->config->item('site_name'); ?></p>
                 </div>
             </section>
         </div>
