@@ -46,36 +46,36 @@
         <?php } ?>
         <!--CARD-INFORMATION-->
         <div class="form-group">
-            <label>Credit Card Number:</label>
+            <label><?php echo translate('CCNO','Credit Card Number');?>:</label>
             <input type="text" id="cardNumber" value="">
         </div>
         <div class="form-group">
             <div class="form-item">
-                <label>Expiry Month:</label>
+                <label><?php echo translate('CCEXPM','Expiry Month');?>:</label>
                 <input type="text" id="cardExpiryMonth" value="" placeholder="<?php echo date('m'); ?>">
             </div>
         </div>
         <div class="form-group">
             <div class="form-item">
-                <label>Expiry Year:</label>
+                <label><?php echo translate('CCEXPY','Expiry Year');?>:</label>
                 <input type="text" id="cardExpiryYear" value="" placeholder="<?php echo date('y'); ?>">
             </div>
         </div>
         <div class="form-group">
-            <label>CVV:</label>
+            <label><?php echo translate('CVV','CVV');?>:</label>
             <input type="text" id="cardCVV" value="">
         </div>
         <!--AVS-->
         <div class="form-group">
-            <label>Card Holder Name:</label>
+            <label><?php echo translate('CCNAME','Card Holder Name');?>:</label>
             <input type="text" id="cardHolderName" value="">
         </div>
         <div class="form-group">
-            <label>Card Holder Address:</label>
+            <label><?php echo translate('CCADDRESS','Card Holder Address');?>:</label>
             <input type="text" id="cardHolderAddress" value="">
         </div>
         <div class="form-group">
-            <label>Card Holder Postal Code:</label>
+            <label><?php echo translate('CCPIN','Card Holder Postal Code');?>:</label>
             <input type="text" id="cardHolderPostalCode" value="">
         </div>
         <input type="hidden" id="orderNumber" value="<?php echo $order_identifier; ?>"><br/>
@@ -83,12 +83,12 @@
         <input type="hidden" id="amountHash" value="<?php echo $amount_hash; ?>"><br/>
         <!--BUTTON-->
         <div class="form-actions">
-            <input type="button" id="buttonProcess" value="Process" onclick="javascript:helcimProcess();">
+            <input type="button" id="buttonProcess" value="<?php echo translate('PROCESS','Process');?>" onclick="javascript:helcimProcess();">
         </div>
         </form>
     </div>
     <div class="cancel-payment">
-        <a href="<?php echo site_url('register/process/'.$order_identifier); ?>">Cancel and go back to <?php echo $site_name; ?></a>
+        <a href="<?php echo site_url('register/process/'.$order_identifier); ?>"><?php echo translate('CANCEL_BACK','Cancel and go back to');?> <?php echo $site_name; ?></a>
     </div>
 </div>
 </body>

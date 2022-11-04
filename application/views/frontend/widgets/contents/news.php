@@ -25,20 +25,20 @@
                                     </ul>
                                 </div>
                                 <p><?php echo $newsitem['summary']; ?></p>
-                                <a href="<?php echo news_url($newsitem['slug']); ?>" class="btn btn-flat btn-dark btn-theme-colored btn-sm">Read More <i class="fa fa-angle-double-right"></i></a>
+                                <a href="<?php echo news_url($newsitem['slug']); ?>" class="btn btn-flat btn-dark btn-theme-colored btn-sm"><?php echo translate('READ_MORE','Read More');?> <i class="fa fa-angle-double-right"></i></a>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
                 <?php endforeach; } else { ?>
-                    No news items to display.
+                    <?php echo translate('NO_ITEMS','No news items to display.');?>
                 <?php } ?>
             </div>
             <div class="col-md-4">
                  <div class="sidebar sidebar-right mt-sm-30">
                     <div class="widget">
-                        <h5 class="widget-title line-bottom">Categories</h5>
+                        <h5 class="widget-title line-bottom"><?php echo translate('CATEGORIES','Categories');?></h5>
                         <div class="categories">
                             <ul class="list list-border angle-double-right">
                             <?php foreach($categories as $category): ?>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="widget">
-                        <h5 class="text-uppercase line-bottom mt-sm-30 mt-0"> <span class="text-theme-colored">RESOURCES</span></h5>
+                        <h5 class="text-uppercase line-bottom mt-sm-30 mt-0"> <span class="text-theme-colored"><?php echo translate('RESOURCES','RESOURCES');?></span></h5>
                         <div class="latest-posts">
                             <div class="bxslider bx-nav-top p-0 m-0">
                             <?php foreach($links as $link): ?>
