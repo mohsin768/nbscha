@@ -21,12 +21,12 @@
         <h5><em><span class="text-theme-color-2"><i class="fa fa-map-marker"></i></span><?php echo $residence->address; ?></em></h5>
         <?php if($residence->description!='') { ?>
         <div class="properties-description mb-40">
-            <h3 class="heading-2 text-theme-colored">Description</h3>
+            <h3 class="heading-2 text-theme-colored"><?php echo translate('DESCRIPTION','Description');?></h3>
             <?php echo $residence->description; ?>
         </div>
         <?php } ?>
         <div class="properties-summary mb-40">
-            <h3 class="heading-2 text-theme-colored">Details</h3>
+            <h3 class="heading-2 text-theme-colored"><?php echo translate('DETAILS','Details');?></h3>
             <ul>
                 <?php if($residence->contact_name!=''){ ?>
                 <li><b><?php echo translate('C_NAME','Contact Name');?></b><br><?php echo $residence->contact_name; ?></li>
@@ -103,13 +103,13 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Name <small>*</small></label>
+                                <label><?php echo translate('NAME','Name');?> <small>*</small></label>
                                 <input name="form_name" class="form-control" type="text" placeholder="<?php echo translate('ENTER_NAME','Enter Name');?>" required="" aria-required="true">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label>Email <small>*</small></label>
+                                <label><?php echo translate('EMAIL','Email');?> <small>*</small></label>
                                 <input name="form_email" class="form-control required email" type="email" placeholder="<?php echo translate('ENTER_EMAIL','Enter Email');?>" aria-required="true">
                             </div>
                         </div>
@@ -118,20 +118,20 @@
                     <div class="row">
                         <div class="col-sm-12">
                         <div class="form-group">
-                            <label>Subject <small>*</small></label>
+                            <label><?php echo translate('SUBJECT','Subject');?> <small>*</small></label>
                             <input name="form_subject" class="form-control required" type="text" placeholder="<?php echo translate('ENTER_SUBJECT','Enter Subject');?>" aria-required="true">
                         </div>
                         </div>
                         <div class="col-sm-12">
                         <div class="form-group">
-                            <label>Phone</label>
+                            <label><?php echo translate('PHONE','Phone');?></label>
                             <input name="form_phone" class="form-control" type="text" placeholder="<?php echo translate('ENTER_PHONE','Enter Phone');?>">
                         </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label>Message</label>
+                        <label><?php echo translate('MESSAGE','Message');?></label>
                         <textarea name="form_message" class="form-control required" rows="5" placeholder="<?php echo translate('ENTER_MESSAGE','Enter Message');?>" aria-required="true"></textarea>
                     </div>
                     <div class="form-group">

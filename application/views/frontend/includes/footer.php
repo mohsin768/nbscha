@@ -47,7 +47,7 @@
         <form id="footer-mailchimp-subscription-form" class="newsletter-form mt-10">
             <input type="hidden" name="_token" value="E6wKJ3XoRj1fUT597IzVbKWI2aM0IySP2Q2xgERn">              <label class="display-block" for="mce-EMAIL"></label>
             <div class="input-group">
-            <input type="email" value="" name="email" placeholder="Your Email"  class="form-control" data-height="37px" id="mce-EMAIL">
+            <input type="email" value="" name="email" placeholder="<?php echo translate('YOUR_EMAIL','Your Email');?>"  class="form-control" data-height="37px" id="mce-EMAIL">
             <span class="input-group-btn">
                 <button type="submit" class="btn btn-colored btn-theme-colored m-0"><i class="fa fa-paper-plane-o text-white"></i></button>
             </span>
@@ -86,10 +86,10 @@
 <div class="footer-bottom bg-black-333">
     <div class="container pt-20 pb-20">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
         <p class="font-11 text-black-777 m-0"><?php echo translate('COPYRIGHT','Copyright');?> &copy;<?php echo date('Y'); ?> <?php echo $this->settings['SITE_NAME']; ?>. <?php echo translate('RIGHTS_RESERVED','All Rights Reserved');?></p>
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-md-2 text-right">
         <div class="widget no-border m-0">
             <ul class="list-inline sm-text-center mt-5 font-12">
             <!-- <li>
