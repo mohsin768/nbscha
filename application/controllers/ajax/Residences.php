@@ -65,7 +65,7 @@ class Residences extends AjaxController {
 		$residencesData = array('status'=>'0','pager'=>array('current_page'=>'0','pages'=>'0'),'data'=>'');
 		$this->load->model('ResidencesModel');
 		$this->load->model('PackagesModel');
-		$packages = $this->PackagesModel->getIdPair();
+		$packages = $this->PackagesModel->getIdPair($this->site_language);
 		$perPage = 12;
 		$offset = $perPage*($page-1);
 		
