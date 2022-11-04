@@ -19,9 +19,27 @@
         <link href="<?php echo common_assets_url('build/css/custom.min.css'); ?>" rel="stylesheet">
         <link href="<?php echo admin_assets_url('css/celiums.css'); ?>" rel="stylesheet">
     </head>
-
     <body class="login">
-        <div>
+        <div class="">
+        <div class="top_nav">
+            <div class="nav_menu">
+                <nav class="nav navbar-nav">
+                    <ul class=" navbar-right"> 
+                        <li class="nav-item" style="padding: 0px 15px;">
+                            <select id="language-switch" name="language">
+                                <?php foreach($this->languages_pair as $languageCode => $langaugeName): $default=false; if($languageCode == $this->member_language){ $default=true; }?>
+                                    <option <?php echo set_select('lanaguage',$languageCode,$default); ?> value="<?php echo $languageCode; ?>"><?php echo $langaugeName; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </li>
+                        <li class="nav-item">
+                        <?php echo translate('INTERFACE_LANGUAGE','Interface Language','member');?>
+                        </li>  
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="clearfix"></div>
         <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
@@ -36,5 +54,16 @@
         </div>
         </div>
         </div>
+        <div class="clearfix"></div>
     </body>
+    <script src="<?php echo common_assets_url('vendors/jquery/dist/jquery.min.js'); ?>"></script>
+    <script>
+        $(document).ready(function(){
+            $('#language-switch').change(function(){
+                var languageCode = $(this).val();
+                var switchURL = '<?php echo member_url('language/switch/')?>'+languageCode;
+                window.location.href = switchURL;
+            });
+        });
+    </script>
 </html>

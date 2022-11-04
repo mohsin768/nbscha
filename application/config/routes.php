@@ -53,6 +53,7 @@ $route['default_controller'] = 'home';
 $route['404_override'] = 'cmserror/pagenotfound';
 $route['translate_uri_dashes'] = FALSE;
 $route['console'] = 'console';
+$route['member/language/(:any)'] = 'member/language/switch/$1';
 $route['member'] = 'member';
 $route['(\w{2})/ajax/forms/enquiries'] = 'ajax/forms/enquiries';
 $route['(\w{2})/ajax/residences/index'] = 'ajax/residences/index';

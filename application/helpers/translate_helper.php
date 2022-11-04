@@ -1,11 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-function translate($key,$default=''){
+function translate($key,$default='',$interface="site"){
     $thisCI = &get_instance();
     $txt = $default;
     $localizations = $thisCI->localizations;
-    $language = $thisCI->site_language;
+    if($interface=='member'){
+        $language = $thisCI->member_language;
+    } else {
+        $language = $thisCI->site_language;
+    }
     if(isset($localizations[$key])){
         $txt = $localizations[$key];
     } else if($default!='') {

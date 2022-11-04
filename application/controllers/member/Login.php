@@ -8,6 +8,19 @@ class Login extends GlobalController {
 		if ($this->session->userdata('member_user_logged_in')) {
 			redirect(member_url_string('home'));
 		}
+		$this->member_language = $this->default_language;
+		if ($this->session->userdata('member_site_language') && isset($this->languages_pair[$this->session->userdata('member_site_language')])) {
+			$this->member_language = $this->session->userdata('member_site_language');
+		}
+		$settings=$this->SettingsModel->getArrayCond(array('language'=>$this->member_language));
+		foreach($settings as $setting):
+			$this->settings[$setting['settingkey']]=$setting['settingvalue'];
+		endforeach;
+		$localizations=$this->LocalizationModel->getArrayCond(array('language'=>$this->member_language));
+		foreach($localizations as $localization):
+			$this->localizations[$localization['lang_key']]=$localization['lang_value'];
+		endforeach;
+		$this->load->helper('translate');
 		$this->load->model('MembersModel');
 		$this->load->model('MemberHistoryModel');
 	}

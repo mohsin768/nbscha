@@ -5,13 +5,22 @@ class MemberController extends GlobalController {
 
 	function __construct() {
 		parent::__construct();
-		$settings=$this->SettingsModel->getArrayCond(array('language'=>$this->site_language));
-		foreach($settings as $setting):
-			$this->settings[$setting['settingkey']]=$setting['settingvalue'];
-		endforeach;
 		if (!$this->session->userdata('member_user_logged_in')) {
 			redirect(member_url_string('login'));
 		}
+		$this->member_language = $this->default_language;
+		if ($this->session->userdata('member_site_language') && isset($this->languages_pair[$this->session->userdata('member_site_language')])) {
+			$this->member_language = $this->session->userdata('member_site_language');
+		}
+		$settings=$this->SettingsModel->getArrayCond(array('language'=>$this->member_language));
+		foreach($settings as $setting):
+			$this->settings[$setting['settingkey']]=$setting['settingvalue'];
+		endforeach;
+		$localizations=$this->LocalizationModel->getArrayCond(array('language'=>$this->member_language));
+		foreach($localizations as $localization):
+			$this->localizations[$localization['lang_key']]=$localization['lang_value'];
+		endforeach;
+		$this->load->helper('translate');
 		$this->mainvars = array();
 		$this->mainvars['side_menu']=$this->sideMenu();
 		$this->mainvars['top_menu']=$this->load->view(member_url_string('includes/top_menu'),'',true);
