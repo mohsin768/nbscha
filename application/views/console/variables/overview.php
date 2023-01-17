@@ -33,7 +33,17 @@ if($this->uri->segment(6)==""){
 													Search :
 													<input type="text"  class="form-control filter" placeholder="Search key ..." name="variable_search_key" value="<?php echo $this->session->userdata('variable_search_key_filter'); ?>" />
 												</div>
-
+												<div class="filter-col">
+													Section:
+													<select name="variable_section_key" class="form-control filter">
+															<option value="">Select</option>
+															<option value=" " <?php if($this->session->userdata('variable_section_filter')==' '){ echo 'selected="selected"'; }?>> </option>
+																<?php foreach($sections as $section):
+																	  echo $section['title'];?>
+															</option>
+															<?php endforeach;?>
+													</select>
+												</div>
 												<input type="hidden" value="" name="sort_field" id="sort_field" />
 												<div class="filter-col">
 													<button class="btn btn-success btn-xs filter" type="submit" value="Search" name="search" ><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
@@ -70,6 +80,7 @@ if($this->uri->segment(6)==""){
 																<a href="#0" class="variable-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
 															<th class="column-title">Variable Key</th>
 															<th class="column-title">Type</th>
+															<th class="column-title">Section</th>
 
 
 															<th class="column-title">
@@ -90,7 +101,7 @@ if($this->uri->segment(6)==""){
 																<td  style="max-width:300px"><input type="text" style="min-width:150px;float: left;padding:3px 5px; border:0px none;" value="<?php echo '{'.$variable['variable_key'].'}';?>" id="<?php echo 'variable_'.$variable['id'];?>"/>
 																	<button style="float: left" class="copyButton" target="<?php echo 'variable_'.$variable['id'];?>"><i class="fa fa-copy"></i></button></td>
 																<td class=" "><?php echo $this->variableTypes[$variable['variable_type']];?></td>
-
+																<td class=" "><?php echo $this->ManualSectionsModel->getSectionTitle($variable['section_id'])!=""?$this->ManualSectionsModel->getSectionTitle($variable['section_id']):"";?></td>
 																<td class=" "><?php echo $this->languages_pair[$variable['language']];?></td>
 
                                 <td class=" last">

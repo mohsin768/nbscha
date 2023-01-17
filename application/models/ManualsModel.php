@@ -10,4 +10,13 @@ class ManualsModel extends CMS_Model {
       $this->foreign_key = 'manuals_id';
       $this->multilingual = TRUE;
   }
+  function getSections($manualId)
+  {
+    $this->db->select('manual_sections.*,manual_sections_desc.*');
+    $this->db->from('manual_sections');
+    $this->db->join('manual_sections_desc','manual_sections.id=manual_sections_desc.section_id');
+    $this->db->where('manual_sections.manual_id',$manualId);
+    $query = $this->db->get();
+		return $query->result_array();
+  }
 }

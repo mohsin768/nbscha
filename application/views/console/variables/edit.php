@@ -19,7 +19,23 @@
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'variable-edit');
                 echo form_open_multipart(admin_url_string('variables/edit/'.$manual->id.'/'.$variable->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $variable->id; ?>" />
+                <input type="hidden" name="manualid" id="manualid" value="<?php echo $manual->id;?>" />
                 <input type="hidden" name="language" value="<?php echo $language; ?>" />
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="section">Section</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('section'); ?>
+                        <select id="section" name="section" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($section as $sectionItem): $default = false; if($variable->section_id==$sectionItem['section_id']){ $default = true; }?>
+                                <option value="<?php echo $sectionItem['section_id']; ?>" <?php echo set_select('section',$sectionItem['section_id'],$default); ?>><?php echo $sectionItem['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>

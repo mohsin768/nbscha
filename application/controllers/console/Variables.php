@@ -7,6 +7,7 @@ class Variables extends ConsoleController {
 		parent::__construct();
 		$this->load->model('ManualVariablesModel');
 		$this->load->model('ManualsModel');
+		$this->load->model('ManualSectionsModel');
 		$this->variableTypes = array('text'=>'Text','textarea'=>'Textarea','editor'=>'Textarea with Editor');
 	}
 
@@ -15,7 +16,8 @@ class Variables extends ConsoleController {
 		$newdata = array('variable_sort_field_filter',
 		'variable_sort_order_filter',
 		'variable_search_key_filter',
-		'variable_status_filter');
+		'variable_status_filter',
+		'variable_section_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('variables/overview'));
 	}
@@ -34,6 +36,9 @@ class Variables extends ConsoleController {
 		if($this->session->userdata('variable_search_key_filter')!=''){
 			$like[] = array('field'=>'title', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
 		}
+		if($this->session->userdata('variable_section_filter')!=''){
+			$like[] = array('field'=>'manual_sections_desc.title', 'value' => $this->session->userdata('variable_section_filter'),'location' => 'both');
+		}
 
 		if($this->session->userdata('variable_sort_field_filter')!=''){
 			$sort_field = $this->session->userdata('variable_sort_field_filter');
@@ -49,7 +54,8 @@ class Variables extends ConsoleController {
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['variables'] = $this->ManualVariablesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
+		$vars['sections'] =  $this->ManualVariablesModel->getSectionList($manualId);//print_r($vars['sections']);exit;
 		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('variables/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
@@ -72,11 +78,13 @@ class Variables extends ConsoleController {
 			$vars = array();
 			$vars['language'] = $language;
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
+			$vars['sections'] =  $this->ManualsModel->getSections($manualId);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$maindata = array('variable_type' => $this->input->post('variable_type'),
 			'variable_key' => $this->input->post('variable_key'),
+			'section_id'=>$this->input->post('section'),
 			'manual_id'=>$manualId);
 			$descdata = array('title' => $this->input->post('title'),
 				'variable_value' => $this->input->post('variable_value'),
@@ -98,7 +106,8 @@ class Variables extends ConsoleController {
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
-		$this->form_validation->set_rules('variable_key', 'Key', 'required|callback_variablekey_exists');
+		$this->form_validation->set_rules('manualid', 'ManualId', 'required');
+		$this->form_validation->set_rules('variable_key', 'Key', 'required|callback_variablekey_exists[manualid]');
 		$this->form_validation->set_rules('variable_type', 'Type', 'required');
 		$this->form_validation->set_rules('language', 'Language', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
@@ -110,6 +119,7 @@ class Variables extends ConsoleController {
 			}
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
+			$vars['section'] =  $this->ManualVariablesModel->getSectionList($manualId,$lang);
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$langCond));
 			$vars['variable']= $this->ManualVariablesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/edit'), $vars,true);
@@ -118,20 +128,17 @@ class Variables extends ConsoleController {
 		} else {
 			$maindata = array('variable_type' => $this->input->post('variable_type'),
 			'variable_key' => $this->input->post('variable_key'));
-
 			$descdata = array(
 				'manual_variable_id	' => $id,
 				'variable_value' => $this->input->post('variable_value'),
 				'title' => $this->input->post('title'),
 				'language' => $this->input->post('language'));
-
 				$cond = array('id'=>$id);
 				if($translate=='translate'){
 					$updaterow = $this->ManualVariablesModel->addTranslate($maindata,$cond,$descdata);
 				}else{
 					$updaterow = $this->ManualVariablesModel->updateCond($maindata,$cond,$descdata);
 				}
-
 			if($updaterow){
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Variable updated successfully.'));
  				redirect(admin_url_string('variables/overview/'.$manualId.'/'.$lang));
@@ -142,15 +149,17 @@ class Variables extends ConsoleController {
 		}
 	}
 
-	function variablekey_exists($val) {
+	function variablekey_exists($val,$manualId) {
+		$url= $_SERVER['REQUEST_URI'];    
+		$manualId = array_slice(explode('/', $url), -2)[0];
 		if($this->input->post('id')){
-			$cond = array('id !=' => $this->input->post('id'), 'variable_key' => $val);
+			$cond = array('id !=' => $this->input->post('id'), 'variable_key' => $val,'manual_id'=>$manualId);
 		} else {
-			$cond = array('variable_key' => $val);
+			$cond = array('variable_key' => $val,'manual_id'=>$manualId);
 		}
 		if($this->ManualVariablesModel->rowExists($cond)) {
-			$this->form_validation->set_message('variablekey_exists', 'Variable Key - '. $val .' - already exists!!');
-			return FALSE;
+			$this->form_validation->set_message('variablekey_exists', 'Variable Key - '. $val .' - already exists!!');	
+			return FALSE;	
 		} else {
 			return TRUE;
 		}
@@ -201,19 +210,22 @@ class Variables extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('variable_sort_field_filter','variable_sort_order_filter',
-				'variable_search_key_filter');
+				'variable_search_key_filter','variable_section_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
 		if(isset($_POST['search']) && $this->input->post('search')=='Search'){
 				if($this->input->post('variable_search_key')!=''||
-				$this->input->post('variable_language')!=''){
+				$this->input->post('variable_language')!=''||
+				$this->input->post('variable_section')!='')
+				{
 						$newdata = array(
-								'variable_search_key_filter'  => $this->input->post('variable_search_key'));
+								'variable_search_key_filter'  => $this->input->post('variable_search_key'),
+								'variable_section_filter'  => $this->input->post('variable_section_key'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('variable_search_key_filter');
+					$newdata = array('variable_search_key_filter','variable_section_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

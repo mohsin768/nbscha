@@ -110,4 +110,14 @@ class ManualVariablesModel extends CMS_Model {
 		}
 		return $this->db->delete($this->table_name,$cond);
 	}
+  function getSectionList($manualId,$lang='')
+  {
+    $this->db->select('*');
+    $this->db->from($this->table_name);
+    $this->db->join('manual_sections_desc',"$this->table_name.section_id=manual_sections_desc.section_id");
+    $this->db->where("$this->table_name.manual_id",$manualId);
+    $this->db->where('manual_sections_desc.language',$lang);
+    $query = $this->db->get();
+		return $query->result_array();
+  }
 }
