@@ -28,6 +28,32 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="content">Content</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('content'); ?>
+                        <select id="content" name="content" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($contents as $content): ?>
+                                <option value="<?php echo $content['id']; ?>" <?php echo set_select('content',$content['id']); ?>><?php echo $content['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy">Policy</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy'); ?>
+                        <select id="policy" name="policy" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($policies as $policy): ?>
+                                <option value="<?php echo $policy['id']; ?>" <?php echo set_select('policy',$policy['id']); ?>><?php echo $policy['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title<span class="required">*</span>
                     </label>
                     <div class="col-md-9 col-sm-9 col-xs-12">

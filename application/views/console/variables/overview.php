@@ -35,7 +35,7 @@ if($this->uri->segment(6)==""){
 												</div>
 												<div class="filter-col">
 													Section:
-													<select name="variable_section" class="form-control filter">
+													<select id="variable_section" name="variable_section" class="form-control filter">
 															<option value="">Select</option>
 															<?php foreach($sectionFilter as $sectionFilter): 
 																$default=false;
@@ -45,6 +45,20 @@ if($this->uri->segment(6)==""){
 															<?php endforeach;?>
 													</select>
 												</div>
+											<div class="content-wrap">	
+												<div class="filter-col">
+													Content:
+													<select id="variable_content" name="variable_content" class="form-control filter">
+															<option value="">Select</option>
+															<?php foreach($contentFilter as $contentFilter): 
+																$default=false;
+																if($this->session->userdata('variable_content_filter')==$contentFilter['id']){ $default=true;}
+																?>
+															<option value="<?php echo $contentFilter['id']; ?>" <?php echo set_select('variable_section',$contentFilter['id'],$default);?>> <?php echo $contentFilter['title'];?></option>		
+															<?php endforeach;?>
+													</select>
+												</div>
+											</div>
 												<input type="hidden" value="" name="sort_field" id="sort_field" />
 												<div class="filter-col">
 													<button class="btn btn-success btn-xs filter" type="submit" value="Search" name="search" ><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>

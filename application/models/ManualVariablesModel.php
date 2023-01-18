@@ -13,6 +13,10 @@ class ManualVariablesModel extends CMS_Model {
       $this->multilingual = TRUE;
   }
   function getPaginationCount($cond = '', $like='') {
+    $language='en';
+    if(isset($cond['manual_variables_desc.language']) && $cond['manual_variables_desc.language']!=''){
+      $language=$cond['manual_variables_desc.language'];
+    }
 		$this->db->select("$this->table_name.*,$this->desc_table_name.*,manual_sections_desc.title as section_title");
 		if (is_array($cond) && count($cond) > 0) {
 			$this->db->where($cond);
@@ -26,7 +30,7 @@ class ManualVariablesModel extends CMS_Model {
       		}
 		$this->db->from($this->table_name);
     $this->db->join('manual_sections',"$this->table_name.section_id=manual_sections.id",'left');
-    $this->db->join('manual_sections_desc','manual_sections_desc.section_id=manual_sections.id','left');
+    $this->db->join('manual_sections_desc',"manual_sections_desc.section_id=manual_sections.id and manual_sections_desc.language='$language'",'left');
     if($this->multilingual){
 			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
 		}
@@ -34,6 +38,10 @@ class ManualVariablesModel extends CMS_Model {
 	}
 
 	function getPagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='') {
+    $language='en';
+    if(isset($cond['manual_variables_desc.language']) && $cond['manual_variables_desc.language']!=''){
+      $language=$cond['manual_variables_desc.language'];
+    }
 		$this->db->select("$this->table_name.*,$this->desc_table_name.*,manual_sections_desc.title as section_title");
 		if (is_array($cond) && count($cond) > 0) {
 		  $this->db->where($cond);
@@ -50,7 +58,7 @@ class ManualVariablesModel extends CMS_Model {
 		}
 		$this->db->from($this->table_name);
     $this->db->join('manual_sections',"$this->table_name.section_id=manual_sections.id",'left');
-    $this->db->join('manual_sections_desc','manual_sections_desc.section_id=manual_sections.id','left');
+    $this->db->join('manual_sections_desc',"manual_sections_desc.section_id=manual_sections.id and manual_sections_desc.language='$language'",'left');
     if($this->multilingual){
 			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
 		}

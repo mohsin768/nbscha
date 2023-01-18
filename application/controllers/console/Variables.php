@@ -17,7 +17,8 @@ class Variables extends ConsoleController {
 		'variable_sort_order_filter',
 		'variable_search_key_filter',
 		'variable_status_filter',
-		'variable_section_filter');
+		'variable_section_filter',
+		'variable_content_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('variables/overview'));
 	}
@@ -29,17 +30,19 @@ class Variables extends ConsoleController {
 		}
 		$cond = array('manual_variables.manual_id'=>$manualId,'manual_variables_desc.language'=>$language);
 		$like = array();
-
 		$sort_direction = '';
 		$sort_field =  '';
-
+		$contentFilter = array();
 		if($this->session->userdata('variable_search_key_filter')!=''){
 			$like[] = array('field'=>'manual_variables_desc.title', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
 		}
 		if($this->session->userdata('variable_section_filter')!=''){
+			$contentFilter = $this->ManualsModel->getContents($manualId,$language,$this->session->userdata('variable_section_filter'));
 			$cond['manual_sections.id'] = $this->session->userdata('variable_section_filter');
 		}
-
+		if($this->session->userdata('variable_content_filter')!=''){
+			$cond['manual_variables.content_id'] = $this->session->userdata('variable_content_filter');
+		}
 		if($this->session->userdata('variable_sort_field_filter')!=''){
 			$sort_field = $this->session->userdata('variable_sort_field_filter');
 			$sort_direction = $this->session->userdata('variable_sort_order_filter');
@@ -55,9 +58,11 @@ class Variables extends ConsoleController {
 		$vars['variables'] = $this->ManualVariablesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
     	$vars['sort_direction'] = $sort_direction;
-		$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$language);//print_r($vars['sectionFilter']);exit;
+		$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$language);
+		$vars['contentFilter'] =  $contentFilter;
 		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('variables/overview'),$vars,true);
+		$this->mainvars['page_scripts']=$this->load->view(admin_url_string('variables/script'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
@@ -79,12 +84,16 @@ class Variables extends ConsoleController {
 			$vars['language'] = $language;
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 			$vars['sections'] =  $this->ManualsModel->getSections($manualId,$language);
+			$vars['contents'] =  $this->ManualsModel->getContents($manualId,$language);
+			$vars['policies'] =  $this->ManualsModel->getPolicies($manualId,$language);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$maindata = array('variable_type' => $this->input->post('variable_type'),
 			'variable_key' => $this->input->post('variable_key'),
 			'section_id'=>$this->input->post('section'),
+			'content_id'=>$this->input->post('content'),
+			'policy_id'=>$this->input->post('policy'),
 			'manual_id'=>$manualId);
 			$descdata = array('title' => $this->input->post('title'),
 				'variable_value' => $this->input->post('variable_value'),
@@ -211,29 +220,42 @@ class Variables extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('variable_sort_field_filter','variable_sort_order_filter',
-				'variable_search_key_filter','variable_section_filter');
+				'variable_search_key_filter','variable_section_filter','variable_content_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
 		if(isset($_POST['search']) && $this->input->post('search')=='Search'){
 				if($this->input->post('variable_search_key')!=''||
 				$this->input->post('variable_language')!=''||
-				$this->input->post('variable_section')!='')
+				$this->input->post('variable_section')!=''||
+				$this->input->post('variable_content')!='')
 				{
 						$newdata = array(
 								'variable_search_key_filter'  => $this->input->post('variable_search_key'),
-								'variable_section_filter'  => $this->input->post('variable_section'));
+								'variable_section_filter'  => $this->input->post('variable_section'),
+								'variable_content_filter' => $this->input->post('variable_content'));
 						$this->session->set_userdata($newdata);
 						//print_r($newdata);exit;
 				} 
 				
 				else {
-					$newdata = array('variable_search_key_filter','variable_section_filter');
+					$newdata = array('variable_search_key_filter','variable_section_filter','variable_content_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
 
 		redirect(admin_url_string('variables/overview/'.$manualId.'/'.$language));
+	}
+
+	function getcontents(){
+		$sectionId= $this->input->post('section_id');
+		$manualId= $this->input->post('manual_id');
+		$language= $this->input->post('language');
+		$contents = $this->ManualsModel->getContents($manualId,$language,$sectionId);
+		$contentsData = array('status'=>'1','data'=>$contents);
+		$this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($contentsData));
 	}
 
 

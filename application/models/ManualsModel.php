@@ -20,4 +20,25 @@ class ManualsModel extends CMS_Model {
     $query = $this->db->get();
 		return $query->result_array();
   }
+  function getContents($manualId,$language,$sectionId)
+  {
+    $this->db->select('manual_contents.*,manual_contents_desc.*');
+    $this->db->from('manual_contents');
+    $this->db->join('manual_contents_desc','manual_contents.id=manual_contents_desc.manual_contents_id');
+    $this->db->where('manual_contents.manual_id',$manualId);
+    $this->db->where('manual_contents.section',$sectionId);
+    $this->db->where('manual_contents_desc.language',$language);
+    $query = $this->db->get();
+		return $query->result_array();
+  }
+  function getPolicies($manualId,$language)
+  {
+    $this->db->select('manual_policies.*,manual_policies_desc.*');
+    $this->db->from('manual_policies');
+    $this->db->join('manual_policies_desc','manual_policies.id=manual_policies_desc.manual_policies_id');
+    $this->db->where('manual_policies.manual_id',$manualId);
+    $this->db->where('manual_policies_desc.language',$language);
+    $query = $this->db->get();
+		return $query->result_array();
+  }
 }
