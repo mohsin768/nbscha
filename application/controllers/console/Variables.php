@@ -27,17 +27,17 @@ class Variables extends ConsoleController {
 		if($language ==''){
 			$language = 'en';
 		}
-		$cond = array('manual_id'=>$manualId,'language'=>$language);
+		$cond = array('manual_variables.manual_id'=>$manualId,'manual_variables_desc.language'=>$language);
 		$like = array();
 
 		$sort_direction = '';
 		$sort_field =  '';
 
 		if($this->session->userdata('variable_search_key_filter')!=''){
-			$like[] = array('field'=>'title', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
+			$like[] = array('field'=>'manual_variables_desc.title', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
 		}
 		if($this->session->userdata('variable_section_filter')!=''){
-			$like[] = array('field'=>'manual_sections_desc.title', 'value' => $this->session->userdata('variable_section_filter'),'location' => 'both');
+			$cond['manual_sections.id'] = $this->session->userdata('variable_section_filter');
 		}
 
 		if($this->session->userdata('variable_sort_field_filter')!=''){
@@ -55,7 +55,7 @@ class Variables extends ConsoleController {
 		$vars['variables'] = $this->ManualVariablesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
     	$vars['sort_direction'] = $sort_direction;
-		$vars['sections'] =  $this->ManualVariablesModel->getSectionList($manualId);//print_r($vars['sections']);exit;
+		$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$language);//print_r($vars['sectionFilter']);exit;
 		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('variables/overview'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
@@ -78,7 +78,7 @@ class Variables extends ConsoleController {
 			$vars = array();
 			$vars['language'] = $language;
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
-			$vars['sections'] =  $this->ManualsModel->getSections($manualId);
+			$vars['sections'] =  $this->ManualsModel->getSections($manualId,$language);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
@@ -119,9 +119,10 @@ class Variables extends ConsoleController {
 			}
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
-			$vars['section'] =  $this->ManualVariablesModel->getSectionList($manualId,$lang);
+			$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$lang);//print_r($vars['sectionFilter']);exit;
+			$vars['section'] =  $this->ManualVariablesModel->getSectionList($manualId,$lang);//print_r($vars['section']);exit;
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$langCond));
-			$vars['variable']= $this->ManualVariablesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
+			$vars['variable']= $this->ManualVariablesModel->getRowCond(array('id'=>$id,'language'=>$langCond));//print_r($vars['variable']);exit;
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
@@ -221,10 +222,12 @@ class Variables extends ConsoleController {
 				{
 						$newdata = array(
 								'variable_search_key_filter'  => $this->input->post('variable_search_key'),
-								'variable_section_filter'  => $this->input->post('variable_section_key'));
+								'variable_section_filter'  => $this->input->post('variable_section'));
 						$this->session->set_userdata($newdata);
-
-				} else {
+						//print_r($newdata);exit;
+				} 
+				
+				else {
 					$newdata = array('variable_search_key_filter','variable_section_filter');
 					$this->session->unset_userdata($newdata);
 				}

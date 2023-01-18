@@ -35,12 +35,13 @@ if($this->uri->segment(6)==""){
 												</div>
 												<div class="filter-col">
 													Section:
-													<select name="variable_section_key" class="form-control filter">
+													<select name="variable_section" class="form-control filter">
 															<option value="">Select</option>
-															<option value=" " <?php if($this->session->userdata('variable_section_filter')==' '){ echo 'selected="selected"'; }?>> </option>
-																<?php foreach($sections as $section):
-																	  echo $section['title'];?>
-															</option>
+															<?php foreach($sectionFilter as $sectionFilter): 
+																$default=false;
+																if($this->session->userdata('variable_section_filter')==$sectionFilter['id']){ $default=true;}
+																?>
+															<option value="<?php echo $sectionFilter['id']; ?>" <?php echo set_select('variable_section',$sectionFilter['id'],$default);?>> <?php echo $sectionFilter['title'];?></option>		
 															<?php endforeach;?>
 													</select>
 												</div>
@@ -101,7 +102,7 @@ if($this->uri->segment(6)==""){
 																<td  style="max-width:300px"><input type="text" style="min-width:150px;float: left;padding:3px 5px; border:0px none;" value="<?php echo '{'.$variable['variable_key'].'}';?>" id="<?php echo 'variable_'.$variable['id'];?>"/>
 																	<button style="float: left" class="copyButton" target="<?php echo 'variable_'.$variable['id'];?>"><i class="fa fa-copy"></i></button></td>
 																<td class=" "><?php echo $this->variableTypes[$variable['variable_type']];?></td>
-																<td class=" "><?php echo $this->ManualSectionsModel->getSectionTitle($variable['section_id'])!=""?$this->ManualSectionsModel->getSectionTitle($variable['section_id']):"";?></td>
+																<td class=" "><?php echo $variable['section_title'];?></td>
 																<td class=" "><?php echo $this->languages_pair[$variable['language']];?></td>
 
                                 <td class=" last">

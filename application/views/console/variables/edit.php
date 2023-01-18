@@ -28,8 +28,8 @@
                         <?php echo form_error('section'); ?>
                         <select id="section" name="section" class="form-control">
                             <option value=""> -- Please Select --</option>
-                            <?php foreach($section as $sectionItem): $default = false; if($variable->section_id==$sectionItem['section_id']){ $default = true; }?>
-                                <option value="<?php echo $sectionItem['section_id']; ?>" <?php echo set_select('section',$sectionItem['section_id'],$default); ?>><?php echo $sectionItem['title']; ?></option>
+                            <?php foreach($sectionFilter as $section): $default = false; if($variable->section_id==$section['id']){ $default = true; }?>
+                                <option value="<?php echo $section['id']; ?>" <?php echo set_select('section',$section['id'],$default); ?>><?php echo $section['title']; ?></option>
                             <?php endforeach; ?>
                         </select>
                         <?php ?>

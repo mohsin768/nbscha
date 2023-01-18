@@ -12,6 +12,52 @@ class ManualVariablesModel extends CMS_Model {
       $this->member_key = 'variable_desc_id';
       $this->multilingual = TRUE;
   }
+  function getPaginationCount($cond = '', $like='') {
+		$this->db->select("$this->table_name.*,$this->desc_table_name.*,manual_sections_desc.title as section_title");
+		if (is_array($cond) && count($cond) > 0) {
+			$this->db->where($cond);
+		}
+    	if (is_array($like) && count($like) > 0) {
+      			$this->db->group_start();
+      			foreach($like as $row):
+      			$this->db->or_like($row['field'],$row['value'],$row['location']);
+      			endforeach;
+      			$this->db->group_end();
+      		}
+		$this->db->from($this->table_name);
+    $this->db->join('manual_sections',"$this->table_name.section_id=manual_sections.id",'left');
+    $this->db->join('manual_sections_desc','manual_sections_desc.section_id=manual_sections.id','left');
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
+		return $this->db->count_all_results();
+	}
+
+	function getPagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='') {
+		$this->db->select("$this->table_name.*,$this->desc_table_name.*,manual_sections_desc.title as section_title");
+		if (is_array($cond) && count($cond) > 0) {
+		  $this->db->where($cond);
+		}
+	    if (is_array($like) && count($like) > 0) {
+      			$this->db->group_start();
+      			foreach($like as $row):
+      			$this->db->or_like($row['field'],$row['value'],$row['location']);
+      			endforeach;
+      			$this->db->group_end();
+      		}
+		if ($orderField!='' && $orderDirection!='') {
+			$this->db->order_by($orderField, $orderDirection);
+		}
+		$this->db->from($this->table_name);
+    $this->db->join('manual_sections',"$this->table_name.section_id=manual_sections.id",'left');
+    $this->db->join('manual_sections_desc','manual_sections_desc.section_id=manual_sections.id','left');
+    if($this->multilingual){
+			$this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
+		}
+		$this->db->limit($num, $offset);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
   function getMemberPaginationCount($cond = '', $like='',$memberId='0') {
     $this->db->select('*');
     if (is_array($cond) && count($cond) > 0) {
