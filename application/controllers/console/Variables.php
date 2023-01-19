@@ -70,7 +70,7 @@ class Variables extends ConsoleController {
 		$vars['policyFilter'] =  $policyFilter;
 		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('variables/overview'),$vars,true);
-		$this->mainvars['page_scripts']=$this->load->view(admin_url_string('variables/script'),$vars,true);
+		$this->mainvars['page_scripts']=$this->load->view(admin_url_string('variables/overview-script'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
 	}
 
@@ -91,10 +91,9 @@ class Variables extends ConsoleController {
 			$vars = array();
 			$vars['language'] = $language;
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
-			$vars['sections'] =  $this->ManualsModel->getAllSections($manualId,$language);
-			$vars['contents'] =  $this->ManualsModel->getAllContents($manualId,$language);
-			$vars['policies'] =  $this->ManualsModel->getAllPolicies($manualId,$language);
+			$vars['sections'] =  $this->ManualsModel->getSections($manualId,$language);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/add'), $vars, true);
+			$this->mainvars['page_scripts']=$this->load->view(admin_url_string('variables/add-script'),$vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$maindata = array('variable_type' => $this->input->post('variable_type'),
@@ -120,6 +119,7 @@ class Variables extends ConsoleController {
 
  public function edit($manualId,$id, $lang, $translate='')
 	{
+		
 		$this->ckeditorCall();
 		$this->form_validation->set_rules('title', 'Title', 'required');
 		$this->form_validation->set_rules('variable_value', 'Value', 'required');
@@ -136,16 +136,22 @@ class Variables extends ConsoleController {
 			}
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
-			$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$lang);exit;
-			$vars['section'] =  $this->ManualVariablesModel->getSectionList($manualId,$lang);
+			$vars['sections'] =  $this->ManualsModel->getSections($manualId,$lang);
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$langCond));
 			$vars['variable']= $this->ManualVariablesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
+			$sectionId = $vars['variable']->section_id;
+			$vars['contents'] = $this->ManualsModel->getContents($manualId,$lang,$sectionId);
+			$vars['policies'] = $this->ManualsModel->getPolicies($manualId,$lang,$sectionId);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/edit'), $vars,true);
+			$this->mainvars['page_scripts']=$this->load->view(admin_url_string('variables/edit-script'),$vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
 		} else {
 			$maindata = array('variable_type' => $this->input->post('variable_type'),
-			'variable_key' => $this->input->post('variable_key'));
+			'variable_key' => $this->input->post('variable_key'),
+			'section_id'=>$this->input->post('section'),
+			'content_id'=>$this->input->post('content'),
+			'policy_id'=>$this->input->post('policy'));
 			$descdata = array(
 				'manual_variable_id	' => $id,
 				'variable_value' => $this->input->post('variable_value'),
@@ -242,19 +248,15 @@ class Variables extends ConsoleController {
 								'variable_section_filter'  => $this->input->post('variable_section'),
 								'variable_content_filter' => $this->input->post('variable_content'),
 								'variable_policy_filter' => $this->input->post('variable_policy'));
-						$this->session->set_userdata($newdata);
-						
+						$this->session->set_userdata($newdata);					
 				} 
-				
 				else {
 					$newdata = array('variable_search_key_filter','variable_section_filter','variable_content_filter','variable_policy_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
-
 		redirect(admin_url_string('variables/overview/'.$manualId.'/'.$language));
 	}
-
 	function getcontents(){
 		$sectionId= $this->input->post('section_id');
 		$manualId= $this->input->post('manual_id');
@@ -265,12 +267,11 @@ class Variables extends ConsoleController {
             ->set_content_type('application/json')
             ->set_output(json_encode($contentsData));
 	}
-
 	function getpolicies(){
 		$sectionId= $this->input->post('section_id');
 		$manualId= $this->input->post('manual_id');
 		$language= $this->input->post('language');
-		$policies = $this->ManualsModel->getPolicies($manualId,$language,$sectionId);//print_r($policies);exit;
+		$policies = $this->ManualsModel->getPolicies($manualId,$language,$sectionId);
 		$policiesData = array('status'=>'1','data'=>$policies);
 		$this->output
             ->set_content_type('application/json')

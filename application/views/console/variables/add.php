@@ -33,9 +33,6 @@
                         <?php echo form_error('content'); ?>
                         <select id="content" name="content" class="form-control">
                             <option value=""> -- Please Select --</option>
-                            <?php foreach($contents as $content): ?>
-                                <option value="<?php echo $content['id']; ?>" <?php echo set_select('content',$content['id']); ?>><?php echo $content['title']; ?></option>
-                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="clearfix"></div>
@@ -46,9 +43,6 @@
                         <?php echo form_error('policy'); ?>
                         <select id="policy" name="policy" class="form-control">
                             <option value=""> -- Please Select --</option>
-                            <?php foreach($policies as $policy): ?>
-                                <option value="<?php echo $policy['id']; ?>" <?php echo set_select('policy',$policy['id']); ?>><?php echo $policy['title']; ?></option>
-                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="clearfix"></div>
