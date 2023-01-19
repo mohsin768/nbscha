@@ -13,9 +13,12 @@ $(document).ready(function(){
     data:{section_id:sectionId,manual_id:manual_id,language:language},
     success:function(result)
     {
+        $('#content').html('<option value="">Select</option>');
         var data = result.data;
-        for (var index = 0; index <= data.length; index++) {
-            $('#content').append('<option value="' + data[index].id + '">' + data[index].title + '</option>');
+            if(result.data.length){
+            for (var index = 0; index <= data.length; index++) {
+                $('#content').append('<option value="' + data[index].id + '">' + data[index].title + '</option>');
+            }
         }
     }
    });
@@ -37,8 +40,11 @@ $(document).ready(function(){
     success:function(result)
     {
         var data = result.data;
-        for (var index = 0; index <= data.length; index++) {
-            $('#policy').append('<option value="' + data[index].policy_id + '">' + data[index].title + '</option>');
+        $('#policy').html('<option value="">Select</option>');
+            if(result.data.length){
+            for (var index = 0; index <= data.length; index++) {
+                $('#policy').append('<option value="' + data[index].policy_id + '">' + data[index].title + '</option>');
+            }
         }
     }
    });
