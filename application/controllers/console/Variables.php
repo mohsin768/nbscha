@@ -18,7 +18,8 @@ class Variables extends ConsoleController {
 		'variable_search_key_filter',
 		'variable_status_filter',
 		'variable_section_filter',
-		'variable_content_filter');
+		'variable_content_filter',
+		'variable_policy_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('variables/overview'));
 	}
@@ -33,15 +34,21 @@ class Variables extends ConsoleController {
 		$sort_direction = '';
 		$sort_field =  '';
 		$contentFilter = array();
+		$policyFilter = array();
+
 		if($this->session->userdata('variable_search_key_filter')!=''){
 			$like[] = array('field'=>'manual_variables_desc.title', 'value' => $this->session->userdata('variable_search_key_filter'),'location' => 'both');
 		}
 		if($this->session->userdata('variable_section_filter')!=''){
 			$contentFilter = $this->ManualsModel->getContents($manualId,$language,$this->session->userdata('variable_section_filter'));
+			$policyFilter = $this->ManualsModel->getPolicies($manualId,$language,$this->session->userdata('variable_section_filter'));
 			$cond['manual_sections.id'] = $this->session->userdata('variable_section_filter');
 		}
 		if($this->session->userdata('variable_content_filter')!=''){
 			$cond['manual_variables.content_id'] = $this->session->userdata('variable_content_filter');
+		}
+		if($this->session->userdata('variable_policy_filter')!=''){
+			$cond['manual_variables.policy_id'] = $this->session->userdata('variable_policy_filter');
 		}
 		if($this->session->userdata('variable_sort_field_filter')!=''){
 			$sort_field = $this->session->userdata('variable_sort_field_filter');
@@ -60,6 +67,7 @@ class Variables extends ConsoleController {
     	$vars['sort_direction'] = $sort_direction;
 		$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$language);
 		$vars['contentFilter'] =  $contentFilter;
+		$vars['policyFilter'] =  $policyFilter;
 		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('variables/overview'),$vars,true);
 		$this->mainvars['page_scripts']=$this->load->view(admin_url_string('variables/script'),$vars,true);
@@ -83,9 +91,9 @@ class Variables extends ConsoleController {
 			$vars = array();
 			$vars['language'] = $language;
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
-			$vars['sections'] =  $this->ManualsModel->getSections($manualId,$language);
-			$vars['contents'] =  $this->ManualsModel->getContents($manualId,$language);
-			$vars['policies'] =  $this->ManualsModel->getPolicies($manualId,$language);
+			$vars['sections'] =  $this->ManualsModel->getAllSections($manualId,$language);
+			$vars['contents'] =  $this->ManualsModel->getAllContents($manualId,$language);
+			$vars['policies'] =  $this->ManualsModel->getAllPolicies($manualId,$language);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
@@ -128,10 +136,10 @@ class Variables extends ConsoleController {
 			}
 			$vars['language'] = $lang;
 			$vars['translate'] = $translate;
-			$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$lang);//print_r($vars['sectionFilter']);exit;
-			$vars['section'] =  $this->ManualVariablesModel->getSectionList($manualId,$lang);//print_r($vars['section']);exit;
+			$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$lang);exit;
+			$vars['section'] =  $this->ManualVariablesModel->getSectionList($manualId,$lang);
 			$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$langCond));
-			$vars['variable']= $this->ManualVariablesModel->getRowCond(array('id'=>$id,'language'=>$langCond));//print_r($vars['variable']);exit;
+			$vars['variable']= $this->ManualVariablesModel->getRowCond(array('id'=>$id,'language'=>$langCond));
 			$this->mainvars['content'] = $this->load->view(admin_url_string('variables/edit'), $vars,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 
@@ -201,8 +209,6 @@ class Variables extends ConsoleController {
 		$actionStatus=false;
 		$ids=$this->input->post('id');
 
-
-
 		if(isset($_POST['sort_field']) && $this->input->post('sort_field')!=''){
 					$sortField = $this->input->post('sort_field');
 					$newdata = array('variable_sort_field_filter'  => $sortField);
@@ -220,7 +226,7 @@ class Variables extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('variable_sort_field_filter','variable_sort_order_filter',
-				'variable_search_key_filter','variable_section_filter','variable_content_filter');
+				'variable_search_key_filter','variable_section_filter','variable_content_filter','variable_policy_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -228,18 +234,20 @@ class Variables extends ConsoleController {
 				if($this->input->post('variable_search_key')!=''||
 				$this->input->post('variable_language')!=''||
 				$this->input->post('variable_section')!=''||
-				$this->input->post('variable_content')!='')
+				$this->input->post('variable_content')!=''||
+				$this->input->post('variable_policy')!='')
 				{
 						$newdata = array(
 								'variable_search_key_filter'  => $this->input->post('variable_search_key'),
 								'variable_section_filter'  => $this->input->post('variable_section'),
-								'variable_content_filter' => $this->input->post('variable_content'));
+								'variable_content_filter' => $this->input->post('variable_content'),
+								'variable_policy_filter' => $this->input->post('variable_policy'));
 						$this->session->set_userdata($newdata);
-						//print_r($newdata);exit;
+						
 				} 
 				
 				else {
-					$newdata = array('variable_search_key_filter','variable_section_filter','variable_content_filter');
+					$newdata = array('variable_search_key_filter','variable_section_filter','variable_content_filter','variable_policy_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
@@ -258,5 +266,14 @@ class Variables extends ConsoleController {
             ->set_output(json_encode($contentsData));
 	}
 
-
+	function getpolicies(){
+		$sectionId= $this->input->post('section_id');
+		$manualId= $this->input->post('manual_id');
+		$language= $this->input->post('language');
+		$policies = $this->ManualsModel->getPolicies($manualId,$language,$sectionId);//print_r($policies);exit;
+		$policiesData = array('status'=>'1','data'=>$policies);
+		$this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($policiesData));
+	}
 }
