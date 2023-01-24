@@ -15,6 +15,9 @@ class Variables extends MemberController {
 		$newdata = array('variable_sort_field_filter',
 		'variable_sort_order_filter',
 		'variable_search_key_filter',
+		'variable_section_filter',
+		'variable_content_filter',
+		'variable_policy_filter',
 		'variable_status_filter',
 		'variable_language_filter');
 		$this->session->unset_userdata($newdata);
@@ -39,7 +42,7 @@ class Variables extends MemberController {
 		if($this->session->userdata('variable_section_filter')!=''){
 			$contentFilter = $this->ManualsModel->getContents($manualId,$language,$this->session->userdata('variable_section_filter'));
 			$policyFilter = $this->ManualsModel->getPolicies($manualId,$language,$this->session->userdata('variable_section_filter'));
-			$cond['manual_variables.id'] = $this->session->userdata('variable_section_filter');
+			$cond['manual_variables.section_id'] = $this->session->userdata('variable_section_filter');
 		}
 		if($this->session->userdata('variable_content_filter')!=''){
 			$cond['manual_variables.content_id'] = $this->session->userdata('variable_content_filter');
