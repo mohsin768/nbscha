@@ -30,14 +30,26 @@ class Variables extends MemberController {
 		if(!$manualRow){
 			redirect(member_url_string('manuals/overview'));
 		}
-		$cond = array('language'=>$language);
+		$cond = array('manual_variables_desc.language'=>$language);
 		$like = array();
-
 		$sort_direction = '';
 		$sort_field =  '';
+		$contentFilter = array();
+		$policyFilter = array();
+		if($this->session->userdata('variable_section_filter')!=''){
+			$contentFilter = $this->ManualsModel->getContents($manualId,$language,$this->session->userdata('variable_section_filter'));
+			$policyFilter = $this->ManualsModel->getPolicies($manualId,$language,$this->session->userdata('variable_section_filter'));
+			$cond['manual_variables.id'] = $this->session->userdata('variable_section_filter');
+		}
+		if($this->session->userdata('variable_content_filter')!=''){
+			$cond['manual_variables.content_id'] = $this->session->userdata('variable_content_filter');
+		}
 
 		if($this->session->userdata('variable_language_filter')!=''){
 			$cond['language']= $this->session->userdata('variable_language_filter');
+		}
+		if($this->session->userdata('variable_policy_filter')!=''){
+			$cond['manual_variables.policy_id'] = $this->session->userdata('variable_policy_filter');
 		}
 
 		if($this->session->userdata('variable_search_key_filter')!=''){
@@ -56,9 +68,12 @@ class Variables extends MemberController {
 		$this->pagination->initialize($config);
 		$vars['language'] = $language;
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
-		$vars['variables'] = $this->ManualVariablesModel->getMemberPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like,$this->session->userdata('member_user_id'));
+		$vars['variables'] = $this->ManualVariablesModel->getMemberPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like,$this->session->userdata('member_user_id'));//print_r($vars['variables'][0]);exit;
+		$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$language);
+		$vars['contentFilter'] =  $contentFilter;
 		$vars['sort_field'] = $sort_field;
     	$vars['sort_direction'] = $sort_direction;
+		$vars['policyFilter'] =  $policyFilter;
 		$vars['manual']= $manualRow;
 		$this->mainvars['content']=$this->load->view(member_url_string('variables/overview'),$vars,true);
 		$this->mainvars['page_scripts']=$this->load->view(member_url_string('variables/script'),'',true);
@@ -121,20 +136,26 @@ class Variables extends MemberController {
 
 				if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 						$newdata = array('variable_sort_field_filter','variable_sort_order_filter',
-						'variable_search_key_filter','variable_language_filter');
+						'variable_search_key_filter','variable_language_filter','variable_section_filter','variable_content_filter','variable_policy_filter');
 						$this->session->unset_userdata($newdata);
 				}
 
 				if(isset($_POST['search']) && $this->input->post('search')=='Search'){
 						if($this->input->post('variable_search_key')!=''||
-						$this->input->post('variable_language')!=''){
+						$this->input->post('variable_language')!=''||
+						$this->input->post('variable_section')!=''||
+				$this->input->post('variable_content')!=''||
+				$this->input->post('variable_policy')!=''){
 								$newdata = array(
 										'variable_search_key_filter'  => $this->input->post('variable_search_key'),
-										'variable_language_filter'  => $this->input->post('variable_language'));
+										'variable_language_filter'  => $this->input->post('variable_language'),
+										'variable_section_filter'  => $this->input->post('variable_section'),
+										'variable_content_filter' => $this->input->post('variable_content'),
+										'variable_policy_filter' => $this->input->post('variable_policy'));
 								$this->session->set_userdata($newdata);
 
 						} else {
-							$newdata = array('variable_search_key_filter','variable_language_filter');
+							$newdata = array('variable_search_key_filter','variable_language_filter','variable_section_filter','variable_content_filter','variable_policy_filter');
 							$this->session->unset_userdata($newdata);
 						}
 				}

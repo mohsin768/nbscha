@@ -67,7 +67,11 @@ class ManualVariablesModel extends CMS_Model {
 		return $query->result_array();
 	}
   function getMemberPaginationCount($cond = '', $like='',$memberId='0') {
-    $this->db->select('*');
+    $language='en';
+    if(isset($cond['manual_variables_desc.language']) && $cond['manual_variables_desc.language']!=''){
+      $language=$cond['manual_variables_desc.language'];
+    }
+    $this->db->select("$this->table_name.*,$this->desc_table_name.*,$this->member_table_name.*,manual_sections_desc.title as section_title");
     if (is_array($cond) && count($cond) > 0) {
       $this->db->where($cond);
     }
@@ -82,12 +86,18 @@ class ManualVariablesModel extends CMS_Model {
     if($this->multilingual){
       $this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
       $this->db->join($this->member_table_name, "$this->member_table_name.$this->member_key = $this->desc_table_name.desc_id AND $this->member_table_name.member_id=$memberId","left");
+      $this->db->join('manual_sections',"$this->table_name.section_id=manual_sections.id",'left');
+      $this->db->join('manual_sections_desc',"manual_sections_desc.section_id=manual_sections.id and manual_sections_desc.language='$language'",'left');
     }
     return $this->db->count_all_results();
   }
 
   function getMemberPagination($num, $offset, $cond = '',$orderField='',$orderDirection='',$like='',$memberId='0') {
-    $this->db->select('*');
+    $language='en';
+    if(isset($cond['manual_variables_desc.language']) && $cond['manual_variables_desc.language']!=''){
+      $language=$cond['manual_variables_desc.language'];
+    }
+    $this->db->select("$this->table_name.*,$this->desc_table_name.*,$this->member_table_name.*,manual_sections_desc.title as section_title");
     if (is_array($cond) && count($cond) > 0) {
       $this->db->where($cond);
     }
@@ -105,6 +115,8 @@ class ManualVariablesModel extends CMS_Model {
     if($this->multilingual){
       $this->db->join($this->desc_table_name, "$this->desc_table_name.$this->foreign_key = $this->table_name.$this->primary_key");
       $this->db->join($this->member_table_name, "$this->member_table_name.$this->member_key = $this->desc_table_name.desc_id AND $this->member_table_name.member_id=$memberId","left");
+      $this->db->join('manual_sections',"$this->table_name.section_id=manual_sections.id",'left');
+      $this->db->join('manual_sections_desc',"manual_sections_desc.section_id=manual_sections.id and manual_sections_desc.language='$language'",'left');
     }
     $this->db->limit($num, $offset);
     $query = $this->db->get();
@@ -174,4 +186,30 @@ class ManualVariablesModel extends CMS_Model {
     $query = $this->db->get();
 		return $query->result_array();
   }
+  function getElementPair($key='',$val='',$orderField='',$orderDirection='', $cond=array()){
+    $pairs =array();
+    if($key!='' && $val!=''){
+      $this->db->select('*');
+      if (is_array($cond)) {
+        $this->db->where($cond);
+      }
+      $this->db->from($this->table_name);
+      if($this->multilingual){
+        $this->db->join('manual_sections_desc',"$this->table_name.section_id=manual_sections_desc.section_id");
+        $this->db->where("$this->table_name.manual_id",$manualId);
+        $this->db->where('manual_sections_desc.language',$lang);
+      }
+      if ($orderField!='' && $orderDirection!='') {
+        $this->db->order_by($orderField, $orderDirection);
+      }
+      $query = $this->db->get();
+      $results = $query->result_array();
+      foreach($results as $result):
+        if(isset($result[$key]) && isset($result[$val])){
+          $pairs[$result[$key]] = $result[$val];
+        }
+      endforeach;
+    }
+    return $pairs;
+}
 }

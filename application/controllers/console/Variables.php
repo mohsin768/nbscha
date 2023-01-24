@@ -42,7 +42,7 @@ class Variables extends ConsoleController {
 		if($this->session->userdata('variable_section_filter')!=''){
 			$contentFilter = $this->ManualsModel->getContents($manualId,$language,$this->session->userdata('variable_section_filter'));
 			$policyFilter = $this->ManualsModel->getPolicies($manualId,$language,$this->session->userdata('variable_section_filter'));
-			$cond['manual_sections.id'] = $this->session->userdata('variable_section_filter');
+			$cond['manual_variables.id'] = $this->session->userdata('variable_section_filter');
 		}
 		if($this->session->userdata('variable_content_filter')!=''){
 			$cond['manual_variables.content_id'] = $this->session->userdata('variable_content_filter');
@@ -62,7 +62,7 @@ class Variables extends ConsoleController {
 		$this->pagination->initialize($config);
 		$vars['language'] = $language;
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
-		$vars['variables'] = $this->ManualVariablesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
+		$vars['variables'] = $this->ManualVariablesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);//print_r($vars['variables'][0]);exit;
 		$vars['sort_field'] = $sort_field;
     	$vars['sort_direction'] = $sort_direction;
 		$vars['sectionFilter'] =  $this->ManualsModel->getSections($manualId,$language);
