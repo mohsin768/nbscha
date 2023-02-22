@@ -689,3 +689,26 @@ a#residences-load-more
   position: relative;
 }
 .upcoming-events .event-count li{display: inline-block;}
+@media  only screen and (max-width:560px) {
+  .header-top .row .col-md-7
+  {
+    display: none;
+  }
+  #mission h2
+  {
+    text-align: center;
+  }
+  .row > .properties-summary.ft-sr.mb-40
+  {
+    padding: 15px;
+  }
+  .sidebar.sidebar-left.mt-sm-30.ml-40
+  {
+    margin-left: 0 !important;
+  }
+  .icon-box a
+  {
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+}
