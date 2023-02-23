@@ -712,3 +712,19 @@ a#residences-load-more
     padding-right: 0 !important;
   }
 }
+@media  only screen and (min-width:1024px)
+{
+
+  .about .icon-box p.text-gray
+  {
+    padding-left: 88px;
+  }
+  section.divider.parallax .section-content .row
+  {
+    display: flex;
+    align-items: center;
+  }
+  .card .che-cls.form-group:nth-child(odd) {
+    clear: left;
+}
+}
