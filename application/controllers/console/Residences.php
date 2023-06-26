@@ -51,12 +51,12 @@ class Residences extends ConsoleController {
 		}
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url('residences/overview');
-    $config['total_rows'] = $this->ResidencesModel->getConsolePaginationCount($cond, $like);
-    $this->pagination->initialize($config);
+    	$config['base_url'] = admin_url('residences/overview');
+    	$config['total_rows'] = $this->ResidencesModel->getConsolePaginationCount($cond, $like);
+   	 	$this->pagination->initialize($config);
 		$vars['residences'] = $this->ResidencesModel->getConsolePagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+    	$vars['sort_direction'] = $sort_direction;
 		$vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
 		$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('residences/overview'),$vars,true);
