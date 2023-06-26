@@ -282,15 +282,12 @@ class Residences extends MemberController {
 			 $language = $this->default_language;
 				$rId = $this->input->post('id',TRUE);
 				$residence = $this->ResidencesModel->getRowCond(array('id'=>$rId,'language'=>$language));
-				$this->form_validation->set_rules('vacancy','New Vacancy','required|numeric|greater_than[0]|less_than_equal_to['.abs($residence->max_beds_count).']');
+				$this->form_validation->set_rules('vacancy','New Vacancy','required|numeric|greater_than_equal_to[0]|less_than_equal_to['.abs($residence->max_beds_count).']');
 				if($this->form_validation->run() == FALSE)
 				{
 				  $results = array('status' => '0', 'data' => validation_errors('<span class="error">', '</span>'));
 				} else {
-
 				 $this->ResidencesModel->updateCond(array('vacancy'=>$this->input->post('vacancy',TRUE)),array('id'=>$rId));
-
-
 				$results = array('status' => '1', 'data' => 'Residence Vacancy Updated Successfully');
 				}
 				$json=json_encode($results);
