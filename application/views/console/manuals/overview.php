@@ -85,6 +85,7 @@ if($this->uri->segment(5)==""){
 									<a href="#0" class="manual-sort sort-list-link <?php echo $language_direction; ?>" data-sort-field="language" data-sort-direction="<?php echo $language_direction; ?>">Language</a>
 								</th>
 								<th class="column-title fix-100 center-align">Status</th>
+								<th class="column-title fix-100 center-align">Published</th>
 								<th class="column-title fix-100 center-align">
 								<?php $updated_direction = ''; if($sort_field=='language'){ $updated_direction = $sort_direction; } ?>
 								<a href="#0" class="manual-sort sort-list-link <?php echo $updated_direction; ?>" data-sort-field="updated" data-sort-direction="<?php echo $updated_direction; ?>">Updated</a></th>
@@ -102,7 +103,11 @@ if($this->uri->segment(5)==""){
 								<td class=" "><?php echo $this->languages_pair[$manual['language']];?></td>
                                 <td class="center-align"><?php echo $status[$manual['status']];?></td>
 								<td class="center-align"><?php echo $publish[$manual['published']];?></td>
+								<td class="center-align"><?php echo date('d-m-Y H:i a',strtotime($manual['updated']));?></td>
                                 <td class=" last">
+									<?php if($manual['published']=='1'){ ?>
+									<a class="btn btn-info btn-xs" href="<?php echo admin_url('manuals/clone/'.$manual['id']); ?>"title="Clone"><i class="fa fa-clone"></i> Clone</a>
+									<?php } ?>
 									<a class="btn btn-dark btn-xs" href="<?php echo admin_url('manuals/translates/'.$manual['id']); ?>"><i class="fa fa-language"></i> Translates</a>
 									<?php if($manual['published']!='1'){ ?>
 									<a class="btn btn-info btn-xs" href="<?php echo admin_url('manuals/edit/'.$manual['id'].'/'.$manual['language']); ?>"title="Edit"><i class="fa fa-edit"></i> Edit</a>
@@ -120,7 +125,7 @@ if($this->uri->segment(5)==""){
                                 </td>
                             </tr>
 							<?php endforeach; }  else {?>
-								<tr><td colspan="9"><p>No results Found</p></td></tr>
+								<tr><td colspan="10"><p>No results Found</p></td></tr>
 							<?php }?>
                         </tbody>
                     </table>

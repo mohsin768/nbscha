@@ -12,8 +12,6 @@ padding:10px;
 }
 .report-missing td{
     padding-left:10px;
-}
-.report-missing1{
     padding-left:35px;
 }
 .family td{

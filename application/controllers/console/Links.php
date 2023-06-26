@@ -15,8 +15,7 @@ class Links extends ConsoleController {
 		'link_sort_order_filter',
 		'link_search_key_filter',
 		'link_status_filter',
-		'link_type_filter',
-		'link_language_filter');
+		'link_type_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('links/overview'));
 	}
@@ -34,10 +33,6 @@ class Links extends ConsoleController {
 
 		if($this->session->userdata('link_status_filter')!=''){
 			$cond['status']= $this->session->userdata('link_status_filter');
-		}
-
-		if($this->session->userdata('link_language_filter')!=''){
-			$cond['language']= $this->session->userdata('link_language_filter');
 		}
 		if($this->session->userdata('link_type_filter')!=''){
 			$cond['type']= $this->session->userdata('link_type_filter');
@@ -241,7 +236,7 @@ class Links extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('link_sort_field_filter','link_sort_order_filter',
-				'link_search_key_filter','link_status_filter','link_type_filter','link_language_filter');
+				'link_search_key_filter','link_status_filter','link_type_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -252,13 +247,12 @@ class Links extends ConsoleController {
 					 $this->input->post('link_status')!=''){
 						$newdata = array(
 								'link_search_key_filter'  => $this->input->post('link_search_key'),
-								'link_language_filter'  => $this->input->post('link_language'),
 								'link_type_filter'  => $this->input->post('link_type'),
 								'link_status_filter'  => $this->input->post('link_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('link_search_key_filter','link_status_filter','link_type_filter','link_language_filter');
+					$newdata = array('link_search_key_filter','link_status_filter','link_type_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

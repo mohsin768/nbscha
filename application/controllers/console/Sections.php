@@ -16,8 +16,7 @@ class Sections extends ConsoleController {
 		$newdata = array('section_sort_field_filter',
 		'section_sort_order_filter',
 		'section_search_key_filter',
-		'section_status_filter',
-		'section_language_filter');
+		'section_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('sections/overview'));
 	}
@@ -37,10 +36,6 @@ class Sections extends ConsoleController {
 			$cond['status']= $this->session->userdata('section_status_filter');
 		}
 
-		if($this->session->userdata('section_language_filter')!=''){
-			$cond['language']= $this->session->userdata('section_language_filter');
-		}
-
 		if($this->session->userdata('section_search_key_filter')!=''){
 			$like[] = array('field'=>'title', 'value' => $this->session->userdata('section_search_key_filter'),'location' => 'both');
 		}
@@ -56,7 +51,7 @@ class Sections extends ConsoleController {
 		$config['total_rows'] = $this->SectionsModel->getPaginationCount($cond,$like);
 		$this->pagination->initialize($config);
 		$vars['language'] = $language;
-		$vars['sectionPolicyCategory'] = $this->SectionCategoriesModel->getRowCond(array('id'=>$manualId,'category_type'=>'policylist','status'=>'1'));
+		$vars['sectionPolicyCategory'] = $this->SectionCategoriesModel->getRowCond(array('manual_id'=>$manualId,'category_type'=>'policylist','status'=>'1'));
 		$vars['manual']= $this->ManualsModel->getRowCond(array('id'=>$manualId,'language'=>$language));
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['sections'] = $this->SectionsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
@@ -217,7 +212,7 @@ class Sections extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('section_sort_field_filter','section_sort_order_filter',
-				'section_search_key_filter','section_status_filter','section_language_filter');
+				'section_search_key_filter','section_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -227,12 +222,11 @@ class Sections extends ConsoleController {
 					 $this->input->post('section_status')!=''){
 						$newdata = array(
 								'section_search_key_filter'  => $this->input->post('section_search_key'),
-								'section_language_filter'  => $this->input->post('section_language'),
 								'section_status_filter'  => $this->input->post('section_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('section_search_key_filter','section_status_filter','section_language_filter');
+					$newdata = array('section_search_key_filter','section_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

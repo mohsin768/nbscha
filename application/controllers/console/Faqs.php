@@ -13,8 +13,7 @@ class Faqs extends ConsoleController {
 		$newdata = array('faq_sort_field_filter',
 		'faq_sort_order_filter',
 		'faq_search_key_filter',
-		'faq_status_filter',
-		'faq_language_filter');
+		'faq_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('faqs/overview'));
 	}
@@ -32,10 +31,6 @@ class Faqs extends ConsoleController {
 
 		if($this->session->userdata('faq_status_filter')!=''){
 			$cond['status']= $this->session->userdata('faq_status_filter');
-		}
-
-		if($this->session->userdata('faq_language_filter')!=''){
-			$cond['language']= $this->session->userdata('faq_language_filter');
 		}
 
 		if($this->session->userdata('faq_search_key_filter')!=''){
@@ -204,7 +199,7 @@ class Faqs extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('faq_sort_field_filter','faq_sort_order_filter',
-				'faq_search_key_filter','faq_status_filter','faq_language_filter');
+				'faq_search_key_filter','faq_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -214,12 +209,11 @@ class Faqs extends ConsoleController {
 					 $this->input->post('faq_status')!=''){
 						$newdata = array(
 								'faq_search_key_filter'  => $this->input->post('faq_search_key'),
-								'faq_language_filter'  => $this->input->post('faq_language'),
 								'faq_status_filter'  => $this->input->post('faq_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('faq_search_key_filter','faq_status_filter','faq_language_filter');
+					$newdata = array('faq_search_key_filter','faq_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

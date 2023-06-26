@@ -19,7 +19,51 @@
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'variable-edit');
                 echo form_open_multipart(admin_url_string('variables/edit/'.$manual->id.'/'.$variable->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $variable->id; ?>" />
+                <input type="hidden" name="manualid" id="manualid" value="<?php echo $manual->id;?>" />
                 <input type="hidden" name="language" value="<?php echo $language; ?>" />
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="section">Section</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('section'); ?>
+                        <select id="section" name="section" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($sections as $section): $default = false; if($variable->section_id==$section['id']){ $default = true; }?>
+                                <option value="<?php echo $section['id']; ?>" <?php echo set_select('section',$section['id'],$default); ?>><?php echo $section['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="content">Content</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('content'); ?>
+                        <select id="content" name="content" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($contents as $contentItem): $default = false; if($variable->content_id==$contentItem['id']){ $default = true; }?>
+                                <option value="<?php echo $contentItem['id']; ?>" <?php echo set_select('content',$contentItem['id'],$default); ?>><?php echo $contentItem['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="Policy">Policy</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('Policy'); ?>
+                        <select id="policy" name="policy" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($policies as $policy): $default = false; if($variable->policy_id==$policy['id']){ $default = true; }?>
+                                <option value="<?php echo $policy['id']; ?>" <?php echo set_select('policy',$policy['id'],$default); ?>><?php echo $policy['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php ?>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title <span class="lang_label">(<?php echo $this->languages_pair[$language];?>)</span><span class="required">*</span>
                     </label>

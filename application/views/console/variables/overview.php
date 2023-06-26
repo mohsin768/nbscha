@@ -33,7 +33,42 @@ if($this->uri->segment(6)==""){
 													Search :
 													<input type="text"  class="form-control filter" placeholder="Search key ..." name="variable_search_key" value="<?php echo $this->session->userdata('variable_search_key_filter'); ?>" />
 												</div>
-
+												<div class="filter-col">
+													Section:
+													<select id="variable_section" name="variable_section" class="form-control filter">
+															<option value="">Select</option>
+															<?php foreach($sectionFilter as $sectionFilter): 
+																$default=false;
+																if($this->session->userdata('variable_section_filter')==$sectionFilter['id']){ $default=true;}
+																?>
+															<option value="<?php echo $sectionFilter['id']; ?>" <?php echo set_select('variable_section',$sectionFilter['id'],$default);?>> <?php echo $sectionFilter['title'];?></option>		
+															<?php endforeach;?>
+													</select>
+												</div>
+												<div class="filter-col">
+													Content:
+													<select id="variable_content" name="variable_content" class="form-control filter">
+															<option value="">Select</option>
+															<?php foreach($contentFilter as $contentFilter): 
+																$default=false;
+																if($this->session->userdata('variable_content_filter')==$contentFilter['id']){ $default=true;}
+																?>
+															<option value="<?php echo $contentFilter['id']; ?>" <?php echo set_select('variable_content',$contentFilter['id'],$default);?>> <?php echo $contentFilter['title'];?></option>		
+															<?php endforeach;?>
+													</select>
+												</div>
+												<div class="filter-col">
+													Policy:
+													<select id="variable_policy" name="variable_policy" class="form-control filter">
+															<option value="">Select</option>
+															<?php foreach($policyFilter as $policyFilter): 
+																$default=false;
+																if($this->session->userdata('variable_policy_filter')==$policyFilter['id']){ $default=true;}
+																?>
+															<option value="<?php echo $policyFilter['id']; ?>" <?php echo set_select('variable_policy',$policyFilter['id'],$default);?>> <?php echo $policyFilter['title'];?></option>		
+															<?php endforeach;?>
+													</select>
+												</div>
 												<input type="hidden" value="" name="sort_field" id="sort_field" />
 												<div class="filter-col">
 													<button class="btn btn-success btn-xs filter" type="submit" value="Search" name="search" ><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>
@@ -70,6 +105,7 @@ if($this->uri->segment(6)==""){
 																<a href="#0" class="variable-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
 															<th class="column-title">Variable Key</th>
 															<th class="column-title">Type</th>
+															<th class="column-title">Section</th>
 
 
 															<th class="column-title">
@@ -90,7 +126,7 @@ if($this->uri->segment(6)==""){
 																<td  style="max-width:300px"><input type="text" style="min-width:150px;float: left;padding:3px 5px; border:0px none;" value="<?php echo '{'.$variable['variable_key'].'}';?>" id="<?php echo 'variable_'.$variable['id'];?>"/>
 																	<button style="float: left" class="copyButton" target="<?php echo 'variable_'.$variable['id'];?>"><i class="fa fa-copy"></i></button></td>
 																<td class=" "><?php echo $this->variableTypes[$variable['variable_type']];?></td>
-
+																<td class=" "><?php echo $variable['section_title'];?></td>
 																<td class=" "><?php echo $this->languages_pair[$variable['language']];?></td>
 
                                 <td class=" last">

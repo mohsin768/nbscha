@@ -13,8 +13,7 @@ class Sliders extends ConsoleController {
 		$newdata = array('slider_sort_field_filter',
 		'slider_sort_order_filter',
 		'slider_search_key_filter',
-		'slider_status_filter',
-		'slider_language_filter');
+		'slider_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('sliders/overview'));
 	}
@@ -32,10 +31,6 @@ class Sliders extends ConsoleController {
 
 		if($this->session->userdata('slider_status_filter')!=''){
 			$cond['status']= $this->session->userdata('slider_status_filter');
-		}
-
-		if($this->session->userdata('slider_language_filter')!=''){
-			$cond['language']= $this->session->userdata('slider_language_filter');
 		}
 
 		if($this->session->userdata('slider_search_key_filter')!=''){
@@ -260,7 +255,7 @@ class Sliders extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('slider_sort_field_filter','slider_sort_order_filter',
-				'slider_search_key_filter','slider_status_filter','slider_language_filter');
+				'slider_search_key_filter','slider_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -270,12 +265,11 @@ class Sliders extends ConsoleController {
 					 $this->input->post('slider_status')!=''){
 						$newdata = array(
 								'slider_search_key_filter'  => $this->input->post('slider_search_key'),
-								'slider_language_filter'  => $this->input->post('slider_language'),
 								'slider_status_filter'  => $this->input->post('slider_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('slider_search_key_filter','slider_status_filter','slider_language_filter');
+					$newdata = array('slider_search_key_filter','slider_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

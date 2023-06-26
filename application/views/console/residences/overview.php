@@ -107,6 +107,7 @@ if($this->uri->segment(4)==""){
 																	<a class="btn btn-success btn-xs"   id="view-residence-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="View"><i class="fa fa-eye"></i> View</a>
 																	<a class="btn btn-info btn-xs" id="update-vacancy-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="vacancy"><i class="fa fa-bed"></i> Vacancy</a>
 																	<a class="btn btn-primary btn-xs"  id="update-residence-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="edit"><i class="fa fa-edit"></i> Edit</a>
+																	<a class="btn btn-primary btn-xs"   href="<?php echo admin_url('residences/translates/'.$residence['id']); ?>" title="translates"><i class="fa fa-language"></i> Translates</a>
                                 </td>
                             </tr>
 													<?php endforeach; }  else {?>

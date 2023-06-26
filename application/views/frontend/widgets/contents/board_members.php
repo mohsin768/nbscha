@@ -28,7 +28,7 @@
                                 </div>
                                 <p class="p-30 pb-10 text-center"><b class="p-name"><?php echo $boardMember['name']; ?></b><b><br><?php echo $boardMember['email']; ?></b></p>
 
-                                <a href="<?php echo board_url($boardMember['slug']); ?>" class="btn btn-default font-14 btn-circled btn-dark btn-theme-colored mt-0 ml-120 mb-30 hvr-bounce-to-left no-border">Read More</a>
+                                <a href="<?php echo board_url($boardMember['slug']); ?>" class="btn btn-default font-14 btn-circled btn-dark btn-theme-colored mt-0 ml-120 mb-30 hvr-bounce-to-left no-border"><?php echo translate('READ_MORE','Read More');?></a>
                             </div>
                         </div>
                     </div>
@@ -36,5 +36,5 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </section>

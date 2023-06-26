@@ -65,13 +65,13 @@ class Residences extends AjaxController {
 		$residencesData = array('status'=>'0','pager'=>array('current_page'=>'0','pages'=>'0'),'data'=>'');
 		$this->load->model('ResidencesModel');
 		$this->load->model('PackagesModel');
-		$packages = $this->PackagesModel->getIdPair();
+		$packages = $this->PackagesModel->getIdPair($this->site_language);
 		$perPage = 12;
 		$offset = $perPage*($page-1);
 		
 		$totalCount = $this->ResidencesModel->getActivePaginationCount($residenceCond,$residenceLikeOr,$residenceFindIn,$residenceLikeAnd);
 		$totalPages = ceil($totalCount/$perPage);
-		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'id','RANDOM',$residenceLikeOr,$residenceFindIn,$residenceLikeAnd);
+		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'residences.id','asc',$residenceLikeOr,$residenceFindIn,$residenceLikeAnd);
 		$residencesinfo = array();
 		foreach($residences as $residence):
 			if($residence['mainimage']!=''){

@@ -1,16 +1,24 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-function translate($key,$default=''){
+function translate($key,$default='',$interface="site"){
     $thisCI = &get_instance();
     $txt = $default;
     $localizations = $thisCI->localizations;
-    $language = $thisCI->site_language;
+    if($interface=='member'){
+        $language = $thisCI->member_language;
+    } else {
+        $language = $thisCI->site_language;
+    }
     if(isset($localizations[$key])){
         $txt = $localizations[$key];
     } else if($default!='') {
-        $data = array('lang_key'=>$key,'lang_value'=>$default,'language' => $language);
-        $thisCI->LocalizationModel->insert($data);
+        $cond = array('lang_key'=>$key,'language' => $language);
+        $checkLocailization = $thisCI->LocalizationModel->getRowCond($cond);
+        if(!$checkLocailization){
+            $data = array('lang_key'=>$key,'lang_value'=>$default,'language' => $language);
+            $thisCI->LocalizationModel->insert($data);
+        }
     }
     return $txt;
 }

@@ -13,6 +13,40 @@
                 echo form_open_multipart(admin_url_string('variables/add/'.$manual->id.'/'.$language),$attributes);
                 ?>
                 <input type="hidden" name="language" value="<?php echo $this->default_language;?>" />
+
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="section">Section</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('section'); ?>
+                        <select id="section" name="section" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                            <?php foreach($sections as $section): ?>
+                                <option value="<?php echo $section['id']; ?>" <?php echo set_select('section',$section['id']); ?>><?php echo $section['title']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="content">Content</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('content'); ?>
+                        <select id="content" name="content" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="policy">Policy</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('policy'); ?>
+                        <select id="policy" name="policy" class="form-control">
+                            <option value=""> -- Please Select --</option>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title<span class="required">*</span>
                     </label>

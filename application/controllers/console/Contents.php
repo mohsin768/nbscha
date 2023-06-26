@@ -31,11 +31,14 @@ class Contents extends ConsoleController {
 
 		$sort_direction = 'asc';
 		$sort_field =  'sort_order';
+		
 
 		if($this->session->userdata('manual_content_status_filter')!=''){
 			$cond['status']= $this->session->userdata('manual_content_status_filter');
 		}
-
+		if($this->session->userdata('manual_content_category_filter')!=''){
+			$cond['category']= $this->session->userdata('manual_content_category_filter');
+		}
 		if($this->session->userdata('manual_content_search_key_filter')!=''){
 			$like[] = array('field'=>'title', 'value' => $this->session->userdata('manual_content_search_key_filter'),'location' => 'both');
 		}
@@ -62,6 +65,7 @@ class Contents extends ConsoleController {
 			redirect(admin_url_string('manuals/overview'));
 		}
 		$vars['section']= $sectionRow;
+		$vars['sectionCategories']= $this->SectionCategoriesModel->getElementPair('id','title','sort_order','ASC',array('manual_id'=>$manualId,'category_type !='=>'policylist','language'=>$language));
 		$vars['languages'] = $this->LanguagesModel->getArrayCond(array('status'=>'1'));
 		$vars['contents'] = $this->ManualContentsModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
@@ -287,21 +291,23 @@ class Contents extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('manual_content_sort_field_filter','manual_content_sort_order_filter',
-				'manual_content_search_key_filter','manual_content_status_filter');
+				'manual_content_search_key_filter','manual_content_status_filter','manual_content_category_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
 		if(isset($_POST['search']) && $this->input->post('search')=='Search'){
 				if($this->input->post('manual_content_search_key')!=''||
+				$this->input->post('manual_content_category')!=''||
 				$this->input->post('manual_content_language')!=''||
 					 $this->input->post('manual_content_status')!=''){
 						$newdata = array(
 								'manual_content_search_key_filter'  => $this->input->post('manual_content_search_key'),
-								'manual_content_status_filter'  => $this->input->post('manual_content_status'));
+								'manual_content_status_filter'  => $this->input->post('manual_content_status'),
+								'manual_content_category_filter'  => $this->input->post('manual_content_category'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('manual_content_search_key_filter','manual_content_status_filter');
+					$newdata = array('manual_content_search_key_filter','manual_content_status_filter','manual_content_category_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

@@ -13,8 +13,7 @@ class Carelevels extends ConsoleController {
 		$newdata = array('carelevel_sort_field_filter',
 		'carelevel_sort_order_filter',
 		'carelevel_search_key_filter',
-		'carelevel_status_filter',
-		'carelevel_language_filter');
+		'carelevel_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('carelevels/overview'));
 	}
@@ -32,10 +31,6 @@ class Carelevels extends ConsoleController {
 
 		if($this->session->userdata('carelevel_status_filter')!=''){
 			$cond['status']= $this->session->userdata('carelevel_status_filter');
-		}
-
-		if($this->session->userdata('carelevel_language_filter')!=''){
-			$cond['language']= $this->session->userdata('carelevel_language_filter');
 		}
 
 		if($this->session->userdata('carelevel_search_key_filter')!=''){
@@ -199,7 +194,7 @@ class Carelevels extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('carelevel_sort_field_filter','carelevel_sort_order_filter',
-				'carelevel_search_key_filter','carelevel_status_filter','carelevel_language_filter');
+				'carelevel_search_key_filter','carelevel_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -209,12 +204,11 @@ class Carelevels extends ConsoleController {
 					 $this->input->post('carelevel_status')!=''){
 						$newdata = array(
 								'carelevel_search_key_filter'  => $this->input->post('carelevel_search_key'),
-								'carelevel_language_filter'  => $this->input->post('carelevel_language'),
 								'carelevel_status_filter'  => $this->input->post('carelevel_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('carelevel_search_key_filter','carelevel_status_filter','carelevel_language_filter');
+					$newdata = array('carelevel_search_key_filter','carelevel_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

@@ -14,8 +14,7 @@ class Policycategories extends ConsoleController {
 		$newdata = array('policycategory_sort_field_filter',
 		'policycategory_sort_order_filter',
 		'policycategory_search_key_filter',
-		'policycategory_status_filter',
-		'policycategory_language_filter');
+		'policycategory_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('policycategories/overview'));
 	}
@@ -33,10 +32,6 @@ class Policycategories extends ConsoleController {
 
 		if($this->session->userdata('policycategory_status_filter')!=''){
 			$cond['status']= $this->session->userdata('policycategory_status_filter');
-		}
-
-		if($this->session->userdata('policycategory_language_filter')!=''){
-			$cond['language']= $this->session->userdata('policycategory_language_filter');
 		}
 
 		if($this->session->userdata('policycategory_search_key_filter')!=''){
@@ -207,7 +202,7 @@ class Policycategories extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('policycategory_sort_field_filter','policycategory_sort_order_filter',
-				'policycategory_search_key_filter','policycategory_status_filter','policycategory_language_filter');
+				'policycategory_search_key_filter','policycategory_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -217,12 +212,11 @@ class Policycategories extends ConsoleController {
 					 $this->input->post('policycategory_status')!=''){
 						$newdata = array(
 								'policycategory_search_key_filter'  => $this->input->post('policycategory_search_key'),
-								'policycategory_language_filter'  => $this->input->post('policycategory_language'),
 								'policycategory_status_filter'  => $this->input->post('policycategory_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('policycategory_search_key_filter','policycategory_status_filter','policycategory_language_filter');
+					$newdata = array('policycategory_search_key_filter','policycategory_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

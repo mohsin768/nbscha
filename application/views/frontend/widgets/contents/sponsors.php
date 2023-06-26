@@ -18,7 +18,7 @@
                 <h5 class="font-16 title"><a href="<?php echo $sponsor['website']; ?>"><?php echo $sponsor['title']; ?></a></h5>
                 <?php echo $sponsor['description']; ?>
                 <div class="mt-10">
-                <a class="btn btn-dark btn-theme-colored btn-sm mt-10" href="<?php echo $sponsor['website']; ?>" target="_blank">Visit Website</a>
+                <a class="btn btn-dark btn-theme-colored btn-sm mt-10" href="<?php echo $sponsor['website']; ?>" target="_blank"><?php echo translate('VISIT_WEBSITE','Visit Website');?></a>
                 </div>
             </div>
             </div>

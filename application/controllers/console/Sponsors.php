@@ -13,8 +13,7 @@ class Sponsors extends ConsoleController {
 		$newdata = array('sponsor_sort_field_filter',
 		'sponsor_sort_order_filter',
 		'sponsor_search_key_filter',
-		'sponsor_status_filter',
-		'sponsor_language_filter');
+		'sponsor_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('sponsors/overview'));
 	}
@@ -32,10 +31,6 @@ class Sponsors extends ConsoleController {
 
 		if($this->session->userdata('sponsor_status_filter')!=''){
 			$cond['status']= $this->session->userdata('sponsor_status_filter');
-		}
-
-		if($this->session->userdata('sponsor_language_filter')!=''){
-			$cond['language']= $this->session->userdata('sponsor_language_filter');
 		}
 
 		if($this->session->userdata('sponsor_search_key_filter')!=''){
@@ -230,7 +225,7 @@ class Sponsors extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('sponsor_sort_field_filter','sponsor_sort_order_filter',
-				'sponsor_search_key_filter','sponsor_status_filter','sponsor_language_filter');
+				'sponsor_search_key_filter','sponsor_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -240,12 +235,11 @@ class Sponsors extends ConsoleController {
 					 $this->input->post('sponsor_status')!=''){
 						$newdata = array(
 								'sponsor_search_key_filter'  => $this->input->post('sponsor_search_key'),
-								'sponsor_language_filter'  => $this->input->post('sponsor_language'),
 								'sponsor_status_filter'  => $this->input->post('sponsor_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('sponsor_search_key_filter','sponsor_status_filter','sponsor_language_filter');
+					$newdata = array('sponsor_search_key_filter','sponsor_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

@@ -14,6 +14,16 @@
             <a class="dropdown-item"  href="<?php echo member_url('home/logout'); ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
         </div>
     </li>
+    <li class="nav-item" style="padding: 5px 10px;">
+        <select id="language-switch" name="language">
+            <?php foreach($this->languages_pair as $languageCode => $langaugeName): $default=false; if($languageCode == $this->member_language){ $default=true; }?>
+                <option <?php echo set_select('lanaguage',$languageCode,$default); ?> value="<?php echo $languageCode; ?>"><?php echo $langaugeName; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </li>
+    <li class="nav-item" style="padding: 5px 10px;">
+        <?php echo translate('INTERFACE_LANGUAGE','Interface Language','member');?>
+    </li>      
     </ul>
 </nav>
 </div>

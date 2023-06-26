@@ -30,14 +30,14 @@
                             </div>
                         </div>
                         <p class="mt-10">
-                            <?php echo strip_tags($newsitem['summary']); ?><a href="<?php echo news_url($newsitem['slug']); ?>" class="text-theme-colored font-15 pl-20"> Read More →</a>
+                            <?php echo strip_tags($newsitem['summary']); ?><a href="<?php echo news_url($newsitem['slug']); ?>" class="text-theme-colored font-15 pl-20"> <?php echo translate('READ_MORE','Read More');?> →</a>
                         </p>
                         <div class="clearfix"></div>
                     </div>
                     <div class="bg-theme-colored p-5 text-center pt-10 pb-10">
                         <span class="mb-10 text-white mr-10 font-13"><i class="fa fa-calendar mr-5 text-white"></i><?php echo date('d F Y',strtotime($newsitem['publish_date'])); ?></span>
                         <?php if($newsitem['author']!=''){ ?>
-                        <span class="mb-10 text-white mr-10 font-13"><i class="fa fa-user mr-5 text-white"></i>posted by <?php echo $newsitem['author']; ?></span>
+                        <span class="mb-10 text-white mr-10 font-13"><i class="fa fa-user mr-5 text-white"></i><?php echo translate('POSTED_BY','posted by');?> <?php echo $newsitem['author']; ?></span>
                         <?php } ?>
                     </div>
                 </article>

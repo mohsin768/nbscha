@@ -1,3 +1,4 @@
+
 function launchIntoFullscreen(element) {
     if(element.requestFullscreen) {
         element.requestFullscreen();
@@ -33,6 +34,15 @@ function set_sidemenu(){
 }
 
 $(document).ready(function(){
+    
+    $(document).ready(function(){
+        $('#language-switch').on('change',function(){
+            
+            var languageCode = $(this).val();
+            var switchURL = siteBaseUrl+'language/switch/'+languageCode;
+            window.location.href = switchURL;
+        });
+    });  
     updateNotificationForm();
     $('.notifications-fields-form #notification_type').on('change', function() {
         updateNotificationForm();
@@ -233,6 +243,7 @@ $(function() {
 });
 
 $(document).ready(function(){
+
 
     $('.enquiry-view').click(function(){
         var enquiryId = $(this).data('id');

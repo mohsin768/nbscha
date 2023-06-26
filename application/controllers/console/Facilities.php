@@ -13,8 +13,7 @@ class Facilities extends ConsoleController {
 		$newdata = array('facility_sort_field_filter',
 		'facility_sort_order_filter',
 		'facility_search_key_filter',
-		'facility_status_filter',
-		'facility_language_filter');
+		'facility_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('facilities/overview'));
 	}
@@ -32,10 +31,6 @@ class Facilities extends ConsoleController {
 
 		if($this->session->userdata('facility_status_filter')!=''){
 			$cond['status']= $this->session->userdata('facility_status_filter');
-		}
-
-		if($this->session->userdata('facility_language_filter')!=''){
-			$cond['language']= $this->session->userdata('facility_language_filter');
 		}
 
 		if($this->session->userdata('facility_search_key_filter')!=''){
@@ -199,7 +194,7 @@ class Facilities extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('facility_sort_field_filter','facility_sort_order_filter',
-				'facility_search_key_filter','facility_status_filter','facility_language_filter');
+				'facility_search_key_filter','facility_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -209,12 +204,11 @@ class Facilities extends ConsoleController {
 					 $this->input->post('facility_status')!=''){
 						$newdata = array(
 								'facility_search_key_filter'  => $this->input->post('facility_search_key'),
-								'facility_language_filter'  => $this->input->post('facility_language'),
 								'facility_status_filter'  => $this->input->post('facility_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('facility_search_key_filter','facility_status_filter','facility_language_filter');
+					$newdata = array('facility_search_key_filter','facility_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

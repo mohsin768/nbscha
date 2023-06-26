@@ -14,8 +14,7 @@ class Packages extends ConsoleController {
 		$newdata = array('package_sort_field_filter',
 		'package_sort_order_filter',
 		'package_search_key_filter',
-		'package_status_filter',
-		'package_language_filter');
+		'package_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('packages/overview'));
 	}
@@ -33,10 +32,6 @@ class Packages extends ConsoleController {
 
 		if($this->session->userdata('package_status_filter')!=''){
 			$cond['status']= $this->session->userdata('package_status_filter');
-		}
-
-		if($this->session->userdata('package_language_filter')!=''){
-			$cond['language']= $this->session->userdata('package_language_filter');
 		}
 
 		if($this->session->userdata('package_search_key_filter')!=''){
@@ -230,7 +225,7 @@ class Packages extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('package_sort_field_filter','package_sort_order_filter',
-				'package_search_key_filter','package_status_filter','package_language_filter');
+				'package_search_key_filter','package_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -240,12 +235,11 @@ class Packages extends ConsoleController {
 					 $this->input->post('package_status')!=''){
 						$newdata = array(
 								'package_search_key_filter'  => $this->input->post('package_search_key'),
-								'package_language_filter'  => $this->input->post('package_language'),
 								'package_status_filter'  => $this->input->post('package_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('package_search_key_filter','package_status_filter','package_language_filter');
+					$newdata = array('package_search_key_filter','package_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}

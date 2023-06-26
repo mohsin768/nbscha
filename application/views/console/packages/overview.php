@@ -38,16 +38,6 @@ if($this->uri->segment(5)==""){
 															<option value="0" <?php if($this->session->userdata('package_status_filter')=='0'){ echo 'selected="selected"'; }?>>Disabled</option>
 													</select>
 												</div>
-												<div class="filter-col">
-													Language:
-													<select id="package_language" name="package_language" class="form-control filter">
-	                            <option value=""> All </option>
-	                            <?php foreach($this->languages_pair as $code => $name): ?>
-	                                <option value="<?php echo $code; ?>" <?php echo set_select('package_language_filter',$code); ?>><?php echo $name; ?></option>
-	                            <?php endforeach; ?>
-	                        </select>
-
-												</div>
 												<input type="hidden" value="" name="sort_field" id="sort_field" />
 												<div class="filter-col">
 													<button class="btn btn-success btn-xs filter" type="submit" value="Search" name="search" ><i class="fa fa-filter" aria-hidden="true"></i> Filter</button>

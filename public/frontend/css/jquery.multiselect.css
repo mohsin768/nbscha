@@ -141,7 +141,6 @@
 .ms-options-wrap > .ms-options > ul input[type="checkbox"] {
     margin: 0 5px 0 0;
     position: absolute;
-    left: 4px;
     top: 7px;
 }
 

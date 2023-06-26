@@ -34,6 +34,16 @@ if($this->uri->segment(7)==""){
 													Search :
 													<input type="text"  class="form-control filter" placeholder="Search key ..." name="manual_content_search_key" value="<?php echo $this->session->userdata('manual_content_search_key_filter'); ?>" />
 												</div>
+												<div class="filter-col">
+													Category:
+													<select name="manual_content_category" class="form-control filter">
+															<option value="">Select</option>
+															<?php foreach($sectionCategories as $sectionCategoryId => $sectionCategoryName): ?>
+															<option value="<?php echo $sectionCategoryId; ?>" <?php if($this->session->userdata('manual_content_category_filter')==$sectionCategoryId){ echo 'selected="selected"'; }?>><?php echo $sectionCategoryName; ?></option>
+															<?php endforeach; ?>
+															
+													</select>
+												</div>
 
 												<div class="filter-col">
 													Status:
@@ -80,7 +90,9 @@ if($this->uri->segment(7)==""){
 								<th class="column-title">
 									<?php $title_direction = ''; if($sort_field=='title'){ $title_direction = $sort_direction; } ?>
 									<a href="#0" class="policy-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="title" data-sort-direction="<?php echo $title_direction; ?>">Title</a></th>
-
+								<th class="column-title">
+									<?php $category_direction = ''; if($sort_field=='category'){ $category_direction = $sort_direction; } ?>
+									<a href="#0" class="policy-sort sort-list-link <?php echo $category_direction; ?>" data-sort-field="category" data-sort-direction="<?php echo $category_direction; ?>">Category</a></th>
 								<th class="column-title">
 									<?php $language_direction = ''; if($sort_field=='language'){ $language_direction = $sort_direction; } ?>
 									<a href="#0" class="policy-sort sort-list-link <?php echo $language_direction; ?>" data-sort-field="language" data-sort-direction="<?php echo $language_direction; ?>">Language</a>
@@ -98,6 +110,7 @@ if($this->uri->segment(7)==""){
 								<td class="align-center"><input type="checkbox" name="id[]" value="<?php echo $content['id']; ?>" /></td>
                                 <td class=" "><?php echo ++$i; ?></td>
                                 <td class=" "><?php echo $content['title'];?></td>
+								<td class=" "><?php echo (isset($sectionCategories[$content['category']]))?$sectionCategories[$content['category']]:'';?></td>
 								<td class=" "><?php echo $this->languages_pair[$content['language']];?></td>
 								<td class="align-center"><input style="text-align:center;" type="text" size="2" <?php if($content['language']!=$this->default_language) echo 'disabled'; ?> name="sort_order[<?php echo $content['id'];?>]" value="<?php echo $content['sort_order'];?>" /> </td>
                                 <td class="center-align"><?php echo $status[$content['status']];?></td>

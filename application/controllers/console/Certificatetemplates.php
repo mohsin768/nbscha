@@ -13,8 +13,7 @@ class Certificatetemplates extends ConsoleController {
 		$newdata = array('certificatetemplate_sort_field_filter',
 		'certificatetemplate_sort_order_filter',
 		'certificatetemplate_search_key_filter',
-		'certificatetemplate_status_filter',
-		'certificatetemplate_language_filter');
+		'certificatetemplate_status_filter');
 		$this->session->unset_userdata($newdata);
 		redirect(admin_url_string('certificatetemplates/overview'));
 	}
@@ -32,10 +31,6 @@ class Certificatetemplates extends ConsoleController {
 
 		if($this->session->userdata('certificatetemplate_status_filter')!=''){
 			$cond['status']= $this->session->userdata('certificatetemplate_status_filter');
-		}
-
-		if($this->session->userdata('certificatetemplate_language_filter')!=''){
-			$cond['language']= $this->session->userdata('certificatetemplate_language_filter');
 		}
 
 		if($this->session->userdata('certificatetemplate_search_key_filter')!=''){
@@ -307,7 +302,7 @@ class Certificatetemplates extends ConsoleController {
 
 		if(isset($_POST['reset']) && $this->input->post('reset')=='Reset'){
 				$newdata = array('certificatetemplate_sort_field_filter','certificatetemplate_sort_order_filter',
-				'certificatetemplate_search_key_filter','certificatetemplate_status_filter','certificatetemplate_language_filter');
+				'certificatetemplate_search_key_filter','certificatetemplate_status_filter');
 				$this->session->unset_userdata($newdata);
 		}
 
@@ -317,12 +312,11 @@ class Certificatetemplates extends ConsoleController {
 					 $this->input->post('certificatetemplate_status')!=''){
 						$newdata = array(
 								'certificatetemplate_search_key_filter'  => $this->input->post('certificatetemplate_search_key'),
-								'certificatetemplate_language_filter'  => $this->input->post('certificatetemplate_language'),
 								'certificatetemplate_status_filter'  => $this->input->post('certificatetemplate_status'));
 						$this->session->set_userdata($newdata);
 
 				} else {
-					$newdata = array('certificatetemplate_search_key_filter','certificatetemplate_status_filter','certificatetemplate_language_filter');
+					$newdata = array('certificatetemplate_search_key_filter','certificatetemplate_status_filter');
 					$this->session->unset_userdata($newdata);
 				}
 		}
