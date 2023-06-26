@@ -728,3 +728,6 @@ a#residences-load-more
     clear: left;
 }
 }
+.residence-item .project:hover .thumb::after{
+  display: none;
+}
