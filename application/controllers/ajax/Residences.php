@@ -58,7 +58,7 @@ class Residences extends AjaxController {
 				$residenceCond['vacancy >'] = '0'; 
 			}
 		}
-        $residence_name = secureInput($this->input->get('residence_name'));
+        $residence_name = $this->input->get('residence_name');
 		if($residence_name!=''){
 			$residenceLikeOr[] = array('field'=>'name','value'=>$residence_name,'location'=>'both'); 
 		}
