@@ -37,8 +37,7 @@ class Residences extends ConsoleController {
 		if($this->session->userdata('residence_region_filter')!=''){
 			$cond['residences.region_id']= $this->session->userdata('residence_region_filter');
 		}
-
-
+		
 		if($this->session->userdata('residence_search_key_filter')!=''){
 			$like[] = array('field'=>'first_name', 'value' => $this->session->userdata('residence_search_key_filter'),'location' => 'both');
 			$like[] = array('field'=>'last_name', 'value' => $this->session->userdata('residence_search_key_filter'),'location' => 'both');
@@ -55,10 +54,14 @@ class Residences extends ConsoleController {
     	$config['total_rows'] = $this->ResidencesModel->getConsolePaginationCount($cond, $like);
    	 	$this->pagination->initialize($config);
 		$vars['residences'] = $this->ResidencesModel->getConsolePagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
+		//print_r($vars['residences']);exit;
 		$vars['sort_field'] = $sort_field;
     	$vars['sort_direction'] = $sort_direction;
 		$vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
 		$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
+		$vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
+		//print_r($vars['facilities']);exit;
+		//print_r($vars['regions']);exit;
 		$this->mainvars['content']=$this->load->view(admin_url_string('residences/overview'),$vars,true);
 		$this->mainvars['page_scripts'] = $this->load->view(admin_url_string('residences/script'),'',true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
@@ -73,7 +76,9 @@ class Residences extends ConsoleController {
 				$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 				$vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
 				$vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
+				//print_r($vars['facilities']);exit;
 				$vars['features'] =$this->FeaturesModel->getElementPair('fid','feature_title','sort_order','asc',array('language'=>$this->default_language));
+				//print_r($vars['features']);exit;
 				$content = $this->load->view(admin_url_string('residences/details'),$vars, true);
 				$results = array('content' => $content);
 				$json=json_encode($results);
@@ -192,6 +197,7 @@ class Residences extends ConsoleController {
 				 $vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 				 $vars['carelevels'] =$this->CarelevelsModel->getElementPair('cid','carelevel_title','sort_order','asc',array('language'=>$this->default_language));
 				 $vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
+				 //print_r($vars['facilities']);exit;
 				 $vars['features'] =$this->FeaturesModel->getElementPair('fid','feature_title','sort_order','asc',array('language'=>$this->default_language));
 				 $vars['form'] = $this->load->view(admin_url_string('residences/edit_form'),$vars, true);
 				 $content = $this->load->view(admin_url_string('residences/edit'),$vars, true);

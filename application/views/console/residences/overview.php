@@ -40,8 +40,8 @@ if($this->uri->segment(4)==""){
 													<select name="residence_region" class="form-control filter">
 															<option value="">Select</option>
 															<?php foreach($regions as $key => $value): ?>
-	                                <option value="<?php echo $key; ?>" <?php echo set_select('residence_region_filter',$value); ?>><?php echo $value; ?></option>
-	                            <?php endforeach; ?>
+																<option value="<?php echo $key; ?>" <?php if($this->session->userdata('residence_region_filter')==$key){ echo 'selected'; }?>><?php echo $value; ?></option>
+	                            							<?php endforeach; ?>
 													</select>
 												</div>
 												<input type="hidden" value="" name="sort_field" id="sort_field" />

@@ -18,6 +18,7 @@
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+                                        
                                         <div class="form-group col-md-4">
                                             <label for="inputPassword4"><?php echo translate('BEDS','Beds');?></label>
                                             <select class="form-control sl-op" name="spch_num_bed" id="residence-package">
