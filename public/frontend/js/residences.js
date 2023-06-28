@@ -1,6 +1,6 @@
     // Tabs
     (function ($) {
-        var residencesParams = {page:'1','language_id':'','region_id':'','package_id':'','level_id':'','facilities':'','vacancy':'','residence_name':'','features':''};
+        var residencesParams = {page:'0','language_id':'','region_id':'','package_id':'','level_id':'','facilities':'','vacancy':'','residence_name':'','features':''};
         if($('#residences-list').length){
             loadResidences(residencesParams);
         }
@@ -10,17 +10,20 @@
             $('#residence-advanced-search-wrap').hide();
             $('.search-labels').hide();
         });
-        $('#residences-load-more').click( function(){
-            $('#residences-load-more').addClass('loading');
-            residencesParams.page = parseInt(residencesParams.page)+parseInt("1");
-            loadResidences(residencesParams);
+        $('#residences-pagination-wrap').on('click',".page-link",function(e){
+            e.preventDefault();
+            var page = $(this).attr('data-page');
+            if(page!=''){
+                residencesParams.page = page;
+                loadResidences(residencesParams);
+            }
         });
         $('#propertiesDetailsSlider .carousel-inner .carousel-item:first').addClass('active');
         $('#residence-search').click( function(e){
             e.preventDefault();
             $('#residences-list').addClass('loading');
             $('#residences-load-more').hide();
-            residencesParams.page = 1;
+            residencesParams.page = 0;
             var facilities = $('#residence-facilities').val();
             var facilitiesStr = '';
             if (facilities !== null){
@@ -80,6 +83,64 @@
             return output;
         }
 
+        function processResidencePagination(result){
+            var pagination_template = $('#residences-pagination-tpl').html();
+            var output = '';
+            var pager = result.pager;
+            var pagination = {};
+            pagination.showPagination = true;
+            pagination.showFirst = true;
+            pagination.showPrev = true;
+            pagination.showPrevNumber = true;
+            pagination.prevPage = 0;
+            pagination.prevPageNumber = 1;
+            pagination.prevPrevPage = 0;
+            pagination.prevPrevPageNumber = 1;
+            pagination.currentPageNumber = parseInt(pager.current_page)+1;
+            pagination.showLast = true;
+            pagination.showNext = true;
+            pagination.showNextNumber = true;
+            pagination.nextPage = 0;
+            pagination.nextPageNumber = 1;
+            pagination.nextNextPage = 0;
+            pagination.nextNextPageNumber = 1;
+            pagination.lastPage = 0;
+            pagination.showPrevPrevNumber = true;
+            pagination.showNextNextNumber = true;
+            if(pager.count==0){
+                pagination.showPagination = false;
+            } else {
+                pagination.lastPage = pager.pages-1;
+            }
+            if(pager.current_page==0){
+                pagination.showFirst = false;
+                pagination.showPrev = false;
+                pagination.showPrevNumber = false;
+            } else {
+                pagination.prevPage = pager.current_page-1;
+                pagination.prevPageNumber = parseInt(pagination.prevPage)+1;
+                pagination.prevPrevPage = pager.current_page-2;
+                pagination.prevPrevPageNumber = parseInt(pagination.prevPrevPage)+1;
+            }
+            if(pager.current_page == (pager.pages-1)){
+                pagination.showLast = false;
+                pagination.showNext = false;
+                pagination.showNextNumber = false;
+            } else {
+                pagination.nextPage = parseInt(pager.current_page)+1;
+                pagination.nextPageNumber = parseInt(pagination.nextPage)+1;
+                pagination.nextNextPage = parseInt(pager.current_page)+2;
+                pagination.nextNextPageNumber = parseInt(pagination.nextNextPage)+1;
+    
+            }
+            if(pager.pages<=2){
+                pagination.showPrevPrevNumber = false;
+                pagination.showNextNextNumber = false;
+            }
+            output = Mustache.render(pagination_template, pagination);
+            return output;
+        }
+
         function loadResidences(params){
             if(siteBaseUrl!=''){
                 var output = '';
@@ -94,14 +155,10 @@
                     } else {
                         output = $('#no-residences-tpl').html();
                     }
-                    $('#residences-list').append(output);
+                    $('#residences-list').html(output);
                     $('#residences-list').removeClass('loading');
-                    $('#residences-load-more').addClass('loading');
-                    if(result.pager.current_page<(result.pager.pages)){
-                        $('#residences-load-more').show();
-                    } else {
-                        $('#residences-load-more').hide();
-                    }
+                    var pagination = processResidencePagination(result);
+                    $("#residences-pagination-wrap").html(pagination);
                 });
             }
         }

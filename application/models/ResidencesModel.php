@@ -15,8 +15,6 @@ class ResidencesModel extends CMS_Model {
     		$this->multilingual = TRUE;
     }
 
-
-
     function insert($maindata,$descdata=array())
     {
           $prime = false;

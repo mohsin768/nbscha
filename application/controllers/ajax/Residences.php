@@ -62,18 +62,16 @@ class Residences extends AjaxController {
 		if($residence_name!=''){
 			$residenceLikeOr[] = array('field'=>'name','value'=>$residence_name,'location'=>'both'); 
 		}
+		
 		$residencesData = array('status'=>'0','pager'=>array('current_page'=>'0','pages'=>'0'),'data'=>'');
 		$this->load->model('ResidencesModel');
 		$this->load->model('PackagesModel');
 		$packages = $this->PackagesModel->getIdPair($this->site_language);
 		$perPage = 12;
-		$offset = $perPage*($page-1);
-		
+		$offset = $perPage*($page);		
 		$totalCount = $this->ResidencesModel->getActivePaginationCount($residenceCond,$residenceLikeOr,$residenceFindIn,$residenceLikeAnd);
-		//echo $totalCount;exit;
 		$totalPages = ceil($totalCount/$perPage);
 		$residences = $this->ResidencesModel->getActivePagination($perPage,$offset,$residenceCond,'residences.id','asc',$residenceLikeOr,$residenceFindIn,$residenceLikeAnd);
-		//print_r($residences);exit;
 		$residencesinfo = array();
 		foreach($residences as $residence):
 			if($residence['mainimage']!=''){
@@ -91,6 +89,5 @@ class Residences extends AjaxController {
 		$this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($residencesData));
-
 	}
 }

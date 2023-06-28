@@ -111,8 +111,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12" >
-                <div class="load-more-wrap btn-box">
-                    <a style="display:none;" id="residences-load-more" class="btn btn-primary" href="#0"><?php echo translate('LOAD_MORE','Load More');?></a>
+                <div class="pagination-wrap" id="residences-pagination-wrap">
                 </div>
             </div>
         </div>
@@ -141,4 +140,78 @@
             </div>
         </div>
     </div>
+</script>
+<script id="residences-pagination-tpl" type="text/template">
+{{#showPagination}}
+<ul class="pagination justify-content-center">
+    {{#showFirst}}
+    <li class="page-item">
+        <a href="#" data-page="0" class="page-link"><<</a>
+    </li>
+    {{/showFirst}}
+    {{^showFirst}}
+    <li class="page-item disabled">
+        <a href="#" data-page="" class="page-link"><span class="first"><<</span></a>
+    </li>
+    {{/showFirst}}
+    {{#showPrev}}
+    <li class="page-item">
+        <a href="#" data-page="{{ prevPage }}" class="page-link"><</a>
+    </li>
+    {{/showPrev}}
+    {{^showPrev}}
+    <li class="page-item disabled">
+        <a href="#" data-page="" class="page-link"><span class="prev"><</span></a>
+    </li>
+     {{/showPrev}}
+    {{#showNextNextNumber}}
+    {{^showNextNumber}}
+    <li class="page-item">
+        <a href="#" data-page="{{ prevPrevPage }}" class="page-link">{{ prevPrevPageNumber }}</a>
+    </li>
+    {{/showNextNumber}}
+    {{/showNextNextNumber}}
+    {{#showPrevNumber}}
+    <li class="page-item">
+        <a href="#" data-page="{{ prevPage }}" class="page-link">{{ prevPageNumber }}</a>
+    </li>
+    {{/showPrevNumber}}
+    <li class="page-item active">
+        <a href="#" data-page="" class="page-link"><span class="current">{{ currentPageNumber }}</span></a>
+    </li>
+    {{#showNextNumber}}
+    <li class="page-item">
+        <a href="#" data-page="{{ nextPage }}" class="page-link">{{ nextPageNumber }}</a>
+    </li>
+    {{/showNextNumber}}
+    {{#showPrevPrevNumber}}
+    {{^showPrevNumber}}
+    <li class="page-item">
+        <a href="#" data-page="{{ nextNextPage }}" class="page-link">{{ nextNextPageNumber }}</a>
+    </li>
+    {{/showPrevNumber}}
+    {{/showPrevPrevNumber}}
+    {{#showNext}}
+    <li class="page-item">
+        <a href="#" data-page="{{ nextPage }}" class="page-link">></a>
+    </li>
+    {{/showNext}}
+    {{^showNext}}
+    <li class="page-item disabled">
+        <a href="#" data-page="" class="page-link"><span class="next">></span></a>
+    </li>
+     {{/showNext}}
+    {{#showLast}}
+    <li class="page-item">
+        <a href="#" data-page="{{ lastPage }}" class="page-link">>></a>
+    </li>
+    {{/showLast}}
+    {{^showLast}}
+    <li class="page-item disabled">
+        <a href="#" data-page="" class="page-link"><span class="last">>></span></a>
+    </li>
+    {{/showLast}}
+
+</ul>
+{{/showPagination}}
 </script>

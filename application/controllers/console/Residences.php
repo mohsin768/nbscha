@@ -60,8 +60,6 @@ class Residences extends ConsoleController {
 		$vars['packages'] =$this->PackagesModel->getElementPair('pid','title','sort_order','asc',array('language'=>$this->default_language));
 		$vars['regions'] =$this->RegionsModel->getElementPair('rid','region_name','sort_order','asc',array('language'=>$this->default_language));
 		$vars['facilities'] =$this->FacilitiesModel->getElementPair('fid','facility_title','sort_order','asc',array('language'=>$this->default_language));
-		//print_r($vars['facilities']);exit;
-		//print_r($vars['regions']);exit;
 		$this->mainvars['content']=$this->load->view(admin_url_string('residences/overview'),$vars,true);
 		$this->mainvars['page_scripts'] = $this->load->view(admin_url_string('residences/script'),'',true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);

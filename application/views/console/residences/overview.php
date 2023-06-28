@@ -32,7 +32,7 @@ if($this->uri->segment(4)==""){
 															<option value="">Select</option>
 															<?php foreach($packages as $key => $value): ?>
 	                                <option value="<?php echo $key; ?>" <?php echo set_select('residence_package_filter',$value); ?>><?php echo $value; ?></option>
-	                            <?php endforeach; ?>
+	                            	<?php endforeach; ?>
 													</select>
 												</div>
 												<div class="filter-col">
@@ -93,26 +93,26 @@ if($this->uri->segment(4)==""){
 								<br/><i class="fa fa-phone"></i>  <a href="tel:<?php echo $residence['residence_phone'];?>"><?php echo $residence['residence_phone'];?></a>
 								</td>
                                 <td class=" align-top"><i class="fa fa-user"></i>  <?php echo $residence['first_name'].' '.$residence['last_name'];?><br/>
-																             <i class="fa fa-envelope"></i>  <?php echo $residence['member_email'];?>,<br/> <i class="fa fa-phone"></i>  <a href="tel:<?php echo $residence['member_phone'];?>"><?php echo $residence['member_phone'];?></a><br/>
-																						 </td>
-																 <td class=" align-top"><strong>Id: #</strong> <?php echo $residence['member_identifier']; ?><br/>
- 																						 <strong>Issued Date:</strong> <?php echo date('M j, Y', strtotime($residence['issue_date'])); ?><br/>
- 						                                 <strong>Expiry Date:</strong><?php echo date('M j, Y', strtotime($residence['expiry_date'])); ?></td>
+									<i class="fa fa-envelope"></i>  <?php echo $residence['member_email'];?>,<br/> <i class="fa fa-phone"></i>  <a href="tel:<?php echo $residence['member_phone'];?>"><?php echo $residence['member_phone'];?></a><br/>
+								</td>
+									<td class=" align-top"><strong>Id: #</strong> <?php echo $residence['member_identifier']; ?><br/>
+									<strong>Issued Date:</strong> <?php echo date('M j, Y', strtotime($residence['issue_date'])); ?><br/>
+									<strong>Expiry Date:</strong><?php echo date('M j, Y', strtotime($residence['expiry_date'])); ?></td>
 
-																<td class="align-top "><?php echo $packages[$residence['package_id']];?></td>
+									<td class="align-top "><?php echo $packages[$residence['package_id']];?></td>
 
                                 <td class="align-top"><?php echo $residence['vacancy'];?></td>
 								<td class="center-align"><?php echo $status[$residence['residence_status']];?></td>
                                 <td class=" last">
-																	<a class="btn btn-success btn-xs"   id="view-residence-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="View"><i class="fa fa-eye"></i> View</a>
-																	<a class="btn btn-info btn-xs" id="update-vacancy-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="vacancy"><i class="fa fa-bed"></i> Vacancy</a>
-																	<a class="btn btn-primary btn-xs"  id="update-residence-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="edit"><i class="fa fa-edit"></i> Edit</a>
-																	<a class="btn btn-primary btn-xs"   href="<?php echo admin_url('residences/translates/'.$residence['id']); ?>" title="translates"><i class="fa fa-language"></i> Translates</a>
+									<a class="btn btn-success btn-xs"   id="view-residence-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="View"><i class="fa fa-eye"></i> View</a>
+									<a class="btn btn-info btn-xs" id="update-vacancy-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="vacancy"><i class="fa fa-bed"></i> Vacancy</a>
+									<a class="btn btn-primary btn-xs"  id="update-residence-btn"  href="#" data-rid="<?php echo $residence['id'];?>"  title="edit"><i class="fa fa-edit"></i> Edit</a>
+									<a class="btn btn-primary btn-xs"   href="<?php echo admin_url('residences/translates/'.$residence['id']); ?>" title="translates"><i class="fa fa-language"></i> Translates</a>
                                 </td>
                             </tr>
-													<?php endforeach; }  else {?>
-														<tr><td colspan="10"><p>No results Found</p></td></tr>
-													 <?php }?>
+								<?php endforeach; }  else {?>
+									<tr><td colspan="10"><p>No results Found</p></td></tr>
+									<?php }?>
                         </tbody>
                     </table>
                 </div>
