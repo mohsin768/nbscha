@@ -45,7 +45,7 @@
                 <?php } if($residence->level_id!='' && isset($levels[$residence->level_id])){ ?>
                 <li><b><?php echo translate('C_LEVEL','Level of Care');?></b><br><?php echo $levels[$residence->level_id]; ?></li>
                 <?php } if($residence->package_id!='' && isset($packages[$residence->package_id])){ ?>
-                <li><b><?php echo translate('C_BED','Bed');?></b><br><?php echo $packages[$residence->package_id]; ?></li>
+                <li><b><?php echo translate('C_BED','Bed');?></b><br><?php echo $residence->max_beds_count; ?></li>
                 <?php } if($residence->pharmacy_name!=''){ ?>
                 <li><b><?php echo translate('C_PHARMACY','Pharmacy');?></b><br><?php echo $residence->pharmacy_name; ?></li>
                 <?php } ?>

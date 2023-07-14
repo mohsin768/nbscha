@@ -133,7 +133,7 @@
             <div class="project-details p-15 pt-10 pb-10" style="min-height:340px">
                 <h5 class="font-14 font-weight-500 mb-5"></h5>
                 <h4 class="font-weight-700 text-uppercase mt-0">{{{ name }}}</h4>
-                <p><b><?php echo translate('PHONE','Phone');?>:</b> {{ phone }}</p><p><b><?php echo translate('EMAIL','Email');?>:</b> {{ email }}</p><p><b><?php echo translate('ADDRESS','Address');?>:</b> {{ address }}</p><p><b><?php echo translate('BEDS','Beds');?>:</b>{{ package_name }}</p>
+                <p><b><?php echo translate('PHONE','Phone');?>:</b> {{ phone }}</p><p><b><?php echo translate('EMAIL','Email');?>:</b> {{ email }}</p><p><b><?php echo translate('ADDRESS','Address');?>:</b> {{ address }}</p><p><b><?php echo translate('BEDS','Beds');?>:</b> {{ max_beds_count }}</p>
                 <p><b><?php echo translate('VACANCY','Vacancy');?>: {{ vacancy }} </b></p>
                 <a class="btn btn-flat btn-dark btn-theme-colored btn-md pull-left font-20 ab-btn new-btn" href="{{ residence_url }}"><span><?php echo translate('VIEW_HOME','VIEW HOME');?></span><i style="padding-left:10px;" class="fa fa-play"></i></a>
                 <div class="clearfix"></div>
