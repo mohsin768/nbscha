@@ -55,7 +55,7 @@
     <div class="col-md-12">
       <div class="col-md-6 col-sm-6 col-xs-12 no-padd"><h6><i class="fa fa-home"></i> <?php echo $residence->name;?></h6></div>
       <div class="col-md-6 col-sm-6 col-xs-12 no-padd"><h6><i class="fa fa-map-marker"></i> <?php echo $regions[$residence->region_id];?></h6></div>
-      <div class="col-md-6 col-sm-6 col-xs-12 no-padd"><h6>Max licensed beds: <?php echo $residence->beds_count;?></h6></div>
+      <div class="col-md-6 col-sm-6 col-xs-12 no-padd"><h6>Max licensed beds: <?php echo $residence->max_beds_count;?></h6></div>
       <div class="col-md-6 col-sm-6 col-xs-12 no-padd"><h6>Vacancy: <?php echo $residence->vacancy;?></h6></div>
     </div>
     <div class="clearfix"></div>

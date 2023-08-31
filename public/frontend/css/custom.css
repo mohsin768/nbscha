@@ -109,6 +109,7 @@ section.inner-header.divider.parallax.layer-overlay.overlay-dark-5 {
 .residence .properties-summary ul li {
   width: 33%;
   display: inline-block;
+  overflow-wrap: break-word;
 }
 .residence li {
   font-size: 14px;

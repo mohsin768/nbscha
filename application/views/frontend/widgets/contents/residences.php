@@ -33,7 +33,7 @@
                                         <div class="form-group col-md-4">
                                         <label for="inputPassword4"><?php echo translate('LEVEL_CARE','Level of care');?></label>
                                         <select class="form-control" name="home_level" id="residence-level">
-                                            <option value=""><?php echo translate('SELECT_LEVEL','--Select Level of Care*--');?></option>
+                                            <option value=""><?php echo translate('SELECT_LEVEL','--Select Level of Care--');?></option>
                                             <?php foreach($levels as $level): ?>
                                             <option value="<?php echo $level['cid']; ?>"><?php echo $level['carelevel_title']; ?></option>
                                             <?php endforeach; ?>

@@ -41,7 +41,7 @@
                 <?php } if($residence->region_id!='' && isset($regions[$residence->region_id])){ ?>
                 <li><b><?php echo translate('C_REGION','Region');?></b><br><?php echo $regions[$residence->region_id]; ?></li>
                 <?php } if($residence->postalcode!=''){ ?>
-                <li><b><?php echo translate('C_POST','Postal Code');?></b><br><?php echo $residence->pharmacy_name; ?></li>
+                <li><b><?php echo translate('C_POST','Postal Code');?></b><br><?php echo $residence->postalcode; ?></li>
                 <?php } if($residence->level_id!='' && isset($levels[$residence->level_id])){ ?>
                 <li><b><?php echo translate('C_LEVEL','Level of Care');?></b><br><?php echo $levels[$residence->level_id]; ?></li>
                 <?php } if($residence->package_id!='' && isset($packages[$residence->package_id])){ ?>

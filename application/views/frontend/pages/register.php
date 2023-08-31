@@ -168,6 +168,10 @@
                                     <textarea class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('NOTES_ADMIN','Notes/Comments for Admin');?>" name="comments" id="comments"><?php echo set_value('comments'); ?></textarea>
                                     <div class="error"><?php echo form_error('comments'); ?></div>
                                 </div>
+                                <div class="spchclass form-group col-lg-12 " style="font-style:italic;padding-bottom:10px; margin-bottom:0px;">
+                                <label class="label-control" style="font-style:italic;padding-bottom:0px; margin-bottom:0px;FONT-WEIGHT:NORMAL;text-decoration:underline"><?php echo translate('IMAGE_UPLOAD_NOTICE','* When uploading images, please make sure they are all in landscape format.');?>
+</label>
+                                </div>
 
 
                                 <div class="spchclass form-group col-lg-4 ">

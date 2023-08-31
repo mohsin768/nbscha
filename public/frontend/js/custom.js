@@ -2193,13 +2193,13 @@ var THEMEMASCOT = {};
     THEMEMASCOT.initialize.TM_preLoaderClickDisable();
     $('#facilities').multiselect({
         columns: 1,
-        placeholder: 'Select Facilities',
+        placeholder: '--Select Facilities--',
         search: true,
         selectAll: true
     });
     $('#residence-facilities').multiselect({
         columns: 1,
-        placeholder: 'Select Facilities',
+        placeholder: '--Select Facilities--',
         search: true,
         selectAll: true
     });

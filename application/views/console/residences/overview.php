@@ -77,7 +77,7 @@ if($this->uri->segment(4)==""){
 																<a href="#0" class="residence-sort sort-list-link <?php echo $title_direction; ?>" data-sort-field="name" data-sort-direction="<?php echo $title_direction; ?>">Home</a></th>
 																<th class="column-title">Member</th>
 																<th class="column-title">Membership</th>
-															<th class="column-title">Package(Beds)</th>
+															<th class="column-title">Maximum Licensed Beds</th>
 															<th class="column-title">Vacancy</th>
 															<th class="column-title fix-100 center-align">Status</th>
 															<th class="column-title no-link last"><span class="nobr">Action</span></th>
@@ -99,7 +99,7 @@ if($this->uri->segment(4)==""){
 									<strong>Issued Date:</strong> <?php echo date('M j, Y', strtotime($residence['issue_date'])); ?><br/>
 									<strong>Expiry Date:</strong><?php echo date('M j, Y', strtotime($residence['expiry_date'])); ?></td>
 
-									<td class="align-top "><?php echo $packages[$residence['package_id']];?></td>
+									<td class="align-top "><?php echo $residence['max_beds_count'];?></td>
 
                                 <td class="align-top"><?php echo $residence['vacancy'];?></td>
 								<td class="center-align"><?php echo $status[$residence['residence_status']];?></td>
