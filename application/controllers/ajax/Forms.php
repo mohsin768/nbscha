@@ -100,4 +100,45 @@ class Forms extends AjaxController {
             return false;
         }
     }
+
+    function newsletter(){
+
+
+        $this->load->model('SubscribersModel');
+        $error = false;
+		$responseData = array("status"=>"0","message"=>"Form submission failed. Try again.");
+        $email = secureInput($this->input->post('email'));
+        $token = secureInput($this->input->post('token'));
+        $action = secureInput($this->input->post('action'));
+        if($email ==''){
+            $error = true;
+            $responseData = array("status"=>"0","message"=>"Form submission failed. Required field missing. Try again.");
+        }
+        if(!$this->verifyReCaptcha($token,$action)){
+            $error = true;
+            $responseData = array("status"=>"0","message"=>"Form submission failed. reCaptcha failed. Try again.");
+        }
+        if($this->SubscribersModel->getRowCond(array('email'=>$email))){
+            $error = true;
+            $responseData = array("status"=>"0","message"=>"Already subscribed to the list.");
+        }
+        if(!$error){
+
+            $data=array(
+                'email'=>$email,
+                'created'=>date('Y-m-d H:i:s')
+			);
+			$insertid = $this->SubscribersModel->insert($data);
+            if($insertid){
+                $adminMailData = $data;
+				$adminMailData['mail_to'] = $this->settings['ADMIN_EMAIL'];
+				$this->mailhelper->sendNotification('newsletter_admin_notification',$adminMailData);
+                $responseData = array("status"=>"1","message"=>"Thank you for getting in touch with us. Will get back to you soon.");
+            }
+        }
+		$this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($responseData));
+
+    }
 }

@@ -43,14 +43,16 @@ class Enquiries extends ConsoleController {
 			$sort_field = $this->session->userdata('enquiry_sort_field_filter');
 			$sort_direction = $this->session->userdata('enquiry_sort_order_filter');
 		}
+
 		$this->load->library('pagination');
 		$config = $this->paginationConfig();
-    $config['base_url'] = admin_url_string('enquiries/overview');
-    $config['total_rows'] = $this->EnquiriesModel->getPaginationCount();
-    $this->pagination->initialize($config);
+        $config['base_url'] = admin_url('enquiries/overview');
+		$config['total_rows'] = $this->EnquiriesModel->getPaginationCount();
+        $this->pagination->initialize($config);
 		$vars['enquiries'] = $this->EnquiriesModel->getPagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
+        $config['base_url'] = admin_url_string('enquiries/overview');
 		$vars['sort_field'] = $sort_field;
-    $vars['sort_direction'] = $sort_direction;
+        $vars['sort_direction'] = $sort_direction;
 		$vars['residences'] =$this->ResidencesModel->getElementPair('id','name','','',array('language'=>$this->default_language));
 		$vars['teams'] =$this->TeamsModel->getElementPair('id','name','','',array('language'=>$this->default_language));
 		$this->mainvars['content']=$this->load->view(admin_url_string('enquiries/overview'),$vars,true);

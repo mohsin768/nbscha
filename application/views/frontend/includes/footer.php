@@ -44,41 +44,17 @@
             <li><a href="#" class="lineheight-20"><?php echo $this->settings['CONTACT_ADDRESS']; ?></a></li>
         </ul>
         <p class="font-16 text-white mb-5 mt-15"><?php echo translate('WANT_TO_HEAR','Want To Hear From Us?');?></p>
-        <form id="footer-mailchimp-subscription-form" class="newsletter-form mt-10">
-            <input type="hidden" name="_token" value="E6wKJ3XoRj1fUT597IzVbKWI2aM0IySP2Q2xgERn">              <label class="display-block" for="mce-EMAIL"></label>
+        <form id="subscription-form" class="newsletter-form mt-10">
+            <input type="hidden" name="token" value="E6wKJ3XoRj1fUT597IzVbKWI2aM0IySP2Q2xgERn">              <label class="display-block" for="mce-EMAIL"></label>
             <div class="input-group">
             <input type="email" value="" name="email" placeholder="<?php echo translate('YOUR_EMAIL','Your Email');?>"  class="form-control" data-height="37px" id="mce-EMAIL">
             <span class="input-group-btn">
                 <button type="submit" class="btn btn-colored btn-theme-colored m-0"><i class="fa fa-paper-plane-o text-white"></i></button>
             </span>
             </div>
+            <div style="padding-top:10px" id="nl-msg" ></div>
         </form>
-
-        <!-- Mailchimp Subscription Form Validation-->
-        <script type="text/javascript">
-            $('#footer-mailchimp-subscription-form').submit(function(e){
-            e.preventDefault();
-            $.ajax({
-                type : 'POST',
-                url: 'https://nbscha.ca/send-subscriber-email',
-                data: $('#footer-mailchimp-subscription-form').serialize(),
-                success : mailChimpCallBack
-            });
-            });
-
-            function mailChimpCallBack(resp) {
-                // Hide any previous response text
-                var $mailchimpform = $('#footer-mailchimp-subscription-form'),
-                    $response = '';
-                $mailchimpform.children(".alert").remove();
-                if (resp.result === 'success') {
-                    $response = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + resp.message + '</div>';
-                } else if (resp.result === 'error') {
-                    $response = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + resp.message + '</div>';
-                }
-                $mailchimpform.prepend($response);
-            }
-        </script>
+       
         </div>
     </div>
     </div>
@@ -110,3 +86,56 @@
     </div>
 </div>
 </footer>
+
+
+<script type="text/javascript">
+
+
+$('#subscription-form').submit(function(e) {
+        e.preventDefault();
+        var nlUrl = siteBaseUrl+'ajax/forms/newsletter';
+        var nlForm = document.getElementById('subscription-form');
+        let formData = new FormData(nlForm);
+
+        grecaptcha.ready(function() {
+            grecaptcha.execute(captchaSiteKey, {action: 'nl_form'}).then(function(token) {
+                formData.append('token', token);
+                formData.append('action', 'nl_form');
+                $.ajax({
+                    type: "POST",
+                    url: nlUrl,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success : function(response){
+                        $('#nl-msg').html(response.message);
+
+                    }
+                });
+            });
+        });
+    });
+    
+    // $('#footer-mailchimp-subscription-form').submit(function(e){
+    // e.preventDefault();
+    // $.ajax({
+    //     type : 'POST',
+    //     url: 'https://nbscha.ca/send-subscriber-email',
+    //     data: $('#footer-mailchimp-subscription-form').serialize(),
+    //     success : mailChimpCallBack
+    // });
+    // });
+
+    // function mailChimpCallBack(resp) {
+    //     // Hide any previous response text
+    //     var $mailchimpform = $('#footer-mailchimp-subscription-form'),
+    //         $response = '';
+    //     $mailchimpform.children(".alert").remove();
+    //     if (resp.result === 'success') {
+    //         $response = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + resp.message + '</div>';
+    //     } else if (resp.result === 'error') {
+    //         $response = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + resp.message + '</div>';
+    //     }
+    //     $mailchimpform.prepend($response);
+    // }
+</script>

@@ -50,13 +50,14 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('youtube', 'Youtube', 'callback_valid_url_check');
 		$this->form_validation->set_rules('linkedin', 'Linkedin', 'callback_valid_url_check');
 		$this->form_validation->set_rules('website', 'website', 'callback_valid_url_check');
-		$this->form_validation->set_rules('features', 'Features', '');
+		$this->form_validation->set_rules('features[]', 'Features', 'required');
 		$this->form_validation->set_rules('payment_method', 'Payment Method', 'required');
 		$this->form_validation->set_rules('token', 'reCaptcha', 'required|callback_recaptcha_check');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if($this->form_validation->run() == FALSE)
 		{
+			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'<strong>Error!</strong> There are incomplete required fields. Please complete them.'));
 			$pageId = $this->settings['REGISTER_PAGE_ID'];
 			$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 			$this->pageType = 'register';
@@ -95,6 +96,7 @@ class Register extends FrontController {
 			if(is_array($features)){
 				$features = serialize($features);
 			}
+			
 			$packageId = secureInput($this->input->post('package_id'));
 			$packageInfo = $this->PackagesModel->load($packageId);
 			$mainimage = $image2 = $image3 = $image4 = $image5 = $image6 = '';
@@ -187,6 +189,7 @@ class Register extends FrontController {
 				'created' => date('Y-m-d H:i:s'),
 				'status' => 'pending'
 			);
+			
 			$insertId = $this->RequestsModel->insert($data);
 			$identifier = date('ymdhi').sprintf('%04d', $insertId);
 			$this->RequestsModel->updateCond(array('identifier'=>$identifier),array('id'=>$insertId));
