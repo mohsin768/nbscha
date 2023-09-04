@@ -53,8 +53,9 @@ class Members extends ConsoleController {
 	function add() {
 		$this->form_validation->set_rules('first_name', 'First Name', 'required');
 		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[members.email]');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('phone', 'Phone', 'required');
+		$this->form_validation->set_rules('username', 'User Name', 'required|callback_user_check');
 		$this->form_validation->set_rules('password', 'Password', 'required|matches[confpassword]|min_length[6]');
 		$this->form_validation->set_rules('confpassword', 'Confirm Password', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
@@ -72,6 +73,7 @@ class Members extends ConsoleController {
 				'last_name' => $this->input->post('last_name'),
 				'email' => $this->input->post('email'),
 				'phone' => $this->input->post('phone'),
+				'username' => $this->input->post('username'),
 				'password' => $password,
 				'salt' => $salt,
 				'created' => date('Y-m-d H:i:s'),
@@ -90,6 +92,7 @@ class Members extends ConsoleController {
 	public function edit($mid){
 		$this->form_validation->set_rules('first_name', 'First Name', 'required');
 		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
+		$this->form_validation->set_rules('username', 'User Name', 'required|callback_user_check');
 		$this->form_validation->set_rules('email', 'Email', 'required');
 		$this->form_validation->set_rules('phone', 'Phone', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
@@ -103,6 +106,7 @@ class Members extends ConsoleController {
 			$data = array(
 				'first_name' => $this->input->post('first_name'),
 				'last_name' => $this->input->post('last_name'),
+				'username' => $this->input->post('username'),
 				'email' => $this->input->post('email'),
 				'phone' => $this->input->post('phone'),
 				'status' => $this->input->post('status'));
@@ -483,5 +487,16 @@ class Members extends ConsoleController {
 		header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"');
 		header('Cache-Control: max-age=0');
 		$writer->save('php://output'); // download file
+	}
+
+
+	function user_check($username) {
+		$cond = array('status !='=>'rejected','username'=>$username);
+		if($this->MembersModel->getRowCond($cond)) {
+			$this->form_validation->set_message('user_check', 'Already Exists');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
 }

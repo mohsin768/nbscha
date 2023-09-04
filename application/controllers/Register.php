@@ -22,8 +22,9 @@ class Register extends FrontController {
 	{
 		$this->form_validation->set_rules('first_name', 'First Name', 'required');
 		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('phone', 'Phone', 'required');
+		$this->form_validation->set_rules('username', 'User Name', 'required|callback_user_check');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
 		$this->form_validation->set_rules('home_name', 'Home Name', 'required');
@@ -55,9 +56,10 @@ class Register extends FrontController {
 		$this->form_validation->set_rules('token', 'reCaptcha', 'required|callback_recaptcha_check');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
+
 		if($this->form_validation->run() == FALSE)
 		{
-			$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'<strong>Error!</strong> There are incomplete required fields. Please complete them.'));
+			
 			$pageId = $this->settings['REGISTER_PAGE_ID'];
 			$pageObject = $this->PagesModel->getRowCond(array('id'=>$pageId,'language'=>$this->site_language));
 			$this->pageType = 'register';
@@ -150,6 +152,7 @@ class Register extends FrontController {
 				'last_name' => secureInput($this->input->post('last_name')),
 				'email' => secureInput($this->input->post('email')),
 				'phone' => secureInput($this->input->post('phone')),
+				'username' => secureInput($this->input->post('username')),
 				'password' => $password,
 				'salt' => $salt,
 				'home_name' => secureInput($this->input->post('home_name')),
@@ -242,10 +245,20 @@ class Register extends FrontController {
 		}
 	}
 
-	function email_check($email) {
-		$cond = array('status !='=>'rejected','email'=>$email);
+	// function email_check($email) {
+	// 	$cond = array('status !='=>'rejected','email'=>$email);
+	// 	if($this->RequestsModel->getRowCond($cond)) {
+	// 		$this->form_validation->set_message('email_check', 'Already Exists');
+	// 		return FALSE;
+	// 	} else {
+	// 		return TRUE;
+	// 	}
+	// }
+
+	function user_check($username) {
+		$cond = array('status !='=>'rejected','username'=>$username);
 		if($this->RequestsModel->getRowCond($cond)) {
-			$this->form_validation->set_message('email_check', 'Already Exists');
+			$this->form_validation->set_message('user_check', 'Already Exists');
 			return FALSE;
 		} else {
 			return TRUE;

@@ -146,6 +146,7 @@ class Requests extends ConsoleController {
 /////Insert Member//////
 		$memberData = array('first_name' => $requestRow->first_name,
 		'last_name' => $requestRow->last_name,
+		'username' => $requestRow->username,
 		'email' => $requestRow->email,
 		'phone' => $requestRow->phone,
 		'password' => $requestRow->password,

@@ -11,6 +11,14 @@
                     </div>
                 <?php } ?>
                 </div>
+                <div class="overflow-hidden">
+                <?php if(validation_errors()){ ?>
+                    <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <?php echo "Required Fields are missing!! Please fill them..."; ?>
+                    </div>
+                <?php } ?>
+                </div>
                 <br>
                 <div class="overflow-hidden mb-2" style="text-align: center;">
                     <h1 class="font-weight-bold text-6 mb-0 appear-animation animated maskUp appear-animation-visible" data-appear-animation="maskUp" data-appear-animation-delay="800" style="animation-delay: 800ms;"><?php echo translate('POST_HOME_MESSAGE','Post Your Special Care Home with NBSCHA <span style="color:#CD291D;font-family: PermanentMarker;"><b style="font-weight: 800;">Today!</b></span>');?> </h1>
@@ -23,6 +31,7 @@
                   </p>');?>
 
                 </div>
+
 
                 <div class="card bg-primary border-0 rounded mb-5 appear-animation animated fadeInUpShorter appear-animation-visible" data-appear-animation="fadeInUpShorter" data-appear-animation-delay="1200" style="animation-delay: 1200ms;padding-bottom:30px;">
                     <div class="card-body p-30">
@@ -56,6 +65,10 @@
                                 <div class="form-group col-lg-4 ">
                                     <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('PHONE_NUMBER','Phone Number');?>*" name="phone" id="phone" aria-label="Phone Number" required="" value="<?php echo set_value('phone'); ?>">
                                     <div class="error"><?php echo form_error('phone'); ?></div>
+                                </div>
+                                <div class="form-group col-lg-4 ">
+                                    <input type="text" class="form-control rounded-0 border-0 line-height-1" placeholder="<?php echo translate('USER_NAME','User Name');?>*" name="username" id="username" aria-label="User Name" required="" value="<?php echo set_value('username'); ?>">
+                                    <div class="error"><?php echo form_error('username'); ?></div>
                                 </div>
 
                                 <div class="form-group col-lg-4 ">

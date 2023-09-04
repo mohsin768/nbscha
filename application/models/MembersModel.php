@@ -22,12 +22,12 @@ class MembersModel extends CMS_Model {
 
     function loginCheck($user, $pass) {
         $user = $this->db->escape_str($user);
-        $cond = array('email' => $user, 'status' => '1');
+        $cond = array('username' => $user, 'status' => '1');
         $user_row = $this->getRowCond($cond);
         if($user_row){
             $pass = $this->db->escape_str($pass);
             $pass = sha1($user_row->salt.$pass.$user_row->salt);
-            $cond = array('email' => $user, 'password' => $pass, 'status' => '1');
+            $cond = array('username' => $user, 'password' => $pass, 'status' => '1');
             $this->db->where($cond);
             $query = $this->db->get($this->table_name);
             $result = $query->num_rows();
@@ -43,8 +43,8 @@ class MembersModel extends CMS_Model {
 
     function forgotCheck($user) {
             $user = $this->db->escape_str($user);
-            $cond = array('email' => $user);
-            $orcond = array('email' => $user);
+            $cond = array('username' => $user);
+            $orcond = array('username' => $user);
             $this->db->where($cond);
             $this->db->or_where($orcond);
             $query = $this->db->get($this->table_name);

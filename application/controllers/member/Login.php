@@ -74,7 +74,7 @@ class Login extends GlobalController {
 	}
 
 	public function forgot() {
-		$this->form_validation->set_rules('username', 'Username or Email Address', 'required|callback_forgot_check');
+		$this->form_validation->set_rules('username', 'Username', 'required|callback_forgot_check');
 		$this->form_validation->set_message('required', '(required)');
 		if ($this->form_validation->run() == FALSE) {
 			$login['content'] = $this->load->view(member_url_string('login/forgot'), '', true);
@@ -101,7 +101,7 @@ class Login extends GlobalController {
 
 	function forgot_check($user) {
 		if (!$this->MembersModel->forgotCheck($user)) {
-			$this->form_validation->set_message('forgot_check', 'Invalid Username or Email Address');
+			$this->form_validation->set_message('forgot_check', 'Invalid Username');
 			return FALSE;
 		} else {
 			return TRUE;

@@ -52,6 +52,15 @@
                     <div class="clearfix"></div>
                 </div>
 
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="username">User Name<span class="required">*</span>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('username'); ?>
+                        <input type="text" id="username" name="username" required="required" value="<?php echo set_value('username'); ?>" class="form-control">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
 
 
                 <div class="form-group">
