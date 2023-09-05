@@ -162,7 +162,7 @@ class Requests extends ConsoleController {
 			$vacancy = '0';
 			$bedsCount = '0';
 			$package =$this->PackagesModel->load($requestRow->package_id);
-			if($package)$bedsCount = $vacancy = $package->bed_count;
+			if($package)$bedsCount = $package->bed_count;
 			$residencepData = array('slug' => $slug,
 			'member_id' => $memberId,
 			'address' => $requestRow->home_address,

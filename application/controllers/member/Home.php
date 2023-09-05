@@ -71,8 +71,10 @@ class Home extends MemberController {
 
 	public function editprofile(){
 		$current_user=$this->session->userdata('member_user_id');
-		$this->form_validation->set_rules('fullname', 'Full Name', 'required');
-		$this->form_validation->set_rules('email', 'Email', 'required|callback_email_exists');
+		$this->form_validation->set_rules('first_name', 'First Name', 'required');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
+		$this->form_validation->set_rules('email', 'Email', 'required');
+		$this->form_validation->set_rules('username', 'User Name', 'required|callback_user_check');
 		$this->form_validation->set_rules('phone', 'Phone', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
@@ -81,16 +83,18 @@ class Home extends MemberController {
 			$this->mainvars['content'] = $this->load->view(member_url_string('home/profiles/editprofile'), $vars, true);
 			$this->load->view(member_url_string('main'), $this->mainvars);
 		} else {
+			
 			$data = array(
 				'first_name' => $this->input->post('first_name'),
 				'last_name' => $this->input->post('last_name'),
+				'username' => $this->input->post('username'),
 				'email' => $this->input->post('email'),
 				'phone' => $this->input->post('phone'));
 			$cond = array('mid'=>$current_user);
 			$insertrow = $this->MembersModel->updateCond($data,$cond);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Profile edited successfully.'));
-				redirect(member_url_string('home/editprofile'));
+				redirect(member_url_string('home/dashboard'));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 				redirect(member_url_string('home/editprofile'));
@@ -98,15 +102,15 @@ class Home extends MemberController {
 		}
 	}
 
-	function email_exists($val) {
-		$cond = array('mid !=' => $this->session->userdata('member_user_id'), 'email' => $val);
-		if($this->MembersModel->rowExists($cond)) {
-			$this->form_validation->set_message('email_exists', 'Email - '. $val .' - already exists!!');
-			return FALSE;
-		} else {
-			return TRUE;
-		}
-	}
+	// function email_exists($val) {
+	// 	$cond = array('mid !=' => $this->session->userdata('member_user_id'), 'email' => $val);
+	// 	if($this->MembersModel->rowExists($cond)) {
+	// 		$this->form_validation->set_message('email_exists', 'Email - '. $val .' - already exists!!');
+	// 		return FALSE;
+	// 	} else {
+	// 		return TRUE;
+	// 	}
+	// }
 	public function changepwd(){
 		$current_user=$this->session->userdata('member_user_id');
 		$this->form_validation->set_rules('passold', 'Old Password', 'required|callback_passwordCheck');
@@ -126,7 +130,7 @@ class Home extends MemberController {
 			$insertrow = $this->MembersModel->updateCond($data,$cond);
 			if ($insertrow) {
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'User password changed successfully.'));
-				redirect(member_url_string('home/changepwd'));
+				redirect(member_url_string('home/dashboard'));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 				redirect(member_url_string('home/changepwd'));
@@ -147,6 +151,16 @@ class Home extends MemberController {
 		}
 		else
 		{
+			return TRUE;
+		}
+	}
+
+	function user_check($username) {
+		$cond = array('status !='=>'rejected','username'=>$username);
+		if($this->MembersModel->getRowCond($cond)) {
+			$this->form_validation->set_message('user_check', 'Already Exists');
+			return FALSE;
+		} else {
 			return TRUE;
 		}
 	}
