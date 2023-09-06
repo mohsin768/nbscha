@@ -77,11 +77,13 @@ class Login extends GlobalController {
 		$this->form_validation->set_rules('username', 'Username', 'required|callback_forgot_check');
 		$this->form_validation->set_message('required', '(required)');
 		if ($this->form_validation->run() == FALSE) {
+			echo "hii";
 			$login['content'] = $this->load->view(member_url_string('login/forgot'), '', true);
 			$this->load->view(member_url_string('login'), $login);
 		} else {
 			$user = $this->db->escape_str($this->input->post('username'));
 			$user_row = $this->MembersModel->forgotCheck($user);
+			
 			if ($user_row) {
 				$this->load->model('MemberResetModel');
 				$this->load->helper('string');

@@ -43,7 +43,7 @@ class MembersModel extends CMS_Model {
 
     function forgotCheck($user) {
             $user = $this->db->escape_str($user);
-            $cond = array('username' => $user);
+            $cond = array('email' => $user);
             $orcond = array('username' => $user);
             $this->db->where($cond);
             $this->db->or_where($orcond);
