@@ -72,9 +72,7 @@ if($this->uri->segment(4)==""){
                                 <th class="column-title">
 								<?php $email_direction = ''; if($sort_field=='email'){ $email_direction = $sort_direction; } ?>
 								<a href="#0" class="member-sort sort-list-link <?php echo $email_direction; ?>" data-sort-field="email" data-sort-direction="<?php echo $email_direction; ?>">Email</a></th>
-								<th class="column-title">
-								<?php $phone_direction = ''; if($sort_field=='phone'){ $phone_direction = $sort_direction; } ?>
-								<a href="#0" class="member-sort sort-list-link <?php echo $phone_direction; ?>" data-sort-field="phone" data-sort-direction="<?php echo $phone_direction; ?>">Phone</a></th>
+								<th class="column-title">user name </th>
 								<th class="column-title">
 								<?php $expiry_direction = ''; if($sort_field=='expiry_date'){ $expiry_direction = $sort_direction; } ?>
 								<a href="#0" class="member-sort sort-list-link <?php echo $expiry_direction; ?>" data-sort-field="expiry_date" data-sort-direction="<?php echo $expiry_direction; ?>">Expiry</a></th>
@@ -92,7 +90,7 @@ if($this->uri->segment(4)==""){
                                 <td class=" "><?php echo $member['first_name'].' '.$member['last_name'];?></td>
 								<td class=" "><?php if(isset($residences[$member['mid']])){ echo $residences[$member['mid']]; } ?></td>
                                 <td class=" "><a href="mailto:<?php echo $member['email'];?>"><?php echo $member['email'];?></a></td>
-                                <td class=" "><a href="tel:<?php echo $member['phone'];?>"><?php echo $member['phone'];?></a></td>
+                                <td class=" "><?php echo $member['username'];?></td>
 								<td class=" "><?php echo date('d-m-Y',strtotime($member['expiry_date']));?></td>
                                 <td class="center-align"><?php echo $status[$member['status']];?></td>
                                 <td class=" last">

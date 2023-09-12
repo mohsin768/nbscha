@@ -92,7 +92,7 @@ class Members extends ConsoleController {
 	public function edit($mid){
 		$this->form_validation->set_rules('first_name', 'First Name', 'required');
 		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
-		$this->form_validation->set_rules('username', 'User Name', 'required|callback_user_check');
+		$this->form_validation->set_rules('username', 'User Name', 'required|callback_user_exists');
 		$this->form_validation->set_rules('email', 'Email', 'required');
 		$this->form_validation->set_rules('phone', 'Phone', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
@@ -494,6 +494,16 @@ class Members extends ConsoleController {
 		$cond = array('status !='=>'rejected','username'=>$username);
 		if($this->MembersModel->getRowCond($cond)) {
 			$this->form_validation->set_message('user_check', 'Already Exists');
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+	function user_exists($username) {
+		$cond = array('mid !=' => $this->session->userdata('member_user_id'), 'username' => $username);
+		if($this->MembersModel->rowExists($cond)) {
+			$this->form_validation->set_message('user_exists', 'User Name - '. $username .' - already exists!!');
 			return FALSE;
 		} else {
 			return TRUE;
