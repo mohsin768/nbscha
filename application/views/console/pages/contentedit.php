@@ -2,15 +2,16 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Edit Content</h2>
+                <h2><?php if($translate== 'translate'){ echo 'Add Translate ('.$language.')';} else{ echo 'Edit Content('.$language.')';} ?></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <br />
                 <?php
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'page-content-edit');
-                echo form_open_multipart(admin_url_string('pages/contentedit/'.$type.'/'.$page->id.'/'.$content->id),$attributes);?>
+                echo form_open_multipart(admin_url_string('pages/contentedit/'.$type.'/'.$page->id.'/'.$content->id.'/'.$language.'/'.$translate),$attributes);?>
                 <input type="hidden" name="id" value="<?php echo $content->id; ?>" />
+                <input type="hidden" name="language" value="<?php echo $language; ?>" />
                 <input type="hidden" name="content_type" value="<?php echo $type; ?>" />
                 
                 <div class="form-group">

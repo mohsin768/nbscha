@@ -13,7 +13,7 @@ class Paragraphhelper {
 	function getParagraphContent($pageBlock){
     $paragraphContent = '';
     if($this->CI->pageType=='pages'){
-      $cond = array('page_id'=>$this->CI->pageId);
+      $cond = array('page_id'=>$this->CI->pageId,'language'=>$this->CI->site_language);
       $paragraphs = $this->CI->PageContentsModel->getArrayCond($cond,'','sort_order','ASC');
       if(count($paragraphs)>0){
         foreach($paragraphs as $paragraph):

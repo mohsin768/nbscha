@@ -11,6 +11,7 @@
                 $attributes = array('class' => 'form-horizontal form-label-left', 'id' => 'page-content-add');
                 echo form_open_multipart(admin_url_string('pages/contentadd/'.$type.'/'.$page->id),$attributes);
                 ?>
+                <input type="hidden" name="language" value="<?php echo $this->default_language;?>" />
                 <input type="hidden" name="content_type" value="<?php echo $type; ?>" />
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="title">Title

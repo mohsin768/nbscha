@@ -37,6 +37,7 @@ $status = array('0' => 'Not Published','1' => 'Published');
                             <tr class="headings">
                                 <th class="column-title">Type</th>
                                 <th class="column-title">Title</th>
+                                <th class="column-title">Language</th>
                                 <th style="width: 150px;">Sort Order <input style="padding:1px;" type="submit" name="sortsave" value="Save" /></th>
                                 <th class="column-title no-link last"><span class="nobr">Action</span>
                                 </th>
@@ -48,10 +49,11 @@ $status = array('0' => 'Not Published','1' => 'Published');
                             <tr class="even pointer">
                                 <td class=" "><?php echo $contentTypes[$content['content_type']];?></td>
                                 <td class=" "><?php echo $content['title'];?></td>
+                                <td class=" "><?php echo $this->languages_pair[$content['language']];?></td>
                                 <td class="align-center"><input style="text-align:center;" type="text" size="2" name="sort_order[<?php echo $content['id'];?>]" value="<?php echo $content['sort_order'];?>" /></td>
                                 <td class=" last">
-                                <a href="<?php echo admin_url('pages/contentedit/'.$content['content_type'].'/'.$content['page_id'].'/'.$content['id']); ?>">Edit</a>
-                                    | <a class="confirmDelete" href="<?php echo admin_url('pages/contentdelete/'.$content['page_id'].'/'.$content['id']); ?>">Delete</a>
+                                <a class="btn btn-dark btn-xs" href="<?php echo admin_url('pages/contenttranslates/'.'/'.$content['page_id'].'/'.$content['id']); ?>"><i class="fa fa-language"></i> Translates / Edit</a>
+                                    |   <a class="confirmDelete" href="<?php echo admin_url('pages/contentdelete/'.$content['page_id'].'/'.$content['id']); ?>">Delete</a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

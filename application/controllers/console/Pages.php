@@ -260,14 +260,18 @@ class Pages extends ConsoleController {
 		}
     }
 
-	public function contents($id)
+	public function contents($id,$lang='')
 	{
+		if($lang ==''){
+			$lang = 'en';
+		}
 		$pageRow = $this->PagesModel->load($id);
+		
 		if(!$pageRow){
 			redirect(admin_url_string('pages/overview'));
 		}
 		$vars['contentTypes'] = $this->PageContentsModel->getContentTypes();
-		$vars['contents'] = $this->PageContentsModel->getArrayCond(array('page_id'=>$id),'','sort_order','ASC');
+		$vars['contents'] = $this->PageContentsModel->getArrayCond(array('page_id'=>$id,'language'=>$lang),'','sort_order','ASC');
 		$vars['page'] = $pageRow;
 		$this->mainvars['content']=$this->load->view(admin_url_string('pages/contents'),$vars,true);
 		$this->load->view(admin_url_string('main'),$this->mainvars);
@@ -318,16 +322,20 @@ class Pages extends ConsoleController {
 				$videoData=$this->upload->data();
 				$video=$videoData['file_name'];
 			}
-			$data=array(
+			$maindata=array(
 				'page_id'=>$pageId,
 				'content_type'=>$type,
-				'title'=>$this->input->post('title'),
-				'subtitle'=>$this->input->post('subtitle'),
-				'content'=>$this->input->post('content'),
 				'image'=>$image,
 				'video'=>$video
 			);
-			$insertid = $this->PageContentsModel->insert($data);
+
+			$descdata=array(
+				'title'=>$this->input->post('title'),
+				'subtitle'=>$this->input->post('subtitle'),
+				'content'=>$this->input->post('content'),
+				'language'=>$this->input->post('language')
+			);
+			$insertid = $this->PageContentsModel->insert($maindata,$descdata);
 			if($insertid){
 				$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Added Successfully.'));
 				redirect(admin_url_string('pages/contents/'.$pageId));
@@ -338,7 +346,20 @@ class Pages extends ConsoleController {
 		}
 	}
 
-  	public function contentedit($type,$pageId,$contentId)
+	public function contenttranslates($pageId,$contentId)
+	{
+		$cond = array('id'=>$contentId);
+		$vars['translates'] = $this->PageContentsModel->getTranslates($cond);
+		//print_r($vars['translates']);exit;
+		$vars['page']= $this->PagesModel->load($pageId);
+		$vars['content_id']= $contentId;
+		$vars['content_type']= $vars['translates'][$this->default_language]['content_type'];
+		$vars['page_id']= $pageId;
+		$this->mainvars['content']=$this->load->view(admin_url_string('pages/contenttranslates'),$vars,true);
+		$this->load->view(admin_url_string('main'),$this->mainvars);
+	}
+
+  	public function contentedit($type,$pageId,$contentId,$lang, $translate='')
 	{
 		$this->ckeditorCall();
 		$pageRow = $this->PagesModel->load($pageId);
@@ -355,17 +376,24 @@ class Pages extends ConsoleController {
 		$this->form_validation->set_error_delimiters('<span class="red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE)
 		{
+			$langCond = $lang;
+			if($translate=='translate'){
+				$langCond = $this->default_language;
+			}
 			$edit['type']= $type;
+			$edit['language']= $lang;
+			$edit['translate']= $translate;
 			$edit['page']= $this->PagesModel->load($pageId);
-			$edit['content']= $this->PageContentsModel->load($contentId);
+			$cond = array('id'=>$contentId);
+			if($translate==''){
+				$cond['language'] = $lang;
+			}
+			$edit['content']= $this->PageContentsModel->getRowCond($cond);
+			
 			$this->mainvars['content'] = $this->load->view(admin_url_string('pages/contentedit'), $edit,true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
-			$data=array(
-				'title'=>$this->input->post('title'),
-				'subtitle'=>$this->input->post('subtitle'),
-				'content'=>$this->input->post('content')
-			);
+			$data=array();
 			if($this->input->post('remove_image') && $this->input->post('remove_image')=='1'){
 				$data['image']='';
 			} else{
@@ -402,10 +430,24 @@ class Pages extends ConsoleController {
 				}
 			}
 			$cond = array('id' => $contentId);
-      		$actionStatus=$this->PageContentsModel->updateCond($data,$cond);
+
+			$descData = array(
+				'title'=>$this->input->post('title'),
+				'subtitle'=>$this->input->post('subtitle'),
+				'content'=>$this->input->post('content'),
+				'language'=>$this->input->post('language')
+			);
+			if($translate=='translate'){
+				$descData['content_id']= $contentId;
+				$actionStatus = $this->PageContentsModel->addTranslate($data,$cond,$descData);
+			}else{
+				//print_r($descData);exit;
+				$actionStatus=$this->PageContentsModel->updateCond($data,$cond,$descData);
+			}
+
 			if($actionStatus){
 			 	$this->session->set_flashdata('message', array('status'=>'alert-success','message'=>'Updated Successfully.'));
-				redirect(admin_url_string('pages/contents/'.$pageId));
+				 redirect(admin_url_string('pages/contenttranslates/'.$pageId.'/'.$contentId));
 			} else {
 				$this->session->set_flashdata('message', array('status'=>'alert-danger','message'=>'Error! - Failed.'));
 				redirect(admin_url_string('pages/contents/'.$pageId));
