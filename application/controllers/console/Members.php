@@ -10,6 +10,7 @@ class Members extends ConsoleController {
 		$this->load->model('MembershipsModel');
 		$this->load->model('ResidencesModel');
 		$this->load->library('certificatehelper');
+		$this->load->model('CompaniesModel');
 	}
 
 	public function index()
@@ -43,6 +44,7 @@ class Members extends ConsoleController {
 		$config['total_rows'] = $this->MembersModel->getConsolePaginationCount($cond,$like);
 		$this->pagination->initialize($config);
 		$vars['residences'] = $this->ResidencesModel->getElementPair('member_id','name');
+		$vars['companies'] = $this->CompaniesModel->getElementPair('id','name');
 		$vars['members'] = $this->MembersModel->getConsolePagination($config['per_page'], $this->uri->segment($config['uri_segment']),$cond,$sort_field,$sort_direction,$like);
 		$vars['sort_field'] = $sort_field;
 		$vars['sort_direction'] = $sort_direction;
@@ -62,7 +64,9 @@ class Members extends ConsoleController {
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {
-			$this->mainvars['content'] = $this->load->view(admin_url_string('members/add'), '', true);
+			$cond = array('delete_status'=>'0');
+			$vars['companies'] = $this->CompaniesModel->getElementPair('id','name','','',$cond);
+			$this->mainvars['content'] = $this->load->view(admin_url_string('members/add'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
 		} else {
 			$this->load->helper('string');
@@ -76,6 +80,7 @@ class Members extends ConsoleController {
 				'username' => $this->input->post('username'),
 				'password' => $password,
 				'salt' => $salt,
+				'company_id' => $this->input->post('company_id'),
 				'created' => date('Y-m-d H:i:s'),
 				'status' => $this->input->post('status'));
 			$insertrow = $this->MembersModel->insert($data);
@@ -92,13 +97,15 @@ class Members extends ConsoleController {
 	public function edit($mid){
 		$this->form_validation->set_rules('first_name', 'First Name', 'required');
 		$this->form_validation->set_rules('last_name', 'Last Name', 'required');
-		$this->form_validation->set_rules('username', 'User Name', 'required|callback_user_exists');
+		$this->form_validation->set_rules('username', 'User Name', 'required');
 		$this->form_validation->set_rules('email', 'Email', 'required');
 		$this->form_validation->set_rules('phone', 'Phone', 'required');
 		$this->form_validation->set_rules('status', 'Status', 'required');
 		$this->form_validation->set_message('required', 'required');
 		$this->form_validation->set_error_delimiters('<span class="validation-error red">(', ')</span>');
 		if ($this->form_validation->run() == FALSE) {
+			$cond = array('delete_status'=>'0');
+			$vars['companies'] = $this->CompaniesModel->getElementPair('id','name','','',$cond);
 			$vars['member'] =$this->MembersModel->load($mid);
 			$this->mainvars['content'] = $this->load->view(admin_url_string('members/edit'), $vars, true);
 			$this->load->view(admin_url_string('main'), $this->mainvars);
@@ -109,6 +116,7 @@ class Members extends ConsoleController {
 				'username' => $this->input->post('username'),
 				'email' => $this->input->post('email'),
 				'phone' => $this->input->post('phone'),
+				'company_id' => $this->input->post('company_id'),
 				'status' => $this->input->post('status'));
 			$insertrow = $this->MembersModel->update($mid,$data);
 			if ($insertrow) {

@@ -69,6 +69,7 @@ if($this->uri->segment(4)==""){
 								<?php $first_name_direction = ''; if($sort_field=='first_name'){ $first_name_direction = $sort_direction; } ?>
 								<a href="#0" class="member-sort sort-list-link <?php echo $first_name_direction; ?>" data-sort-field="first_name" data-sort-direction="<?php echo $first_name_direction; ?>">Full Name</a></th>
 								<th class="column-title">Residence</th>
+								<th class="column-title">Company</th>
                                 <th class="column-title">
 								<?php $email_direction = ''; if($sort_field=='email'){ $email_direction = $sort_direction; } ?>
 								<a href="#0" class="member-sort sort-list-link <?php echo $email_direction; ?>" data-sort-field="email" data-sort-direction="<?php echo $email_direction; ?>">Email</a></th>
@@ -89,6 +90,7 @@ if($this->uri->segment(4)==""){
                                 <td class=" "><?php echo ++$i; ?></td>
                                 <td class=" "><?php echo $member['first_name'].' '.$member['last_name'];?></td>
 								<td class=" "><?php if(isset($residences[$member['mid']])){ echo $residences[$member['mid']]; } ?></td>
+								<td class=" "><?php if(isset($companies[$member['company_id']])){ echo $companies[$member['company_id']]; } ?></td>
                                 <td class=" "><a href="mailto:<?php echo $member['email'];?>"><?php echo $member['email'];?></a></td>
                                 <td class=" "><?php echo $member['username'];?></td>
 								<td class=" "><?php echo date('d-m-Y',strtotime($member['expiry_date']));?></td>

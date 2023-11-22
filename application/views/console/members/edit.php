@@ -61,6 +61,20 @@
                 </div>
 
 
+                <div class="form-group">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="Company">Member Company</label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <?php echo form_error('company_id'); ?>
+                        <select id="company_id" name="company_id" class="form-control">
+                            <option value="0"> -- Please Select --</option>
+                            <?php foreach($companies as $id => $name): ?>
+                                <option value="<?php echo $id; ?>" <?php if($member->company_id == $id) { echo 'selected'; } ?>><?php echo $name; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
 
                 <div class="form-group">
                     <label class="col-form-label col-md-3 col-sm-3 label-align">Status <span class="required">*</span></label>

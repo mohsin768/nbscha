@@ -9,6 +9,7 @@ class MembersModel extends CMS_Model {
         parent::__construct();
         $this->table_name = 'members';
         $this->primary_key = 'mid';
+		$this->foreign_key = 'company_id';
     }
 
     function getIdPair(){
